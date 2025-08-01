@@ -127,22 +127,22 @@
     scrollbar-width: thin;
     scrollbar-color: var(--border) transparent;
   }
-  
+
   /* WebKit scrollbar */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
-  
+
   ::-webkit-scrollbar-track {
     background: transparent;
   }
-  
+
   ::-webkit-scrollbar-thumb {
     background-color: var(--border);
     border-radius: 4px;
   }
-  
+
   ::-webkit-scrollbar-thumb:hover {
     background-color: var(--muted-foreground);
   }
