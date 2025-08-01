@@ -1,0 +1,22 @@
+{
+  "name": "server",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "15.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "dotenv": "^17.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "zod": "^4.0.13",
+    "typescript": "^5"
+  }
+}
