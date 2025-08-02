@@ -20,26 +20,6 @@ export function Logo() {
         }}
       />
       <line
-        x1="3.5"
-        y1="3.5"
-        x2="3.5"
-        y2="0.5"
-        style={{
-          stroke: "var(--foreground)",
-        }}
-        strokeLinecap="round"
-      />
-      <line
-        x1="3.5"
-        y1="3.5"
-        x2="0.5"
-        y2="3.5"
-        style={{
-          stroke: "var(--foreground)",
-        }}
-        strokeLinecap="round"
-      />
-      <line
         x1="84.5"
         y1="34.5"
         x2="84.5"
