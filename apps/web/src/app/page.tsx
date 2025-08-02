@@ -39,6 +39,7 @@ export default function Home() {
           <div className="md:col-span-1" />
         </div>
       </div>
+      <div>
       </div>
     </div>
   );
