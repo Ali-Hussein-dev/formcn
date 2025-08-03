@@ -1,5 +1,9 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {};
+const nextConfig: NextConfig = {
+    experimental:{
+        browserDebugInfoInTerminal: true
+    }
+};
 
 export default nextConfig;
