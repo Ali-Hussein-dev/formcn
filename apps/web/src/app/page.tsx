@@ -3,9 +3,9 @@ import { urls } from "@/constants/urls";
 import { FaGithub } from "react-icons/fa6";
 
 export const metadata = {
-  title: "Modern Form Builder for shadcn | formcn",
+  title: "Modern Form Builder for Shadcn | formcn",
   description:
-    "Build single/multi step forms easily, generated code for client and server side",
+    "Easily build single- and multi-step forms with auto-generated client- and server-side code.",
 };
 
 export default function Home() {
@@ -16,11 +16,10 @@ export default function Home() {
           <div className="md:col-span-1" />
           <div className="md:col-span-6 md:border-x border-dashed py-5 px-3 grow sm:py-6 md:py-8 md:px-6 w-full">
             <h1 className="text-2xl md:text-3xl lg:text-4xl text-center text-pretty font-bold mb-2">
-              Modern Form Builder for shadcn
+              Modern Form Builder for Shadcn
             </h1>
             <p className="text-muted-foreground text-center text-pretty">
-              Build single/multi step forms easily, generated code for client
-              and server side
+              {metadata.description}
             </p>
             <div className="mx-auto pt-4 w-fit">
               <Button asChild variant={"outline"} size="sm">
