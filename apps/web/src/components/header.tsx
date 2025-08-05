@@ -3,16 +3,17 @@ import Link from "next/link";
 import { ModeToggle } from "./mode-toggle";
 import { FaGithub, FaXTwitter } from "react-icons/fa6";
 import { Logo } from "./shared/logo";
+import { urls } from "@/constants/urls";
 
 export default function Header() {
   const links = [
-    { href: "https://github.com/Ali-Hussein-dev/formcn", Icon: FaGithub },
-    { href: "https://x.com/alibey_10", Icon: FaXTwitter },
+    { href: urls.github, Icon: FaGithub },
+    { href: urls.twitter, Icon: FaXTwitter },
   ];
 
   return (
     <div>
-      <div className="flex flex-row items-center justify-between px-2 py-1">
+      <div className="flex flex-row items-center justify-between px-2 md:px-5 py-2">
         <div>
           <Link href="/" className="cursor-pointer aspect-video">
             <Logo />
