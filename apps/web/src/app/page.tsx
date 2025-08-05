@@ -39,6 +39,7 @@ export default function Home() {
         </div>
       </div>
       <div>
+        <p className="text-xl mx-auto text-center pt-10">Coming soon...</p>
       </div>
     </div>
   );
