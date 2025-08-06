@@ -1,13 +1,13 @@
-import type { CheckboxProps } from '@radix-ui/react-checkbox';
-import type { SliderProps } from '@radix-ui/react-slider';
-import type { SwitchProps } from '@radix-ui/react-switch';
-import type { SeparatorProps } from '@radix-ui/react-separator';
-import type { OTPInputProps } from 'input-otp';
-import type { RadioGroupProps } from '@radix-ui/react-radio-group';
+import type { CheckboxProps } from "@radix-ui/react-checkbox";
+import type { SliderProps } from "@radix-ui/react-slider";
+import type { SwitchProps } from "@radix-ui/react-switch";
+import type { SeparatorProps } from "@radix-ui/react-separator";
+import type { OTPInputProps } from "input-otp";
+import type { RadioGroupProps } from "@radix-ui/react-radio-group";
 import type {
   ToggleGroupMultipleProps,
   ToggleGroupSingleProps,
-} from '@radix-ui/react-toggle-group';
+} from "@radix-ui/react-toggle-group";
 
 type Option = { value: string; label: string };
 //------------------------------------------------------------
@@ -21,70 +21,70 @@ type SharedFormProps = {
 
 type Input = {
   name: string;
-  fieldType: 'Input';
+  fieldType: "Input";
 } & React.InputHTMLAttributes<HTMLInputElement> &
   SharedFormProps;
 
 type PasswordInput = {
   name: string;
-  fieldType: 'Password';
-  type: 'password';
+  fieldType: "Password";
+  type: "password";
 } & React.InputHTMLAttributes<HTMLInputElement> &
   SharedFormProps;
 
 type OTPInput = {
   name: string;
-  fieldType: 'OTP';
+  fieldType: "OTP";
 } & OTPInputProps &
   SharedFormProps;
 
 type Textarea = {
   name: string;
-  fieldType: 'Textarea';
+  fieldType: "Textarea";
 } & React.TextareaHTMLAttributes<HTMLTextAreaElement> &
   SharedFormProps;
 
 type Checkbox = {
-  fieldType: 'Checkbox';
+  fieldType: "Checkbox";
 } & CheckboxProps &
   SharedFormProps;
 
 type RadioGroup = {
-  fieldType: 'RadioGroup';
+  fieldType: "RadioGroup";
   options: Option[];
 } & RadioGroupProps &
   SharedFormProps;
 //------------------------------
 type ToggleGroupBaseProps = {
-  fieldType: 'ToggleGroup';
+  fieldType: "ToggleGroup";
   options: Option[];
 };
 
 type ToggleGroupSingle = ToggleGroupBaseProps &
   ToggleGroupSingleProps & {
-    type: 'single';
+    type: "single";
   };
 
 type ToggleGroupMultiple = ToggleGroupBaseProps &
   ToggleGroupMultipleProps & {
-    type: 'multiple';
+    type: "multiple";
   };
 
 type ToggleGroup = (ToggleGroupSingle | ToggleGroupMultiple) & SharedFormProps;
 //------------------------------
 
 type Switch = {
-  fieldType: 'Switch';
+  fieldType: "Switch";
 } & SwitchProps &
   SharedFormProps;
 
 type Slider = {
-  fieldType: 'Slider';
+  fieldType: "Slider";
 } & SliderProps &
   SharedFormProps;
 
 type Select = {
-  fieldType: 'Select';
+  fieldType: "Select";
   /**
    * Options for the select field
    */
@@ -94,7 +94,7 @@ type Select = {
   SharedFormProps;
 
 type MultiSelect = {
-  fieldType: 'MultiSelect';
+  fieldType: "MultiSelect";
   /**
    * Options for the multiselect field
    */
@@ -103,12 +103,12 @@ type MultiSelect = {
 } & React.InputHTMLAttributes<HTMLInputElement> &
   SharedFormProps;
 type DatePicker = {
-  fieldType: 'DatePicker';
+  fieldType: "DatePicker";
 } & React.InputHTMLAttributes<HTMLInputElement> &
   SharedFormProps;
 
 type H1 = {
-  fieldType: 'H1';
+  fieldType: "H1";
   /**
    * the name is used as a key to identify the field
    */
@@ -117,7 +117,7 @@ type H1 = {
   static: true;
 } & React.HTMLAttributes<HTMLHeadingElement>;
 type H2 = {
-  fieldType: 'H2';
+  fieldType: "H2";
   /**
    * the name is used as a key to identify the field
    */
@@ -126,7 +126,7 @@ type H2 = {
   content: string;
 } & React.HTMLAttributes<HTMLHeadingElement>;
 type H3 = {
-  fieldType: 'H3';
+  fieldType: "H3";
   /**
    * the name is used as a key to identify the field
    */
@@ -135,7 +135,7 @@ type H3 = {
   content: string;
 } & React.HTMLAttributes<HTMLHeadingElement>;
 type Paragraph = {
-  fieldType: 'P';
+  fieldType: "P";
   /**
    * the name is used as a key to identify the field
    */
@@ -145,7 +145,7 @@ type Paragraph = {
 } & React.HTMLAttributes<HTMLParagraphElement>;
 
 type Divider = {
-  fieldType: 'Separator';
+  fieldType: "Separator";
   /**
    * the name is used as a key to identify the field
    */
@@ -171,13 +171,13 @@ type FormFieldElement =
   | Slider
   | DatePicker;
 
-  /**
-   * StaticFormElement is a type that represents a static form element
+/**
+ * StaticFormElement is a type that represents a static form element
  * that is not editable by the user
-  */
+ */
 export type StaticFormElement = H1 | H2 | H3 | Paragraph | Divider;
 
-export type FormElement = FormFieldElement | StaticFormElement;
+export type FormElement = (FormFieldElement & { id: string }) | (StaticFormElement & { id: string });
 
 export type FormElementOrList = FormElement | FormElement[];
 
@@ -201,7 +201,7 @@ type DropElementOptions = {
    * Index where an element should be dropped to the form elements array
    */
   fieldIndex: number;
-  /** 
+  /**
    * Index where a nested element should be dropped to the nested array
    */
   j?: number;
@@ -210,20 +210,16 @@ type DropElementOptions = {
    */
   isMS?: boolean;
   stepIndex?: number;
-}
-export type DropElement = (
-  options: DropElementOptions,
-) => void;
+};
+export type DropElement = (options: DropElementOptions) => void;
 
 type EditElementOptions = {
   fieldIndex: number;
   modifiedFormElement: FormElement;
   j?: number;
   stepIndex?: number;
-}
-export type EditElement = (
-  options: EditElementOptions,
-) => void;
+};
+export type EditElement = (options: EditElementOptions) => void;
 
 type ReorderParams = {
   newOrder: FormElementOrList[];
@@ -233,15 +229,13 @@ type ReorderParams = {
 
 export type ReorderElements = (params: ReorderParams) => void;
 
-export type AppendElement = (
-  options: {
-    fieldType: FormElement['fieldType'],
-    /**
-     * index where a nested element should be appended to the main array
-     */
-    fieldIndex?: number | null;
-    stepIndex?: number;
-  },
-) => void;
+export type AppendElement = (options: {
+  fieldType: FormElement["fieldType"];
+  /**
+   * index where a nested element should be appended to the main array
+   */
+  fieldIndex?: number | null;
+  stepIndex?: number;
+}) => void;
 
 export type SetTemplate = (template: string) => void;
