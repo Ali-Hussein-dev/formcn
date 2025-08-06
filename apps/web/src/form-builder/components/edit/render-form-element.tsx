@@ -90,8 +90,9 @@ export const RenderFormElement = ({
           name={formElement.name}
           render={({ field }: { field: ControllerRenderProps }) => (
             <FormItem className="w-full">
-              <FormLabel>{formElement.label}</FormLabel>
-              {formElement.required && " *"}
+              <FormLabel>
+                {formElement.label} {formElement.required && " *"}
+              </FormLabel>
               <FormControl>
                 <Input
                   placeholder={formElement.placeholder}
@@ -115,8 +116,9 @@ export const RenderFormElement = ({
           name={formElement.name}
           render={({ field }: { field: ControllerRenderProps }) => (
             <FormItem className="w-full">
-              <FormLabel>{formElement.label}</FormLabel>{" "}
-              {formElement.required && "*"}
+              <FormLabel>
+                {formElement.label} {formElement.required && "*"}
+              </FormLabel>
               <FormControl>
                 <InputOTP
                   {...field}
