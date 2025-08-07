@@ -27,12 +27,12 @@ export function TemplatesSelect() {
         maxHeight: "45vh",
       }}
     >
-      <div className="space-y-3 py-3">
+      <div className="flex md:flex-col flex-wrap gap-3.5 flex-row py-2">
         {formTemplates.map(({ label, value, isMS }) => (
           <Button
             key={label}
             onClick={() => setTemplate(value)}
-            className="px-3.5 py-2.5 w-full justify-start"
+            className="justify-start text-[12px]"
             variant="outline"
           >
             {isMS ? (
@@ -59,7 +59,7 @@ const FormElementSelect = () => {
         maxHeight: "45vh",
       }}
     >
-      <div className="flex md:flex-col flex-wrap gap-3.5 flex-row py-3">
+      <div className="flex md:flex-col flex-wrap gap-3.5 flex-row py-2">
         {formElementsList.map((o) => (
           <Button
             key={o.name}
@@ -70,7 +70,7 @@ const FormElementSelect = () => {
                 stepIndex: isMS ? formElements.length - 1 : undefined,
               });
             }}
-            className="gap-1 justify-start rounded-lg w-fit md:w-full relative text-sm px-2"
+            className="gap-1 justify-start w-fit md:w-full text-[12px]"
           >
             <div className="flex items-center justify-start gap-1">
               <MdAdd />

@@ -38,13 +38,13 @@ export function FormBuilder() {
   const setIsMS = useFormBuilderStore((s) => s.setIsMS);
   return (
     <div className="pt-4 pb-20">
-      <div className="w-full grid md:grid-cols-12 gap-3 lg:gap-5 border rounded  border-dashed">
-        <div className="border-r border-dashed md:col-span-2 py-3 px-2">
+      <div className="w-full grid md:grid-cols-12 gap-3 lg:gap-4 border rounded border-dashed">
+        <div className="md:col-span-2 py-3 md:pl-2">
           <CommandProvider>
             <FormElementTemplateSelect />
           </CommandProvider>
         </div>
-        <div className="sm:px-0 w-full md:col-span-6 min-w-full grow py-6 px-2">
+        <div className="w-full md:col-span-6 min-w-full grow py-6 px-4 border-y sm:border-y-0 sm:border-x border-dashed">
           <Tabs defaultValue={tabsList[0].name} className="">
             <TabsList className="w-full">
               {tabsList.map((tab) => (
@@ -87,7 +87,7 @@ export function FormBuilder() {
             </TabsContent>
           </Tabs>
         </div>
-        <div className="md:col-span-4 w-full px-2 pb-6 border-l border-dashed">
+        <div className="md:col-span-4 w-full px-2 pb-6">
           <SingleStepFormPreview form={form} />
         </div>
       </div>
