@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { urls } from "@/constants/urls";
+import { FormBuilder } from "@/form-builder/components/form-builder";
 import { FaGithub } from "react-icons/fa6";
 
 export const metadata = {
@@ -39,7 +40,7 @@ export default function Home() {
         </div>
       </div>
       <div>
-        <p className="text-xl mx-auto text-center pt-10">Coming soon...</p>
+        <FormBuilder />
       </div>
     </div>
   );
