@@ -1,6 +1,6 @@
 # formcn
 
-![screenshot](https://0ecd2qxhjqgqxftv.public.blob.vercel-storage.com/formcn-screenshot.png)
+![screenshot](https://0ecd2qxhjqgqxftv.public.blob.vercel-storage.com/893_1x_shots_so.jpg)
 
 A modern form builder that allows you to build forms with shadcn components.
 
