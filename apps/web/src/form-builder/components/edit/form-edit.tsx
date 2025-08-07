@@ -4,7 +4,7 @@ import type {
   FormStep,
 } from "@/form-builder/form-types";
 import * as React from "react";
-import { AnimatePresence, Reorder } from "motion/react";
+import { Reorder } from "motion/react";
 import { MdDelete } from "react-icons/md";
 import { Button } from "@/components/ui/button";
 import { LuGripVertical } from "react-icons/lu";
@@ -98,6 +98,7 @@ export function FormEdit() {
   const isMS = useFormBuilderStore((s) => s.isMS);
   const formElements = useFormBuilderStore((s) => s.formElements);
   const reorder = useFormBuilderStore((s) => s.reorder);
+  const reorderSteps = useFormBuilderStore((s) => s.reorderSteps);
 
   const animateVariants = {
     initial: { opacity: 0, y: -15 },
@@ -112,11 +113,26 @@ export function FormEdit() {
         return <NoStepsPlaceholder />;
       }
       return (
-        <div className="flex flex-col gap-4">
+        <Reorder.Group
+          values={formElements as FormStep[]}
+          onReorder={(newOrder) => {
+            reorderSteps(newOrder);
+          }}
+          className="flex flex-col gap-4"
+          layoutScroll
+        >
           {(formElements as FormStep[]).map((step, stepIndex) => {
             return (
-              <div key={step.id}>
-                <StepContainer stepId={step.id} stepIndex={stepIndex}>
+              <Reorder.Item
+                value={step}
+                key={step.id}
+                layout
+                variants={animateVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+              >
+                <StepContainer stepIndex={stepIndex}>
                   <Reorder.Group
                     axis="y"
                     onReorder={(newOrder) => {
@@ -126,73 +142,71 @@ export function FormEdit() {
                     className="flex flex-col gap-3"
                     tabIndex={-1}
                   >
-                    <AnimatePresence mode="popLayout">
-                      {step.stepFields.map((element, fieldIndex) => {
-                        if (Array.isArray(element)) {
-                          return (
-                            <Reorder.Item
-                              key={element[0].id}
-                              value={element}
-                              variants={animateVariants}
-                              initial="initial"
-                              animate="animate"
-                              exit="exit"
-                              className="flex items-center justify-start gap-2 pl-2"
-                              layout
-                            >
-                              <LuGripVertical className="dark:text-muted-foreground text-muted-foreground" />
-                              <Reorder.Group
-                                value={element}
-                                onReorder={(newOrder) => {
-                                  reorder({ newOrder, fieldIndex });
-                                }}
-                                values={element}
-                                className="w-full flex items-center justify-start gap-2"
-                              >
-                                {element.map((el, j) => (
-                                  <Reorder.Item
-                                    value={el}
-                                    key={el.id}
-                                    className="w-full rounded-xl border border-dashed py-1.5 bg-background"
-                                  >
-                                    <EditFormItem
-                                      fieldIndex={fieldIndex}
-                                      j={j}
-                                      element={el}
-                                      stepIndex={stepIndex}
-                                    />
-                                  </Reorder.Item>
-                                ))}
-                              </Reorder.Group>
-                            </Reorder.Item>
-                          );
-                        }
+                    {step.stepFields.map((element, fieldIndex) => {
+                      if (Array.isArray(element)) {
                         return (
                           <Reorder.Item
-                            key={element.id}
+                            key={element[0].id}
                             value={element}
-                            className="w-full rounded-xl border border-dashed py-1.5 bg-background"
                             variants={animateVariants}
                             initial="initial"
                             animate="animate"
                             exit="exit"
+                            className="flex items-center justify-start gap-2 pl-2"
                             layout
                           >
-                            <EditFormItem
-                              fieldIndex={fieldIndex}
-                              element={element}
-                              stepIndex={stepIndex}
-                            />
+                            <LuGripVertical className="dark:text-muted-foreground text-muted-foreground" />
+                            <Reorder.Group
+                              value={element}
+                              onReorder={(newOrder) => {
+                                reorder({ newOrder, fieldIndex });
+                              }}
+                              values={element}
+                              className="w-full flex items-center justify-start gap-2"
+                            >
+                              {element.map((el, j) => (
+                                <Reorder.Item
+                                  value={el}
+                                  key={el.id}
+                                  className="w-full rounded-xl border border-dashed py-1.5 bg-background"
+                                >
+                                  <EditFormItem
+                                    fieldIndex={fieldIndex}
+                                    j={j}
+                                    element={el}
+                                    stepIndex={stepIndex}
+                                  />
+                                </Reorder.Item>
+                              ))}
+                            </Reorder.Group>
                           </Reorder.Item>
                         );
-                      })}
-                    </AnimatePresence>
+                      }
+                      return (
+                        <Reorder.Item
+                          key={element.id}
+                          value={element}
+                          className="w-full rounded-xl border border-dashed py-1.5 bg-background"
+                          variants={animateVariants}
+                          initial="initial"
+                          animate="animate"
+                          exit="exit"
+                          layout
+                        >
+                          <EditFormItem
+                            fieldIndex={fieldIndex}
+                            element={element}
+                            stepIndex={stepIndex}
+                          />
+                        </Reorder.Item>
+                      );
+                    })}
                   </Reorder.Group>
                 </StepContainer>
-              </div>
+              </Reorder.Item>
             );
           })}
-        </div>
+        </Reorder.Group>
       );
     default:
       return (
@@ -205,73 +219,71 @@ export function FormEdit() {
           className="flex flex-col gap-3 rounded-lg px-3 md:px-4 md:py-5 py-4 border-dashed border bg-muted"
           tabIndex={-1}
         >
-          <AnimatePresence mode="popLayout">
-            {(formElements as FormElementOrList[]).map((element, i) => {
-              if (Array.isArray(element)) {
-                return (
-                  <Reorder.Item
-                    value={element}
-                    key={element[0].id}
-                    variants={animateVariants}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    className="flex items-center justify-start gap-2 pl-2"
-                    layout
-                  >
-                    <LuGripVertical className="dark:text-muted-foreground text-muted-foreground" />
-                    <Reorder.Group
-                      axis="x"
-                      onReorder={(newOrder) => {
-                        reorder({ newOrder, fieldIndex: i });
-                      }}
-                      values={element}
-                      className="flex items-center justify-start gap-2 w-full"
-                      tabIndex={-1}
-                    >
-                      {element.map((el, j) => (
-                        <Reorder.Item
-                          key={el.id}
-                          value={el}
-                          className="w-full rounded-xl border border-dashed py-1.5 bg-background"
-                          variants={animateVariants}
-                          initial="initial"
-                          animate="animate"
-                          exit="exit"
-                          layout
-                        >
-                          <EditFormItem
-                            key={el.id}
-                            fieldIndex={i}
-                            j={j}
-                            element={el}
-                          />
-                        </Reorder.Item>
-                      ))}
-                    </Reorder.Group>
-                  </Reorder.Item>
-                );
-              }
+          {(formElements as FormElementOrList[]).map((element, i) => {
+            if (Array.isArray(element)) {
               return (
                 <Reorder.Item
-                  key={element.id}
                   value={element}
-                  className="rounded-xl border border-dashed py-1.5 w-full bg-background"
+                  key={element[0].id}
                   variants={animateVariants}
                   initial="initial"
                   animate="animate"
                   exit="exit"
+                  className="flex items-center justify-start gap-2 pl-2"
                   layout
                 >
-                  <EditFormItem
-                    key={element.id}
-                    fieldIndex={i}
-                    element={element}
-                  />
+                  <LuGripVertical className="dark:text-muted-foreground text-muted-foreground" />
+                  <Reorder.Group
+                    axis="x"
+                    onReorder={(newOrder) => {
+                      reorder({ newOrder, fieldIndex: i });
+                    }}
+                    values={element}
+                    className="flex items-center justify-start gap-2 w-full"
+                    tabIndex={-1}
+                  >
+                    {element.map((el, j) => (
+                      <Reorder.Item
+                        key={el.id}
+                        value={el}
+                        className="w-full rounded-xl border border-dashed py-1.5 bg-background"
+                        variants={animateVariants}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        layout
+                      >
+                        <EditFormItem
+                          key={el.id}
+                          fieldIndex={i}
+                          j={j}
+                          element={el}
+                        />
+                      </Reorder.Item>
+                    ))}
+                  </Reorder.Group>
                 </Reorder.Item>
               );
-            })}
-          </AnimatePresence>
+            }
+            return (
+              <Reorder.Item
+                key={element.id}
+                value={element}
+                className="rounded-xl border border-dashed py-1.5 w-full bg-background"
+                variants={animateVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                layout
+              >
+                <EditFormItem
+                  key={element.id}
+                  fieldIndex={i}
+                  element={element}
+                />
+              </Reorder.Item>
+            );
+          })}
         </Reorder.Group>
       );
   }

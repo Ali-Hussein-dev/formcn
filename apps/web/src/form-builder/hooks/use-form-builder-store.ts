@@ -41,6 +41,8 @@ type FormBuilderState = {
 
   addFormStep: (position?: number) => void;
   removeFormStep: (stepIndex: number) => void;
+  
+  reorderSteps: (newOrder: FormStep[]) => void;
 } & (MSForm | SingleForm);
 
 const initialFormElements = templates['contactUs']
@@ -228,6 +230,11 @@ export const useFormBuilderStore = create<FormBuilderState>((set) => ({
             return { formElements: newOrder };
           }
       }
+    });
+  },
+  reorderSteps: (newOrder: FormStep[]): void => {
+    set((state) => {
+      return { formElements: newOrder };
     });
   },
   setTemplate: (templateName: keyof typeof templates) => {
