@@ -20,7 +20,7 @@ export function TemplatesSelect() {
   const setTemplate = useFormBuilderStore((s) => s.setTemplate);
   return (
     <ScrollArea
-      className="overflow-auto px-1"
+      className="overflow-auto"
       style={{
         height: "100%",
         maxHeight: "45vh",
@@ -94,7 +94,7 @@ const FormElementSelect = () => {
 
   return (
     <ScrollArea
-      className="overflow-auto px-1"
+      className="overflow-auto"
       style={{
         height: "100%",
         maxHeight: "45vh",
@@ -144,7 +144,7 @@ const FormElementSelect = () => {
 //======================================
 export function FormElementTemplateSelect() {
   return (
-    <div className="overflow-x-auto overflow-y-hidden px-2 py-3 w-full h-full relative">
+    <div className="overflow-x-auto overflow-y-hidden py-3 w-full h-full relative px-3 lg:px-0">
       <Tabs defaultValue="form-elements">
         <TabsList className="w-full">
           <TabsTrigger value="form-elements" className="text-sm">
@@ -161,7 +161,7 @@ export function FormElementTemplateSelect() {
           <TemplatesSelect />
         </TabsContent>
       </Tabs>
-      <div className="h-10 from-background to-transparent bg-linear-0 absolute bottom-0 right-0 w-full "></div>
+      <div className="h-10 from-white dark:from-background to-transparent bg-linear-180 absolute bottom-0 right-0 w-full"></div>
     </div>
   );
 }
