@@ -234,11 +234,7 @@ export const RenderFormElement = ({
       );
     case "ToggleGroup": {
       const options = formElement.options.map(({ label, value }) => (
-        <ToggleGroupItem
-          value={value}
-          key={value}
-          className="flex items-center gap-x-2 text-sm"
-        >
+        <ToggleGroupItem value={value} key={value} className="text-sm">
           {label}
         </ToggleGroupItem>
       ));

@@ -41,7 +41,7 @@ const OptionLabel = ({
 }) => (
   <TooltipProvider>
     <Tooltip>
-      <TooltipTrigger>{Icon}</TooltipTrigger>
+      <TooltipTrigger asChild>{Icon}</TooltipTrigger>
       <TooltipContent>
         <p>{label}</p>
       </TooltipContent>
@@ -177,7 +177,7 @@ function FormElementOptions({
                   formElement={{
                     id: formElement.id,
                     name: "type",
-                    label: "Select input type",
+                    label: "Type attribute",
                     fieldType: "ToggleGroup",
                     type: "single",
                     options: inputTypes,
