@@ -105,7 +105,8 @@ function OptionsList({
 
   const deleteOption = (index: number) => {
     handlers.remove(index);
-    onChange([...localOptions]);
+    const updatedOptions = localOptions.filter((_, i) => i !== index);
+    onChange(updatedOptions);
   };
 
   const startEdit = (index: number) => {
@@ -116,7 +117,10 @@ function OptionsList({
   const saveEdit = () => {
     if (editingIndex !== null) {
       handlers.setItem(editingIndex, editingOption);
-      onChange([...localOptions]);
+      const updatedOptions = localOptions.map((option, index) =>
+        index === editingIndex ? editingOption : option
+      );
+      onChange(updatedOptions);
       setEditingIndex(null);
     }
   };
