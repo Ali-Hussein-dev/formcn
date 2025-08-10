@@ -9,7 +9,7 @@ import type {
   ToggleGroupSingleProps,
 } from "@radix-ui/react-toggle-group";
 
-type Option = { value: string; label: string };
+type Option = { value: string; label: React.ReactNode };
 //------------------------------------------------------------
 type SharedFormProps = {
   name: string;

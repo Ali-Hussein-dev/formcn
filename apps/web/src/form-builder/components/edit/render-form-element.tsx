@@ -237,7 +237,7 @@ export const RenderFormElement = ({
         <ToggleGroupItem
           value={value}
           key={value}
-          className="flex items-center gap-x-2 px-1"
+          className="flex items-center gap-x-2 text-sm"
         >
           {label}
         </ToggleGroupItem>
@@ -258,8 +258,8 @@ export const RenderFormElement = ({
                     type="single"
                     variant="outline"
                     onValueChange={field.onChange}
-                    defaultValue={formElement.defaultValue}
-                    className="flex justify-start items-center w-full"
+                    value={field.value}
+                    className="flex justify-start items-center w-full flex-wrap"
                   >
                     {options}
                   </ToggleGroup>
@@ -269,16 +269,11 @@ export const RenderFormElement = ({
                     type="multiple"
                     variant="outline"
                     onValueChange={field.onChange}
-                    defaultValue={
-                      Array.isArray(formElement.defaultValue)
-                        ? formElement.defaultValue.filter(
-                            (val) => val !== undefined
-                          )
-                        : [formElement.defaultValue].filter(
-                            (val) => val !== undefined
-                          )
+                    value={
+                      // wrap in array and flat because value can be a string or an array
+                      [field.value].flat().filter((val) => val !== undefined)
                     }
-                    className="flex justify-start items-center w-full"
+                    className="flex justify-start items-center w-full flex-wrap"
                   >
                     {options}
                   </ToggleGroup>
@@ -385,7 +380,7 @@ export const RenderFormElement = ({
                 </FormControl>
                 <SelectContent>
                   {formElement.options.map(({ label, value }) => (
-                    <SelectItem key={label} value={value}>
+                    <SelectItem key={value} value={value}>
                       {label}
                     </SelectItem>
                   ))}
@@ -418,7 +413,7 @@ export const RenderFormElement = ({
                 <MultiSelectContent>
                   <MultiSelectList>
                     {formElement.options.map(({ label, value }) => (
-                      <MultiSelectItem key={label} value={value}>
+                      <MultiSelectItem key={value} value={value}>
                         {label}
                       </MultiSelectItem>
                     ))}
