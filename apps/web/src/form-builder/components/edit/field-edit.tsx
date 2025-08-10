@@ -22,15 +22,57 @@ import { Form } from "@/components/ui/form";
 import { isStatic } from "@/form-builder/libs/utils";
 import { RenderFormElement } from "@/form-builder/components/edit/render-form-element";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
+import { MdOutlineTextFields } from "react-icons/md";
+import { FaLink, FaPhone } from "react-icons/fa";
+import { MdEmail, MdOutlineNumbers, MdOutlinePassword } from "react-icons/md";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+const OptionLabel = ({
+  label,
+  Icon,
+}: {
+  label: string;
+  Icon: React.ReactNode;
+}) => (
+  <TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger>{Icon}</TooltipTrigger>
+      <TooltipContent>
+        <p>{label}</p>
+      </TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
+);
 
 const inputTypes = [
-  { value: "text", label: "Text" },
-  { value: "email", label: "Email" },
-  { value: "url", label: "URL" },
-  { value: "number", label: "Number" },
-  { value: "password", label: "Password" },
-  { value: "tel", label: "Telephone" },
+  {
+    value: "text",
+    label: <OptionLabel label="Text" Icon={<MdOutlineTextFields />} />,
+  },
+  {
+    value: "number",
+    label: <OptionLabel label="Number" Icon={<MdOutlineNumbers />} />,
+  },
+  { value: "url", label: <OptionLabel label="URL" Icon={<FaLink />} /> },
+  {
+    value: "password",
+    label: <OptionLabel label="Password" Icon={<MdOutlinePassword />} />,
+  },
+  {
+    value: "email",
+    label: <OptionLabel label="Email" Icon={<MdEmail />} />,
+  },
+  {
+    value: "tel",
+    label: <OptionLabel label="Phone number" Icon={<FaPhone />} />,
+  },
 ];
+
 function FormElementOptions({
   fieldIndex,
   close,
@@ -84,33 +126,17 @@ function FormElementOptions({
             </div>
           ) : (
             <div className="flex flex-col items-center justify-start w-full gap-3 mb-2">
-              <div className="flex items-center justify-between gap-4 w-full">
-                <RenderFormElement
-                  formElement={{
-                    id: formElement.id,
-                    name: "label",
-                    label: "Label attribute",
-                    fieldType: "Input",
-                    type: "text",
-                    required: true,
-                  }}
-                  form={form}
-                />
-                {formElement.fieldType === "Input" && (
-                  <RenderFormElement
-                    formElement={{
-                      id: formElement.id,
-                      name: "type",
-                      label: "Select input type",
-                      fieldType: "Select",
-                      options: inputTypes,
-                      required: true,
-                      placeholder: "Select input type",
-                    }}
-                    form={form}
-                  />
-                )}
-              </div>
+              <RenderFormElement
+                formElement={{
+                  id: formElement.id,
+                  name: "label",
+                  label: "Label attribute",
+                  fieldType: "Input",
+                  type: "text",
+                  required: true,
+                }}
+                form={form}
+              />
               <div className="flex items-center justify-between gap-4 w-full">
                 <RenderFormElement
                   formElement={{
@@ -140,12 +166,27 @@ function FormElementOptions({
                 formElement={{
                   id: formElement.id,
                   name: "description",
-                  label: "Describe the field",
+                  label: "Description attribute",
                   fieldType: "Input",
                   placeholder: "Add a description",
                 }}
                 form={form}
               />
+              {formElement.fieldType === "Input" && (
+                <RenderFormElement
+                  formElement={{
+                    id: formElement.id,
+                    name: "type",
+                    label: "Select input type",
+                    fieldType: "ToggleGroup",
+                    type: "single",
+                    options: inputTypes,
+                    required: true,
+                    value: formElement.type,
+                  }}
+                  form={form}
+                />
+              )}
               {formElement.fieldType === "Slider" && (
                 <div className="flex items-center justify-between gap-4">
                   <RenderFormElement
