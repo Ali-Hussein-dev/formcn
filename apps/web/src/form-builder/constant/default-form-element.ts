@@ -8,6 +8,7 @@ export const defaultFormElements: Record<
     name: 'input-field',
     label: 'Input Field',
     placeholder: 'Enter your text',
+    type: 'text',
   },
   OTP: {
     name: 'one-time-password',
@@ -18,6 +19,7 @@ export const defaultFormElements: Record<
     name: 'password',
     label: 'Password Field',
     placeholder: 'Enter your password',
+    type: 'password'
   },
   Checkbox: {
     label: 'Checkbox Label',
