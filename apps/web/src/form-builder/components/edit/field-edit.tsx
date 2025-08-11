@@ -301,7 +301,12 @@ function FormElementAttributes({
     });
     close();
   };
-  // const hasOptions = ['Select', 'MultiSelect'].includes(formElement.fieldType);
+  const { fieldType } = formElement;
+  const isFieldWithOptions =
+    fieldType === "Select" ||
+    fieldType === "MultiSelect" ||
+    fieldType === "RadioGroup" ||
+    fieldType === "ToggleGroup";
   return (
     <Form {...form}>
       <form
@@ -447,9 +452,7 @@ function FormElementAttributes({
                   form={form}
                 />
               )}
-              {(formElement.fieldType === "Select" ||
-                formElement.fieldType === "MultiSelect" ||
-                formElement.fieldType === "ToggleGroup") && (
+              {isFieldWithOptions && (
                 <OptionsList
                   options={formElement.options || []}
                   onChange={(options) => form.setValue("options", options)}
