@@ -316,13 +316,13 @@ function FormElementAttributes({
         {/* {JSON.stringify(form.watch(), null, 2)} */}
         {/* {JSON.stringify(formElement, null, 2)} */}
         <div>
-          {isStatic(formElement.fieldType) ? (
+          {isStatic(fieldType) ? (
             <div className="mb-4">
               <RenderFormElement
                 formElement={{
                   id: formElement.id,
                   name: "content",
-                  label: `Customize ${formElement.fieldType}`,
+                  label: `Customize ${fieldType}`,
                   fieldType: "Input",
                   defaultValue: formElement.content,
                   required: true,
@@ -379,7 +379,7 @@ function FormElementAttributes({
                 }}
                 form={form}
               />
-              {formElement.fieldType === "Input" && (
+              {fieldType === "Input" && (
                 <RenderFormElement
                   formElement={{
                     id: formElement.id,
@@ -394,7 +394,7 @@ function FormElementAttributes({
                   form={form}
                 />
               )}
-              {formElement.fieldType === "Slider" && (
+              {fieldType === "Slider" && (
                 <div className="flex items-center justify-between gap-4">
                   <RenderFormElement
                     formElement={{
@@ -434,7 +434,7 @@ function FormElementAttributes({
                   />
                 </div>
               )}
-              {formElement.fieldType === "ToggleGroup" && (
+              {fieldType === "ToggleGroup" && (
                 <RenderFormElement
                   formElement={{
                     id: formElement.id,
