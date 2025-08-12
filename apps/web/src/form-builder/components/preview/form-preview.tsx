@@ -7,37 +7,54 @@ import { useFormBuilder } from "@/form-builder/hooks/use-form-builder";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
 import type { UseFormReturn } from "react-hook-form";
 import * as React from "react";
+import { cn } from "@/lib/utils";
 
 interface FormPreviewProps {
   form: UseFormReturn<any, any, any>;
 }
 
-export function SingleStepFormPreview({ form }: FormPreviewProps) {
+export function FormPreview({ form }: FormPreviewProps) {
   const { onSubmit } = useFormBuilder();
   const formElements = useFormBuilderStore((s) => s.formElements);
   const isMS = useFormBuilderStore((s) => s.isMS);
-  const data = Object.keys(form.watch());
+  const data = Object.values(form.watch());
   const { formState } = form;
+  if (formElements.length < 1)
+    return (
+      <div className="h-full py-10 px-3">
+        <p className="text-center text-lg text-balance font-medium">
+          Nothing to preview. Add form elements to preview
+        </p>
+      </div>
+    );
   return (
-    <div className="w-full animate-in rounded-md">
-      {data.length > 0 ? (
-        <Form {...form}>
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              if (!isMS) {
-                await form.handleSubmit(onSubmit)(e);
-              }
-            }}
-            className="flex flex-col p-2 md:px-5 w-full gap-2"
-          >
-            {isMS ? (
-              <MultiStepFormPreview
-                formElements={formElements as unknown as FormStep[]}
-                form={form}
-              />
-            ) : (
-              (formElements as FormElementOrList[]).map((element, i) => {
+    <div
+      className={cn(
+        "w-full animate-in rounded-md",
+        // add padding to the top when no header
+        !isMS && formElements[0].hasOwnProperty("static") === true
+          ? ""
+          : "pt-4.5"
+      )}
+    >
+      <Form {...form}>
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            if (!isMS) {
+              await form.handleSubmit(onSubmit)(e);
+            }
+          }}
+          className="flex flex-col p-2 md:px-5 w-full gap-2"
+        >
+          {isMS ? (
+            <MultiStepFormPreview
+              formElements={formElements as unknown as FormStep[]}
+              form={form}
+            />
+          ) : (
+            <>
+              {(formElements as FormElementOrList[]).map((element, i) => {
                 if (Array.isArray(element)) {
                   return (
                     <div
@@ -57,9 +74,7 @@ export function SingleStepFormPreview({ form }: FormPreviewProps) {
                     <RenderFormElement formElement={element} form={form} />
                   </div>
                 );
-              })
-            )}
-            {!isMS && (
+              })}
               <div className="flex items-center justify-end w-full pt-3">
                 <Button type="submit" className="rounded-lg" size="sm">
                   {formState.isSubmitting
@@ -69,16 +84,10 @@ export function SingleStepFormPreview({ form }: FormPreviewProps) {
                     : "Submit"}
                 </Button>
               </div>
-            )}
-          </form>
-        </Form>
-      ) : (
-        <div className="h-full py-10 px-3">
-          <p className="text-center text-muted-foreground text-lg">
-            Add form elements to preview
-          </p>
-        </div>
-      )}
+            </>
+          )}
+        </form>
+      </Form>
     </div>
   );
 }

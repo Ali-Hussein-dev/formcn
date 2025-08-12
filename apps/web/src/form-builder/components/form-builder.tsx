@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FormElementTemplateSelect } from "@/form-builder/components/form-element-template-select";
 import { FormEdit } from "@/form-builder/components/edit/form-edit";
-import { SingleStepFormPreview } from "@/form-builder/components/preview/form-preview";
+import { FormPreview } from "@/form-builder/components/preview/form-preview";
 import {
   JsonViewer,
   GeneratedFormCodeViewer,
@@ -88,7 +88,7 @@ export function FormBuilder() {
           </Tabs>
         </div>
         <div className="lg:col-span-4 w-full px-2 pb-6">
-          <SingleStepFormPreview form={form} />
+          <FormPreview form={form} />
         </div>
       </div>
     </div>
