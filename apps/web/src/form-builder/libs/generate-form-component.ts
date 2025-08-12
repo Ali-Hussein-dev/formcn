@@ -231,7 +231,7 @@ export const getFormElementCode = (field: FormElement) => {
               control={form.control}
               name="${field.name}"
               render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full py-3">
                 <FormLabel className="flex justify-between items-center">${field.label}<span>{field.value}/{max}</span>
                 </FormLabel>
                 <FormControl>

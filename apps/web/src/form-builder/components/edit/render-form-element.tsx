@@ -324,7 +324,7 @@ export const RenderFormElement = ({
               ? field.value
               : [field.value || defaultValue];
             return (
-              <FormItem className="w-full">
+              <FormItem className="w-full py-3">
                 <FormLabel className="flex justify-between items-center">
                   {formElement.label}
                   <span>
