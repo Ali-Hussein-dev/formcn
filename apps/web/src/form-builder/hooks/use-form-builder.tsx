@@ -13,6 +13,7 @@ export const useFormBuilder = () => {
     [key: string]: any;
   }
   const isMS = useFormBuilderStore((s) => s.isMS);
+  const setIsMS = useFormBuilderStore((s) => s.setIsMS);
   const formElements = useFormBuilderStore((s) => s.formElements);
   const resestFormElements = useFormBuilderStore((s) => s.resestFormElements);
 
@@ -55,6 +56,9 @@ export const useFormBuilder = () => {
     reset();
     // reset submitted data
     setSubmittedData({});
+
+    // set isMS to false
+    setIsMS(false);
   };
   const onSubmit = async (data: any) => {
     setSubmittedData(data);
