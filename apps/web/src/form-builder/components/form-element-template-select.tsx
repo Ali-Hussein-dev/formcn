@@ -145,7 +145,7 @@ const FormElementSelect = () => {
 export function FormElementTemplateSelect() {
   return (
     <div className="overflow-x-auto overflow-y-hidden py-3 w-full h-full relative px-3 lg:px-0">
-      <Tabs defaultValue="form-elements">
+      <Tabs defaultValue="form-elements" className="mb-4">
         <TabsList className="w-full">
           <TabsTrigger value="form-elements" className="text-sm">
             <RiInputField />
@@ -161,7 +161,7 @@ export function FormElementTemplateSelect() {
           <TemplatesSelect />
         </TabsContent>
       </Tabs>
-      <div className="h-20 from-white dark:from-background dark:via-background/70 to-transparent bg-linear-0 absolute bottom-0 right-0 w-full"></div>
+      <div className="h-12 from-white dark:from-background dark:via-background/70 to-transparent bg-linear-0 absolute bottom-0 right-0 w-full"></div>
     </div>
   );
 }
