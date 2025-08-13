@@ -45,7 +45,7 @@ export function FormPreview({ form }: FormPreviewProps) {
               await form.handleSubmit(onSubmit)(e);
             }
           }}
-          className="flex flex-col p-2 md:px-5 w-full gap-5"
+          className="flex flex-col p-2 md:px-5 w-full gap-2"
         >
           {isMS ? (
             <MultiStepFormPreview

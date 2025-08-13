@@ -207,7 +207,7 @@ export const RenderFormElement = ({
           control={form.control}
           name={formElement.name}
           render={({ field }: { field: ControllerRenderProps }) => (
-            <FormItem className="flex flex-col gap-2 w-full py-1">
+            <FormItem className="flex flex-col gap-2 w-full py-3">
               <FormLabel className="mt-0">
                 {formElement?.label} {formElement.required && " *"}
               </FormLabel>
@@ -492,7 +492,7 @@ export const RenderFormElement = ({
       );
     case "P":
       return (
-        <p className="tracking-wider text-foreground/60 pt-0 dark:text-foreground/60 mb-4 mt-0 text-wrap">
+        <p className="tracking-wider text-foreground/60 pt-0 dark:text-foreground/60 mb-6 mt-0 text-wrap">
           {formElement.content}
         </p>
       );

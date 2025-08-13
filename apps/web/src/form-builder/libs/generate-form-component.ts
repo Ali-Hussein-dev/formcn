@@ -277,7 +277,7 @@ export const getFormElementCode = (field: FormElement) => {
               render={({ field }) => {
               const options = ${JSON.stringify(field.options)};
               return (
-                <FormItem className="flex flex-col gap-2 w-full py-1">
+                <FormItem className="flex flex-col gap-2 w-full py-3">
                     ${field.label && `<FormLabel>${field.label}</FormLabel> ${field.required ? '*' : ''}`}
                     <FormControl>
                       <RadioGroup
@@ -341,7 +341,7 @@ export const getFormElementCode = (field: FormElement) => {
     case 'H3':
       return `<h3 className="text-xl font-bold">${field.content}</h3>`;
     case 'P':
-      return `<p className="text-base">${field.content}</p>`;
+      return `<p className="tracking-wider text-foreground/60 pt-0 dark:text-foreground/60 mb-6 mt-0 text-wrap">${field.content}</p>`;
     case 'Separator':
       return `<div className="py-3 w-full">
                 <Separator />
