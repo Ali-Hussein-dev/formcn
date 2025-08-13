@@ -54,27 +54,35 @@ export function FormBuilder() {
               ))}
             </TabsList>
             <TabsContent value={tabsList[0].name} tabIndex={-1}>
-              <div className="pb-4 flex items-center justify-between">
-                <Button variant="outline" onClick={() => setIsMS(!isMS)}>
-                  {isMS ? (
-                    <>
-                      <PiStackSimple />
-                      Single-step Form
-                    </>
-                  ) : (
-                    <>
-                      <PiStackPlusLight />
-                      Multi-step Form
-                    </>
-                  )}
-                </Button>
-                {formElements.length > 1 && (
-                  <Button variant="ghost" onClick={resetForm}>
-                    Reset
-                  </Button>
-                )}
-              </div>
-              <FormEdit />
+              {formElements.length > 0 ? (
+                <div className="">
+                  <div className="pb-4 flex items-center justify-between">
+                    <Button variant="outline" onClick={() => setIsMS(!isMS)}>
+                      {isMS ? (
+                        <>
+                          <PiStackSimple />
+                          Single-step Form
+                        </>
+                      ) : (
+                        <>
+                          <PiStackPlusLight />
+                          Multi-step Form
+                        </>
+                      )}
+                    </Button>
+                    {formElements.length > 1 && (
+                      <Button variant="ghost" onClick={resetForm}>
+                        Reset
+                      </Button>
+                    )}
+                  </div>
+                  <FormEdit />
+                </div>
+              ) : (
+                <div>
+                  <p className="text-center pt-20 text-lg">No form elements added</p>
+                </div>
+              )}
             </TabsContent>
             <TabsContent value={tabsList[1].name} tabIndex={-1}>
               <GeneratedFormCodeViewer />
