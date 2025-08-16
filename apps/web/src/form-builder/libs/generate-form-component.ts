@@ -1,14 +1,19 @@
-import type { FormElement } from '../form-types';
+import type { FormElement } from "../form-types";
 
 export const getFormElementCode = (field: FormElement) => {
   switch (field.fieldType) {
-    case 'Input':
+    case "Input":
       return `<FormField
                 control={form.control}
                 name="${field.name}"
                 render={({ field }) => (
                     <FormItem className="w-full">
-                      ${field.label && `<FormLabel>${field.label}</FormLabel> ${field.required ? '*' : ''}`}
+                      ${
+                        field.label &&
+                        `<FormLabel>${field.label}</FormLabel> ${
+                          field.required ? "*" : ""
+                        }`
+                      }
                       <FormControl>
                         <Input
                           placeholder="${field.placeholder}"
@@ -16,24 +21,33 @@ export const getFormElementCode = (field: FormElement) => {
                           value={field.value}
                           onChange={(e) => {
                             const val = e.target.value;
-                            field.onChange(${field.type == 'number' ? '+val' : 'val'});
+                            field.onChange(${
+                              field.type == "number" ? "+val" : "val"
+                            });
                           }}
                         />
                       </FormControl>
-                      ${field.description ? `<FormDescription>${field.description}</FormDescription>` : ''}
+                      ${
+                        field.description
+                          ? `<FormDescription>${field.description}</FormDescription>`
+                          : ""
+                      }
                       <FormMessage />
                   </FormItem>
                   )
                 }
               />`;
-    case 'OTP':
+    case "OTP":
       return `
        <FormField
           control={form.control}
           name="${field.name}"
           render={({ field }) => (
            <FormItem className="w-full">
-          ${field.label && `<FormLabel>${field.label}</FormLabel> ${field.required ? '*' : ''}`}
+          ${
+            field.label &&
+            `<FormLabel>${field.label}</FormLabel> ${field.required ? "*" : ""}`
+          }
           <FormControl>
             <InputOTP
               maxLength={6}
@@ -54,39 +68,57 @@ export const getFormElementCode = (field: FormElement) => {
               </InputOTPGroup>
             </InputOTP>
           </FormControl>
-          ${field.description ? `<FormDescription>${field.description}</FormDescription>` : ''}
+          ${
+            field.description
+              ? `<FormDescription>${field.description}</FormDescription>`
+              : ""
+          }
           <FormMessage />
         </FormItem>
           )}
         />`;
-    case 'Textarea':
+    case "Textarea":
       return `
         <FormField
           control={form.control}
           name="${field.name}"
           render={({ field }) => (
             <FormItem>
-              ${field.label && `<FormLabel>${field.label}</FormLabel> ${field.required ? '*' : ''}`}
+              ${
+                field.label &&
+                `<FormLabel>${field.label}</FormLabel> ${
+                  field.required ? "*" : ""
+                }`
+              }
               <FormControl>
                 <Textarea
                   {...field}
-                  placeholder="${field.placeholder ?? ''}"
+                  placeholder="${field.placeholder ?? ""}"
                   className="resize-none"
                 />
               </FormControl>
-              ${field.description ? `<FormDescription>${field.description}</FormDescription>` : ''}
+              ${
+                field.description
+                  ? `<FormDescription>${field.description}</FormDescription>`
+                  : ""
+              }
               <FormMessage />
             </FormItem>
           )}
         />`;
-    case 'Password':
+    case "Password":
       return `
         <FormField
           control={form.control}
           name="${field.name}"
           render={({ field }) => (
             <FormItem className="w-full">
-              ${field.label && `<FormLabel>${field.label}</FormLabel> ${field.required ? '*' : ''}`}
+              ${
+                field.label &&
+                `<FormLabel>${field.label}</FormLabel> ${
+                  field.required ? "*" : ""
+                }`
+              }
               <FormControl>
                 <Input
                   {...field}
@@ -94,14 +126,18 @@ export const getFormElementCode = (field: FormElement) => {
                   type="password" 
                 />
               </FormControl>
-              ${field.description ? `<FormDescription>${field.description}</FormDescription>` : ''}
+              ${
+                field.description
+                  ? `<FormDescription>${field.description}</FormDescription>`
+                  : ""
+              }
               <FormMessage />
             </FormItem>
           )
         }
         />
         `;
-    case 'Checkbox':
+    case "Checkbox":
       return `<FormField
           control={form.control}
           name="${field.name}"
@@ -111,18 +147,22 @@ export const getFormElementCode = (field: FormElement) => {
                 <Checkbox
                   checked={field.value}
                   onCheckedChange={field.onChange}
-                  ${field.disabled ? 'disabled' : ''}
+                  ${field.disabled ? "disabled" : ""}
                 />
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel>${field.label}</FormLabel>
-                ${field.description ? `<FormDescription>${field.description}</FormDescription>` : ''}
+                ${
+                  field.description
+                    ? `<FormDescription>${field.description}</FormDescription>`
+                    : ""
+                }
                 <FormMessage />
               </div>
             </FormItem>
           )}
         />`;
-    case 'DatePicker':
+    case "DatePicker":
       return `
       <FormField
       control={form.control}
@@ -143,7 +183,7 @@ export const getFormElementCode = (field: FormElement) => {
                   {field.value ? (
                     format(field.value, "PPP")
                   ) : (
-                    <span>Pick a date</span>
+                    <span>${field.placeholder}</span>
                   )}
                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                 </Button>
@@ -154,16 +194,19 @@ export const getFormElementCode = (field: FormElement) => {
                 mode="single"
                 selected={field.value}
                 onSelect={field.onChange}
-                initialFocus
               />
             </PopoverContent>
           </Popover>
-            ${field.description ? `<FormDescription>${field.description}</FormDescription>` : ''}
+            ${
+              field.description
+                ? `<FormDescription>${field.description}</FormDescription>`
+                : ""
+            }
           <FormMessage />
         </FormItem>
       )}
     />`;
-    case 'MultiSelect':
+    case "MultiSelect":
       return `
            <FormField
               control={form.control}
@@ -172,7 +215,12 @@ export const getFormElementCode = (field: FormElement) => {
               const options = ${JSON.stringify(field.options)};
               return (
                 <FormItem className="w-full">
-                  ${field.label && `<FormLabel>${field.label}</FormLabel> ${field.required ? '*' : ''}`}
+                  ${
+                    field.label &&
+                    `<FormLabel>${field.label}</FormLabel> ${
+                      field.required ? "*" : ""
+                    }`
+                  }
                   <MultiSelect value={field.value} onValueChange={field.onChange}>
                     <FormControl>
                       <MultiSelectTrigger>
@@ -191,12 +239,16 @@ export const getFormElementCode = (field: FormElement) => {
                       </MultiSelectList>
                     </MultiSelectContent>
                   </MultiSelect>
-                  ${field.description ? `<FormDescription>${field.description}</FormDescription>` : ''}
+                  ${
+                    field.description
+                      ? `<FormDescription>${field.description}</FormDescription>`
+                      : ""
+                  }
                   <FormMessage />
                 </FormItem>
               )}}
             />`;
-    case 'Select':
+    case "Select":
       return `
         <FormField
           control={form.control}
@@ -205,7 +257,12 @@ export const getFormElementCode = (field: FormElement) => {
           const options = ${JSON.stringify(field.options)};
           return (
             <FormItem className="w-full">
-              ${field.label && `<FormLabel>${field.label}</FormLabel> ${field.required ? '*' : ''}`}
+              ${
+                field.label &&
+                `<FormLabel>${field.label}</FormLabel> ${
+                  field.required ? "*" : ""
+                }`
+              }
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger className="w-full">
@@ -220,19 +277,25 @@ export const getFormElementCode = (field: FormElement) => {
                   ))}
                 </SelectContent>
               </Select>
-                ${field.description ? `<FormDescription>${field.description}</FormDescription>` : ''}
+                ${
+                  field.description
+                    ? `<FormDescription>${field.description}</FormDescription>`
+                    : ""
+                }
               <FormMessage />
             </FormItem>
           )}}
         />`;
-    case 'Slider':
+    case "Slider":
       return `
             <FormField
               control={form.control}
               name="${field.name}"
               render={({ field }) => (
               <FormItem className="w-full py-3">
-                <FormLabel className="flex justify-between items-center">${field.label}<span>{field.value}/{max}</span>
+                <FormLabel className="flex justify-between items-center">${
+                  field.label
+                }<span>{field.value}/{max}</span>
                 </FormLabel>
                 <FormControl>
                   <Slider
@@ -245,12 +308,16 @@ export const getFormElementCode = (field: FormElement) => {
                     }}
                   />
                 </FormControl>
-                ${field.description ? `<FormDescription>${field.description}</FormDescription>` : ''}
+                ${
+                  field.description
+                    ? `<FormDescription>${field.description}</FormDescription>`
+                    : ""
+                }
                 <FormMessage />
               </FormItem>
               )}
             />`;
-    case 'Switch':
+    case "Switch":
       return `
           <FormField
               control={form.control}
@@ -258,7 +325,12 @@ export const getFormElementCode = (field: FormElement) => {
               render={({ field }) => (
                 <FormItem className="flex flex-col p-3 justify-center w-full border rounded">
                     <div className="flex items-center justify-between h-full">
-                      ${field.label && `<FormLabel>${field.label}</FormLabel> ${field.required ? '*' : ''}`}
+                      ${
+                        field.label &&
+                        `<FormLabel>${field.label}</FormLabel> ${
+                          field.required ? "*" : ""
+                        }`
+                      }
                       <FormControl>
                         <Switch
                           checked={field.value}
@@ -266,11 +338,15 @@ export const getFormElementCode = (field: FormElement) => {
                         />
                       </FormControl>
                     </div>
-                    ${field.description ? `<FormDescription>${field.description}</FormDescription>` : ''}
+                    ${
+                      field.description
+                        ? `<FormDescription>${field.description}</FormDescription>`
+                        : ""
+                    }
                 </FormItem>
               )}
             />`;
-    case 'RadioGroup':
+    case "RadioGroup":
       return `<FormField
               control={form.control}
               name="${field.name}"
@@ -278,7 +354,12 @@ export const getFormElementCode = (field: FormElement) => {
               const options = ${JSON.stringify(field.options)};
               return (
                 <FormItem className="flex flex-col gap-2 w-full py-3">
-                    ${field.label && `<FormLabel>${field.label}</FormLabel> ${field.required ? '*' : ''}`}
+                    ${
+                      field.label &&
+                      `<FormLabel>${field.label}</FormLabel> ${
+                        field.required ? "*" : ""
+                      }`
+                    }
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
@@ -295,12 +376,16 @@ export const getFormElementCode = (field: FormElement) => {
                         ))}
                       </RadioGroup>
                     </FormControl>
-                    ${field.description ? `<FormDescription>${field.description}</FormDescription>` : ''}
+                    ${
+                      field.description
+                        ? `<FormDescription>${field.description}</FormDescription>`
+                        : ""
+                    }
                     <FormMessage />
                 </FormItem>
               )}}
             />`;
-    case 'ToggleGroup':
+    case "ToggleGroup":
       return `<FormField
               control={form.control}
               name="${field.name}"
@@ -308,7 +393,12 @@ export const getFormElementCode = (field: FormElement) => {
               const options = ${JSON.stringify(field.options)};
             return (
               <FormItem className="flex flex-col gap-2 w-full py-1">
-                ${field.label && `<FormLabel>${field.label}</FormLabel> ${field.required ? '*' : ''}`}
+                ${
+                  field.label &&
+                  `<FormLabel>${field.label}</FormLabel> ${
+                    field.required ? "*" : ""
+                  }`
+                }
                 <FormControl>
                   <ToggleGroup
                       variant="outline"
@@ -328,21 +418,24 @@ export const getFormElementCode = (field: FormElement) => {
                     }
                   </ToggleGroup>
                 </FormControl>
-                ${field.description && `<FormDescription>${field.description}</FormDescription>`}
+                ${
+                  field.description &&
+                  `<FormDescription>${field.description}</FormDescription>`
+                }
                 <FormMessage />
               </FormItem>
             )
               }}
             />`;
-    case 'H1':
+    case "H1":
       return `<h1 className="text-3xl font-bold">${field.content}</h1>`;
-    case 'H2':
+    case "H2":
       return `<h2 className="text-2xl font-bold">${field.content}</h2>`;
-    case 'H3':
+    case "H3":
       return `<h3 className="text-xl font-bold">${field.content}</h3>`;
-    case 'P':
+    case "P":
       return `<p className="tracking-wider text-foreground/60 pt-0 dark:text-foreground/60 mb-6 mt-0 text-wrap">${field.content}</p>`;
-    case 'Separator':
+    case "Separator":
       return `<div className="py-3 w-full">
                 <Separator />
               </div>`;

@@ -447,7 +447,11 @@ export const RenderFormElement = ({
                         )}
                       >
                         <CalendarIcon className="mr-2 size-4" />
-                        {date ? format(date, "PPP") : <span>Pick a date</span>}
+                        {date ? (
+                          format(date, "PPP")
+                        ) : (
+                          <span>{formElement.placeholder}</span>
+                        )}
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
@@ -462,7 +466,6 @@ export const RenderFormElement = ({
                           shouldDirty: true,
                         });
                       }}
-                      initialFocus
                     />
                   </PopoverContent>
                 </Popover>
