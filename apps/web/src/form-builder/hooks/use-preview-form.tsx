@@ -8,7 +8,7 @@ import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
 import { flattenFormSteps } from "@/form-builder/libs/form-elements-helpers";
 
 //-------------------------------------------
-export const useFormBuilder = () => {
+export const usePreviewForm = () => {
   interface DefaultValues {
     [key: string]: any;
   }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormBuilder } from "@/form-builder/hooks/use-form-builder";
+import { usePreviewForm } from "@/form-builder/hooks/use-preview-form";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FormElementTemplateSelect } from "@/form-builder/components/form-element-template-select";
@@ -32,7 +32,7 @@ const tabsList = [
 
 //======================================
 export function FormBuilder() {
-  const { submittedData, resetForm, form } = useFormBuilder();
+  const { submittedData, resetForm, form } = usePreviewForm();
   const formElements = useFormBuilderStore((s) => s.formElements);
   const isMS = useFormBuilderStore((s) => s.isMS);
   const setIsMS = useFormBuilderStore((s) => s.setIsMS);
@@ -80,7 +80,9 @@ export function FormBuilder() {
                 </div>
               ) : (
                 <div>
-                  <p className="text-center pt-20 text-lg">No form elements added</p>
+                  <p className="text-center pt-20 text-lg">
+                    No form elements added
+                  </p>
                 </div>
               )}
             </TabsContent>
