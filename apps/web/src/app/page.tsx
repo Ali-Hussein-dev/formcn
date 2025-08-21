@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { urls } from "@/constants/urls";
-import { FormBuilder } from "@/form-builder/components/form-builder";
-import { FaGithub } from "react-icons/fa6";
+import Link from "next/link";
+import { FaGithub, FaPlus } from "react-icons/fa6";
 
 export const metadata = {
   title: "Modern Form Builder for Shadcn | formcn",
@@ -11,36 +11,37 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <div className="container flex flex-col w-full mx-auto px-2 sm:px-4 py-8">
-      <div>
-        <div className="border border-dashed mb-2 md:grid-cols-8 grid mx-auto">
-          <div className="md:col-span-1" />
-          <div className="md:col-span-6 md:border-x border-dashed py-5 px-3 grow sm:py-6 md:py-8 md:px-6 w-full">
-            <h1 className="text-2xl md:text-3xl lg:text-4xl text-center text-pretty font-bold mb-2">
+    <div className=" flex flex-col w-full mx-auto px-2 sm:px-4 py-8 min-h-[calc(100svh-5rem)]">
+      <div className="border container border-dashed mb-2 md:grid-cols-8 grid mx-auto grow h-full">
+        <div className="md:col-span-1 bg-secondary/25" />
+        <div className="md:col-span-6 md:border-x border-dashed py-5 grid place-items-center px-3 grow sm:py-6 md:py-8 md:px-6 w-full">
+          <div>
+            <h1 className="text-2xl md:text-4xl lg:text-5xl text-center text-pretty font-black mb-2">
               Modern Form Builder for Shadcn
             </h1>
             <p className="text-muted-foreground text-center text-pretty">
               {metadata.description}
             </p>
-            <div className="mx-auto pt-4 w-fit">
-              <Button asChild variant={"outline"} size="sm">
+            <div className="mx-auto pt-4 w-fit flex gap-4">
+              <Button asChild variant="outline">
                 <a
                   href={urls.github}
                   className="rounded-full mx-auto px-5 block"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
+                  <FaGithub className="" />
                   Star on Github
-                  <FaGithub className="inline-block ml-2" />
                 </a>
+              </Button>
+              <Button>
+                <FaPlus />
+                <Link href="/form-builder">Create form</Link>
               </Button>
             </div>
           </div>
-          <div className="md:col-span-1" />
         </div>
-      </div>
-      <div>
-        <FormBuilder />
+        <div className="md:col-span-1 bg-secondary/25" />
       </div>
     </div>
   );

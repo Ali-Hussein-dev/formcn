@@ -18,7 +18,7 @@ export function TemplatesSelect() {
       className="overflow-auto"
       style={{
         height: "100%",
-        maxHeight: "50vh",
+        maxHeight: "80vh",
       }}
     >
       <div className="flex md:flex-col flex-wrap gap-3.5 flex-row py-2">
@@ -92,7 +92,7 @@ const FormElementSelect = () => {
       className="overflow-auto"
       style={{
         height: "100%",
-        maxHeight: "50vh",
+        maxHeight: "80vh",
       }}
     >
       <div className="py-2 space-y-2">

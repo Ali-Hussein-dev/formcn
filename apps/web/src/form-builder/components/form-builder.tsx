@@ -37,7 +37,7 @@ export function FormBuilder() {
   const isMS = useFormBuilderStore((s) => s.isMS);
   const setIsMS = useFormBuilderStore((s) => s.setIsMS);
   return (
-    <div className="pt-4 pb-20">
+    <div>
       <div className="w-full grid lg:grid-cols-12 gap-3 border rounded border-dashed">
         <div className="lg:col-span-2 py-3 lg:pl-2">
           <CommandProvider>
