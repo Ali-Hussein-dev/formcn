@@ -178,7 +178,9 @@ type FormFieldElement =
  */
 export type StaticFormElement = H1 | H2 | H3 | Paragraph | Divider;
 
-export type FormElement = FormFieldElement | StaticFormElement;
+export type FormElement =
+  | (FormFieldElement & { id: string })
+  | (StaticFormElement & { id: string });
 
 export type FormElementOrList = FormElement | FormElement[];
 
