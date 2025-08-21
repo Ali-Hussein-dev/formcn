@@ -511,15 +511,6 @@ export function FieldCustomizationView({
   const isMobile = useIsMobile();
   const close = () => setOpen(false);
   const title = "Customize Form Field Attributes";
-  const SavedFormElementAttributes = () => (
-    <FormElementAttributes
-      fieldIndex={fieldIndex}
-      stepIndex={stepIndex}
-      j={j}
-      {...formElement}
-      close={close}
-    />
-  );
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={setOpen}>
@@ -537,7 +528,13 @@ export function FieldCustomizationView({
           <DrawerHeader className="px-0">
             <DrawerTitle className="text-start text-lg">{title}</DrawerTitle>
           </DrawerHeader>
-          <SavedFormElementAttributes />
+          <FormElementAttributes
+            fieldIndex={fieldIndex}
+            stepIndex={stepIndex}
+            j={j}
+            {...formElement}
+            close={close}
+          />
         </DrawerContent>
       </Drawer>
     );
@@ -562,7 +559,13 @@ export function FieldCustomizationView({
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
-        <SavedFormElementAttributes />
+        <FormElementAttributes
+          fieldIndex={fieldIndex}
+          stepIndex={stepIndex}
+          j={j}
+          {...formElement}
+          close={close}
+        />
       </DialogContent>
     </Dialog>
   );
