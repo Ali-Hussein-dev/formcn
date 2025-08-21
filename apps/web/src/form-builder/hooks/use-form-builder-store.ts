@@ -1,5 +1,5 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import type {
   FormElement,
   DropElement,
@@ -10,16 +10,16 @@ import type {
   SetTemplate,
   FormStep,
   FormElementList,
-} from '@/form-builder/form-types';
-import { defaultFormElements } from '@/form-builder/constant/default-form-element';
-import { templates } from '@/form-builder/constant/templates';
+} from "@/form-builder/form-types";
+import { defaultFormElements } from "@/form-builder/constant/default-form-element";
+import { templates } from "@/form-builder/constant/templates";
 import {
   dropAtIndex,
   flattenFormSteps,
   insertAtIndex,
   transformToStepFormList,
-} from '@/form-builder/libs/form-elements-helpers';
-import { v4 as uuid } from 'uuid';
+} from "@/form-builder/libs/form-elements-helpers";
+import { v4 as uuid } from "uuid";
 
 type MSForm = {
   formElements: FormStep[];
@@ -42,7 +42,7 @@ type FormBuilderState = {
 
   addFormStep: (position?: number) => void;
   removeFormStep: (stepIndex: number) => void;
-  
+
   reorderSteps: (newOrder: FormStep[]) => void;
 } & (MSForm | SingleForm);
 
@@ -67,10 +67,10 @@ export const useFormBuilderStore = create<FormBuilderState>()(
                 fieldType,
                 name: `${fieldType}-${stepFields.length + 100}`,
               } as FormElement;
-              if (typeof fieldIndex == 'number') {
+              if (typeof fieldIndex == "number") {
                 // Append to a nested array
                 stepFields[fieldIndex] = [
-                  (stepFields[fieldIndex] as FormElement),
+                  stepFields[fieldIndex] as FormElement,
                   newFormElement,
                 ];
               } else {
@@ -87,7 +87,7 @@ export const useFormBuilderStore = create<FormBuilderState>()(
                 name: `${fieldType}-${state.formElements.length + 1}`,
               } as FormElement;
               const clonedFormElements = [...state.formElements];
-              if (typeof fieldIndex == 'number') {
+              if (typeof fieldIndex == "number") {
                 // update form element at fieldIndex, with a form element array
                 clonedFormElements[fieldIndex] = [
                   clonedFormElements[fieldIndex] as FormElement,
@@ -112,18 +112,18 @@ export const useFormBuilderStore = create<FormBuilderState>()(
               const stepIndex = options?.stepIndex as number;
               const clonedFormElements = [...state.formElements];
               const stepFields = clonedFormElements[stepIndex].stepFields;
-              if (typeof j === 'number') {
+              if (typeof j === "number") {
                 // Remove from a nested array
                 stepFields[fieldIndex] = dropAtIndex(
                   stepFields[fieldIndex] as FormElement[],
-                  j,
+                  j
                 )[0];
                 state.formElements[stepIndex].stepFields = stepFields;
               } else {
                 // Remove from the main array;
                 state.formElements[stepIndex].stepFields = dropAtIndex(
                   stepFields as FormElement[],
-                  fieldIndex,
+                  fieldIndex
                 );
               }
               return {
@@ -133,13 +133,13 @@ export const useFormBuilderStore = create<FormBuilderState>()(
             default:
               const clonedFormElements = [...state.formElements];
               if (
-                typeof j === 'number' &&
+                typeof j === "number" &&
                 Array.isArray(state.formElements[fieldIndex])
               ) {
                 // Remove from a nested array
                 clonedFormElements[fieldIndex] = dropAtIndex(
                   clonedFormElements[fieldIndex] as FormElement[],
-                  j,
+                  j
                 )[0];
                 return { formElements: clonedFormElements };
               } else {
@@ -147,7 +147,7 @@ export const useFormBuilderStore = create<FormBuilderState>()(
                   // Remove from the main array;
                   formElements: dropAtIndex(
                     state.formElements as FormElement[],
-                    fieldIndex,
+                    fieldIndex
                   ),
                 };
               }
@@ -163,8 +163,10 @@ export const useFormBuilderStore = create<FormBuilderState>()(
               const stepIndex = options.stepIndex as number;
               const clonedFormElements = [...state.formElements];
               const stepFields = clonedFormElements[stepIndex].stepFields;
-              const currentFormElement = stepFields[fieldIndex] as FormElement[];
-              if (typeof j == 'number') {
+              const currentFormElement = stepFields[
+                fieldIndex
+              ] as FormElement[];
+              if (typeof j == "number") {
                 currentFormElement[j] = {
                   ...currentFormElement[j],
                   ...modifiedFormElement,
@@ -182,7 +184,7 @@ export const useFormBuilderStore = create<FormBuilderState>()(
             }
             default:
               const clonedFormElements = [...state.formElements];
-              if (typeof j == 'number') {
+              if (typeof j == "number") {
                 // Edit nested elements
                 const currentFormElement = [
                   ...(clonedFormElements[fieldIndex] as FormElement[]),
@@ -211,16 +213,18 @@ export const useFormBuilderStore = create<FormBuilderState>()(
             case true: {
               const clonedFormElements = [...state.formElements];
               const stepIndex = options.stepIndex as number;
-              if (typeof fieldIndex === 'number') {
+              if (typeof fieldIndex === "number") {
                 // Reorder nested elements
-                clonedFormElements[stepIndex].stepFields[fieldIndex] = newOrder as FormElement[];
+                clonedFormElements[stepIndex].stepFields[fieldIndex] =
+                  newOrder as FormElement[];
               } else {
-                clonedFormElements[stepIndex].stepFields = newOrder as FormElementList;
+                clonedFormElements[stepIndex].stepFields =
+                  newOrder as FormElementList;
               }
               return { formElements: clonedFormElements };
-            };
+            }
             default:
-              if (typeof fieldIndex === 'number') {
+              if (typeof fieldIndex === "number") {
                 // Reorder nested elements
                 const clonedFormElements = [...state.formElements];
                 clonedFormElements[fieldIndex] = newOrder as FormElementOrList;
@@ -233,23 +237,24 @@ export const useFormBuilderStore = create<FormBuilderState>()(
         });
       },
       reorderSteps: (newOrder: FormStep[]): void => {
-        set((state) => {
+        set(() => {
           return { formElements: newOrder };
         });
       },
-      setTemplate: (templateName: keyof typeof templates) => {
-        const template = templates[templateName].template;
-        const isTemplateMSForm = template[0].hasOwnProperty('stepFields');
+      setTemplate: (templateId: string) => {
+        const template = templates.find((t) => t.id === templateId);
+        if (!template) return;
+        const { isMS, formElements } = template;
         set((state) => {
-          return isTemplateMSForm
+          return isMS
             ? {
                 ...state,
-                formElements: template as FormStep[],
+                formElements: formElements as FormStep[],
                 isMS: true,
               }
             : {
                 ...state,
-                formElements: template as FormElementOrList[],
+                formElements: formElements as FormElementOrList[],
                 isMS: false,
               };
         });
@@ -262,7 +267,7 @@ export const useFormBuilderStore = create<FormBuilderState>()(
           let formElements = state.formElements;
           if (isMS) {
             formElements = transformToStepFormList(
-              formElements as FormElementOrList[],
+              formElements as FormElementOrList[]
             );
             return {
               ...state,
@@ -271,7 +276,7 @@ export const useFormBuilderStore = create<FormBuilderState>()(
             } as MSForm;
           } else {
             formElements = flattenFormSteps(
-              formElements as FormStep[],
+              formElements as FormStep[]
             ) as FormElementOrList[];
             return { ...state, isMS, formElements } as SingleForm;
           }
@@ -283,13 +288,13 @@ export const useFormBuilderStore = create<FormBuilderState>()(
             id: uuid(),
             stepFields: [],
           };
-          if (typeof currentPosition === 'number') {
+          if (typeof currentPosition === "number") {
             const nextPosition = currentPosition + 1;
             return {
               formElements: insertAtIndex(
                 state.formElements as FormStep[],
                 defaultStep,
-                nextPosition,
+                nextPosition
               ),
             };
           }
@@ -301,13 +306,16 @@ export const useFormBuilderStore = create<FormBuilderState>()(
       removeFormStep: (stepIndex) => {
         set((state) => {
           return {
-            formElements: dropAtIndex(state.formElements as FormStep[], stepIndex),
+            formElements: dropAtIndex(
+              state.formElements as FormStep[],
+              stepIndex
+            ),
           };
         });
       },
     }),
     {
-      name: 'form-builder-store',
+      name: "form-builder-store",
       partialize: (state) => ({
         formElements: state.formElements,
         isMS: state.isMS,

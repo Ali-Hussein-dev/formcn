@@ -17,6 +17,7 @@ type SharedFormProps = {
   description?: string;
   required?: boolean;
   static?: boolean;
+  id: string;
 };
 
 type Input = {
@@ -177,7 +178,7 @@ type FormFieldElement =
  */
 export type StaticFormElement = H1 | H2 | H3 | Paragraph | Divider;
 
-export type FormElement = (FormFieldElement & { id: string }) | (StaticFormElement & { id: string });
+export type FormElement = FormFieldElement | StaticFormElement;
 
 export type FormElementOrList = FormElement | FormElement[];
 
@@ -239,3 +240,11 @@ export type AppendElement = (options: {
 }) => void;
 
 export type SetTemplate = (template: string) => void;
+
+export type FormObject = {
+  id: string;
+  title: string;
+} & (
+  | { formElements: FormElementList[]; isMS: false }
+  | { formElements: FormStep[]; isMS: true }
+);

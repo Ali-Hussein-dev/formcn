@@ -1,14 +1,15 @@
-import type { FormElementOrList, FormStep } from "@/form-builder/form-types";
+import type {
+  FormElementOrList,
+  FormObject,
+  FormStep,
+} from "@/form-builder/form-types";
 
-type TemplateList = Record<
-  string,
-  { template: FormElementOrList[] | FormStep[]; name: string }
->;
-
-export const templates: TemplateList = {
-    signup: {
-    name: "Signup Form",
-    template: [
+export const templates: FormObject[] = [
+  {
+    id: "signup",
+    title: "Signup Form",
+    isMS: false,
+    formElements: [
       {
         id: "signup-heading",
         name: "Heading",
@@ -66,11 +67,13 @@ export const templates: TemplateList = {
         label: "I agree to the terms and conditions",
         required: true,
       },
-    ]
-  },
-  login: {
-    name: "Login Form",
-    template: [
+    ] as FormElementOrList[],
+  } as FormObject,
+  {
+    id: "login",
+    title: "Login Form",
+    isMS: false,
+    formElements: [
       {
         id: "login-heading",
         name: "Login",
@@ -102,11 +105,13 @@ export const templates: TemplateList = {
         type: "password",
         required: true,
       },
-    ],
-  },
-  feedbackForm: {
-    name: "Feedback Form",
-    template: [
+    ] as FormElementOrList[],
+  } as FormObject,
+  {
+    id: "feedbackForm",
+    title: "Feedback Form",
+    isMS: false,
+    formElements: [
       {
         id: "feedback-heading",
         name: "Feedback Form",
@@ -129,11 +134,13 @@ export const templates: TemplateList = {
         label: "Feedback Comment",
         required: true,
       },
-    ],
-  },
-  waitlist: {
-    name: "Waitlist",
-    template: [
+    ] as FormElementOrList[],
+  } as FormObject,
+  {
+    id: "waitlist",
+    title: "Waitlist",
+    isMS: false,
+    formElements: [
       {
         id: "waitlist-heading",
         name: "Waitlist",
@@ -157,11 +164,13 @@ export const templates: TemplateList = {
         placeholder: "Enter your Email",
         required: true,
       },
-    ],
-  },
-  contactUs: {
-    name: "Contact Us",
-    template: [
+    ] as FormElementOrList[],
+  } as FormObject,
+  {
+    id: "contactUs",
+    title: "Contact Us",
+    isMS: false,
+    formElements: [
       {
         id: "contact-heading",
         name: "heading",
@@ -211,11 +220,13 @@ export const templates: TemplateList = {
         label: "I agree to the terms and conditions",
         required: true,
       },
-    ],
-  },
-  multiStepForm: {
-    name: "Survey Form",
-    template: [
+    ] as FormElementOrList[],
+  } as FormObject,
+  {
+    id: "multiStepForm",
+    title: "Survey Form",
+    isMS: true,
+    formElements: [
       {
         id: "survey-step-1",
         stepFields: [
@@ -318,11 +329,13 @@ export const templates: TemplateList = {
           },
         ],
       },
-    ],
-  },
-  jobApplication: {
-    name: "Job Application",
-    template: [
+    ] as FormStep[],
+  } as FormObject,
+  {
+    id: "jobApplication",
+    title: "Job Application",
+    isMS: false,
+    formElements: [
       {
         id: "job-heading",
         name: "Job Application",
@@ -421,11 +434,13 @@ export const templates: TemplateList = {
         label: "Cover Letter",
         placeholder: "Tell us why you're interested in this position...",
       },
-    ],
-  },
-  eventRegistration: {
-    name: "Event Registration",
-    template: [
+    ] as FormElementOrList[],
+  } as FormObject,
+  {
+    id: "eventRegistration",
+    title: "Event Registration",
+    isMS: false,
+    formElements: [
       {
         id: "event-heading",
         name: "Event Registration",
@@ -496,11 +511,13 @@ export const templates: TemplateList = {
         label: "Additional Comments",
         placeholder: "Any special requirements or questions?",
       },
-    ],
-  },
-  productOrder: {
-    name: "Product Order",
-    template: [
+    ] as FormElementOrList[],
+  } as FormObject,
+  {
+    id: "productOrder",
+    title: "Product Order",
+    isMS: false,
+    formElements: [
       {
         id: "order-heading",
         name: "Product Order",
@@ -584,11 +601,13 @@ export const templates: TemplateList = {
         label: "I agree to the terms and conditions",
         required: true,
       },
-    ],
-  },
-  customerSupport: {
-    name: "Customer Support",
-    template: [
+    ] as FormElementOrList[],
+  } as FormObject,
+  {
+    id: "customerSupport",
+    title: "Customer Support",
+    isMS: false,
+    formElements: [
       {
         id: "support-heading",
         name: "Customer Support",
@@ -675,6 +694,6 @@ export const templates: TemplateList = {
         required: true,
         placeholder: "Please describe your issue in detail...",
       },
-    ],
-  },
-};
+    ] as FormElementOrList[],
+  } as FormObject,
+];

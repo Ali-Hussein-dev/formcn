@@ -9,11 +9,6 @@ import { RiBookmarkLine, RiInputField } from "react-icons/ri";
 import { templates } from "@/form-builder/constant/templates";
 import { PiStackSimple, PiStackPlusLight } from "react-icons/pi";
 
-const formTemplates = Object.entries(templates).map((template) => ({
-  label: template[1].name,
-  value: template[0],
-  isMS: template[1].template.some((el) => el.hasOwnProperty("stepFields")),
-}));
 
 //======================================
 export function TemplatesSelect() {
@@ -27,10 +22,10 @@ export function TemplatesSelect() {
       }}
     >
       <div className="flex md:flex-col flex-wrap gap-3.5 flex-row py-2">
-        {formTemplates.map(({ label, value, isMS }) => (
+        {templates.map(({id, title, isMS}) => (
           <Button
-            key={label}
-            onClick={() => setTemplate(value)}
+            key={id}
+            onClick={() => setTemplate(id)}
             className="justify-start text-[12px]"
             variant="outline"
           >
@@ -39,7 +34,7 @@ export function TemplatesSelect() {
             ) : (
               <PiStackSimple className="size-4" />
             )}
-            {label}
+            {title}
           </Button>
         ))}
       </div>
