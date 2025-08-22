@@ -12,6 +12,7 @@ import { formElementsList } from "@/form-builder/constant/form-elements-list";
 import { useCommand } from "@/form-builder/hooks/use-command-ctx";
 import type { FormElement } from "@/form-builder/form-types";
 import useFormBuilderStore from "../hooks/use-form-builder-store";
+import { HiArrowTurnDownLeft } from "react-icons/hi2";
 
 export function FormElementsSelectCommand() {
   const appendElement = useFormBuilderStore((s) => s.appendElement);
@@ -58,6 +59,22 @@ export function FormElementsSelectCommand() {
             })}
           </CommandGroup>
         </CommandList>
+        <div className="flex items-center justify-start bg-border py-3 text-[12px] gap-2 px-4.5">
+          <div className="flex gap-1 border-r border-foreground/20 pr-2">
+            Press{" "}
+            <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+              esc
+            </kbd>{" "}
+            to close
+          </div>
+          <div className="flex gap-1">
+            Press{" "}
+            <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+              <HiArrowTurnDownLeft />
+            </kbd>{" "}
+            to select
+          </div>
+        </div>
       </CommandDialog>
     </div>
   );
