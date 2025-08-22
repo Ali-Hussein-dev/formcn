@@ -14,6 +14,7 @@ import * as React from "react";
 import { CommandProvider } from "@/form-builder/hooks/use-command-ctx";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
 import { PiStackSimple, PiStackPlusLight } from "react-icons/pi";
+import { FormElementsSelectCommand } from "@/form-builder/components/form-elements-select-command";
 
 const tabsList = [
   {
@@ -40,9 +41,7 @@ export function FormBuilder() {
     <div>
       <div className="w-full grid lg:grid-cols-12 gap-3 border rounded border-dashed">
         <div className="lg:col-span-2 py-3 lg:pl-2">
-          <CommandProvider>
-            <FormElementTemplateSelect />
-          </CommandProvider>
+          <FormElementTemplateSelect />
         </div>
         <div className="w-full lg:col-span-6 min-w-full grow py-6 px-4 border-y sm:border-y-0 sm:border-x border-dashed">
           <Tabs defaultValue={tabsList[0].name} className="">
@@ -101,6 +100,9 @@ export function FormBuilder() {
           <FormPreview form={form} />
         </div>
       </div>
+      <CommandProvider>
+        <FormElementsSelectCommand />
+      </CommandProvider>
     </div>
   );
 }
