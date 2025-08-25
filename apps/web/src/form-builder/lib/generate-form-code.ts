@@ -1,8 +1,11 @@
-import type { FormElement, FormElementOrList, FormStep } from '@/form-builder/form-types';
-import { generateImports } from '@/form-builder/libs/generate-imports';
-import { flattenFormSteps } from '@/form-builder/libs/form-elements-helpers';
-import { getFormElementCode } from '@/form-builder/libs/generate-form-component';
-
+import type {
+  FormElement,
+  FormElementOrList,
+  FormStep,
+} from "@/form-builder/form-types";
+import { generateImports } from "@/form-builder/lib/generate-imports";
+import { flattenFormSteps } from "@/form-builder/lib/form-elements-helpers";
+import { getFormElementCode } from "@/form-builder/lib/generate-form-component";
 
 const renderFields = (fields: FormElementOrList[]) => {
   return fields
@@ -10,12 +13,12 @@ const renderFields = (fields: FormElementOrList[]) => {
       if (Array.isArray(FormElement)) {
         return `
           <div className="flex items-center justify-between flex-wrap sm:flex-nowrap w-full gap-2">
-            ${FormElement.map((field) => getFormElementCode(field)).join('')}
+            ${FormElement.map((field) => getFormElementCode(field)).join("")}
           </div>`;
       }
       return getFormElementCode(FormElement);
     })
-    .join('\n');
+    .join("\n");
 };
 
 export const generateFormCode = ({
@@ -24,20 +27,21 @@ export const generateFormCode = ({
 }: {
   formElements: FormElementOrList[] | FormStep[];
   isMS: boolean;
-}): {file: string, code: string}[] => {
-
+}): { file: string; code: string }[] => {
   const flattenedFormElements = isMS
     ? flattenFormSteps(formElements as FormStep[]).flat()
     : formElements.flat();
 
-  const imports = Array.from(generateImports(flattenedFormElements as FormElement[])).join('\n');
+  const imports = Array.from(
+    generateImports(flattenedFormElements as FormElement[])
+  ).join("\n");
 
+  const defaultValues = "{}";
 
-const defaultValues = '{}';
-
- const singleStepFormCode = [{
-  file:"single-step-form.tsx",
-  code: `
+  const singleStepFormCode = [
+    {
+      file: "single-step-form.tsx",
+      code: `
 ${imports}
 const initialState = {
   success: false,
@@ -78,23 +82,24 @@ return (
     </Form>
   </div>
 )
-}`
- }]
- if (!isMS) return singleStepFormCode;
- 
- // Handle multi-step form
- function stringifyStepComponents(steps: any[]): string {
+}`,
+    },
+  ];
+  if (!isMS) return singleStepFormCode;
+
+  // Handle multi-step form
+  function stringifyStepComponents(steps: any[]): string {
     const componentEntries = steps.map((step, index) => {
       const stepNumber = index + 1;
       const renderedFields = renderFields(step.stepFields);
       return `  ${stepNumber}: <div>${renderedFields}</div>`;
     });
 
-    return `{\n${componentEntries.join(',\n')}\n}`;
+    return `{\n${componentEntries.join(",\n")}\n}`;
   }
 
   const stringifiedStepComponents = stringifyStepComponents(
-    formElements as FormStep[],
+    formElements as FormStep[]
   );
 
   const MSF_Code = `
@@ -203,7 +208,7 @@ export function MultiStepViewer({
     </div>
   );
 }`;
-const useMultiStepFormCode = `
+  const useMultiStepFormCode = `
 //------------------------------use-multi-step-form.tsx
 type UseFormStepsProps = {
  initialSteps: any[];
@@ -266,12 +271,15 @@ export function useMultiStepForm({
    goToPrevious,
  };
 }`;
-const multiStepFormCode = [{
-  file:"multi-step-form.tsx",
-  code: MSF_Code
- },{
-  file:"use-multi-step-form.tsx",
-  code:useMultiStepFormCode
- }]
+  const multiStepFormCode = [
+    {
+      file: "multi-step-form.tsx",
+      code: MSF_Code,
+    },
+    {
+      file: "use-multi-step-form.tsx",
+      code: useMultiStepFormCode,
+    },
+  ];
   return multiStepFormCode;
 };

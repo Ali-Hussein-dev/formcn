@@ -18,7 +18,7 @@ import {
   flattenFormSteps,
   insertAtIndex,
   transformToStepFormList,
-} from "@/form-builder/libs/form-elements-helpers";
+} from "@/form-builder/lib/form-elements-helpers";
 import { v4 as uuid } from "uuid";
 
 type MSForm = {

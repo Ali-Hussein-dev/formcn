@@ -3,9 +3,9 @@ import * as React from "react";
 import type { FormElement, FormStep } from "@/form-builder/form-types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { generateZodSchemaObject } from "@/form-builder/libs/generate-zod-schema";
+import { generateZodSchemaObject } from "@/form-builder/lib/generate-zod-schema";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
-import { flattenFormSteps } from "@/form-builder/libs/form-elements-helpers";
+import { flattenFormSteps } from "@/form-builder/lib/form-elements-helpers";
 
 //-------------------------------------------
 export const usePreviewForm = () => {

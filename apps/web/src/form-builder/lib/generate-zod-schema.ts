@@ -1,4 +1,4 @@
-import { isStatic } from '@/form-builder/libs/utils';
+import { isStatic } from '@/form-builder/lib/utils';
 import type { FormElement } from '@/form-builder/form-types';
 import { z, type ZodType } from 'zod';
 

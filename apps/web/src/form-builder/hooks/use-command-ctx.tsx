@@ -1,5 +1,5 @@
-import { createSafeContext } from '@/form-builder/libs/create-safe-context';
-import * as React from 'react';
+import { createSafeContext } from "@/form-builder/lib/create-safe-context";
+import * as React from "react";
 
 type CommandCtx = {
   openCommand: boolean;
@@ -7,7 +7,7 @@ type CommandCtx = {
 };
 
 const [CommandProv, useCommand] = createSafeContext<CommandCtx>(
-  'useCommand must be used within a CommandProv provider',
+  "useCommand must be used within a CommandProv provider"
 );
 
 const CommandProvider = ({ children }: { children: React.ReactNode }) => {
@@ -16,20 +16,20 @@ const CommandProvider = ({ children }: { children: React.ReactNode }) => {
     const down = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
       if (
-        target.tagName === 'INPUT' ||
-        target.tagName === 'TEXTAREA' ||
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
         target.isContentEditable
       ) {
         return;
       }
-      if (e.key === 'f') {
+      if (e.key === "f") {
         e.preventDefault();
         setOpenCommand((open) => !open);
       }
     };
 
-    document.addEventListener('keydown', down);
-    return () => document.removeEventListener('keydown', down);
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
   }, []);
   return (
     <CommandProv value={{ openCommand, setOpenCommand }}>

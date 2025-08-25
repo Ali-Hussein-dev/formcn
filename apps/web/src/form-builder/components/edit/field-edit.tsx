@@ -19,7 +19,7 @@ import { FaEdit } from "react-icons/fa";
 import type { FormElement, Option } from "@/form-builder/form-types";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
-import { isStatic } from "@/form-builder/libs/utils";
+import { isStatic } from "@/form-builder/lib/utils";
 import { RenderFormElement } from "@/form-builder/components/edit/render-form-element";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
 import { MdOutlineTextFields } from "react-icons/md";

@@ -11,12 +11,12 @@ import type {
   FormElementOrList,
   FormStep,
 } from "@/form-builder/form-types";
-import { formatCode } from "@/form-builder/libs/utils";
+import { formatCode } from "@/form-builder/lib/utils";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
-import { flattenFormSteps } from "@/form-builder/libs/form-elements-helpers";
-import { getZodSchemaString } from "@/form-builder/libs/generate-zod-schema";
-import { generateFormCode } from "@/form-builder/libs/generate-form-code";
-import { generateServerActionCode } from "@/form-builder/libs/generate-server-action-code";
+import { flattenFormSteps } from "@/form-builder/lib/form-elements-helpers";
+import { getZodSchemaString } from "@/form-builder/lib/generate-zod-schema";
+import { generateFormCode } from "@/form-builder/lib/generate-form-code";
+import { generateServerActionCode } from "@/form-builder/lib/generate-server-action-code";
 import { CopyButton } from "@/components/copy-button";
 import { GeneratedCodeInfoCard } from "./tech-stack-info-card";
 
