@@ -19,6 +19,7 @@ export const getFormElementCode = (field: FormElement) => {
                           placeholder="${field.placeholder}"
                           type={"${field.type}"}
                           value={field.value}
+                          required=${field.required}
                           onChange={(e) => {
                             const val = e.target.value;
                             field.onChange(${
@@ -95,6 +96,7 @@ export const getFormElementCode = (field: FormElement) => {
                   {...field}
                   placeholder="${field.placeholder ?? ""}"
                   className="resize-none"
+                  required=${field.required}
                 />
               </FormControl>
               ${
@@ -123,8 +125,9 @@ export const getFormElementCode = (field: FormElement) => {
                 <Input
                   {...field}
                   placeholder="${field.placeholder}"
-                  type="password" 
-                />
+                  type="password"
+                  required=${field.required}
+                  />
               </FormControl>
               ${
                 field.description

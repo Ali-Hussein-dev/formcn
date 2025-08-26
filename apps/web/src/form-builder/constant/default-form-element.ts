@@ -17,9 +17,10 @@ export const defaultFormElements: Record<
   },
   Password: {
     name: 'password',
-    label: 'Password Field',
+    label: 'Password',
     placeholder: 'Enter your password',
-    type: 'password'
+    type: 'password',
+    required:true
   },
   Checkbox: {
     label: 'Checkbox Label',
