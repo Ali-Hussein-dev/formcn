@@ -73,6 +73,7 @@ export const RenderFormElement = ({
                   placeholder={formElement.placeholder}
                   disabled={formElement.disabled}
                   type={formElement.type ?? "text"}
+                  required={formElement.required}
                   // onChange={(e) => field.onChange(e.target.valueAsNumber)}
                   {...field}
                 />
@@ -98,6 +99,7 @@ export const RenderFormElement = ({
                   placeholder={formElement.placeholder}
                   disabled={formElement.disabled}
                   type={"password"}
+                  required={formElement.required}
                   {...field}
                   value={field.value ?? ""}
                   onChange={field.onChange}
@@ -162,7 +164,6 @@ export const RenderFormElement = ({
                   placeholder={formElement.placeholder}
                   required={formElement.required}
                   disabled={formElement.disabled}
-                  defaultValue={formElement.defaultValue}
                   className="resize-none"
                 />
               </FormControl>
