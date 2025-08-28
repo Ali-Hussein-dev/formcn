@@ -31,6 +31,10 @@ type SingleForm = {
 };
 type FormBuilderState = {
   isMS: boolean;
+  meta: {
+    name: string;
+    id: string;
+  };
   appendElement: AppendElement;
   dropElement: DropElement;
   editElement: EditElement;
@@ -42,7 +46,10 @@ type FormBuilderState = {
 
   addFormStep: (position?: number) => void;
   removeFormStep: (stepIndex: number) => void;
-
+  setFormElements: (
+    f: FormElementOrList[] | FormStep[],
+    options: { isMS: boolean; id: string; name: string }
+  ) => void;
   reorderSteps: (newOrder: FormStep[]) => void;
 } & (MSForm | SingleForm);
 
@@ -51,6 +58,10 @@ export const useFormBuilderStore = create<FormBuilderState>()(
     (set) => ({
       formElements: [],
       isMS: false,
+      meta: {
+        name: "",
+        id: "",
+      },
       appendElement: (options) => {
         const { fieldIndex, fieldType } = options || { fieldIndex: null };
         set((state) => {
@@ -311,6 +322,18 @@ export const useFormBuilderStore = create<FormBuilderState>()(
               stepIndex
             ),
           };
+        });
+      },
+      setFormElements: (formElements, options) => {
+        set((state) => {
+          return {
+            formElements,
+            isMS: options.isMS,
+            meta: {
+              id: options.id,
+              name: options.name,
+            },
+          } as FormBuilderState;
         });
       },
     }),

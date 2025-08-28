@@ -3,44 +3,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { type FormElement } from "@/form-builder/form-types";
 import { formElementsList } from "@/form-builder/constant/form-elements-list";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { RiBookmarkLine, RiInputField } from "react-icons/ri";
-
-import { templates } from "@/form-builder/constant/templates";
-import { PiStackSimple, PiStackPlusLight } from "react-icons/pi";
-
 
 //======================================
-export function TemplatesSelect() {
-  const setTemplate = useFormBuilderStore((s) => s.setTemplate);
-  return (
-    <ScrollArea
-      className="overflow-auto"
-      style={{
-        height: "100%",
-        maxHeight: "80vh",
-      }}
-    >
-      <div className="flex md:flex-col flex-wrap gap-3.5 flex-row py-2">
-        {templates.map(({id, title, isMS}) => (
-          <Button
-            key={id}
-            onClick={() => setTemplate(id)}
-            className="justify-start text-[12px]"
-            variant="outline"
-          >
-            {isMS ? (
-              <PiStackPlusLight className="size-4" />
-            ) : (
-              <PiStackSimple className="size-4" />
-            )}
-            {title}
-          </Button>
-        ))}
-      </div>
-    </ScrollArea>
-  );
-}
 
 const FormElementSelect = () => {
   const appendElement = useFormBuilderStore((s) => s.appendElement);
@@ -95,14 +59,14 @@ const FormElementSelect = () => {
         maxHeight: "80vh",
       }}
     >
-      <div className="py-2 space-y-2">
+      <div className="py-2 space-y-3">
         {/* Field Elements Group */}
         {groupedElements.field && (
           <div>
             <h3 className="text-xs font-medium text-muted-foreground mb-2 pl-4">
               Field Elements
             </h3>
-            <div className="grid lg:grid-cols-1 md:grid-cols-3 grid-cols-2 gap-2 flex-row">
+            <div className="xl:grid xl:grid-cols-1 flex flex-wrap gap-2">
               {groupedElements.field.map(renderElementButton)}
             </div>
           </div>
@@ -114,7 +78,7 @@ const FormElementSelect = () => {
             <h3 className="text-xs font-medium text-muted-foreground mb-1.5 pl-4">
               Display Elements
             </h3>
-            <div className="grid lg:grid-cols-1 md:grid-cols-3 grid-cols-2 gap-2 flex-row">
+            <div className="xl:grid xl:grid-cols-1 flex flex-wrap gap-2">
               {groupedElements.display.map(renderElementButton)}
             </div>
           </div>
@@ -137,25 +101,10 @@ const FormElementSelect = () => {
 };
 
 //======================================
-export function FormElementTemplateSelect() {
+export function FormElementsSidebar() {
   return (
     <div className="overflow-x-auto overflow-y-hidden py-3 w-full h-full relative px-3 lg:px-0">
-      <Tabs defaultValue="form-elements" className="mb-4">
-        <TabsList className="w-full">
-          <TabsTrigger value="form-elements" className="text-sm">
-            <RiInputField />
-          </TabsTrigger>
-          <TabsTrigger value="templates">
-            <RiBookmarkLine />
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="form-elements">
-          <FormElementSelect />
-        </TabsContent>
-        <TabsContent value="templates">
-          <TemplatesSelect />
-        </TabsContent>
-      </Tabs>
+      <FormElementSelect />
       <div className="h-12 from-white dark:from-background dark:via-background/70 to-transparent bg-linear-0 absolute bottom-0 right-0 w-full"></div>
     </div>
   );

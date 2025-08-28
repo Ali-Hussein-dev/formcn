@@ -8,7 +8,7 @@ export const metadata = {
 //======================================
 export default function FormBuilderPage() {
   return (
-    <div className="mx-auto px-2 sm:px-4 py-8 container">
+    <div className="mx-auto px-2 sm:px-4 pt-4 pb-10 container">
       <FormBuilder />
     </div>
   );

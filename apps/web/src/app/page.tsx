@@ -36,7 +36,7 @@ export default function Home() {
               </Button>
               <Button>
                 <FaPlus />
-                <Link href="/form-builder">Create form</Link>
+                <Link href="/my-forms">Create form</Link>
               </Button>
             </div>
           </div>
