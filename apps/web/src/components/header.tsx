@@ -34,9 +34,9 @@ export default function Header() {
             {links.map(({ href, label, target, rel }) => {
               return (
                 <Button key={href} variant="ghost" size="sm">
-                  <Link href={href} target={target} rel={rel}>
+                  <a href={href} target={target} rel={rel}>
                     {label}
-                  </Link>
+                  </a>
                 </Button>
               );
             })}
