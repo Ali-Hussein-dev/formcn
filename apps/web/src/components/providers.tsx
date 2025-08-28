@@ -2,13 +2,9 @@
 
 import { ThemeProvider } from "./theme-provider";
 import { Toaster } from "./ui/sonner";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
-
-export default function Providers({
-  children
-}: {
-  children: React.ReactNode
-}) {
+export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider
       attribute="class"
@@ -16,7 +12,8 @@ export default function Providers({
       enableSystem
       disableTransitionOnChange
     >
-      {children}
+      <NuqsAdapter>{children}</NuqsAdapter>
+
       <Toaster richColors />
     </ThemeProvider>
   );
