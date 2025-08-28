@@ -33,7 +33,8 @@ const tabsList = [
 
 //======================================
 export function FormBuilder() {
-  const { submittedData, resetForm, form } = usePreviewForm();
+  const previewForm = usePreviewForm();
+  const { submittedData, resetForm } = previewForm;
   const formElements = useFormBuilderStore((s) => s.formElements);
   const isMS = useFormBuilderStore((s) => s.isMS);
   const setIsMS = useFormBuilderStore((s) => s.setIsMS);
@@ -97,7 +98,11 @@ export function FormBuilder() {
           </Tabs>
         </div>
         <div className="lg:col-span-4 w-full px-2 pb-6">
-          <FormPreview form={form} />
+          <FormPreview
+            {...previewForm}
+            formElements={formElements}
+            isMS={isMS}
+          />
         </div>
       </div>
       <CommandProvider>

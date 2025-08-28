@@ -4,20 +4,23 @@ import type { FormElementOrList, FormStep } from "@/form-builder/form-types";
 import { Button } from "@/components/ui/button";
 import { MultiStepFormPreview } from "@/form-builder/components/preview/multi-step-form-preview";
 import { usePreviewForm } from "@/form-builder/hooks/use-preview-form";
-import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
 import type { UseFormReturn } from "react-hook-form";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-interface FormPreviewProps {
+type PreviewFormReturn = ReturnType<typeof usePreviewForm>;
+type FormPreviewProps = PreviewFormReturn & {
   form: UseFormReturn<any, any, any>;
-}
+  formElements: FormElementOrList[] | FormStep[];
+  isMS: boolean;
+};
 
-export function FormPreview({ form }: FormPreviewProps) {
-  const { onSubmit } = usePreviewForm();
-  const formElements = useFormBuilderStore((s) => s.formElements);
-  const isMS = useFormBuilderStore((s) => s.isMS);
-  const data = Object.values(form.watch());
+export function FormPreview({
+  form,
+  formElements,
+  isMS,
+  onSubmit,
+}: FormPreviewProps) {
   const { formState } = form;
   if (formElements.length < 1)
     return (
@@ -75,8 +78,13 @@ export function FormPreview({ form }: FormPreviewProps) {
                   </div>
                 );
               })}
-              <div className="flex items-center justify-end w-full pt-3">
-                <Button type="submit" className="rounded-lg" size="sm">
+              <div className="flex items-center justify-end w-full pt-3 gap-3">
+                <Button
+                  type="submit"
+                  className="rounded-lg"
+                  size="sm"
+                  disabled={formState.isSubmitting || formState.isSubmitted}
+                >
                   {formState.isSubmitting
                     ? "Submitting..."
                     : formState.isSubmitted

@@ -6,7 +6,7 @@ import type {
 
 export const templates: FormObject[] = [
   {
-    id: "signup",
+    id: "template-signup",
     title: "Signup Form",
     isMS: false,
     formElements: [
@@ -70,7 +70,7 @@ export const templates: FormObject[] = [
     ] as FormElementOrList[],
   } as FormObject,
   {
-    id: "login",
+    id: "template-login",
     title: "Login Form",
     isMS: false,
     formElements: [
@@ -108,7 +108,7 @@ export const templates: FormObject[] = [
     ] as FormElementOrList[],
   } as FormObject,
   {
-    id: "feedbackForm",
+    id: "template-feedback-form",
     title: "Feedback Form",
     isMS: false,
     formElements: [
@@ -137,7 +137,7 @@ export const templates: FormObject[] = [
     ] as FormElementOrList[],
   } as FormObject,
   {
-    id: "waitlist",
+    id: "template-waitlist",
     title: "Waitlist",
     isMS: false,
     formElements: [
@@ -167,7 +167,7 @@ export const templates: FormObject[] = [
     ] as FormElementOrList[],
   } as FormObject,
   {
-    id: "contactUs",
+    id: "template-contact-us",
     title: "Contact Us",
     isMS: false,
     formElements: [
@@ -223,7 +223,7 @@ export const templates: FormObject[] = [
     ] as FormElementOrList[],
   } as FormObject,
   {
-    id: "multiStepForm",
+    id: "template-multi-step-form",
     title: "Survey Form",
     isMS: true,
     formElements: [
@@ -332,7 +332,7 @@ export const templates: FormObject[] = [
     ] as FormStep[],
   } as FormObject,
   {
-    id: "jobApplication",
+    id: "template-job-application",
     title: "Job Application",
     isMS: false,
     formElements: [
@@ -437,7 +437,7 @@ export const templates: FormObject[] = [
     ] as FormElementOrList[],
   } as FormObject,
   {
-    id: "eventRegistration",
+    id: "template-event-registration",
     title: "Event Registration",
     isMS: false,
     formElements: [
@@ -514,7 +514,7 @@ export const templates: FormObject[] = [
     ] as FormElementOrList[],
   } as FormObject,
   {
-    id: "productOrder",
+    id: "template-product-order",
     title: "Product Order",
     isMS: false,
     formElements: [
@@ -604,7 +604,7 @@ export const templates: FormObject[] = [
     ] as FormElementOrList[],
   } as FormObject,
   {
-    id: "customerSupport",
+    id: "template-customer-support",
     title: "Customer Support",
     isMS: false,
     formElements: [
