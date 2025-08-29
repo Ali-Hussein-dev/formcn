@@ -48,7 +48,7 @@ export const usePreviewForm = () => {
     return unsubscribe;
   }, [watch]);
 
-  const resetEditingFields = () => {
+  const cleanEditingFields = () => {
     // Remove all fields from the form
     resestFormElements();
     // reset to all default values
@@ -64,8 +64,7 @@ export const usePreviewForm = () => {
   return {
     form,
     submittedData,
-
     onSubmit,
-    resetForm,
+    cleanEditingFields,
   };
 };

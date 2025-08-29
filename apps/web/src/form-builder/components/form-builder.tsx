@@ -38,7 +38,7 @@ const tabsList = [
 //======================================
 export function FormBuilder() {
   const previewForm = usePreviewForm();
-  const { submittedData, resetForm } = previewForm;
+  const { submittedData, cleanEditingFields: resetForm } = previewForm;
   const formElements = useFormBuilderStore((s) => s.formElements);
   const isMS = useFormBuilderStore((s) => s.isMS);
   const searchParams = useSearchParams();
@@ -103,7 +103,7 @@ export function FormBuilder() {
                     </Button>
                     {formElements.length > 1 && (
                       <Button variant="ghost" onClick={resetForm}>
-                        Reset
+                        Remove All
                       </Button>
                     )}
                   </div>
