@@ -80,6 +80,16 @@ export function FormPreview({
               })}
               <div className="flex items-center justify-end w-full pt-3 gap-3">
                 <Button
+                  variant="outline"
+                  type="button"
+                  size="sm"
+                  disabled={formState.isSubmitting}
+                  className="rounded-lg"
+                  onClick={() => form.reset({})}
+                >
+                  Reset
+                </Button>
+                <Button
                   type="submit"
                   className="rounded-lg"
                   size="sm"

@@ -340,7 +340,6 @@ function FormElementAttributes({
                   label: "Label attribute",
                   fieldType: "Input",
                   type: "text",
-                  required: true,
                 }}
                 form={form}
               />
@@ -364,7 +363,6 @@ function FormElementAttributes({
                     label: "Placeholder attribute",
                     fieldType: "Input",
                     type: "text",
-                    required: true,
                   }}
                   form={form}
                 />

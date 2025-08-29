@@ -64,7 +64,7 @@ export const JsonViewer = ({
 
   return (
     <Wrapper title="Form JSON" language="json">
-      {JSON.stringify(json, null, 2)}
+      {JSON.stringify(json || {}, null, 2)}
     </Wrapper>
   );
 };
