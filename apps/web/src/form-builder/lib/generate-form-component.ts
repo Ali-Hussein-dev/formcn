@@ -150,6 +150,7 @@ export const getFormElementCode = (field: FormElement) => {
                 <Checkbox
                   checked={field.value}
                   onCheckedChange={field.onChange}
+                  required=${field.required}
                   ${field.disabled ? "disabled" : ""}
                 />
               </FormControl>
@@ -224,7 +225,11 @@ export const getFormElementCode = (field: FormElement) => {
                       field.required ? "*" : ""
                     }`
                   }
-                  <MultiSelect value={field.value} onValueChange={field.onChange}>
+                  <MultiSelect 
+                    value={field.value} 
+                    onValueChange={field.onChange} 
+                    required=${field.required}
+                  >
                     <FormControl>
                       <MultiSelectTrigger>
                         <MultiSelectValue

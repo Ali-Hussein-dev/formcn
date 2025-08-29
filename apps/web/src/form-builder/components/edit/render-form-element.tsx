@@ -66,7 +66,7 @@ export const RenderFormElement = ({
           render={({ field }: { field: ControllerRenderProps }) => (
             <FormItem className="w-full">
               <FormLabel>
-                {formElement.label} {formElement.required ? " *" : ""}
+                {formElement.label} {formElement?.required ? " *" : ""}
               </FormLabel>
               <FormControl>
                 <Input
@@ -185,6 +185,7 @@ export const RenderFormElement = ({
                   {...field}
                   checked={field.value}
                   onCheckedChange={field.onChange}
+                  required={formElement.required}
                 />
               </FormControl>
               <div>
@@ -370,9 +371,7 @@ export const RenderFormElement = ({
               >
                 <FormControl>
                   <SelectTrigger className="w-full">
-                    <SelectValue
-                      placeholder={formElement.placeholder || "Select item"}
-                    />
+                    <SelectValue placeholder={formElement.placeholder} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -399,12 +398,13 @@ export const RenderFormElement = ({
               <FormLabel>
                 {formElement.label} {formElement.required ? " *" : ""}{" "}
               </FormLabel>
-              <MultiSelect value={field.value} onValueChange={field.onChange}>
+              <MultiSelect
+                value={field.value ?? []}
+                onValueChange={(value) => field.onChange(value ?? [])}
+              >
                 <FormControl>
                   <MultiSelectTrigger>
-                    <MultiSelectValue
-                      placeholder={formElement.placeholder || "Select item"}
-                    />
+                    <MultiSelectValue placeholder={formElement.placeholder} />
                   </MultiSelectTrigger>
                 </FormControl>
                 <MultiSelectContent>
