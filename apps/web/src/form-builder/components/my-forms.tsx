@@ -38,9 +38,14 @@ function SavedFormCard(props: { name: string; id: string }) {
   const updateForm = useLocalForms((s) => s.updateForm);
   const deleteForm = useLocalForms((s) => s.deleteForm);
   const [editMode, setEditMode] = React.useState(false);
-  //   const inputRef = React.useRef<HTMLInputElement>(null);
   const [name, setName] = React.useState(props.name);
   const router = useRouter();
+
+  // Reset state when props change
+  React.useEffect(() => {
+    setEditMode(false);
+    setName(props.name);
+  }, [props.id, props.name]);
 
   // on esc press, close the edit mode
   React.useEffect(() => {
