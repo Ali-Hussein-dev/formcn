@@ -34,7 +34,7 @@ const FormElementSelect = () => {
             stepIndex: isMS ? formElements.length - 1 : undefined,
           });
         }}
-        className="gap-1 justify-start w-fit md:w-full text-[13px] py-1.5"
+        className="gap-1 justify-start w-fit lg:w-full text-[13px] py-1.5"
       >
         <div className="flex items-center justify-start gap-1.5">
           <span className="border rounded-full size-7 grid place-items-center">
@@ -66,7 +66,7 @@ const FormElementSelect = () => {
             <h3 className="text-xs font-medium text-muted-foreground mb-2 pl-4">
               Field Elements
             </h3>
-            <div className="xl:grid xl:grid-cols-1 flex flex-wrap gap-2">
+            <div className="lg:grid flex flex-wrap gap-2">
               {groupedElements.field.map(renderElementButton)}
             </div>
           </div>
@@ -78,14 +78,14 @@ const FormElementSelect = () => {
             <h3 className="text-xs font-medium text-muted-foreground mb-1.5 pl-4">
               Display Elements
             </h3>
-            <div className="xl:grid xl:grid-cols-1 flex flex-wrap gap-2">
+            <div className="lg:grid flex flex-wrap gap-2">
               {groupedElements.display.map(renderElementButton)}
             </div>
           </div>
         )}
 
         {/* Other Elements (fallback for any ungrouped elements) */}
-        {groupedElements.other && (
+        {/* {groupedElements.other && (
           <div>
             <h3 className="text-xs font-medium text-muted-foreground mb-1.5 pl-4">
               Other Elements
@@ -94,7 +94,7 @@ const FormElementSelect = () => {
               {groupedElements.other.map(renderElementButton)}
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </ScrollArea>
   );
