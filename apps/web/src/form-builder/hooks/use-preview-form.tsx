@@ -13,7 +13,6 @@ export const usePreviewForm = () => {
     [key: string]: any;
   }
   const isMS = useFormBuilderStore((s) => s.isMS);
-  const setIsMS = useFormBuilderStore((s) => s.setIsMS);
   const formElements = useFormBuilderStore((s) => s.formElements);
   const resestFormElements = useFormBuilderStore((s) => s.resestFormElements);
 
@@ -49,16 +48,13 @@ export const usePreviewForm = () => {
     return unsubscribe;
   }, [watch]);
 
-  const resetForm = () => {
+  const resetEditingFields = () => {
     // Remove all fields from the form
     resestFormElements();
     // reset to all default values
     reset();
     // reset submitted data
     setSubmittedData({});
-
-    // set isMS to false
-    setIsMS(false);
   };
   const onSubmit = async (data: any) => {
     setSubmittedData(data);
