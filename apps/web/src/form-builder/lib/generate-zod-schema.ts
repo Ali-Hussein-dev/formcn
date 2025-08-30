@@ -21,7 +21,7 @@ export const generateZodSchemaObject = (
           elementSchema = z.coerce.number();
           break;
         }
-        elementSchema = z.string();
+        elementSchema = z.string().nonempty();
         break;
       case "DatePicker":
         elementSchema = z.coerce.date();
@@ -120,6 +120,10 @@ export const generateZodSchemaString = (schema: ZodType): string => {
           result += `.max(${check.value})`;
         }
       });
+    }
+
+    if (schema.def.type == "string") {
+      result += ".nonempty()";
     }
     return result;
   }

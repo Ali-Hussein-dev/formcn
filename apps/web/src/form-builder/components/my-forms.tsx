@@ -19,7 +19,13 @@ function DeleteButtonWithConfim({ cb }: { cb: () => void }) {
   const [open, setOpen] = React.useState(false);
   return open ? (
     <div className="flex gap-2 items-center">
-      <Button variant="destructive" onClick={cb}>
+      <Button
+        variant="destructive"
+        onClick={() => {
+          cb();
+          setOpen(false);
+        }}
+      >
         Confirm
       </Button>
       <Button variant="ghost" onClick={() => setOpen(false)}>
@@ -35,6 +41,7 @@ function DeleteButtonWithConfim({ cb }: { cb: () => void }) {
 
 // Show form name, edit and delete
 function SavedFormCard(props: { name: string; id: string }) {
+  const savedForms = useLocalForms((s) => s.forms);
   const updateForm = useLocalForms((s) => s.updateForm);
   const deleteForm = useLocalForms((s) => s.deleteForm);
   const [editMode, setEditMode] = React.useState(false);
@@ -67,7 +74,11 @@ function SavedFormCard(props: { name: string; id: string }) {
   function handleDelete() {
     deleteForm(props.id);
     toast("Form deleted successfully");
-    router.push(`/my-forms?id=${templates[0].id}`);
+    router.push(
+      `/my-forms?id=${
+        savedForms.length > 0 ? savedForms[0].id : templates[0].id
+      }`
+    );
   }
 
   return (
@@ -177,7 +188,7 @@ export function MyForms() {
     <div>
       <div className="flex justify-end px-4 lg:px-6">
         <div className="w-fit">
-          <NewForm defaultOpen={false} />
+          <NewForm />
         </div>
       </div>
       <div className="grid md:grid-cols-10 py-4 ">

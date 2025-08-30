@@ -16,13 +16,13 @@ import { FaPlus } from "react-icons/fa6";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-export const NewForm = ({ defaultOpen = true }: { defaultOpen?: boolean }) => {
+export const NewForm = () => {
   const router = useRouter();
   const [formValue, setFormValue] = React.useState({ name: "", isMS: false });
   const setFormElements = useFormBuilderStore((s) => s.setFormElements);
   const setIsMs = useFormBuilderStore((s) => s.setIsMS);
   const initializeForm = useLocalForms((s) => s.initializeForm);
-  const [open, setOpen] = React.useState(defaultOpen);
+  const [open, setOpen] = React.useState(false);
   // on press enter run handleSave
 
   function handleSave() {
