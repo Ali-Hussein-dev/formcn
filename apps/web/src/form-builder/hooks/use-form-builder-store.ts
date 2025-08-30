@@ -271,7 +271,13 @@ export const useFormBuilderStore = create<FormBuilderState>()(
         });
       },
       resestFormElements: () => {
-        set({ formElements: [] });
+        set((state) => {
+          if (state.isMS)
+            return {
+              formElements: [{ id: uuid(), stepFields: [] }],
+            };
+          return { formElements: [] };
+        });
       },
       setIsMS: (isMS) => {
         set((state) => {

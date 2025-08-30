@@ -17,6 +17,7 @@ type SharedFormProps = {
   description?: string;
   required?: boolean;
   static?: boolean;
+  disabled?: boolean;
   id: string;
 };
 

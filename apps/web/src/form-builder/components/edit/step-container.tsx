@@ -10,7 +10,7 @@ export function StepContainer({
   children: React.ReactNode;
   stepIndex: number;
 }) {
-  const { addFormStep, removeFormStep } = useFormBuilderStore();
+  const { addFormStep, removeFormStep, formElements } = useFormBuilderStore();
   return (
     <div className="rounded-lg px-3 md:px-4 md:py-5 py-4 border-dashed border bg-muted">
       <div className="flex items-center justify-between mb-3">
@@ -22,15 +22,17 @@ export function StepContainer({
       <div className="space-y-3">{children}</div>
       <div className="flex items-center justify-end px-2 pt-4">
         <div className="flex items-center justify-end gap-3">
-          <Button
-            onClick={() => removeFormStep(stepIndex)}
-            variant="outline"
-            className="rounded-lg"
-            type="button"
-          >
-            <MdDelete />
-            <span>Remove Step</span>
-          </Button>
+          {formElements.length > 1 && (
+            <Button
+              onClick={() => removeFormStep(stepIndex)}
+              variant="outline"
+              className="rounded-lg"
+              type="button"
+            >
+              <MdDelete />
+              <span>Remove Step</span>
+            </Button>
+          )}
           <Button
             type="button"
             className="rounded-lg"
