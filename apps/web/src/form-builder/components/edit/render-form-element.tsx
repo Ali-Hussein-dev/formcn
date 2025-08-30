@@ -186,6 +186,7 @@ export const RenderFormElement = ({
                   checked={field.value}
                   onCheckedChange={field.onChange}
                   required={formElement.required}
+                  disabled={formElement.disabled}
                 />
               </FormControl>
               <div>
@@ -216,7 +217,9 @@ export const RenderFormElement = ({
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  value={field.value}
+                  disabled={formElement.disabled}
+                  required={formElement.required}
                 >
                   {formElement.options.map(({ label, value }) => (
                     <div key={value} className="flex items-center gap-x-2">
@@ -257,6 +260,7 @@ export const RenderFormElement = ({
                     variant="outline"
                     onValueChange={field.onChange}
                     value={field.value}
+                    disabled={formElement.disabled}
                     className="flex justify-start items-center w-full flex-wrap"
                   >
                     {options}
@@ -267,6 +271,7 @@ export const RenderFormElement = ({
                     type="multiple"
                     variant="outline"
                     onValueChange={field.onChange}
+                    disabled={formElement.disabled}
                     value={
                       // wrap in array and flat because value can be a string or an array
                       [field.value].flat().filter((val) => val !== undefined)
@@ -339,9 +344,9 @@ export const RenderFormElement = ({
                     min={min}
                     max={max}
                     step={step}
-                    defaultValue={[defaultValue]}
                     value={value}
                     onValueChange={(newValue) => field.onChange(newValue[0])}
+                    disabled={formElement.disabled}
                   />
                 </FormControl>
                 <FormDescription className="py-1">
@@ -367,7 +372,8 @@ export const RenderFormElement = ({
               <Select
                 value={field.value}
                 onValueChange={field.onChange}
-                defaultValue={String(field?.value ?? "")}
+                required={formElement.required}
+                disabled={formElement.disabled}
               >
                 <FormControl>
                   <SelectTrigger className="w-full">
@@ -401,6 +407,7 @@ export const RenderFormElement = ({
               <MultiSelect
                 value={field.value ?? []}
                 onValueChange={(value) => field.onChange(value ?? [])}
+                disabled={formElement.disabled}
               >
                 <FormControl>
                   <MultiSelectTrigger>
@@ -460,6 +467,7 @@ export const RenderFormElement = ({
                     <Calendar
                       mode="single"
                       selected={field.value}
+                      disabled={formElement.disabled}
                       onSelect={(newDate) => {
                         // setDate(newDate);
                         form.setValue(field.name, newDate, {

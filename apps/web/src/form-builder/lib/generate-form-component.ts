@@ -16,16 +16,21 @@ export const getFormElementCode = (field: FormElement) => {
                       }
                       <FormControl>
                         <Input
-                          placeholder="${field.placeholder}"
                           type={"${field.type}"}
                           value={field.value}
-                          required=${field.required}
                           onChange={(e) => {
                             const val = e.target.value;
                             field.onChange(${
                               field.type == "number" ? "+val" : "val"
                             });
                           }}
+                          ${field.disabled ? "disabled" : ""}
+                          ${field.required ? "required" : ""}
+                          ${
+                            field.placeholder
+                              ? `placeholder="${field.placeholder}"`
+                              : ""
+                          }
                         />
                       </FormControl>
                       ${
@@ -55,6 +60,8 @@ export const getFormElementCode = (field: FormElement) => {
               name={field.name}
               value={field.value}
               onChange={field.onChange}
+              ${field.disabled ? "disabled" : ""}
+              ${field.required ? "required" : ""}
             >
               <InputOTPGroup>
                 <InputOTPSlot index={0} />
@@ -96,7 +103,8 @@ export const getFormElementCode = (field: FormElement) => {
                   {...field}
                   placeholder="${field.placeholder ?? ""}"
                   className="resize-none"
-                  required=${field.required}
+                  ${field.disabled ? "disabled" : ""}
+                  ${field.required ? "required" : ""}
                 />
               </FormControl>
               ${
@@ -124,10 +132,14 @@ export const getFormElementCode = (field: FormElement) => {
               <FormControl>
                 <Password
                   {...field}
-                  placeholder="${field.placeholder}"
-                  required=${field.required}
-                  disabled=${field.disabled}
-                  />
+                  ${field.disabled ? "disabled" : ""}
+                  ${field.required ? "required" : ""}
+                  ${
+                    field.placeholder
+                      ? `placeholder="${field.placeholder}"`
+                      : ""
+                  }
+                />
               </FormControl>
               ${
                 field.description
@@ -150,8 +162,8 @@ export const getFormElementCode = (field: FormElement) => {
                 <Checkbox
                   checked={field.value}
                   onCheckedChange={field.onChange}
-                  required=${field.required}
                   ${field.disabled ? "disabled" : ""}
+                  ${field.required ? "required" : ""}
                 />
               </FormControl>
               <div className="space-y-1 leading-none">
@@ -187,7 +199,7 @@ export const getFormElementCode = (field: FormElement) => {
                   {field.value ? (
                     format(field.value, "PPP")
                   ) : (
-                    <span>${field.placeholder}</span>
+                    <span>${field.placeholder ?? ""}</span>
                   )}
                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                 </Button>
@@ -198,6 +210,8 @@ export const getFormElementCode = (field: FormElement) => {
                 mode="single"
                 selected={field.value}
                 onSelect={field.onChange}
+                ${field.disabled ? "disabled" : ""}
+                ${field.required ? "required" : ""}
               />
             </PopoverContent>
           </Popover>
@@ -233,7 +247,13 @@ export const getFormElementCode = (field: FormElement) => {
                     <FormControl>
                       <MultiSelectTrigger>
                         <MultiSelectValue
-                          placeholder={"${field.placeholder}"}
+                          ${
+                            field.placeholder
+                              ? `placeholder="${field.placeholder}"`
+                              : ""
+                          }
+                          ${field.disabled ? "disabled" : ""}
+                          ${field.required ? "required" : ""}
                         />
                       </MultiSelectTrigger>
                     </FormControl>
@@ -271,7 +291,12 @@ export const getFormElementCode = (field: FormElement) => {
                   field.required ? "*" : ""
                 }`
               }
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select 
+              onValueChange={field.onChange} 
+              value={field.value} 
+              ${field.disabled ? "disabled" : ""} 
+              ${field.required ? "required" : ""}
+              >
                 <FormControl>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="${field.placeholder}" />
@@ -310,7 +335,9 @@ export const getFormElementCode = (field: FormElement) => {
                     min={field.min}
                     max={field.max}
                     step={field.step}
-                    defaultValue={[5]}
+                    ${field.disabled ? "disabled" : ""}
+                    ${field.required ? "required" : ""}
+                    value={field.value}
                     onValueChange={(values) => {
                       field.onChange(values[0]);
                     }}
@@ -343,6 +370,8 @@ export const getFormElementCode = (field: FormElement) => {
                         <Switch
                           checked={field.value}
                           onCheckedChange={field.onChange}
+                          ${field.disabled ? "disabled" : ""}
+                          ${field.required ? "required" : ""}
                         />
                       </FormControl>
                     </div>
@@ -371,7 +400,9 @@ export const getFormElementCode = (field: FormElement) => {
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        value={field.value}
+                        ${field.disabled ? "disabled" : ""}
+                        ${field.required ? "required" : ""}
                       >
                         {options.map(({ label, value }) => (
                           <RadioGroupItem
@@ -411,7 +442,9 @@ export const getFormElementCode = (field: FormElement) => {
                   <ToggleGroup
                       variant="outline"
                       onValueChange={field.onChange}
-                      defaultValue={field.defaultValue}
+                      value={field.value}
+                      ${field.disabled ? "disabled" : ""}
+                      ${field.required ? "required" : ""}
                       type='${field.type}'
                       className="flex justify-start items-center gap-2 flex-wrap"
                     >
@@ -427,8 +460,9 @@ export const getFormElementCode = (field: FormElement) => {
                   </ToggleGroup>
                 </FormControl>
                 ${
-                  field.description &&
-                  `<FormDescription>${field.description}</FormDescription>`
+                  field.description
+                    ? `<FormDescription>${field.description}</FormDescription>`
+                    : ""
                 }
                 <FormMessage />
               </FormItem>
