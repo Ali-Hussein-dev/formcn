@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack --port=3001",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "registry:build": "shadcn build"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
@@ -64,6 +65,7 @@
     "react-icons": "^5.5.0",
     "react-resizable-panels": "^3.0.4",
     "recharts": "2.15.4",
+    "shadcn": "^2.9.3-canary.0",
     "shiki": "^3.9.1",
     "sonner": "^2.0.6",
     "tailwind-merge": "^3.3.1",

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "formcn",
+  "homepage": "https://formcn.dev",
+  "items": [
+    {
+      "name": "password",
+      "type": "registry:component",
+      "title": "Password",
+      "description": "Password input with show/hide toggle",
+      "registryDependencies": ["input", "label", "button"],
+      "files": [
+        {
+          "path": "registry/default/components/password.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "multi-select",
+      "type": "registry:component",
+      "title": "Multi-select",
+      "description": "Multi-select dropdown",
+      "registryDependencies": [
+        "command",
+        "input",
+        "label",
+        "badge",
+        "tooltip"
+      ],
+      "files": [
+        {
+          "path": "registry/default/components/multi-select.tsx",
+          "type": "registry:component"
+        }
+      ]
+    }
+  ]
+}
