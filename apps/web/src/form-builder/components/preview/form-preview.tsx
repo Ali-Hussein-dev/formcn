@@ -21,6 +21,7 @@ export function FormPreview({
   isMS,
   onSubmit,
 }: FormPreviewProps) {
+  const [rerender, setRerender] = React.useState(false);
   const { formState } = form;
   if (formElements.length < 1)
     return (
@@ -42,6 +43,7 @@ export function FormPreview({
     >
       <Form {...form}>
         <form
+          key={rerender ? "reset" : "normal"}
           onSubmit={async (e) => {
             e.preventDefault();
             if (!isMS) {
@@ -85,7 +87,10 @@ export function FormPreview({
                   size="sm"
                   disabled={formState.isSubmitting}
                   className="rounded-lg"
-                  onClick={() => form.reset({})}
+                  onClick={() => {
+                    form.reset({});
+                    setRerender(!rerender);
+                  }}
                 >
                   Reset
                 </Button>
@@ -93,7 +98,7 @@ export function FormPreview({
                   type="submit"
                   className="rounded-lg"
                   size="sm"
-                  disabled={formState.isSubmitting || formState.isSubmitted}
+                  disabled={formState.isSubmitting}
                 >
                   {formState.isSubmitting
                     ? "Submitting..."
