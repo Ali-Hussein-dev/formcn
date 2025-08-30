@@ -1,10 +1,16 @@
-import { BsInputCursor,BsTextLeft } from "react-icons/bs";
-import { MdOutlineCheckBox, MdOutlineChecklist,MdRadioButtonChecked, MdOutlineToggleOff,MdOutlineWrapText } from "react-icons/md";
+import { BsInputCursor, BsTextLeft } from "react-icons/bs";
+import {
+  MdOutlineCheckBox,
+  MdOutlineChecklist,
+  MdRadioButtonChecked,
+  MdOutlineToggleOff,
+  MdOutlineWrapText,
+  MdOutlinePassword,
+} from "react-icons/md";
 import { CgSelectO } from "react-icons/cg";
 import { GoShieldLock } from "react-icons/go";
 import { CiCalendarDate } from "react-icons/ci";
 import { LuHeading1, LuHeading2, LuHeading3 } from "react-icons/lu";
-import { PiPassword } from "react-icons/pi";
 import { CgFormatSeparator } from "react-icons/cg";
 import { RxSlider } from "react-icons/rx";
 import { PiSquaresFour } from "react-icons/pi";
@@ -99,7 +105,13 @@ export const formElementsList = [
       },
     ],
   },
-  { group: "field", name: "Password", fieldType: "Password", type: "password", icon: PiPassword },
+  {
+    group: "field",
+    name: "Password",
+    fieldType: "Password",
+    type: "password",
+    icon: MdOutlinePassword,
+  },
   {
     group: "field",
     name: "Radio",
@@ -136,9 +148,30 @@ export const formElementsList = [
       },
     ],
   },
-  { group: "display", name: "Separator", fieldType: "Separator", static: true, icon: CgFormatSeparator },
+  {
+    group: "display",
+    name: "Separator",
+    fieldType: "Separator",
+    static: true,
+    icon: CgFormatSeparator,
+  },
   { group: "field", name: "Slider", fieldType: "Slider", icon: RxSlider },
-  { group: "field", name: "Switch", fieldType: "Switch", icon: MdOutlineToggleOff },
-  { group: "field", name: "Textarea", fieldType: "Textarea", icon: MdOutlineWrapText },
-  { group: "field", name: "Toggle", fieldType: "ToggleGroup", icon: PiSquaresFour },
+  {
+    group: "field",
+    name: "Switch",
+    fieldType: "Switch",
+    icon: MdOutlineToggleOff,
+  },
+  {
+    group: "field",
+    name: "Textarea",
+    fieldType: "Textarea",
+    icon: MdOutlineWrapText,
+  },
+  {
+    group: "field",
+    name: "Toggle",
+    fieldType: "ToggleGroup",
+    icon: PiSquaresFour,
+  },
 ];

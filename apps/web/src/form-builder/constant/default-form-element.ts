@@ -59,8 +59,8 @@ export const defaultFormElements: Record<
     ],
   },
   MultiSelect: {
-    label: "Select options",
-    placeholder: "Select one or more options",
+    label: "Select one or more options",
+    placeholder: "Pick one or more days",
     options: [
       { value: "monday", label: "Monday" },
       { value: "tuesday", label: "Tuesday" },

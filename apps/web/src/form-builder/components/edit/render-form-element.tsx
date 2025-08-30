@@ -49,6 +49,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Password } from "@/components/password";
 
 export const RenderFormElement = ({
   formElement,
@@ -95,10 +96,9 @@ export const RenderFormElement = ({
                 {formElement.label} {formElement.required && " *"}
               </FormLabel>
               <FormControl>
-                <Input
+                <Password
                   placeholder={formElement.placeholder}
                   disabled={formElement.disabled}
-                  type={"password"}
                   required={formElement.required}
                   {...field}
                   value={field.value ?? ""}

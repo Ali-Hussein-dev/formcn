@@ -122,11 +122,11 @@ export const getFormElementCode = (field: FormElement) => {
                 }`
               }
               <FormControl>
-                <Input
+                <Password
                   {...field}
                   placeholder="${field.placeholder}"
-                  type="password"
                   required=${field.required}
+                  disabled=${field.disabled}
                   />
               </FormControl>
               ${

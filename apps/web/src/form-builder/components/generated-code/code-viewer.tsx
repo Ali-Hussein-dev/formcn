@@ -73,7 +73,6 @@ const installableShadcnComponents: Partial<
   Record<FormElement["fieldType"], string>
 > = {
   Input: "input",
-  Password: "input",
   Textarea: "textarea",
   Checkbox: "checkbox",
   Select: "select",
@@ -85,7 +84,8 @@ const installableShadcnComponents: Partial<
   DatePicker: "popover calendar",
   Separator: "separator",
   // none-shadcn components
-  MultiSelect: "",
+  MultiSelect: "https://formcn.dev/r/multi-select.json",
+  Password: "https://formcn.dev/r/password.json",
 };
 //======================================
 export function CodeBlockPackagesInstallation() {
@@ -150,7 +150,7 @@ export function CodeBlockPackagesInstallation() {
         ))}
       </Tabs>
       <h2 className="font-sembold text-start mt-4">
-        Install required shadcn components
+        Install required form components
       </h2>
       <Tabs defaultValue="pnpm" className="w-full mt-2 rounded-md">
         <TabsList>
