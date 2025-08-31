@@ -242,7 +242,8 @@ export const getFormElementCode = (field: FormElement) => {
                   <MultiSelect 
                     value={field.value} 
                     onValueChange={field.onChange} 
-                    required=${field.required}
+                    ${field.disabled ? "disabled" : ""}
+                    ${field.required ? "required" : ""}
                   >
                     <FormControl>
                       <MultiSelectTrigger>
@@ -252,8 +253,6 @@ export const getFormElementCode = (field: FormElement) => {
                               ? `placeholder="${field.placeholder}"`
                               : ""
                           }
-                          ${field.disabled ? "disabled" : ""}
-                          ${field.required ? "required" : ""}
                         />
                       </MultiSelectTrigger>
                     </FormControl>

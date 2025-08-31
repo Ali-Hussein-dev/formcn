@@ -122,9 +122,6 @@ export const generateZodSchemaString = (schema: ZodType): string => {
       });
     }
 
-    if (schema.def.type == "string") {
-      result += ".nonempty()";
-    }
     return result;
   }
 
