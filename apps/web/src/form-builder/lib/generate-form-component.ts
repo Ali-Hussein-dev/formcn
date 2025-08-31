@@ -331,15 +331,15 @@ export const getFormElementCode = (field: FormElement) => {
                 </FormLabel>
                 <FormControl>
                   <Slider
-                    min={field.min}
-                    max={field.max}
-                    step={field.step}
-                    ${field.disabled ? "disabled" : ""}
-                    ${field.required ? "required" : ""}
+                    min={${field.min}}
+                    max={${field.max}}
+                    step={${field.step}}
                     value={field.value}
                     onValueChange={(values) => {
                       field.onChange(values[0]);
                     }}
+                    ${field.disabled ? "disabled" : ""}
+                    ${field.required ? "required" : ""}
                   />
                 </FormControl>
                 ${

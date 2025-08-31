@@ -323,13 +323,10 @@ export const RenderFormElement = ({
           control={form.control}
           name={formElement.name}
           render={({ field }: { field: ControllerRenderProps }) => {
-            const min = formElement.min || 0;
-            const max = formElement.max || 100;
-            const step = formElement.step || 5;
-            const defaultValue = 25;
+            const { max, min = 0, step } = formElement;
             const value = Array.isArray(field.value)
               ? field.value
-              : [field.value || defaultValue];
+              : [field.value || min];
             return (
               <FormItem className="w-full py-3">
                 <FormLabel className="flex justify-between items-center">
@@ -341,9 +338,9 @@ export const RenderFormElement = ({
                 <FormControl>
                   <Slider
                     {...field}
-                    min={min}
-                    max={max}
-                    step={step}
+                    min={min ? +min : undefined}
+                    max={max ? +max : undefined}
+                    step={step ? +step : undefined}
                     value={value}
                     onValueChange={(newValue) => field.onChange(newValue[0])}
                     disabled={formElement.disabled}
@@ -450,7 +447,7 @@ export const RenderFormElement = ({
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "w-full justify-start text-start font-normal",
+                          "w-full justify-start text-start font-normal active:scale-none",
                           !date && "text-muted-foreground"
                         )}
                       >
