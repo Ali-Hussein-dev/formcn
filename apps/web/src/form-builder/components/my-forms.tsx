@@ -217,7 +217,7 @@ export function MyForms() {
                   </div>
                 )}
                 <Button variant="outline" onClick={handleUseForm}>
-                  Use form
+                  Edit form
                 </Button>
               </div>
             </>

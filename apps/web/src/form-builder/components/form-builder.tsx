@@ -42,30 +42,12 @@ export function FormBuilder() {
   const formElements = useFormBuilderStore((s) => s.formElements);
   const isMS = useFormBuilderStore((s) => s.isMS);
   const searchParams = useSearchParams();
-  const getFormById = useLocalForms((s) => s.getFormById);
-  const updateForm = useLocalForms((s) => s.updateForm);
 
   const id = searchParams.get("id");
 
-  const foundform = getFormById(id!);
-  const saveForm = useLocalForms((s) => s.updateForm);
-
-  function handleSaveForm() {
-    if (!id) return;
-    saveForm({ id, formElements });
-    toast.message("Form changes saved locally", { duration: 1000 });
+  if (!id) {
+    redirect("/my-forms");
   }
-
-  // if (!id) {
-  //   return (
-  //     <div>
-  //       <p className="text-center text-xl py-10">loading...</p>
-  //       <div className="flex justify-center">
-  //         <Button variant="outline">Back</Button>
-  //       </div>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div>
@@ -98,9 +80,9 @@ export function FormBuilder() {
                 <div className="pt-2">
                   <FormEdit />
                   <div className="pt-4 flex items-center justify-between">
-                    <Button variant="ghost" onClick={handleSaveForm}>
+                    {/* <Button variant="ghost" onClick={handleSaveForm}>
                       Save
-                    </Button>
+                    </Button> */}
                     {formElements.length > 1 && (
                       <Button variant="ghost" onClick={resetForm}>
                         Remove All
