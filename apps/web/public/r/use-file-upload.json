@@ -3,10 +3,8 @@
   "name": "use-file-upload",
   "type": "registry:hook",
   "title": "file upload hook",
-  "description": "state managamenet hook file upload component",
-  "registryDependencies": [
-    "use-file-upload"
-  ],
+  "description": "state management hook for file upload component",
+  "registryDependencies": [],
   "files": [
     {
       "path": "registry/default/hooks/use-file-upload.tsx",
