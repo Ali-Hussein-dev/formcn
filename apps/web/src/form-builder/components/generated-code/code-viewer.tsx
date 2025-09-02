@@ -138,7 +138,7 @@ export function CodeBlockPackagesInstallation() {
         onValueChange={setActiveTab}
         className="w-full mt-2 rounded-md bg-accent py-2 px-1"
       >
-        <div className="flex justify-between border-b border-dashed pb-1">
+        <div className="flex justify-between border-b border-dashed pb-1 px-2">
           <TabsList>
             <IoTerminal className="mr-1.5" />
             {tabsData.map((item) => (
@@ -154,7 +154,7 @@ export function CodeBlockPackagesInstallation() {
         {tabsData.map((item) => (
           <TabsContent key={item.value} value={item.value}>
             <div>
-              <pre className="px-3 py-2 text-accent-foreground/80">
+              <pre className="px-3 py-2 text-accent-foreground/80 text-wrap">
                 {item.base}
               </pre>
             </div>
@@ -170,7 +170,7 @@ export function CodeBlockPackagesInstallation() {
         onValueChange={setActiveTab}
         className="w-full mt-2 rounded-md bg-accent py-2 px-1"
       >
-        <div className="flex justify-between border-b border-dashed pb-1">
+        <div className="flex justify-between border-b border-dashed pb-1 px-2">
           <TabsList>
             <IoTerminal className="mr-1.5" />
             {tabsData.map((item) => (
@@ -185,7 +185,7 @@ export function CodeBlockPackagesInstallation() {
         </div>
         {tabsData.map((item) => (
           <TabsContent key={item.value} value={item.value}>
-            <pre className="px-3 py-2 text-accent-foreground/80">
+            <pre className="px-3 py-2 text-accent-foreground/80 text-wrap">
               {item.shadcn}
             </pre>
           </TabsContent>
