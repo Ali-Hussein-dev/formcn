@@ -428,6 +428,14 @@ export const templates: FormObject[] = [
         ],
       },
       {
+        id: "file-upload",
+        name: "file-upload",
+        fieldType: "FileUpload",
+        label: "Attach Resume",
+        placeholder: "PDF, DOC or DOCX (max. 5MB)",
+        accept: "application/pdf, application/doc, application/docx",
+      },
+      {
         id: "job-cover-letter",
         name: "coverLetter",
         fieldType: "Textarea",
