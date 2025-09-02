@@ -27,9 +27,9 @@ const tabsList = [
   {
     name: "Code",
   },
-  {
-    name: "JSON",
-  },
+  // {
+  //   name: "JSON",
+  // },
   {
     name: "Submission",
   },
@@ -42,7 +42,7 @@ export function FormBuilder() {
   const formElements = useFormBuilderStore((s) => s.formElements);
   const isMS = useFormBuilderStore((s) => s.isMS);
   const searchParams = useSearchParams();
-  const getFormById = useLocalForms((s) => s.getFormById);
+  // const getFormById = useLocalForms((s) => s.getFormById);
   // const updateForm = useLocalForms((s) => s.updateForm);
   const id = searchParams.get("id");
   // const foundform = getFormById(id!);
@@ -109,10 +109,10 @@ export function FormBuilder() {
             <TabsContent value={tabsList[1].name} tabIndex={-1}>
               <GeneratedFormCodeViewer />
             </TabsContent>
-            <TabsContent value={tabsList[2].name} tabIndex={-1}>
+            {/* <TabsContent value={tabsList[2].name} tabIndex={-1}>
               <JsonViewer json={formElements} isMS={isMS} />
-            </TabsContent>
-            <TabsContent value={tabsList[3].name} tabIndex={-1}>
+            </TabsContent> */}
+            <TabsContent value={tabsList[2].name} tabIndex={-1}>
               <JsonViewer json={submittedData} isMS={isMS} />
             </TabsContent>
           </Tabs>

@@ -32,7 +32,6 @@ export type CodeBlockCodeProps = {
 function CodeBlockCode({
   code,
   language = "tsx",
-  theme = "github-dark",
   className,
   ...props
 }: CodeBlockCodeProps) {
@@ -45,11 +44,14 @@ function CodeBlockCode({
         return;
       }
 
-      const html = await codeToHtml(code, { lang: language, theme });
+      const html = await codeToHtml(code, {
+        lang: language,
+        theme: "nord",
+      });
       setHighlightedHtml(html);
     }
     highlight();
-  }, [code, language, theme]);
+  }, [code, language]);
 
   const classNames = cn(
     "w-full [&>pre]:text-wrap text-[13px] [&>pre]:px-4 [&>pre]:py-4",
