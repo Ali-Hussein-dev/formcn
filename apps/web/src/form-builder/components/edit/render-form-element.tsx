@@ -88,7 +88,9 @@ export const RenderFormElement = ({
                   }}
                 />
               </FormControl>
-              <FormDescription>{formElement.description}</FormDescription>
+              {formElement.description && (
+                <FormDescription>{formElement.description}</FormDescription>
+              )}
               <FormMessage />
             </FormItem>
           )}
@@ -114,7 +116,9 @@ export const RenderFormElement = ({
                   onChange={field.onChange}
                 />
               </FormControl>
-              <FormDescription>{formElement.description}</FormDescription>
+              {formElement.description && (
+                <FormDescription>{formElement.description}</FormDescription>
+              )}
               <FormMessage />
             </FormItem>
           )}
@@ -179,7 +183,9 @@ export const RenderFormElement = ({
                   </InputOTPGroup>
                 </InputOTP>
               </FormControl>
-              <FormDescription>{formElement.description}</FormDescription>
+              {formElement.description && (
+                <FormDescription>{formElement.description}</FormDescription>
+              )}
               <FormMessage />
             </FormItem>
           )}
@@ -204,7 +210,9 @@ export const RenderFormElement = ({
                   className="resize-none"
                 />
               </FormControl>
-              <FormDescription>{formElement.description}</FormDescription>
+              {formElement.description && (
+                <FormDescription>{formElement.description}</FormDescription>
+              )}
               <FormMessage />
             </FormItem>
           )}
@@ -230,10 +238,8 @@ export const RenderFormElement = ({
                 <FormLabel className="space-y-1 leading-none">
                   {formElement.label} {formElement.required && " *"}
                 </FormLabel>
-                {formElement.description ? (
+                {formElement.description && (
                   <FormDescription>{formElement.description}</FormDescription>
-                ) : (
-                  ""
                 )}
                 <FormMessage />
               </div>
@@ -422,7 +428,9 @@ export const RenderFormElement = ({
                   ))}
                 </SelectContent>
               </Select>
-              <FormDescription>{formElement.description}</FormDescription>
+              {formElement.description && (
+                <FormDescription>{formElement.description}</FormDescription>
+              )}
               <FormMessage />
             </FormItem>
           )}
@@ -458,7 +466,9 @@ export const RenderFormElement = ({
                   </MultiSelectList>
                 </MultiSelectContent>
               </MultiSelect>
-              <FormDescription>{formElement.description}</FormDescription>
+              {formElement.description && (
+                <FormDescription>{formElement.description}</FormDescription>
+              )}
               <FormMessage />
             </FormItem>
           )}
@@ -512,7 +522,9 @@ export const RenderFormElement = ({
                     />
                   </PopoverContent>
                 </Popover>
-                <FormDescription>{formElement.description}</FormDescription>
+                {formElement.description && (
+                  <FormDescription>{formElement.description}</FormDescription>
+                )}
                 <FormMessage />
               </FormItem>
             );
