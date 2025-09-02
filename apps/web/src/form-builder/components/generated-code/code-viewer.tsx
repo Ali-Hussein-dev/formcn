@@ -19,6 +19,7 @@ import { generateFormCode } from "@/form-builder/lib/generate-form-code";
 import { generateServerActionCode } from "@/form-builder/lib/generate-server-action-code";
 import { CopyButton } from "@/components/copy-button";
 import { GeneratedCodeInfoCard } from "./tech-stack-info-card";
+import { IoTerminal } from "react-icons/io5";
 
 const Wrapper = ({
   children,
@@ -92,6 +93,7 @@ const installableShadcnComponents: Partial<
 export function CodeBlockPackagesInstallation() {
   const formElements = useFormBuilderStore((s) => s.formElements);
   const isMS = useFormBuilderStore((s) => s.isMS);
+  const [activeTab, setActiveTab] = React.useState("bun"); // Default to bun since project uses it
   const processedFormElements = isMS
     ? flattenFormSteps(formElements as FormStep[])
     : formElements;
@@ -117,8 +119,8 @@ export function CodeBlockPackagesInstallation() {
     },
     {
       value: "yarn",
-      shadcn: `npx shadcn@latest add ${packages}`,
-      base: `npx add ${otherPackages}`,
+      shadcn: `yarn shadcn@latest add ${packages}`,
+      base: `yarn add ${otherPackages}`,
     },
     {
       value: "bun",
@@ -130,46 +132,62 @@ export function CodeBlockPackagesInstallation() {
   return (
     <div className="w-full py-5 max-w-full">
       <h2 className="font-sembold text-start">Install base packages</h2>
-      <Tabs defaultValue="pnpm" className="w-full mt-2 rounded-md">
-        <TabsList>
-          {tabsData.map((item) => (
-            <TabsTrigger key={item.value} value={item.value}>
-              {item.value}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+      <Tabs
+        defaultValue="bun"
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="w-full mt-2 rounded-md bg-accent py-2 px-1"
+      >
+        <div className="flex justify-between border-b border-dashed pb-1">
+          <TabsList>
+            <IoTerminal className="mr-1.5" />
+            {tabsData.map((item) => (
+              <TabsTrigger key={item.value} value={item.value}>
+                {item.value}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          <CopyButton
+            text={tabsData.find((item) => item.value === activeTab)?.base || ""}
+          />
+        </div>
         {tabsData.map((item) => (
           <TabsContent key={item.value} value={item.value}>
-            <CodeBlock>
-              <CodeBlockCode
-                code={item.base}
-                language="bash"
-                theme="github-dark"
-              />
-            </CodeBlock>
+            <div>
+              <pre className="px-3 py-2 text-accent-foreground/80">
+                {item.base}
+              </pre>
+            </div>
           </TabsContent>
         ))}
       </Tabs>
       <h2 className="font-sembold text-start mt-4">
         Install required form components
       </h2>
-      <Tabs defaultValue="pnpm" className="w-full mt-2 rounded-md">
-        <TabsList>
-          {tabsData.map((item) => (
-            <TabsTrigger key={item.value} value={item.value}>
-              {item.value}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+      <Tabs
+        defaultValue="bun"
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="w-full mt-2 rounded-md bg-accent py-2 px-1"
+      >
+        <div className="flex justify-between border-b border-dashed pb-1">
+          <TabsList>
+            <IoTerminal className="mr-1.5" />
+            {tabsData.map((item) => (
+              <TabsTrigger key={item.value} value={item.value}>
+                {item.value}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          <CopyButton
+            text={tabsData.find((item) => item.value === activeTab)?.base || ""}
+          />
+        </div>
         {tabsData.map((item) => (
           <TabsContent key={item.value} value={item.value}>
-            <CodeBlock>
-              <CodeBlockCode
-                code={item.shadcn}
-                language="bash"
-                theme="github-dark"
-              />
-            </CodeBlock>
+            <pre className="px-3 py-2 text-accent-foreground/80">
+              {item.base}
+            </pre>
           </TabsContent>
         ))}
       </Tabs>
