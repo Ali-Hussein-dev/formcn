@@ -24,6 +24,8 @@ export type UseMultiFormStepsReturn = {
   goToNext: () => Promise<boolean>;
 
   goToPrevious: () => void;
+
+  goToFirstStep: () => void;
 };
 
 export function useMultiStepForm({
@@ -53,6 +55,9 @@ export function useMultiStepForm({
     }
   };
 
+  const goToFirstStep = () => {
+    setCurrentStep(1);
+  };
   return {
     steps,
     currentStep,
@@ -62,5 +67,6 @@ export function useMultiStepForm({
     isLastStep: currentStep === steps.length,
     goToNext,
     goToPrevious,
+    goToFirstStep,
   };
 }

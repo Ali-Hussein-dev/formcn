@@ -144,9 +144,6 @@ return (
   )
 }
 //------------------------------
-/**
- * Used to render a multi-step form in preview mode
-*/
 export function MultiStepViewer({
   form,
   }: {
@@ -155,17 +152,21 @@ export function MultiStepViewer({
     const stepFormElements: { [key: number]: JSX.Element } = ${stringifiedStepComponents};
     
     const steps = Object.keys(stepFormElements).map(Number);
-    const { currentStep, isLastStep, goToNext, goToPrevious } = useMultiStepForm({
+    const { formState } = form;
+    const { isSubmitting, isSubmitted } = formState;
+    const [rerender, setRerender] = React.useState(false);
+    const { currentStep, isLastStep, goToNext, goToPrevious, isFirstStep, goToFirstStep } = useMultiStepForm({
       initialSteps: steps,
-      onStepValidation: () => {
-      /**
-       * TODO: handle step validation
-       */
-      return true;
-        },
-      });
-  const current = stepFormElements[currentStep - 1]
-  const { formState: { isSubmitting } } = form
+      onStepValidation: async (step) => {
+        const stepFields = (step.stepFields as FormElement[])
+              .flat()
+              .filter((o) => !o.static)
+              .map((o) => o.name);
+        const isValid = await form.trigger(stepFields);
+        return isValid;
+      },
+    });
+  const current = stepFormElements[currentStep - 1];
   return (
     <div className="flex flex-col gap-2 pt-3">
       <div className="flex flex-col items-center justify-start gap-1">
@@ -186,22 +187,63 @@ export function MultiStepViewer({
           {current}
         </motion.div>
       </AnimatePresence>
-      <div className="flex items-center justify-between gap-3 w-full pt-3">
-        <Button size="sm" variant="ghost" onClick={goToPrevious} type="button">
-          Previous
-        </Button>
+      <div className="w-full pt-3 flex items-center justify-end gap-3 ">
+        {formState.isDirty && (
+          <div className="grow">
+            <Button
+              variant="outline"
+              type="button"
+              size="sm"
+              disabled={formState.isSubmitting}
+              className="rounded-lg ml-0"
+              onClick={() => {
+                goToFirstStep();
+                form.reset({});
+                setRerender(!rerender);
+              }}
+            >
+              Reset
+            </Button>
+          </div>
+        )}
+        {!isFirstStep && (
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={goToPrevious}
+            type="button"
+          >
+            <ChevronLeft />
+            Previous
+          </Button>
+        )}
         {isLastStep ? (
-          <Button size="sm" type="submit">
-            {isSubmitting ? 'Submitting...' : 'Submit'}
+          <Button
+            size="sm"
+            type="button"
+            onClick={async (e) => {
+              e.preventDefault();
+              await form.handleSubmit((data) => {
+                console.log("Form submitted:", data);
+              })();
+            }}
+            disabled={isSubmitting}
+          >
+            {isSubmitting
+              ? "Submitting..."
+              : isSubmitted
+                ? "Submitted "
+                : "Submit"}
           </Button>
         ) : (
           <Button
             size="sm"
             type="button"
-            variant={'secondary'}
+            variant="secondary"
             onClick={goToNext}
           >
             Next
+            <ChevronRight />
           </Button>
         )}
       </div>
@@ -209,68 +251,76 @@ export function MultiStepViewer({
   );
 }`;
   const useMultiStepFormCode = `
-//------------------------------use-multi-step-form.tsx
-type UseFormStepsProps = {
- initialSteps: any[];
- onStepValidation?: (step: any) => Promise<boolean> | boolean;
-};
+  import type { FormStep } from "@/form-builder/form-types";
+  import { useState } from "react";
 
-export type UseMultiFormStepsReturn = {
- steps: any[];
-
- currentStep: number;
-
- currentStepData: any;
-
- progress: number;
-
- isFirstStep: boolean;
-
- isLastStep: boolean;
-
- goToNext: () => Promise<boolean>;
-
- goToPrevious: () => void;
-};
-
-export function useMultiStepForm({
- initialSteps,
- onStepValidation,
-}: UseFormStepsProps): UseMultiFormStepsReturn {
- const steps = initialSteps;
- const [currentStep, setCurrentStep] = useState(1);
- const goToNext = async () => {
-   const currentStepData = initialSteps[currentStep - 1];
-
-   if (onStepValidation) {
-     const isValid = await onStepValidation(currentStepData);
-     if (!isValid) return false;
-   }
-
-   if (currentStep < steps.length) {
-     setCurrentStep((prev) => prev + 1);
-     return true;
-   }
-   return false;
- };
-
- const goToPrevious = () => {
-   if (currentStep > 1) {
-     setCurrentStep((prev) => prev - 1);
-   }
- };
-
- return {
-   steps,
-   currentStep,
-   currentStepData: steps[currentStep - 1],
-   progress: (currentStep / steps.length) * 100,
-   isFirstStep: currentStep === 1,
-   isLastStep: currentStep === steps.length,
-   goToNext,
-   goToPrevious,
- };
-}`;
+  type UseFormStepsProps = {
+    initialSteps: FormStep[];
+    onStepValidation?: (step: FormStep) => Promise<boolean> | boolean;
+  };
+  
+  export type UseMultiFormStepsReturn = {
+    steps: FormStep[];
+  
+    currentStep: number;
+  
+    currentStepData: FormStep;
+  
+    progress: number;
+  
+    isFirstStep: boolean;
+  
+    isLastStep: boolean;
+  
+    goToNext: () => Promise<boolean>;
+  
+    goToPrevious: () => void;
+  
+    goToFirstStep: () => void;
+  };
+  
+  export function useMultiStepForm({
+    initialSteps,
+    onStepValidation,
+  }: UseFormStepsProps): UseMultiFormStepsReturn {
+    const steps = initialSteps;
+    const [currentStep, setCurrentStep] = useState(1);
+    const goToNext = async () => {
+      const currentStepData = initialSteps[currentStep - 1];
+  
+      if (onStepValidation) {
+        const isValid = await onStepValidation(currentStepData);
+        if (!isValid) return false;
+      }
+  
+      if (currentStep < steps.length) {
+        setCurrentStep((prev) => prev + 1);
+        return true;
+      }
+      return false;
+    };
+  
+    const goToPrevious = () => {
+      if (currentStep > 1) {
+        setCurrentStep((prev) => prev - 1);
+      }
+    };
+  
+    const goToFirstStep = () => {
+      setCurrentStep(1);
+    };
+    return {
+      steps,
+      currentStep,
+      currentStepData: steps[currentStep - 1],
+      progress: (currentStep / steps.length) * 100,
+      isFirstStep: currentStep === 1,
+      isLastStep: currentStep === steps.length,
+      goToNext,
+      goToPrevious,
+      goToFirstStep,
+    };
+  }`;
   const multiStepFormCode = [
     {
       file: "multi-step-form.tsx",

@@ -6,6 +6,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { Progress } from "@/components/ui/progress";
 import { RenderFormElement } from "@/form-builder/components/edit/render-form-element";
 import type { UseFormReturn } from "react-hook-form";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import * as React from "react";
 
 /**
  * Used to render a multi-step form in preview mode
@@ -17,7 +19,14 @@ export function MultiStepFormPreview({
   form: UseFormReturn<any, any, undefined>;
   formElements: FormStep[];
 }) {
-  const { currentStep, isLastStep, goToNext, goToPrevious } = useMultiStepForm({
+  const {
+    currentStep,
+    isLastStep,
+    goToNext,
+    goToPrevious,
+    isFirstStep,
+    goToFirstStep,
+  } = useMultiStepForm({
     initialSteps: formElements as FormStep[],
     onStepValidation: async (step) => {
       const stepFields = (step.stepFields as FormElement[])
@@ -30,8 +39,9 @@ export function MultiStepFormPreview({
   });
   const steps = formElements as FormStep[];
   const current = formElements[currentStep - 1] as FormStep;
-  const { formState, reset } = form;
+  const { formState } = form;
   const { isSubmitting, isSubmitted } = formState;
+  const [rerender, setRerender] = React.useState(false);
   return (
     <div className="flex flex-col gap-2 pt-3">
       <div className="flex flex-col items-start justify-center gap-1">
@@ -72,10 +82,36 @@ export function MultiStepFormPreview({
           })}
         </motion.div>
       </AnimatePresence>
-      <div className="flex items-center justify-between gap-3 w-full pt-3">
-        <Button size="sm" variant="ghost" onClick={goToPrevious} type="button">
-          Previous
-        </Button>
+      <div className="w-full pt-3 flex items-center justify-end gap-3 ">
+        {formState.isDirty && (
+          <div className="grow">
+            <Button
+              variant="outline"
+              type="button"
+              size="sm"
+              disabled={formState.isSubmitting}
+              className="rounded-lg ml-0"
+              onClick={() => {
+                goToFirstStep();
+                form.reset({});
+                setRerender(!rerender);
+              }}
+            >
+              Reset
+            </Button>
+          </div>
+        )}
+        {!isFirstStep && (
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={goToPrevious}
+            type="button"
+          >
+            <ChevronLeft />
+            Previous
+          </Button>
+        )}
         {isLastStep ? (
           <Button
             size="sm"
@@ -91,17 +127,18 @@ export function MultiStepFormPreview({
             {isSubmitting
               ? "Submitting..."
               : isSubmitted
-              ? "Submitted "
-              : "Submit"}
+                ? "Submitted "
+                : "Submit"}
           </Button>
         ) : (
           <Button
             size="sm"
             type="button"
-            variant={"secondary"}
+            variant="secondary"
             onClick={goToNext}
           >
             Next
+            <ChevronRight />
           </Button>
         )}
       </div>

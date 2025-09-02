@@ -21,7 +21,11 @@ export const genFormZodSchema = (
           elementSchema = z.coerce.number();
           break;
         }
-        elementSchema = z.string().nonempty();
+        if (element.required) {
+          elementSchema = z.string().min(1, "This field is required");
+        } else {
+          elementSchema = z.string().optional();
+        }
         break;
       case "DatePicker":
         elementSchema = z.coerce.date();
@@ -120,10 +124,9 @@ export const genFieldZodSchemaCode = (schema: ZodType): string => {
         code += `.mime([${mimeCheck._zod.def.mime?.map((type: string) => `"${type}"`).join(", ")}])`;
       }
 
-      const maxSizeCheck = schema.def.checks.find((o: any) => {
-        console.log(o);
-        return o._zod.def.check === "max_size";
-      });
+      const maxSizeCheck = schema.def.checks.find(
+        (o: any) => o._zod.def.check === "max_size"
+      );
       if (maxSizeCheck) {
         // @ts-expect-error maximum is expected
         code += `.maxSize(${maxSizeCheck._zod.def.maximum})`;
