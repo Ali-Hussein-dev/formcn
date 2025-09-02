@@ -46,7 +46,7 @@
           "type": "registry:component"
         }
       ],
-      "registryDependencies": ["use-file-upload"]
+      "registryDependencies": ["https://formcn.dev/r/use-file-upload.json", "Button"]
     },
     {
       "name": "use-file-upload",
@@ -58,8 +58,7 @@
           "path": "registry/default/hooks/use-file-upload.tsx",
           "type": "registry:hook"
         }
-      ],
-      "registryDependencies": []
+      ]
     }
   ]
 }

@@ -5,7 +5,7 @@
   "title": "File Input",
   "description": "File upload component",
   "registryDependencies": [
-    "use-file-upload"
+    "https://formcn.dev/r/use-file-upload.json"
   ],
   "files": [
     {
