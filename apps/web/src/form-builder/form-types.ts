@@ -34,6 +34,15 @@ type PasswordInput = {
 } & React.InputHTMLAttributes<HTMLInputElement> &
   SharedFormProps;
 
+type FileUpload = {
+  name: string;
+  fieldType: "FileUpload";
+  type: "file";
+  maxSize: number;
+  maxFiles?: number;
+} & React.InputHTMLAttributes<HTMLInputElement> &
+  SharedFormProps;
+
 type OTPInput = {
   name: string;
   fieldType: "OTP";
@@ -171,6 +180,7 @@ type FormFieldElement =
   | Select
   | MultiSelect
   | Slider
+  | FileUpload
   | DatePicker;
 
 /**

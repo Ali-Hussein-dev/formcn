@@ -2,7 +2,7 @@ import { isStatic } from "@/form-builder/lib/utils";
 import type { FormElement } from "@/form-builder/form-types";
 import { z, type ZodType } from "zod";
 
-export const generateZodSchemaObject = (
+export const genFormZodSchema = (
   formElements: FormElement[]
 ): z.ZodObject<any> => {
   const schemaObject: Record<string, ZodType> = {};
@@ -52,6 +52,22 @@ export const generateZodSchemaObject = (
       case "RadioGroup":
         elementSchema = z.string().min(1, "Please select an item");
         break;
+      case "FileUpload":
+        elementSchema = z.union([
+          z
+            .file()
+            .mime(element.accept?.split(", ") ?? [])
+            .max(element.maxSize!),
+          z.array(
+            z
+              .file()
+              .mime(element.accept?.split(", ") ?? [])
+              .max(element.maxSize!)
+          ),
+          z.string().min(1, "Please select a file"),
+          z.instanceof(FileList),
+        ]);
+        break;
       default:
         elementSchema = z.string();
     }
@@ -81,15 +97,39 @@ export const generateZodSchemaObject = (
   return z.object(schemaObject);
 };
 
-export const generateZodSchemaString = (schema: ZodType): string => {
+export const genFieldZodSchemaCode = (schema: ZodType): string => {
   if (schema instanceof z.ZodDefault) {
-    return `${generateZodSchemaString(
+    return `${genFieldZodSchemaCode(
       schema.def.innerType as ZodType
     )}.default(${JSON.stringify(schema.def.defaultValue)})`;
   }
 
   if (schema instanceof z.ZodBoolean) {
     return "z.boolean()";
+  }
+  if (schema instanceof z.ZodFile) {
+    let code = "z.file()";
+
+    // Extract mime type constraints from the schema definition (Zod v4)
+    if (schema.def && schema.def.checks) {
+      const mimeCheck = schema.def.checks.find((o: any) => {
+        return o._zod.def.check === "mime_type";
+      });
+      if (mimeCheck) {
+        // @ts-expect-error mime is expected
+        code += `.mime([${mimeCheck._zod.def.mime?.map((type: string) => `"${type}"`).join(", ")}])`;
+      }
+
+      const maxSizeCheck = schema.def.checks.find((o: any) => {
+        console.log(o);
+        return o._zod.def.check === "max_size";
+      });
+      if (maxSizeCheck) {
+        // @ts-expect-error maximum is expected
+        code += `.maxSize(${maxSizeCheck._zod.def.maximum})`;
+      }
+    }
+    return code;
   }
 
   if (schema instanceof z.ZodEmail) {
@@ -130,21 +170,21 @@ export const generateZodSchemaString = (schema: ZodType): string => {
   }
 
   if (schema instanceof z.ZodArray) {
-    return `z.array(${generateZodSchemaString(
+    return `z.array(${genFieldZodSchemaCode(
       schema.element as ZodType
     )}).min(1, "Please select at least one item")`;
   }
 
   if (schema instanceof z.ZodTuple) {
     return `z.tuple([${schema.def.items
-      .map((item) => generateZodSchemaString(item as any))
+      .map((item) => genFieldZodSchemaCode(item as any))
       .join(", ")}])`;
   }
 
   if (schema instanceof z.ZodObject) {
     const shape = schema.shape;
     const shapeStrs = Object.entries(shape).map(
-      ([key, value]) => `${key}: ${generateZodSchemaString(value as ZodType)}`
+      ([key, value]) => `${key}: ${genFieldZodSchemaCode(value as ZodType)}`
     );
     return `
     z.object({
@@ -153,17 +193,25 @@ export const generateZodSchemaString = (schema: ZodType): string => {
   }
 
   if (schema instanceof z.ZodOptional) {
-    return `${generateZodSchemaString(schema.unwrap() as ZodType)}.optional()`;
+    return `${genFieldZodSchemaCode(schema.unwrap() as ZodType)}.optional()`;
+  }
+
+  if (schema instanceof z.ZodUnion) {
+    // return JSON.stringify(schema.options);
+
+    return `z.union([${schema.def.options
+      .map((option) => genFieldZodSchemaCode(option as ZodType))
+      .join(", ")}])`;
   }
 
   return "z.unknown()";
 };
 
-export const getZodSchemaString = (formElements: FormElement[]): string => {
-  const schema = generateZodSchemaObject(formElements);
+export const genFormZodSchemaCode = (formElements: FormElement[]): string => {
+  const schema = genFormZodSchema(formElements);
   const schemaEntries = Object.entries(schema.shape)
     .map(([key, value]) => {
-      return `"${key}": ${generateZodSchemaString(value as ZodType)}`;
+      return `"${key}": ${genFieldZodSchemaCode(value as ZodType)}`;
     })
     .join(",\n");
 

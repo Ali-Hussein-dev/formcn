@@ -14,6 +14,7 @@ import { LuHeading1, LuHeading2, LuHeading3 } from "react-icons/lu";
 import { CgFormatSeparator } from "react-icons/cg";
 import { RxSlider } from "react-icons/rx";
 import { PiSquaresFour } from "react-icons/pi";
+import { AiOutlineCloudUpload } from "react-icons/ai";
 
 /**
  * used in
@@ -70,6 +71,13 @@ export const formElementsList = [
     name: "Input",
     fieldType: "Input",
     icon: BsInputCursor,
+  },
+  {
+    group: "field",
+    name: "File upload",
+    fieldType: "FileUpload",
+    icon: AiOutlineCloudUpload,
+    isNew: true,
   },
   {
     group: "field",
