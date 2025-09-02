@@ -186,7 +186,7 @@ export function CodeBlockPackagesInstallation() {
         {tabsData.map((item) => (
           <TabsContent key={item.value} value={item.value}>
             <pre className="px-3 py-2 text-accent-foreground/80">
-              {item.base}
+              {item.shadcn}
             </pre>
           </TabsContent>
         ))}
