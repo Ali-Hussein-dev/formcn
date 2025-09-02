@@ -43,6 +43,35 @@ export const getFormElementCode = (field: FormElement) => {
                   )
                 }
               />`;
+    case "FileUpload":
+      return `
+        <FormField
+          control={form.control}
+          name="${field.name}"
+          render={({ field }: { field: ControllerRenderProps }) => (
+            <FormItem className="w-full">
+               ${
+                 field.label &&
+                 `<FormLabel>${field.label}</FormLabel> ${
+                   field.required ? "*" : ""
+                 }`
+               }
+              <FormControl>
+                <FileUpload
+                  {...field}
+                  placeholder=${field.placeholder}
+                  value={field.value}
+                  onChange={field.onChange}
+                  maxFiles={${field.maxFiles ?? 1}}
+                  accept="${field.accept || "*"}"
+                  ${field.required ? "required" : ""}
+                  ${field.disabled ? "disabled" : ""}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />`;
     case "OTP":
       return `
        <FormField

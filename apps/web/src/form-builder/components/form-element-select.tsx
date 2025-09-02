@@ -3,6 +3,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { type FormElement } from "@/form-builder/form-types";
 import { formElementsList } from "@/form-builder/constant/form-elements-list";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
+import { Badge } from "@/components/ui/badge";
 
 //======================================
 
@@ -12,14 +13,17 @@ const FormElementSelect = () => {
   const isMS = useFormBuilderStore((s) => s.isMS);
 
   // Group elements by their group property
-  const groupedElements = formElementsList.reduce((acc, element) => {
-    const group = element.group || "other";
-    if (!acc[group]) {
-      acc[group] = [];
-    }
-    acc[group].push(element);
-    return acc;
-  }, {} as Record<string, typeof formElementsList>);
+  const groupedElements = formElementsList.reduce(
+    (acc, element) => {
+      const group = element.group || "other";
+      if (!acc[group]) {
+        acc[group] = [];
+      }
+      acc[group].push(element);
+      return acc;
+    },
+    {} as Record<string, typeof formElementsList>
+  );
 
   const renderElementButton = (o: (typeof formElementsList)[0]) => {
     const Icon = o.icon;
@@ -41,11 +45,14 @@ const FormElementSelect = () => {
             <Icon className="size-4" />
           </span>
           {o.name}
-          {/* {o?.isNew! && (
-          <Badge className="text-sm rounded-full ml-1 size-5 center">
-            N
-          </Badge>
-        )} */}
+          {o?.isNew! && (
+            <Badge
+              className="text-[9px] font-medium rounded-full ml-1 "
+              variant="destructive"
+            >
+              New
+            </Badge>
+          )}
         </div>
       </Button>
     );

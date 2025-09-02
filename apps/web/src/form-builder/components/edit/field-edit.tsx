@@ -22,7 +22,7 @@ import { Form } from "@/components/ui/form";
 import { isStatic } from "@/form-builder/lib/utils";
 import { RenderFormElement } from "@/form-builder/components/edit/render-form-element";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
-import { MdOutlineTextFields } from "react-icons/md";
+import { MdAttachFile, MdOutlineTextFields } from "react-icons/md";
 import { FaLink, FaPhone } from "react-icons/fa";
 import { MdEmail, MdOutlineNumbers, MdOutlinePassword } from "react-icons/md";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -455,6 +455,62 @@ function FormElementAttributes({
                   options={formElement.options || []}
                   onChange={(options) => form.setValue("options", options)}
                 />
+              )}
+              {fieldType === "FileUpload" && (
+                <div className="w-full border-t pt-2 border-dashed">
+                  <h2 className="flex items-center gap-1.5 text-forground mb-3 font-medium text-lg">
+                    <MdAttachFile />
+                    Set constraints for file upload
+                  </h2>
+                  <div className="space-y-2 w-full">
+                    <RenderFormElement
+                      formElement={{
+                        id: formElement.id,
+                        name: "maxSize",
+                        label: (
+                          <div className="flex items-center justify-between gap-1.5 w-full">
+                            Max size (in bytes)
+                            <span className="text-right">
+                              {(form.watch("maxSize") / 1048576).toFixed(2)}
+                              MB
+                            </span>
+                          </div>
+                        ) as unknown as string,
+                        placeholder: "E.g. ",
+                        fieldType: "Input",
+                        type: "number",
+                        min: 1,
+                      }}
+                      form={form}
+                    />
+                    <RenderFormElement
+                      formElement={{
+                        id: formElement.id,
+                        name: "maxFiles",
+                        label: "Max files, minimum 1 file",
+                        placeholder: "Maximum number of files",
+                        fieldType: "Input",
+                        type: "number",
+                        min: 1,
+                      }}
+                      form={form}
+                    />
+                    <RenderFormElement
+                      formElement={{
+                        id: formElement.id,
+                        name: "accept",
+                        placeholder:
+                          "image/*, audio/*, video/*, .pdf, .doc, .docx",
+                        label: "Accept attribute",
+                        description:
+                          "Comma separated list of MIME types or file extensions",
+                        fieldType: "Input",
+                        type: "string",
+                      }}
+                      form={form}
+                    />
+                  </div>
+                </div>
               )}
               <div className="flex items-center w-full gap-4 justify-start">
                 <div>

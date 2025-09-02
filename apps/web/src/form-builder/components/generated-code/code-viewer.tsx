@@ -14,7 +14,7 @@ import type {
 import { formatCode } from "@/form-builder/lib/utils";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
 import { flattenFormSteps } from "@/form-builder/lib/form-elements-helpers";
-import { getZodSchemaString } from "@/form-builder/lib/generate-zod-schema";
+import { genFormZodSchemaCode } from "@/form-builder/lib/generate-zod-schema";
 import { generateFormCode } from "@/form-builder/lib/generate-form-code";
 import { generateServerActionCode } from "@/form-builder/lib/generate-server-action-code";
 import { CopyButton } from "@/components/copy-button";
@@ -86,6 +86,7 @@ const installableShadcnComponents: Partial<
   // none-shadcn components
   MultiSelect: "https://formcn.dev/r/multi-select.json",
   Password: "https://formcn.dev/r/password.json",
+  FileUpload: "https://formcn.dev/r/file-upload.json",
 };
 //======================================
 export function CodeBlockPackagesInstallation() {
@@ -202,7 +203,9 @@ const CodeBlockZodSchema = () => {
   const parsedFormElements = isMS
     ? flattenFormSteps(formElements as FormStep[])
     : formElements.flat();
-  const generatedCode = getZodSchemaString(parsedFormElements as FormElement[]);
+  const generatedCode = genFormZodSchemaCode(
+    parsedFormElements as FormElement[]
+  );
   const formattedCode = formatCode(generatedCode);
   return (
     <div className="relative max-w-full">

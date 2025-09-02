@@ -87,6 +87,14 @@ export const defaultFormElements: Record<
     description: "A multi-line text input field",
     placeholder: "Enter your text",
   },
+  FileUpload: {
+    label: "File upload",
+    description: "Upload files",
+    placeholder: "PNG, JPEG or Gif, (max. 5MB)",
+    maxSize: 5 * 1024 * 1024,
+    maxFiles: 1,
+    accept: "image/png, image/jpeg, image/gif",
+  },
   H1: {
     label: "Heading 1",
     content: "Heading 1",

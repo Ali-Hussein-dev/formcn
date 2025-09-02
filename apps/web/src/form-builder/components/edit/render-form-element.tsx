@@ -50,6 +50,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Password } from "@/components/password";
+import { FileUpload } from "@/components/form-fields/file-upload";
 
 export const RenderFormElement = ({
   formElement,
@@ -71,12 +72,20 @@ export const RenderFormElement = ({
               </FormLabel>
               <FormControl>
                 <Input
+                  {...field}
                   placeholder={formElement.placeholder}
                   disabled={formElement.disabled}
                   type={formElement.type ?? "text"}
                   required={formElement.required}
-                  // onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                  {...field}
+                  min={formElement.min}
+                  max={formElement.max}
+                  onChange={(e) => {
+                    if (formElement.type === "number") {
+                      field.onChange(e.target.valueAsNumber);
+                    } else {
+                      field.onChange(e.target.value);
+                    }
+                  }}
                 />
               </FormControl>
               <FormDescription>{formElement.description}</FormDescription>
@@ -106,6 +115,34 @@ export const RenderFormElement = ({
                 />
               </FormControl>
               <FormDescription>{formElement.description}</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      );
+    case "FileUpload":
+      return (
+        <FormField
+          control={form.control}
+          name={formElement.name}
+          render={({ field }: { field: ControllerRenderProps }) => (
+            <FormItem className="w-full">
+              <FormLabel>
+                {formElement.label} {formElement.required && " *"}
+              </FormLabel>
+              <FormControl>
+                <FileUpload
+                  disabled={formElement.disabled}
+                  {...field}
+                  placeholder={formElement.placeholder}
+                  required={formElement.required}
+                  accept={formElement.accept}
+                  maxFiles={formElement.maxFiles ?? 1}
+                  maxSize={formElement.maxSize ?? 1024 * 1024}
+                  setValue={form.setValue}
+                  name={formElement.name}
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
