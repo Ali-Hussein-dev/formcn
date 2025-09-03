@@ -124,11 +124,7 @@ export function MultiStepFormPreview({
             }}
             disabled={isSubmitting}
           >
-            {isSubmitting
-              ? "Submitting..."
-              : isSubmitted
-                ? "Submitted "
-                : "Submit"}
+            {isSubmitting ? "Submitting..." : "Submit"}
           </Button>
         ) : (
           <Button

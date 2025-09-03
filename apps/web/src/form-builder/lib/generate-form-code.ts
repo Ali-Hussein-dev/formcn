@@ -107,6 +107,7 @@ return (
   import { useState } from 'react'
   import { Progress } from '@/components/ui/progress'
   import { motion, AnimatePresence } from 'motion/react'
+  import { ChevronLeft, ChevronRight } from "lucide-react";
   import { useMultiStepForm } from './use-multi-step-form'
   export function DraftForm() {
 
@@ -229,11 +230,7 @@ export function MultiStepViewer({
             }}
             disabled={isSubmitting}
           >
-            {isSubmitting
-              ? "Submitting..."
-              : isSubmitted
-                ? "Submitted "
-                : "Submit"}
+            {isSubmitting ? "Submitting..." : "Submit"}
           </Button>
         ) : (
           <Button
