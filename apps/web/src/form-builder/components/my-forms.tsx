@@ -14,6 +14,8 @@ import * as React from "react";
 import { toast } from "sonner";
 import { Check, X } from "lucide-react";
 import { FormsListSidebar } from "./forms-list-sidebar";
+import { MyFormSkeleton } from "./form-skeleton";
+import dynamic from "next/dynamic";
 
 function DeleteButtonWithConfim({ cb }: { cb: () => void }) {
   const [open, setOpen] = React.useState(false);
@@ -115,7 +117,7 @@ function SavedFormCard(props: { name: string; id: string }) {
 }
 
 //======================================
-export function MyForms() {
+export function MyFormsBase() {
   const previewForm = usePreviewForm();
   const setFormElements = useFormBuilderStore((s) => s.setFormElements);
   const setForm = useLocalForms((s) => s.setForm);
@@ -227,3 +229,11 @@ export function MyForms() {
     </div>
   );
 }
+
+export const MyForms = dynamic(
+  () => import("./my-forms").then((mod) => mod.MyFormsBase),
+  {
+    ssr: false,
+    loading: () => <MyFormSkeleton />,
+  }
+);

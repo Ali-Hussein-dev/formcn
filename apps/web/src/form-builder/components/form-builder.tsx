@@ -20,6 +20,8 @@ import { toast } from "sonner";
 import { FaArrowLeft } from "react-icons/fa6";
 import Link from "next/link";
 import { Placeholder } from "@/form-builder/components/placeholder";
+import dynamic from "next/dynamic";
+import { MyFormSkeleton } from "./form-skeleton";
 
 const tabsList = [
   {
@@ -37,7 +39,7 @@ const tabsList = [
 ];
 
 //======================================
-export function FormBuilder() {
+export function FormBuilderBase() {
   const previewForm = usePreviewForm();
   const { submittedData, cleanEditingFields: resetForm } = previewForm;
   const formElements = useFormBuilderStore((s) => s.formElements);
@@ -133,3 +135,11 @@ export function FormBuilder() {
     </div>
   );
 }
+
+export const FormBuilder = dynamic(
+  () => import("./form-builder").then((mod) => mod.FormBuilderBase),
+  {
+    ssr: false,
+    loading: () => <MyFormSkeleton />,
+  }
+);
