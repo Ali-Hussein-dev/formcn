@@ -19,6 +19,7 @@ import useLocalForms from "../hooks/use-local-forms";
 import { toast } from "sonner";
 import { FaArrowLeft } from "react-icons/fa6";
 import Link from "next/link";
+import { Placeholder } from "@/form-builder/components/placeholder";
 
 const tabsList = [
   {
@@ -100,9 +101,13 @@ export function FormBuilder() {
                 </div>
               ) : (
                 <div>
-                  <p className="text-center pt-20 text-lg">
-                    No form elements added
-                  </p>
+                  <Placeholder>
+                    Add fields first from the left sidebar or use{" "}
+                    <kbd className="pointer-events-none inline-flex h-6 select-none items-center rounded border bg-muted px-2 font-mono text-[12px] font-medium text-muted-foreground opacity-100">
+                      f
+                    </kbd>{" "}
+                    to open the command palette
+                  </Placeholder>
                 </div>
               )}
             </TabsContent>

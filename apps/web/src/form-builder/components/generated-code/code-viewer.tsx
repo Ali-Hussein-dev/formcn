@@ -20,6 +20,7 @@ import { generateServerActionCode } from "@/form-builder/lib/generate-server-act
 import { CopyButton } from "@/components/copy-button";
 import { GeneratedCodeInfoCard } from "./tech-stack-info-card";
 import { IoTerminal } from "react-icons/io5";
+import { Placeholder } from "@/form-builder/components/placeholder";
 
 const Wrapper = ({
   children,
@@ -253,6 +254,14 @@ const CodeBlockServerAction = () => {
 
 //======================================
 export function GeneratedFormCodeViewer() {
+  const formElements = useFormBuilderStore((s) => s.formElements);
+  if (formElements.length < 1) {
+    return (
+      <Placeholder>
+        No form fields, add fields first to see the code
+      </Placeholder>
+    );
+  }
   return (
     <Tabs defaultValue="tsx" className="w-full min-w-full">
       <div className="flex justify-between">
