@@ -16,13 +16,13 @@ export function FormBuilderSkeleton() {
         </div>
         <div className="flex items-center gap-2">
           <Skeleton className="size-4" />
-          <Skeleton className="h-4 w-40" />
+          <Skeleton className="h-4 w-20 sm:w-40" />
         </div>
       </div>
 
-      <div className="flex max-w-7xl mx-auto overflow-hidden border rounded-xs border-dashed">
-        {/* Left Sidebar */}
-        <div className="w-64 bg-card p-4 space-y-6">
+      <div className="flex flex-col lg:flex-row max-w-7xl mx-auto overflow-hidden border rounded-xs border-dashed">
+        {/* Left Sidebar - Hidden on mobile, visible on large screens */}
+        <div className="hidden lg:block w-64 bg-card p-4 space-y-6">
           {/* Field Elements Section */}
           <div className="space-y-3">
             <Skeleton className="h-4 w-24" />
@@ -35,13 +35,13 @@ export function FormBuilderSkeleton() {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 flex">
+        <div className="flex-1 flex flex-col xl:flex-row">
           {/* Form Builder */}
-          <div className="flex-1 p-6 space-y-6 border-border border-dashed border-x">
+          <div className="flex-1 p-3 sm:p-6 space-y-4 sm:space-y-6 border-border border-dashed xl:border-x">
             {/* Tabs */}
             <div className="flex gap-1.5 w-full">
               {["Edit", "Code", "Submission"].map((tab, i) => (
-                <Skeleton key={tab} className="h-8 w-full" />
+                <Skeleton key={tab} className="h-8 flex-1" />
               ))}
             </div>
 
@@ -56,7 +56,7 @@ export function FormBuilderSkeleton() {
               {/* Subtitle */}
               <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-lg">
                 <Skeleton className="w-5 h-6" />
-                <Skeleton className="h-4 w-48" />
+                <Skeleton className="h-4 w-32 sm:w-48" />
               </div>
 
               {/* Form Fields */}
@@ -73,7 +73,7 @@ export function FormBuilderSkeleton() {
               {/* Terms Checkbox */}
               <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-lg">
                 <Skeleton className="w-5 h-6" />
-                <Skeleton className="h-4 w-56" />
+                <Skeleton className="h-4 w-40 sm:w-56" />
               </div>
             </div>
 
@@ -84,8 +84,8 @@ export function FormBuilderSkeleton() {
             </div>
           </div>
 
-          {/* Right Preview Panel */}
-          <div className="w-80 bg-card p-6">
+          {/* Right Preview Panel - Hidden on mobile, visible on xl screens */}
+          <div className="hidden xl:block w-80 bg-card p-6">
             <div className="space-y-6">
               {/* Form Title */}
               <div className="space-y-2">
@@ -155,9 +155,9 @@ export function MyFormSkeleton() {
         <Skeleton className="h-8 w-24" />
       </div>
 
-      <div className="flex gap-5">
-        {/* Left Sidebar */}
-        <div className="w-80 rounded-sm bg-card p-6 space-y-8">
+      <div className="flex flex-col lg:flex-row gap-5">
+        {/* Left Sidebar - Hidden on mobile, visible on large screens */}
+        <div className="hidden lg:block w-full lg:w-80 rounded-sm bg-card p-6 space-y-8">
           {/* Saved Forms Section */}
           <div className="space-y-4">
             <Skeleton className="h-5 w-32" />
@@ -193,21 +193,21 @@ export function MyFormSkeleton() {
 
         {/* Main Content Area */}
         <div className="flex-1">
-          <div className="space-y-8 bg-accent/10 p-8 rounded-lg">
+          <div className="space-y-6 sm:space-y-8 bg-accent/10 p-4 sm:p-8 rounded-lg">
             {/* Form Header */}
             <div className="space-y-3">
-              <Skeleton className="h-10 w-24" />
-              <Skeleton className="h-5 w-64" />
+              <Skeleton className="h-8 sm:h-10 w-24" />
+              <Skeleton className="h-4 sm:h-5 w-48 sm:w-64" />
             </div>
 
             {/* Form Fields */}
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {/* Name Field */}
               <div className="space-y-2">
                 <div className="flex items-center gap-1">
                   <Skeleton className="h-4 w-12" />
                 </div>
-                <Skeleton className="h-12 w-full rounded-lg" />
+                <Skeleton className="h-10 sm:h-12 w-full rounded-lg" />
               </div>
 
               {/* Email Field */}
@@ -215,28 +215,28 @@ export function MyFormSkeleton() {
                 <div className="flex items-center gap-1">
                   <Skeleton className="h-4 w-14" />
                 </div>
-                <Skeleton className="h-12 w-full rounded-lg" />
+                <Skeleton className="h-10 sm:h-12 w-full rounded-lg" />
               </div>
 
               {/* Confirm Password Field */}
               <div className="space-y-2">
                 <div className="flex items-center gap-1">
-                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="h-4 w-24 sm:w-32" />
                 </div>
                 <div className="relative">
-                  <Skeleton className="h-12 w-full rounded-lg" />
-                  <Skeleton className="absolute right-4 top-4 h-4 w-4" />
+                  <Skeleton className="h-10 sm:h-12 w-full rounded-lg" />
+                  <Skeleton className="absolute right-4 top-3 sm:top-4 h-4 w-4" />
                 </div>
               </div>
 
               {/* Terms Checkbox */}
               <div className="flex items-start gap-3 pt-2">
                 <Skeleton className="h-4 w-4 mt-1" />
-                <Skeleton className="h-4 w-56" />
+                <Skeleton className="h-4 w-48 sm:w-56" />
               </div>
               {/* Submit Button */}
               <div className="flex justify-end pt-4">
-                <Skeleton className="h-10 w-32 rounded-lg" />
+                <Skeleton className="h-10 w-24 sm:w-32 rounded-lg" />
               </div>
             </div>
           </div>

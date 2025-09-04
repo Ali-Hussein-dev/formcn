@@ -96,26 +96,27 @@ export const defaultFormElements: Record<
     accept: "image/png, image/jpeg, image/gif",
   },
   H1: {
-    label: "Heading 1",
-    content: "Heading 1",
+    label: "Form Heading 1",
+    content: "Form Heading 1",
     static: true,
   },
   H2: {
-    label: "Heading 2",
-    content: "Heading 2",
+    label: "Form Heading 2",
+    content: "Form Heading 2",
     static: true,
   },
   H3: {
-    label: "Heading 3",
-    content: "Heading 3",
+    label: "Form Heading 3",
+    content: "Form Heading 3",
     static: true,
   },
   P: {
     label: "Paragraph",
-    content: "E.g This is a note",
+    content: "This is a description text",
     static: true,
   },
   Separator: {
     static: true,
+    content: "Separator",
   },
 };

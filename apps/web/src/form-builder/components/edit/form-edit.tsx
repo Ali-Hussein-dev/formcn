@@ -31,11 +31,9 @@ const EditFormItem = (props: EditFormItemProps) => {
   const dropElement = useFormBuilderStore((s) => s.dropElement);
   const isNested = typeof props?.j === "number";
   let DisplayName =
-    "label" in element
-      ? element?.label
-      : "content" in element
+    "static" in element && element.static
       ? element.content
-      : element.name;
+      : element.label || element.name;
 
   return (
     <div className="w-full group">

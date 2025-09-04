@@ -498,15 +498,15 @@ export const getFormElementCode = (field: FormElement) => {
               }}
             />`;
     case "H1":
-      return `<h1 className="text-3xl font-bold">${field.content}</h1>`;
+      return `<h1 className="mt-6 font-extrabold text-3xl tracking-tight">${field.content}</h1>`;
     case "H2":
-      return `<h2 className="text-2xl font-bold">${field.content}</h2>`;
+      return `<h2 className="mt-4 font-bold text-2xl tracking-tight">${field.content}</h2>`;
     case "H3":
-      return `<h3 className="text-xl font-bold">${field.content}</h3>`;
+      return `<h3 className="mt-3 font-semibold text-xl tracking-tight">${field.content}</h3>`;
     case "P":
-      return `<p className="tracking-wider text-foreground/60 pt-0 dark:text-foreground/60 mb-6 mt-0 text-wrap">${field.content}</p>`;
+      return `<p className="tracking-wide text-muted-foreground mb-6 text-wrap text-sm">${field.content}</p>`;
     case "Separator":
-      return `<div className="py-3 w-full">
+      return `<div className="py-1 w-full">
                 <Separator />
               </div>`;
     default:

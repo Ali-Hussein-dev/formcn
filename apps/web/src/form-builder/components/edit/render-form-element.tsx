@@ -535,28 +535,35 @@ export const RenderFormElement = ({
       return (
         <h1
           key={formElement.content}
-          className={cn("mt-6 font-bold text-3xl", formElement.className)}
+          className={cn(
+            "mt-6 font-extrabold text-3xl tracking-tight",
+            formElement.className
+          )}
         >
           {formElement.content}
         </h1>
       );
     case "H2":
-      return <h2 className="mt-4 font-bold text-xl">{formElement.content}</h2>;
+      return (
+        <h2 className="mt-4 font-bold text-2xl tracking-tight">
+          {formElement.content}
+        </h2>
+      );
     case "H3":
       return (
-        <h3 className="mt-3 font-semiboldbold text-lg">
+        <h3 className="mt-3 font-semibold text-xl tracking-tight">
           {formElement.content} content
         </h3>
       );
     case "P":
       return (
-        <p className="tracking-wider text-foreground/60 pt-0 dark:text-foreground/60 mb-6 mt-0 text-wrap">
+        <p className="tracking-wide text-muted-foreground mb-6 text-wrap text-sm">
           {formElement.content}
         </p>
       );
     case "Separator":
       return (
-        <div className="py-3 w-full">
+        <div className="py-1 w-full">
           <Separator {...formElement} />
         </div>
       );
