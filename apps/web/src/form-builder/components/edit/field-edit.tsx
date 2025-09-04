@@ -47,7 +47,9 @@ const OptionLabel = ({
 }) => (
   <TooltipProvider>
     <Tooltip>
-      <TooltipTrigger asChild>{Icon}</TooltipTrigger>
+      <TooltipTrigger asChild>
+        <button type="button">{Icon}</button>
+      </TooltipTrigger>
       <TooltipContent>
         <p>{label}</p>
       </TooltipContent>
