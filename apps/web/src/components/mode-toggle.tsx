@@ -4,8 +4,9 @@ import * as React from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
+import dynamic from "next/dynamic";
 
-export function ModeToggle() {
+export function ModeToggleBase() {
   const { theme, setTheme } = useTheme();
   return (
     <Button
@@ -20,3 +21,10 @@ export function ModeToggle() {
     </Button>
   );
 }
+
+export const ModeToggle = dynamic(
+  () => import("./mode-toggle").then((mod) => mod.ModeToggleBase),
+  {
+    ssr: false,
+  }
+);
