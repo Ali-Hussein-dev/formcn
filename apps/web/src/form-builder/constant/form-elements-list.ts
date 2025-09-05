@@ -27,12 +27,14 @@ export const formElementsList = [
     name: "Checkbox",
     fieldType: "Checkbox",
     icon: MdOutlineCheckBox,
+    description: "Checkbox input",
   },
   {
     group: "field",
     name: "Date Picker",
     fieldType: "DatePicker",
     icon: CiCalendarDate,
+    description: "Date picker input",
   },
   {
     group: "display",
@@ -41,6 +43,7 @@ export const formElementsList = [
     content: "Heading 1",
     icon: LuHeading1,
     static: true,
+    description: "Heading 1",
   },
   {
     group: "display",
@@ -49,6 +52,7 @@ export const formElementsList = [
     content: "Heading 2",
     icon: LuHeading2,
     static: true,
+    description: "Heading 2",
   },
   {
     group: "display",
@@ -57,6 +61,7 @@ export const formElementsList = [
     content: "Heading 3",
     icon: LuHeading3,
     static: true,
+    description: "Heading 3",
   },
   {
     group: "display",
@@ -65,12 +70,14 @@ export const formElementsList = [
     content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
     icon: BsTextLeft,
     static: true,
+    description: "Paragraph",
   },
   {
     group: "field",
     name: "Input",
     fieldType: "Input",
     icon: BsInputCursor,
+    description: "Input field",
   },
   {
     group: "field",
@@ -78,12 +85,14 @@ export const formElementsList = [
     fieldType: "FileUpload",
     icon: AiOutlineCloudUpload,
     isNew: true,
+    description: "Dropzone file upload",
   },
   {
     group: "field",
     name: "Input OTP",
     fieldType: "OTP",
     icon: GoShieldLock,
+    description: "One time password field",
   },
   {
     group: "field",
@@ -112,6 +121,7 @@ export const formElementsList = [
         label: "Option 5",
       },
     ],
+    description: "Multi select field",
   },
   {
     group: "field",
@@ -119,6 +129,7 @@ export const formElementsList = [
     fieldType: "Password",
     type: "password",
     icon: MdOutlinePassword,
+    description: "Password field",
   },
   {
     group: "field",
@@ -139,6 +150,7 @@ export const formElementsList = [
         label: "Option 3",
       },
     ],
+    description: "Radio group field",
   },
   {
     group: "field",
@@ -155,6 +167,7 @@ export const formElementsList = [
         label: "Option 2",
       },
     ],
+    description: "Select field",
   },
   {
     group: "display",
@@ -162,24 +175,34 @@ export const formElementsList = [
     fieldType: "Separator",
     static: true,
     icon: CgFormatSeparator,
+    description: "Divider element",
   },
-  { group: "field", name: "Slider", fieldType: "Slider", icon: RxSlider },
+  {
+    group: "field",
+    name: "Slider",
+    fieldType: "Slider",
+    icon: RxSlider,
+    description: "Slider element",
+  },
   {
     group: "field",
     name: "Switch",
     fieldType: "Switch",
     icon: MdOutlineToggleOff,
+    description: "Switch element",
   },
   {
     group: "field",
     name: "Textarea",
     fieldType: "Textarea",
     icon: MdOutlineWrapText,
+    description: "multi-line text input",
   },
   {
     group: "field",
     name: "Toggle",
     fieldType: "ToggleGroup",
     icon: PiSquaresFour,
+    description: "Toggle group element",
   },
 ];

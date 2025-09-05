@@ -99,7 +99,7 @@ export function FormEdit() {
   const reorderSteps = useFormBuilderStore((s) => s.reorderSteps);
 
   const animateVariants = {
-    initial: { opacity: 0, y: -15 },
+    initial: { opacity: 0, y: -10 },
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, scale: 0.85 },
     transition: { duration: 0.3, ease: "easeInOut" },

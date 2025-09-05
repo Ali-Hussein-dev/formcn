@@ -22,19 +22,25 @@ import Link from "next/link";
 import { Placeholder } from "@/form-builder/components/placeholder";
 import dynamic from "next/dynamic";
 import { MyFormSkeleton } from "./form-skeleton";
+import { MdOutlineEditOff } from "react-icons/md";
+import { BsFillSendFill } from "react-icons/bs";
+import { HiOutlineCodeBracket } from "react-icons/hi2";
 
 const tabsList = [
   {
     name: "Edit",
+    icon: <MdOutlineEditOff />,
   },
   {
     name: "Code",
+    icon: <HiOutlineCodeBracket />,
   },
   // {
   //   name: "JSON",
   // },
   {
     name: "Submission",
+    icon: <BsFillSendFill />,
   },
 ];
 
@@ -82,6 +88,7 @@ export function FormBuilderBase() {
             <TabsList className="w-full">
               {tabsList.map((tab) => (
                 <TabsTrigger key={tab.name} value={tab.name} className="w-full">
+                  {tab.icon}
                   {tab.name}
                 </TabsTrigger>
               ))}

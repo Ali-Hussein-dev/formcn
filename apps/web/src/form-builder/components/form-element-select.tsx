@@ -38,21 +38,25 @@ const FormElementSelect = () => {
             stepIndex: isMS ? formElements.length - 1 : undefined,
           });
         }}
-        className="gap-1 justify-start w-fit lg:w-full text-[13px] py-1.5"
+        className="gap-1 justify-start w-fit lg:w-full py-1.5"
       >
-        <div className="flex items-center justify-start gap-1.5">
-          <span className="border rounded-full size-7 grid place-items-center">
-            <Icon className="size-4" />
+        <div className="flex items-center justify-start gap-1.5 text-accent-foreground">
+          <span className="border rounded-xl size-8 border-dashed bg-accent/40 grid place-items-center">
+            <Icon className="size-4 text-accent-foreground" />
           </span>
-          {o.name}
-          {o?.isNew! && (
-            <Badge
-              className="text-[9px] font-medium rounded-full ml-1 "
-              variant="destructive"
-            >
-              New
-            </Badge>
-          )}
+          <div className="flex flex-col justify-start items-start">
+            <div className="text-xs">
+              {o.name}
+              {o?.isNew! && (
+                <Badge
+                  className="text-[9px] font-medium rounded-2xl ml-1"
+                  variant="destructive"
+                >
+                  New
+                </Badge>
+              )}
+            </div>
+          </div>
         </div>
       </Button>
     );

@@ -49,11 +49,17 @@ export function FormElementsSelectCommand() {
                   }}
                   className="gap-3"
                 >
-                  <Icon />
-                  {o.name}
-                  {/* {o.isNew && (
-                  <Badge className="text-sm py-0 rounded-[2px]">New</Badge>
-                )} */}
+                  <div className="flex items-center justify-start gap-1.5 text-accent-foreground">
+                    <span className="border rounded-xl size-8 border-dashed bg-accent grid place-items-center">
+                      <Icon className="size-4 text-accent-foreground" />
+                    </span>
+                    <div className="flex flex-col justify-start items-start">
+                      <span className="text-xs">{o.name}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {o.description}
+                      </span>
+                    </div>
+                  </div>
                 </CommandItem>
               );
             })}

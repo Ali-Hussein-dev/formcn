@@ -318,6 +318,9 @@ function FormElementAttributes({
     fieldType === "MultiSelect" ||
     fieldType === "RadioGroup" ||
     fieldType === "ToggleGroup";
+  const withoutPlaceholder = ["Slider", "ToggleGroup", "Checkbox"].includes(
+    fieldType
+  );
   return (
     <Form {...form}>
       <form
@@ -367,23 +370,25 @@ function FormElementAttributes({
                   }}
                   form={form}
                 />
-                <RenderFormElement
-                  formElement={{
-                    id: formElement.id,
-                    name: "placeholder",
-                    label: "Placeholder attribute",
-                    fieldType: "Input",
-                    type: "text",
-                  }}
-                  form={form}
-                />
+                {!withoutPlaceholder && (
+                  <RenderFormElement
+                    formElement={{
+                      id: formElement.id,
+                      name: "placeholder",
+                      label: "Placeholder attribute",
+                      fieldType: "Input",
+                      type: "text",
+                    }}
+                    form={form}
+                  />
+                )}
               </div>
               <RenderFormElement
                 formElement={{
                   id: formElement.id,
                   name: "description",
                   label: "Description attribute",
-                  fieldType: "Input",
+                  fieldType: "Textarea",
                   placeholder: "Add a description",
                 }}
                 form={form}
