@@ -264,8 +264,11 @@ export const RenderFormElement = ({
                   disabled={formElement.disabled}
                   required={formElement.required}
                 >
-                  {formElement.options.map(({ label, value }) => (
-                    <div key={value} className="flex items-center gap-x-2">
+                  {(formElement?.options || []).map(({ label, value }) => (
+                    <div
+                      key={crypto.randomUUID()}
+                      className="flex items-center gap-x-2"
+                    >
                       <RadioGroupItem value={value} id={value} />
                       <Label htmlFor={value}>{label}</Label>
                     </div>
@@ -281,11 +284,18 @@ export const RenderFormElement = ({
         />
       );
     case "ToggleGroup": {
-      const options = formElement.options.map(({ label, value }) => (
-        <ToggleGroupItem value={value} key={value} className="text-sm">
-          {label}
-        </ToggleGroupItem>
-      ));
+      const options = (formElement?.options || []).map((option) => {
+        if (!option.label || !option.value) return null;
+        return (
+          <ToggleGroupItem
+            key={crypto.randomUUID()}
+            value={option.value}
+            className="text-sm"
+          >
+            {option.label}
+          </ToggleGroupItem>
+        );
+      });
       return (
         <FormField
           control={form.control}
@@ -421,11 +431,17 @@ export const RenderFormElement = ({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {formElement.options.map(({ label, value }) => (
-                    <SelectItem key={value} value={value}>
-                      {label}
-                    </SelectItem>
-                  ))}
+                  {(formElement?.options || []).map((option) => {
+                    if (!option.label || !option.value) return null;
+                    return (
+                      <SelectItem
+                        key={crypto.randomUUID()}
+                        value={option.value}
+                      >
+                        {option.label}
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </Select>
               {formElement.description && (
@@ -458,11 +474,17 @@ export const RenderFormElement = ({
                 </FormControl>
                 <MultiSelectContent>
                   <MultiSelectList>
-                    {formElement.options.map(({ label, value }) => (
-                      <MultiSelectItem key={value} value={value}>
-                        {label}
-                      </MultiSelectItem>
-                    ))}
+                    {(formElement?.options || []).map((option) => {
+                      if (!option.label || !option.value) return null;
+                      return (
+                        <MultiSelectItem
+                          key={crypto.randomUUID()}
+                          value={option.value}
+                        >
+                          {option.label}
+                        </MultiSelectItem>
+                      );
+                    })}
                   </MultiSelectList>
                 </MultiSelectContent>
               </MultiSelect>
@@ -568,6 +590,7 @@ export const RenderFormElement = ({
         </div>
       );
     default:
-      return <div>Invalid Form Element</div>;
+      // @ts-expect-error show the fieldType in the error, use in ai-generated-form
+      return <div>Invalid Form Element: {formElement.fieldType} </div>;
   }
 };

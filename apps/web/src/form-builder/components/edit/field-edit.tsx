@@ -23,7 +23,7 @@ import { isStatic } from "@/form-builder/lib/utils";
 import { RenderFormElement } from "@/form-builder/components/edit/render-form-element";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
 import { MdAttachFile, MdOutlineTextFields } from "react-icons/md";
-import { FaLink, FaPhone } from "react-icons/fa";
+import { FaLink, FaPhone, FaClock } from "react-icons/fa";
 import { MdEmail, MdOutlineNumbers, MdOutlinePassword } from "react-icons/md";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import {
@@ -48,7 +48,12 @@ const OptionLabel = ({
   <TooltipProvider>
     <Tooltip>
       <TooltipTrigger asChild>
-        <button type="button">{Icon}</button>
+        <button
+          className="size-full flex justify-center items-center"
+          type="button"
+        >
+          {Icon}
+        </button>
       </TooltipTrigger>
       <TooltipContent>
         <p>{label}</p>
@@ -78,6 +83,10 @@ const inputTypes = [
   {
     value: "tel",
     label: <OptionLabel label="Phone number" Icon={<FaPhone />} />,
+  },
+  {
+    value: "time",
+    label: <OptionLabel label="Time" Icon={<FaClock />} />,
   },
 ];
 

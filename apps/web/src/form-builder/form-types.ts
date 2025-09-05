@@ -261,3 +261,35 @@ export type FormObject = {
   | { formElements: FormElementList[]; isMS: false }
   | { formElements: FormStep[]; isMS: true }
 );
+
+export const fieldTypes = [
+  "Input",
+  "Password",
+  "OTP",
+  "Textarea",
+  "Checkbox",
+  "RadioGroup",
+  "ToggleGroup",
+  "Switch",
+  "Slider",
+  "FileUpload",
+  "DatePicker",
+  "Select",
+  "MultiSelect",
+  "H1",
+  "H2",
+  "H3",
+  "Paragraph",
+  "Separator",
+] as const;
+
+export type FormFieldType = (typeof fieldTypes)[number];
+
+export const formFieldTypeWithOptions = [
+  "Select",
+  "ToggleGroup",
+  "MultiSelect",
+] as const;
+
+export type FormFieldTypeWithOptions =
+  (typeof formFieldTypeWithOptions)[number];

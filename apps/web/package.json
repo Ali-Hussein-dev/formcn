@@ -10,6 +10,8 @@
     "registry:build": "shadcn build"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^2.0.23",
+    "@ai-sdk/react": "^2.0.30",
     "@hookform/resolvers": "^5.2.1",
     "@mantine/hooks": "^8.2.4",
     "@radix-ui/react-accordion": "^1.2.11",
@@ -43,6 +45,9 @@
     "@tanstack/react-form": "^1.12.3",
     "@tanstack/react-query": "^5.80.5",
     "@types/js-beautify": "^1.14.3",
+    "@upstash/ratelimit": "^2.0.6",
+    "@upstash/redis": "^1.35.3",
+    "ai": "^5.0.30",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -61,6 +66,7 @@
     "react": "^19.0.0",
     "react-day-picker": "^9.8.1",
     "react-dom": "^19.0.0",
+    "react-error-boundary": "^6.0.0",
     "react-hook-form": "^7.61.1",
     "react-icons": "^5.5.0",
     "react-resizable-panels": "^3.0.4",
