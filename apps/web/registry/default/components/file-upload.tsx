@@ -99,7 +99,7 @@ export function FileUpload({
 
         <div className="flex flex-col items-center justify-center text-center">
           <div
-            className="bg-background mb-2 flex size-11 shrink-0 items-center justify-center rounded-full border"
+            className="bg-secondary mb-2 flex size-11 shrink-0 items-center justify-center rounded-full border"
             aria-hidden="true"
           >
             <AiOutlineCloudUpload className="size-4 opacity-60" />
@@ -132,7 +132,7 @@ export function FileUpload({
           {files.map((file) => (
             <div
               key={file.id}
-              className="flex items-center justify-between gap-2 rounded-lg bg-muted/50 p-2 pe-3"
+              className="flex items-center justify-between gap-2 rounded-lg border p-2 pe-3"
             >
               <div className="flex items-center gap-1.5 overflow-hidden">
                 {getFileIcon(file)}
