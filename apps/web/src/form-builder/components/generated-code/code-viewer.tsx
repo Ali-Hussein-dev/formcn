@@ -181,7 +181,9 @@ export function CodeBlockPackagesInstallation() {
             ))}
           </TabsList>
           <CopyButton
-            text={tabsData.find((item) => item.value === activeTab)?.base || ""}
+            text={
+              tabsData.find((item) => item.value === activeTab)?.shadcn || ""
+            }
           />
         </div>
         {tabsData.map((item) => (
