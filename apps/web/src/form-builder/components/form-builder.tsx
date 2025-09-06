@@ -21,10 +21,11 @@ import { FaArrowLeft } from "react-icons/fa6";
 import Link from "next/link";
 import { Placeholder } from "@/form-builder/components/placeholder";
 import dynamic from "next/dynamic";
-import { MyFormSkeleton } from "./form-skeleton";
+import { FormBuilderSkeleton } from "./form-skeleton";
 import { MdOutlineEditOff } from "react-icons/md";
 import { BsFillSendFill } from "react-icons/bs";
 import { HiOutlineCodeBracket } from "react-icons/hi2";
+import { WebPreview } from "./web-preview";
 
 const tabsList = [
   {
@@ -68,7 +69,7 @@ export function FormBuilderBase() {
 
   return (
     <div>
-      <div className="mb-1 flex justify-between items-center  border-dashed rounded-xs pr-3 pl-1 py-1">
+      <div className="mb-1 flex justify-between items-center rounded-xs pr-3 pl-1 py-1">
         <Button variant="ghost" className="flex gap-2" asChild>
           <Link href={`/my-forms?id=${id}`}>
             <FaArrowLeft />
@@ -79,12 +80,12 @@ export function FormBuilderBase() {
           <FormElementsSelectCommand />
         </CommandProvider>
       </div>
-      <div className="w-full grid lg:grid-cols-12 gap-3 border rounded border-dashed">
-        <div className="lg:col-span-2 py-3 lg:pl-2">
+      <div className="w-full grid lg:grid-cols-12 gap-3">
+        <div className="lg:col-span-2 lg:pl-2">
           <FormElementsSidebar />
         </div>
-        <div className="w-full lg:col-span-6 min-w-full grow py-6 px-4 border-y sm:border-y-0 sm:border-x border-dashed">
-          <Tabs defaultValue={tabsList[0].name} className="">
+        <div className="w-full lg:col-span-6 min-w-full grow px-4 ">
+          <Tabs defaultValue={tabsList[0].name}>
             <TabsList className="w-full">
               {tabsList.map((tab) => (
                 <TabsTrigger key={tab.name} value={tab.name} className="w-full">
@@ -98,14 +99,14 @@ export function FormBuilderBase() {
                 <div className="pt-2">
                   <FormEdit />
                   <div className="pt-4 flex items-center justify-between">
-                    <Button variant="ghost" onClick={handleSaveForm}>
-                      Save
-                    </Button>
                     {formElements.length > 1 && (
                       <Button variant="ghost" onClick={resetForm}>
                         Remove All
                       </Button>
                     )}
+                    <Button variant="secondary" onClick={handleSaveForm}>
+                      Save
+                    </Button>
                   </div>
                 </div>
               ) : (
@@ -131,12 +132,16 @@ export function FormBuilderBase() {
             </TabsContent>
           </Tabs>
         </div>
-        <div className="lg:col-span-4 w-full px-2 pb-6">
-          <FormPreview
-            {...previewForm}
-            formElements={formElements}
-            isMS={isMS}
-          />
+        <div className="lg:col-span-4 w-full pb-6">
+          <WebPreview>
+            <div className="pb-2 bg-accent border">
+              <FormPreview
+                {...previewForm}
+                formElements={formElements}
+                isMS={isMS}
+              />
+            </div>
+          </WebPreview>
         </div>
       </div>
     </div>
@@ -147,6 +152,6 @@ export const FormBuilder = dynamic(
   () => import("./form-builder").then((mod) => mod.FormBuilderBase),
   {
     ssr: false,
-    loading: () => <MyFormSkeleton />,
+    loading: () => <FormBuilderSkeleton />,
   }
 );

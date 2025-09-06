@@ -202,33 +202,35 @@ export function MyFormsBase() {
         <div className="lg:col-span-8 md:col-span-7 px-4 lg:px-6">
           {PreviewFormId && (
             <WebPreview>
-              <motion.div
-                key={PreviewFormId}
-                className="border rounded-lg p-4 bg-primary-foreground"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ type: "keyframes", duration: 0.35 }}
-              >
-                <FormPreview
-                  formElements={
-                    (currentForm?.formElements || []) as FormElementOrList[]
-                  }
-                  isMS={currentForm?.isMS || false}
-                  {...previewForm}
-                />
-              </motion.div>
-              <div className="pt-4 flex justify-end">
-                {!isTemplate && (
-                  <div className="grow pr-2">
-                    <SavedFormCard
-                      id={PreviewFormId}
-                      name={getFormById(PreviewFormId)?.name || "Form"}
-                    />
-                  </div>
-                )}
-                <Button variant="outline" onClick={handleUseForm}>
-                  Edit form
-                </Button>
+              <div className="p-4">
+                <motion.div
+                  key={PreviewFormId}
+                  className="border rounded-lg p-4 bg-primary-foreground"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ type: "keyframes", duration: 0.35 }}
+                >
+                  <FormPreview
+                    formElements={
+                      (currentForm?.formElements || []) as FormElementOrList[]
+                    }
+                    isMS={currentForm?.isMS || false}
+                    {...previewForm}
+                  />
+                </motion.div>
+                <div className="pt-4 flex justify-end">
+                  {!isTemplate && (
+                    <div className="grow pr-2">
+                      <SavedFormCard
+                        id={PreviewFormId}
+                        name={getFormById(PreviewFormId)?.name || "Form"}
+                      />
+                    </div>
+                  )}
+                  <Button variant="default" onClick={handleUseForm}>
+                    Edit form
+                  </Button>
+                </div>
               </div>
             </WebPreview>
           )}

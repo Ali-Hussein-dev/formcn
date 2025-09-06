@@ -40,7 +40,7 @@ export function MultiStepFormPreview({
   const steps = formElements as FormStep[];
   const current = formElements[currentStep - 1] as FormStep;
   const { formState } = form;
-  const { isSubmitting, isSubmitted } = formState;
+  const { isSubmitting } = formState;
   const [rerender, setRerender] = React.useState(false);
   return (
     <div className="flex flex-col gap-2 pt-3">
@@ -118,7 +118,8 @@ export function MultiStepFormPreview({
             type="button"
             onClick={async (e) => {
               e.preventDefault();
-              await form.handleSubmit((data) => {
+              await form.handleSubmit(async (data) => {
+                await new Promise((resolve) => setTimeout(resolve, 1000));
                 console.log("Form submitted:", data);
               })();
             }}

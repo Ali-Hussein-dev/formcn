@@ -45,7 +45,7 @@ export function WebPreview({
                   "radial-gradient(circle at 1px 1px, var(--border) 1px, transparent 0)",
               }}
             />
-            <div className="z-20 p-5 pt-7">{children}</div>
+            <div className="z-20 p-1.5">{children}</div>
           </div>
         </div>
       </div>
