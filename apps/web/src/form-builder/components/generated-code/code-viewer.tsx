@@ -208,7 +208,7 @@ const useGenerateCode = () => {
     },
     {
       name: "npm",
-      value: `npx i ${dependencies}`,
+      value: `npm i ${dependencies}`,
     },
     {
       name: "yarn",
@@ -216,7 +216,7 @@ const useGenerateCode = () => {
     },
     {
       name: "bun",
-      value: `bunx --bun add ${dependencies}`,
+      value: `bun add ${dependencies}`,
     },
   ];
   const registryDependenciesTabs = [
