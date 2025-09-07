@@ -20,7 +20,7 @@ export function FormBuilderSkeleton() {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row max-w-7xl mx-auto overflow-hidden border rounded-xs border-dashed">
+      <div className="flex flex-col lg:flex-row max-w-[84rem] mx-auto overflow-hidden">
         {/* Left Sidebar - Hidden on mobile, visible on large screens */}
         <div className="hidden lg:block w-64 bg-card p-4 space-y-6">
           {/* Field Elements Section */}
@@ -37,7 +37,7 @@ export function FormBuilderSkeleton() {
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col xl:flex-row">
           {/* Form Builder */}
-          <div className="flex-1 p-3 sm:p-6 space-y-4 sm:space-y-6 border-border border-dashed xl:border-x">
+          <div className="flex-1 p-3 sm:p-6 space-y-4 sm:space-y-6">
             {/* Tabs */}
             <div className="flex gap-1.5 w-full">
               {["Edit", "Code", "Submission"].map((tab, i) => (
@@ -85,7 +85,7 @@ export function FormBuilderSkeleton() {
           </div>
 
           {/* Right Preview Panel - Hidden on mobile, visible on xl screens */}
-          <div className="hidden xl:block w-80 bg-card p-6">
+          <div className="hidden xl:block w-80 bg-secondary/20 p-6">
             <div className="space-y-6">
               {/* Form Title */}
               <div className="space-y-2">
