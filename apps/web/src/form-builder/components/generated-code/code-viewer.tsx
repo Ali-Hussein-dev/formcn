@@ -199,7 +199,8 @@ const useGenerateCode = () => {
 
   const packagesSet = new Set(formElementTypes);
   const registryDependencies = Array.from(packagesSet).join(" ");
-  const dependencies = "react-hook-form zod @hookform/resolvers motion";
+  const dependencies =
+    "react-hook-form zod @hookform/resolvers motion next-safe-action";
   const dependenciesTabs = [
     {
       name: "pnpm",
@@ -221,19 +222,19 @@ const useGenerateCode = () => {
   const registryDependenciesTabs = [
     {
       name: "pnpm",
-      value: `pnpm add ${registryDependencies}`,
+      value: `pnpm dlx shadcn@latest add ${registryDependencies}`,
     },
     {
       name: "npm",
-      value: `npx i ${registryDependencies}`,
+      value: `npx shadcn@latest add ${registryDependencies}`,
     },
     {
       name: "yarn",
-      value: `yarn add ${registryDependencies}`,
+      value: `yarn shadcn@latest add ${registryDependencies}`,
     },
     {
       name: "bun",
-      value: `bunx --bun add ${registryDependencies}`,
+      value: `bunx --bun shadcn@latest add ${registryDependencies}`,
     },
   ];
 
