@@ -1,0 +1,65 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "formcn",
+  "homepage": "https://formcn.dev",
+  "author": "formcn (https://formcn.dev)",
+  "items": [
+    {
+      "name": "password",
+      "type": "registry:component",
+      "title": "Password",
+      "description": "Password input with show/hide toggle",
+      "registryDependencies": ["input", "label", "button"],
+      "files": [
+        {
+          "path": "registry/default/components/password.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "multi-select",
+      "type": "registry:component",
+      "title": "Multi-select",
+      "description": "Multi-select dropdown",
+      "registryDependencies": [
+        "command",
+        "input",
+        "label",
+        "badge",
+        "tooltip"
+      ],
+      "files": [
+        {
+          "path": "registry/default/components/multi-select.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload",
+      "type": "registry:component",
+      "title": "File Input",
+      "description": "File upload component",
+      "files": [
+        {
+          "path": "registry/default/components/file-upload.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": ["https://formcn.dev/r/use-file-upload.json", "Button"]
+    },
+    {
+      "name": "use-file-upload",
+      "type": "registry:hook",
+      "title": "file upload hook",
+      "description": "state management hook for file upload component",
+      "files": [
+        {
+          "path": "registry/default/hooks/use-file-upload.tsx",
+          "type": "registry:hook"
+        }
+      ]
+    }
+  ]
+}
