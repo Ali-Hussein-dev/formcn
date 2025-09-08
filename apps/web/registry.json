@@ -22,13 +22,7 @@
       "type": "registry:component",
       "title": "Multi-select",
       "description": "Multi-select dropdown",
-      "registryDependencies": [
-        "command",
-        "input",
-        "label",
-        "badge",
-        "tooltip"
-      ],
+      "registryDependencies": ["command", "input", "label", "badge", "tooltip"],
       "files": [
         {
           "path": "registry/default/components/multi-select.tsx",
@@ -47,7 +41,10 @@
           "type": "registry:component"
         }
       ],
-      "registryDependencies": ["https://formcn.dev/r/use-file-upload.json", "Button"]
+      "registryDependencies": [
+        "https://formcn.dev/r/use-file-upload.json",
+        "Button"
+      ]
     },
     {
       "name": "use-file-upload",
@@ -58,6 +55,35 @@
         {
           "path": "registry/default/hooks/use-file-upload.tsx",
           "type": "registry:hook"
+        }
+      ]
+    },
+    {
+      "name": "safe-action",
+      "type": "registry:file",
+      "title": "next safe action",
+      "description": "handles your Next.js app mutations type safety, input/output validation, server errors and even more!",
+      "dependencies": ["next-safe-action"],
+      "files": [
+        {
+          "path": "registry/default/actions/safe-action.ts",
+          "type": "registry:file",
+          "target": "actions/safe-action.ts"
+        }
+      ]
+    },
+    {
+      "name": "server-action",
+      "type": "registry:file",
+      "title": "server action",
+      "description": "server action",
+      "dependencies": ["zod"],
+      "registryDependencies": ["@formcn/safe-action"],
+      "files": [
+        {
+          "path": "registry/default/actions/server-action.ts",
+          "type": "registry:file",
+          "target": "actions/server-action.ts"
         }
       ]
     }

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "safe-action",
+  "type": "registry:file",
+  "title": "next safe action",
+  "description": "handles your Next.js app mutations type safety, input/output validation, server errors and even more!",
+  "files": [
+    {
+      "path": "registry/default/actions/safe-action.ts",
+      "content": "import { createSafeActionClient } from \"next-safe-action\";\r\n\r\n// Create the client with default options.\r\nexport const actionClient = createSafeActionClient();\r\n",
+      "type": "registry:file",
+      "target": "actions/safe-action.ts"
+    }
+  ]
+}
