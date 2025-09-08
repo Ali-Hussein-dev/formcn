@@ -86,9 +86,9 @@ const installableShadcnComponents: Partial<
   DatePicker: "popover calendar",
   Separator: "separator",
   // none-shadcn components
-  MultiSelect: "https://formcn.dev/r/multi-select.json",
-  Password: "https://formcn.dev/r/password.json",
-  FileUpload: "https://formcn.dev/r/file-upload.json",
+  MultiSelect: "@formcn/multi-select",
+  Password: "@formcn/password",
+  FileUpload: "@formcn/file-upload",
 };
 
 const PackagesInstallation = ({
@@ -115,7 +115,7 @@ const PackagesInstallation = ({
           ))}
         </TabsList>
         <CopyButton
-          text={list.find((item) => item.value === activeTab)?.value || ""}
+          text={list.find((item) => item.name === activeTab)?.value!}
         />
       </div>
       {list.map((item) => (
