@@ -219,7 +219,7 @@ export const getFormElementCode = (field: FormElement) => {
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
-                  variant={"outline-solid"}
+                  variant="outline"
                   className={cn(
                     "w-[240px] pl-3 text-start font-normal",
                     !field.value && "text-muted-foreground"

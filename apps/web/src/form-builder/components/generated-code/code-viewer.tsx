@@ -41,7 +41,7 @@ const Wrapper = ({
       </CodeBlockGroup>
       <div
         style={{ height: "100%", maxHeight: "50vh" }}
-        className="*:mt-0 [&_pre]:p-3 w-full overflow-y-auto"
+        className="*:mt-0 [&_pre]:p-3 w-full overflow-y-auto dark:bg-accent! bg-accent/5!"
       >
         <CodeBlockCode code={children} language={language} />
       </div>
@@ -151,14 +151,21 @@ export function CodeBlockPackagesInstallation({
   );
 }
 const CodeBlockTSX = ({ code }: { code: { file: string; code: string }[] }) => {
-  const formattedCode = code.map((item) => ({
-    ...item,
-    code: formatCode(item.code),
-  }));
+  const [formattedCode, setFormattedCode] = React.useState<
+    { file: string; code: string }[]
+  >([]);
+  React.useEffect(() => {
+    Promise.all(
+      code.map(async (item) => ({
+        ...item,
+        code: await formatCode(item.code),
+      }))
+    ).then(setFormattedCode);
+  }, []);
   return (
     <div className="relative max-w-full flex flex-col gap-y-5">
-      {formattedCode.map((item) => (
-        <Wrapper key={item.file} title={item.file} language="tsx">
+      {formattedCode.map((item, i) => (
+        <Wrapper key={i} title={item.file} language="tsx">
           {item.code}
         </Wrapper>
       ))}
@@ -166,7 +173,10 @@ const CodeBlockTSX = ({ code }: { code: { file: string; code: string }[] }) => {
   );
 };
 const CodeBlockZodSchema = ({ code }: { code: string }) => {
-  const formattedCode = formatCode(code);
+  const [formattedCode, setFormattedCode] = React.useState("");
+  React.useEffect(() => {
+    formatCode(code).then(setFormattedCode);
+  }, [code]);
   return (
     <div className="relative max-w-full">
       <Wrapper title="schema.ts" language="typescript">
@@ -254,10 +264,17 @@ const CodeBlockServerAction = ({
 }: {
   code: { file: string; code: string }[];
 }) => {
-  const formattedCode = code.map((item) => ({
-    ...item,
-    code: formatCode(item.code),
-  }));
+  const [formattedCode, setFormattedCode] = React.useState<
+    { file: string; code: string }[]
+  >([]);
+  React.useEffect(() => {
+    Promise.all(
+      code.map(async (item) => ({
+        ...item,
+        code: await formatCode(item.code),
+      }))
+    ).then(setFormattedCode);
+  }, []);
   return (
     <div className="relative max-w-full flex flex-col gap-y-5">
       {formattedCode.map((item) => (

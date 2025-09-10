@@ -29,6 +29,7 @@ export const generateImports = (formElements: FormElement[]): Set<string> => {
         importSet.add(
           'import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot\n} from "@/components/ui/input-otp"'
         );
+        break;
       case "Select":
         importSet.add(
           'import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"'
