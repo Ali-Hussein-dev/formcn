@@ -4,6 +4,9 @@
   "type": "registry:file",
   "title": "next safe action",
   "description": "handles your Next.js app mutations type safety, input/output validation, server errors and even more!",
+  "dependencies": [
+    "next-safe-action"
+  ],
   "files": [
     {
       "path": "registry/default/actions/safe-action.ts",

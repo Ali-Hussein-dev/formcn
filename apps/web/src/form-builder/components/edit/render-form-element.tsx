@@ -574,7 +574,7 @@ export const RenderFormElement = ({
     case "H3":
       return (
         <h3 className="mt-3 font-semibold text-xl tracking-tight">
-          {formElement.content} content
+          {formElement.content}
         </h3>
       );
     case "P":

@@ -5,8 +5,7 @@
   "title": "server action",
   "description": "server action",
   "dependencies": [
-    "zod",
-    "next-safe-action"
+    "zod"
   ],
   "registryDependencies": [
     "@formcn/safe-action"

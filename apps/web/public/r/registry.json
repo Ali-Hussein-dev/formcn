@@ -86,6 +86,34 @@
           "target": "actions/server-action.ts"
         }
       ]
+    },
+    {
+      "name": "use-multi-step-form",
+      "type": "registry:hook",
+      "title": "Multi-step form hook",
+      "description": "Multi-step form hook",
+      "files": [
+        {
+          "path": "src/hooks/use-multi-step-form.tsx",
+          "type": "registry:hook",
+          "target": "hooks/use-multi-step-form.tsx"
+        }
+      ]
+    },
+    {
+      "name": "multi-step-form",
+      "type": "registry:component",
+      "title": "Multi-step form",
+      "description": "Multi-step form",
+      "dependencies": ["motion"],
+      "registryDependencies": ["use-multi-step-form","progress","button"],
+      "files": [
+        {
+          "path": "src/components/multi-step-form.tsx",
+          "type": "registry:component",
+          "target": "components/multi-step-form.tsx"
+        }
+      ]
     }
   ]
 }
