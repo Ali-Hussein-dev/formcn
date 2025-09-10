@@ -7,11 +7,6 @@ export interface Stepfields {
   component: JSX.Element;
 }
 
-interface UseFormStepsProps {
-  initialSteps: Stepfields[];
-  onStepValidation?: (step: keyof Stepfields) => Promise<boolean> | boolean;
-}
-
 export interface UseMultiFormStepsReturn {
   steps: Stepfields[];
   currentStepIndex: number;
@@ -27,8 +22,7 @@ export interface UseMultiFormStepsReturn {
 }
 
 // Context type
-interface MultiStepFormContextType
-  extends UseMultiFormStepsReturn {}
+interface MultiStepFormContextType extends UseMultiFormStepsReturn {}
 
 // Create context
 const MultiStepFormContext = createContext<MultiStepFormContextType | null>(
@@ -38,24 +32,26 @@ const MultiStepFormContext = createContext<MultiStepFormContextType | null>(
 // Provider props
 interface MultiStepFormProviderProps {
   children: ReactNode;
-  initialSteps: Stepfields[];
-  onStepValidation?: (step: keyof Stepfields) => Promise<boolean> | boolean;
+  stepsFields: Stepfields[];
+  onStepValidation?: (step: Stepfields) => Promise<boolean> | boolean;
 }
 
 // Provider component
 export function MultiStepFormProvider({
   children,
-  initialSteps,
+  stepsFields,
   onStepValidation,
 }: MultiStepFormProviderProps) {
-  const [steps, setStepsState] = useState<Stepfields[]>(initialSteps);
+  const [steps, setStepsState] = useState<Stepfields[]>(stepsFields);
   const [currentStepIndex, setCurrentStepIndex] = useState(1);
 
   const goToNext = async () => {
     const currentStepData = steps[currentStepIndex - 1];
 
     if (onStepValidation) {
-      const isValid = await onStepValidation(currentStepData.fields[0] as keyof Stepfields);
+      const isValid = await onStepValidation(
+        currentStepData
+      );
       if (!isValid) return false;
     }
 

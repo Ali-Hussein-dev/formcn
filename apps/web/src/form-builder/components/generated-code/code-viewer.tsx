@@ -208,7 +208,10 @@ const useGenerateCode = () => {
     .filter((str) => str && str.length > 0);
 
   const packagesSet = new Set(formElementTypes);
-  const registryDependencies = Array.from(packagesSet).join(" ");
+  let registryDependencies = Array.from(packagesSet).join(" ");
+  if (isMS) {
+    registryDependencies += " @formcn/multi-step-viewer";
+  }
   const dependencies =
     "react-hook-form zod @hookform/resolvers motion next-safe-action";
   const dependenciesTabs = [

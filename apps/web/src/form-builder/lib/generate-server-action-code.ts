@@ -1,4 +1,3 @@
-
 export const generateServerActionCode = () => {
   return [
     {
@@ -6,8 +5,8 @@ export const generateServerActionCode = () => {
       code: `
 "use server";
 
-import { actionClient } from "./safe-action";
-import { formSchema } from "../form-schema";
+import { actionClient } from "@/actions/safe-action";
+import { formSchema } from "@/lib/form-schema";
 
 export const serverAction = actionClient
   .inputSchema(formSchema)
@@ -33,7 +32,6 @@ export const actionClient = createSafeActionClient();`,
   ];
 };
 
-
 // export const generateServerActionCode = () => {
 //   return `
 //     "use server"
@@ -43,21 +41,21 @@ export const actionClient = createSafeActionClient();`,
 
 //         const entries = formData.entries()
 //         const rawData = Object.fromEntries(entries) as Record<string, any>
-        
+
 //         // convert 'on' values to boolean
 //         for (const key in rawData) {
 //             if (rawData[key] === 'on') {
 //                 rawData[key] = true
 //             }
 //         }
-        
+
 //         // validate inputs data with zod schema
 //         const validatedData = formSchema.safeParse(rawData)
-        
+
 //         if(!validatedData.success) {
-//             return { 
-//                 success: false, 
-//                 message: 'Invalid data', 
+//             return {
+//                 success: false,
+//                 message: 'Invalid data',
 //                 errors: validatedData.error.flatten().fieldErrors,
 //                 inputs: rawData,
 //             }

@@ -101,7 +101,7 @@
       ]
     },
     {
-      "name": "multi-step-form",
+      "name": "multi-step-viewer",
       "type": "registry:component",
       "title": "Multi-step form",
       "description": "Multi-step form",
@@ -109,9 +109,9 @@
       "registryDependencies": ["use-multi-step-form","progress","button"],
       "files": [
         {
-          "path": "src/components/multi-step-form.tsx",
+          "path": "src/components/multi-step-viewer.tsx",
           "type": "registry:component",
-          "target": "components/multi-step-form.tsx"
+          "target": "components/multi-step-viewer.tsx"
         }
       ]
     }
