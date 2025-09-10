@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
 
 export function ModeToggleBase() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme: theme, setTheme } = useTheme();
   return (
     <Button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
