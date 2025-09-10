@@ -179,7 +179,7 @@ export const MultiStepViewerWrapper = ({ form }:{
   NextButton,
   SubmitButton,
 } from "@/components/multi-step-viewer";
-import { MultiStepFormProvider } from "@/hooks/use-multi-step-form";
+import { MultiStepFormProvider } from "@/hooks/use-multi-step-viewer";
 import type { JSX } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 

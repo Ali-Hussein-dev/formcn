@@ -88,15 +88,15 @@
       ]
     },
     {
-      "name": "use-multi-step-form",
+      "name": "use-multi-step-viewer",
       "type": "registry:hook",
-      "title": "Multi-step form hook",
-      "description": "Multi-step form hook",
+      "title": "Multi-step viewer hook",
+      "description": "Multi-step viewer hook",
       "files": [
         {
-          "path": "src/hooks/use-multi-step-form.tsx",
+          "path": "src/hooks/use-multi-step-viewer.tsx",
           "type": "registry:hook",
-          "target": "hooks/use-multi-step-form.tsx"
+          "target": "hooks/use-multi-step-viewer.tsx"
         }
       ]
     },
@@ -106,7 +106,7 @@
       "title": "Multi-step form",
       "description": "Multi-step form",
       "dependencies": ["motion"],
-      "registryDependencies": ["use-multi-step-form","progress","button"],
+      "registryDependencies": ["@formcn/use-multi-step-viewer","progress","button"],
       "files": [
         {
           "path": "src/components/multi-step-viewer.tsx",

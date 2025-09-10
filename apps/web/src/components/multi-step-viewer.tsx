@@ -1,6 +1,6 @@
 "use client";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { useMultiStepForm } from "@/hooks/use-multi-step-form";
+import { useMultiStepForm } from "@/hooks/use-multi-step-viewer";
 import { Progress } from "@/components/ui/progress";
 import { AnimatePresence, motion, type MotionProps } from "motion/react";
 import * as React from "react";

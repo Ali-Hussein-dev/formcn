@@ -16,7 +16,7 @@ export const getFormElementCode = (field: FormElement) => {
                       }
                       <FormControl>
                         <Input
-                          type={"${field.type}"}
+                          type="${field.type || "text"}"
                           value={field.value}
                           onChange={(e) => {
                             const val = e.target.value;
