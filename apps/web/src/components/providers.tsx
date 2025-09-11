@@ -6,6 +6,7 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { useEffect } from "react";
 import posthog from "posthog-js";
 import { PostHogProvider as PHProvider } from "posthog-js/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -19,7 +20,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       });
     }
   }, []);
-
+  const queryClient = new QueryClient();
   return (
     <ThemeProvider
       attribute="class"
@@ -28,7 +29,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       disableTransitionOnChange
     >
       <NuqsAdapter>
-        <PHProvider client={posthog}>{children}</PHProvider>
+        <PHProvider client={posthog}>
+          <QueryClientProvider client={queryClient}>
+            {children}
+          </QueryClientProvider>
+        </PHProvider>
       </NuqsAdapter>
       <Toaster richColors />
     </ThemeProvider>

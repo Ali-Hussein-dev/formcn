@@ -21,6 +21,11 @@ import { CopyButton } from "@/components/copy-button";
 import { GeneratedCodeInfoCard } from "./tech-stack-info-card";
 import { IoTerminal } from "react-icons/io5";
 import { Placeholder } from "@/form-builder/components/placeholder";
+import { useMutation } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { convertToKababCase } from "@/lib/utils";
+import { motion } from "motion/react";
 
 const Wrapper = ({
   children,
@@ -132,6 +137,95 @@ const PackagesInstallation = ({
 };
 
 //======================================
+const Cli = ({
+  registryDependencies,
+  tsx,
+  zodSchema,
+  meta,
+  isMS,
+}: {
+  registryDependencies: string[];
+  tsx: { file: string; code: string }[];
+  zodSchema: string;
+  meta: { id: string; name: string };
+  isMS: boolean;
+}) => {
+  const res = useMutation({
+    mutationKey: ["registry", meta.id],
+    mutationFn: async () => {
+      const name = convertToKababCase(meta.name);
+      const res = await fetch("/api/registry", {
+        method: "POST",
+        body: JSON.stringify({
+          name,
+          dependencies: [
+            "react-hook-form",
+            "zod",
+            "@hookform/resolvers",
+            "motion",
+            "next-safe-action",
+          ],
+          registryDependencies: !isMS
+            ? [...registryDependencies, "@formcn/server-action"]
+            : [...registryDependencies, "progress", "@formcn/server-action"],
+          files: [
+            {
+              path: `components/${name}.tsx`,
+              content: tsx[0].code,
+              type: "registry:component",
+              target: "",
+            },
+            {
+              path: `lib/form-schema.ts`,
+              content: zodSchema,
+              type: "registry:lib",
+              target: "",
+            },
+          ],
+        }),
+      });
+      return res.json();
+    },
+  });
+  const { status, data } = res;
+  const getCommands = (id: string) => [
+    { name: "pnpm", value: `pnpm dlx shadcn@latest add ${id}` },
+    { name: "npm", value: `npmx shadcn@latest add ${id}` },
+    { name: "yarn", value: `yarn shadcn@latest add ${id}` },
+    { name: "bun", value: `bunx --bun shadcn@latest add ${id}` },
+  ];
+  return (
+    <div>
+      <Button
+        onClick={() => {
+          if (meta.id && meta.name) {
+            res.mutate();
+          } else {
+            toast.error("Please fill in the form name and id");
+          }
+        }}
+        disabled={res.status === "pending"}
+        className="w-full active:scale-100 active:translate-y-0.5 mb-4"
+      >
+        {status === "pending" ? "Fetching..." : "Fetch registry ID"}
+      </Button>
+      {status == "error" && (
+        <div className="text-destructive text-center py-2">
+          {res.error?.message}
+        </div>
+      )}
+      {status === "success" && data.data.id && (
+        <motion.div
+          initial={{ opacity: 0, y: -15 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <PackagesInstallation list={getCommands(data?.data?.id)} />
+        </motion.div>
+      )}
+    </div>
+  );
+};
+//======================================
 export function CodeBlockPackagesInstallation({
   depenedenciesTabs,
   registryDependeciesTabs,
@@ -208,7 +302,7 @@ const useGenerateCode = () => {
     .filter((str) => str && str.length > 0);
 
   const packagesSet = new Set(formElementTypes);
-  let registryDependencies = Array.from(packagesSet).join(" ");
+  let registryDependencies = [...Array.from(packagesSet), "form"].join(" ");
   if (isMS) {
     registryDependencies += " @formcn/multi-step-viewer";
   }
@@ -260,6 +354,7 @@ const useGenerateCode = () => {
     dependencies,
     registryDependenciesTabs,
     dependenciesTabs,
+    isMS,
   };
 };
 const CodeBlockServerAction = ({
@@ -298,6 +393,9 @@ export function GeneratedFormCodeViewer() {
     tsx,
     dependenciesTabs,
     registryDependenciesTabs,
+    registryDependencies,
+    meta,
+    isMS,
   } = useGenerateCode();
   if (formElements.length < 1) {
     return (
@@ -308,28 +406,48 @@ export function GeneratedFormCodeViewer() {
   }
   return (
     <div>
-      <Tabs defaultValue="tsx" className="w-full min-w-full">
+      <Tabs defaultValue="cli" className="w-full min-w-full">
         <div className="flex justify-between">
           <TabsList>
-            <TabsTrigger value="tsx">TSX</TabsTrigger>
-            <TabsTrigger value="schema">Schema</TabsTrigger>
-            <TabsTrigger value="server-action">Server action</TabsTrigger>
+            <TabsTrigger value="cli">CLI</TabsTrigger>
+            <TabsTrigger value="manual">Manual</TabsTrigger>
           </TabsList>
           <GeneratedCodeInfoCard />
         </div>
-        <TabsContent value="tsx" tabIndex={-1}>
-          <CodeBlockTSX code={tsx} />
-          <div className="border-t border-dashed w-full mt-6" />
-          <CodeBlockPackagesInstallation
-            depenedenciesTabs={dependenciesTabs}
-            registryDependeciesTabs={registryDependenciesTabs}
+        <TabsContent value="cli" tabIndex={-1}>
+          <Cli
+            registryDependencies={registryDependencies.split(" ")}
+            tsx={tsx}
+            zodSchema={zodSchema}
+            meta={meta}
+            isMS={isMS}
           />
         </TabsContent>
-        <TabsContent value="schema" tabIndex={-1}>
-          <CodeBlockZodSchema code={zodSchema} />
-        </TabsContent>
-        <TabsContent value="server-action" tabIndex={-1}>
-          <CodeBlockServerAction code={serverAction} />
+        <TabsContent value="manual" tabIndex={-1}>
+          <Tabs defaultValue="tsx" className="w-full min-w-full">
+            <div className="flex justify-between">
+              <TabsList>
+                <TabsTrigger value="tsx">TSX</TabsTrigger>
+                <TabsTrigger value="schema">Schema</TabsTrigger>
+                <TabsTrigger value="server-action">Server action</TabsTrigger>
+              </TabsList>
+              <GeneratedCodeInfoCard />
+            </div>
+            <TabsContent value="tsx" tabIndex={-1}>
+              <CodeBlockTSX code={tsx} />
+              <div className="border-t border-dashed w-full mt-6" />
+              <CodeBlockPackagesInstallation
+                depenedenciesTabs={dependenciesTabs}
+                registryDependeciesTabs={registryDependenciesTabs}
+              />
+            </TabsContent>
+            <TabsContent value="schema" tabIndex={-1}>
+              <CodeBlockZodSchema code={zodSchema} />
+            </TabsContent>
+            <TabsContent value="server-action" tabIndex={-1}>
+              <CodeBlockServerAction code={serverAction} />
+            </TabsContent>
+          </Tabs>
         </TabsContent>
       </Tabs>
     </div>
