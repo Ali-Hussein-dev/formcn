@@ -214,12 +214,12 @@ const Cli = ({
           {res.error?.message}
         </div>
       )}
-      {status === "success" && data.data.id && (
+      {status === "success" && data?.data?.id && (
         <motion.div
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <PackagesInstallation list={getCommands(data?.data?.id)} />
+          <PackagesInstallation list={getCommands(data.data.id)} />
         </motion.div>
       )}
     </div>

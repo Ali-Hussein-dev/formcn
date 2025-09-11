@@ -4,6 +4,7 @@ import "../index.css";
 import Providers from "@/components/providers";
 import Header from "@/components/header";
 import { Footer } from "@/components/footer";
+import NextTopLoader from "nextjs-toploader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <NextTopLoader color="#f54a00" showSpinner={false} speed={300} />
         <Providers>
           <div className="grid grid-rows-[auto_1fr] h-svh">
             <Header />
