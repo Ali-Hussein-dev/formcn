@@ -102,7 +102,7 @@ export default function Home() {
               </Button>
               <Button>
                 <FaPlus />
-                <Link href="/my-forms">Create form</Link>
+                <Link href="/my-forms?id=template-signup">Create form</Link>
               </Button>
             </div>
           </div>
