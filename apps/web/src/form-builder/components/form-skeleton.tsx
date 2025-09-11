@@ -4,7 +4,7 @@ import * as motion from "motion/react-client";
 export function FormBuilderSkeleton() {
   return (
     <motion.div
-      className="min-h-screen bg-background text-foreground"
+      className="bg-background text-foreground"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
@@ -20,7 +20,7 @@ export function FormBuilderSkeleton() {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row max-w-[84rem] mx-auto overflow-hidden">
+      <div className="flex flex-col lg:flex-row w-full overflow-hidden">
         {/* Left Sidebar - Hidden on mobile, visible on large screens */}
         <div className="hidden lg:block w-64 bg-card p-4 space-y-6">
           {/* Field Elements Section */}

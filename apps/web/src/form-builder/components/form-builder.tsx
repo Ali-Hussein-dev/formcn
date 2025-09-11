@@ -84,7 +84,7 @@ export function FormBuilderBase() {
         <div className="lg:col-span-2 lg:pl-2">
           <FormElementsSidebar />
         </div>
-        <div className="w-full lg:col-span-6 min-w-full grow px-4 ">
+        <div className="w-full lg:col-span-6 min-w-full grow">
           <Tabs defaultValue={tabsList[0].name}>
             <TabsList className="w-full">
               {tabsList.map((tab) => (
@@ -134,12 +134,14 @@ export function FormBuilderBase() {
         </div>
         <div className="lg:col-span-4 w-full pb-6">
           <WebPreview>
-            <div className="pb-2 bg-accent border">
-              <FormPreview
-                {...previewForm}
-                formElements={formElements}
-                isMS={isMS}
-              />
+            <div className="bg-background">
+              <div className="pb-2 bg-accent/40 border">
+                <FormPreview
+                  {...previewForm}
+                  formElements={formElements}
+                  isMS={isMS}
+                />
+              </div>
             </div>
           </WebPreview>
         </div>
