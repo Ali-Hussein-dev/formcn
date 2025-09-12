@@ -345,10 +345,6 @@ export const useFormBuilderStore = create<FormBuilderState>()(
     }),
     {
       name: "form-builder-store",
-      partialize: (state) => ({
-        formElements: state.formElements,
-        isMS: state.isMS,
-      }),
     }
   )
 );
