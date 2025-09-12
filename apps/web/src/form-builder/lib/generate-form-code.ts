@@ -36,23 +36,19 @@ export const generateFormCode = ({
     generateImports(flattenedFormElements as FormElement[])
   ).join("\n");
 
-  const defaultValues = "{}";
-
   const singleStepFormCode = [
     {
       file: "single-step-form.tsx",
       code: `
+
 ${imports}
-const initialState = {
-  success: false,
-  message: "",
-}
+
+type Schema = z.infer<typeof formSchema>;
 
 export function DraftForm() {
 
-const form = useForm<z.infer<typeof formSchema>>({
-  resolver: zodResolver(formSchema),
-  defaultValues: ${defaultValues},
+const form = useForm<Schema>({
+  resolver: zodResolver(formSchema as any),
 })
 const formResponse = useAction(serverAction, {
   onSuccess: () => {
@@ -63,9 +59,10 @@ const formResponse = useAction(serverAction, {
   // TODO: show error message
   },
 });
-function handleSubmit(){
-  form.handleSubmit(formResponse.execute) 
-}
+const handleSubmit = form.handleSubmit((data: Schema) => {
+    formResponse.execute(data);
+  });
+
 const isPending = formResponse.status === "executing"
 
 return (
@@ -186,11 +183,12 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 //------------------------------
 ${MultiStepFormViewer}
 //------------------------------
+
+type Schema = z.infer<typeof formSchema>;
 export function GeneratedForm() {
     
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: ${defaultValues},
+  const form = useForm<Schema>({
+    resolver: zodResolver(formSchema as any),
     })
 
   const formResponse = useAction(serverAction, {
@@ -202,9 +200,9 @@ export function GeneratedForm() {
         // TODO: show error message
       },
   });
-  function handleSubmit(){
-    form.handleSubmit(formResponse.execute) 
-  }
+  const handleSubmit = form.handleSubmit((data: Schema) => {
+    formResponse.execute(data);
+  });
   const isPending = formResponse.status === "executing"
   return (
     <div>
