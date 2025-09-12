@@ -154,10 +154,12 @@ const Cli = ({
     mutationKey: ["registry", meta.id],
     mutationFn: async () => {
       const name = convertToKababCase(meta.name);
+      const key = name + "-" + meta.id.split("-").slice(0, 2).join("-");
       const res = await fetch("/api/registry", {
         method: "POST",
         body: JSON.stringify({
           name,
+          key,
           dependencies: [
             "react-hook-form",
             "zod",
@@ -165,9 +167,9 @@ const Cli = ({
             "motion",
             "next-safe-action",
           ],
-          registryDependencies: !isMS
-            ? [...registryDependencies, "@formcn/server-action"]
-            : [...registryDependencies, "progress", "@formcn/server-action"],
+          registryDependencies: isMS
+            ? [...registryDependencies, "@formcn/server-action", "progress"]
+            : [...registryDependencies, "@formcn/server-action"],
           files: [
             {
               path: `components/${name}.tsx`,

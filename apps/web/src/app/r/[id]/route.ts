@@ -1,0 +1,38 @@
+import { type NextRequest, NextResponse } from "next/server";
+import { Redis } from "@upstash/redis";
+
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
+
+const responseHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Content-Type": "application/json",
+};
+
+export const GET = async (
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) => {
+  const id = params.id;
+  try {
+    const registryItem = await redis.get(id);
+    if (!registryItem) {
+      return new NextResponse("Registry item not found", {
+        status: 404,
+        headers: responseHeaders,
+      });
+    }
+    return new NextResponse(JSON.stringify(registryItem), {
+      status: 200,
+      headers: responseHeaders,
+    });
+  } catch (error) {
+    console.error(error);
+    return new NextResponse("Something went wrong", {
+      status: 500,
+      headers: responseHeaders,
+    });
+  }
+};
