@@ -12,10 +12,10 @@ const responseHeaders = {
 };
 
 export const GET = async (
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) => {
-  const id = params.id;
+  const { id } = await params;
   try {
     const registryItem = await redis.get(id);
     if (!registryItem) {
