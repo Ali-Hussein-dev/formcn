@@ -23,7 +23,7 @@ export const POST = async (req: NextRequest) => {
       files,
     };
     const isDev = process.env.NODE_ENV === "development";
-    if (!isDev) {
+    if (isDev) {
       // Create public/r directory if it doesn't exist
       const publicDir = path.join(process.cwd(), "public", "r");
       if (!fs.existsSync(publicDir)) {
