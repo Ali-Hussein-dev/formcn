@@ -16,8 +16,12 @@ export const GET = async (
   { params }: { params: Promise<{ id: string }> }
 ) => {
   const { id } = await params;
+
+  // Strip .json extension if present
+  const registryId = id.endsWith(".json") ? id.slice(0, -5) : id;
+
   try {
-    const registryItem = await redis.get(id);
+    const registryItem = await redis.get(registryId);
     if (!registryItem) {
       return new NextResponse("Registry item not found", {
         status: 404,
