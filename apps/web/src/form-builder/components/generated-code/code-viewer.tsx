@@ -155,7 +155,7 @@ const Cli = ({
     mutationFn: async () => {
       const name = convertToKababCase(meta.name);
       const key = name + "-" + meta.id.split("-").slice(0, 2).join("-");
-      const res = await fetch("/api/registry", {
+      const res = await fetch(`/r/${key}`, {
         method: "POST",
         body: JSON.stringify({
           name,
