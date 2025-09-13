@@ -258,6 +258,8 @@ const CodeBlockTSX = ({ code }: { code: { file: string; code: string }[] }) => {
       }))
     ).then(setFormattedCode);
   }, []);
+  if (!formattedCode)
+    return <p className="text-center text-lg">code formatting...</p>;
   return (
     <div className="relative max-w-full flex flex-col gap-y-5">
       {formattedCode.map((item, i) => (
@@ -273,6 +275,8 @@ const CodeBlockZodSchema = ({ code }: { code: string }) => {
   React.useEffect(() => {
     formatCode(code).then(setFormattedCode);
   }, [code]);
+  if (!formattedCode)
+    return <p className="text-center text-lg">code formatting...</p>;
   return (
     <div className="relative max-w-full">
       <Wrapper title="schema.ts" language="typescript">
@@ -375,6 +379,8 @@ const CodeBlockServerAction = ({
       }))
     ).then(setFormattedCode);
   }, []);
+  if (!formattedCode)
+    return <p className="text-center text-lg">code formatting...</p>;
   return (
     <div className="relative max-w-full flex flex-col gap-y-5">
       {formattedCode.map((item) => (
