@@ -427,14 +427,11 @@ export function GeneratedFormCodeViewer() {
         </TabsContent>
         <TabsContent value="manual" tabIndex={-1}>
           <Tabs defaultValue="tsx" className="w-full min-w-full">
-            <div className="flex justify-between">
-              <TabsList>
-                <TabsTrigger value="tsx">TSX</TabsTrigger>
-                <TabsTrigger value="schema">Schema</TabsTrigger>
-                <TabsTrigger value="server-action">Server action</TabsTrigger>
-              </TabsList>
-              <GeneratedCodeInfoCard />
-            </div>
+            <TabsList>
+              <TabsTrigger value="tsx">TSX</TabsTrigger>
+              <TabsTrigger value="schema">Schema</TabsTrigger>
+              <TabsTrigger value="server-action">Server action</TabsTrigger>
+            </TabsList>
             <TabsContent value="tsx" tabIndex={-1}>
               <CodeBlockTSX code={tsx} />
               <div className="border-t border-dashed w-full mt-6" />
