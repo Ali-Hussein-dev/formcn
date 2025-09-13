@@ -89,21 +89,18 @@ export default function Home() {
               })}
             </div>
             <div className="mx-auto pt-4 w-fit flex gap-4">
-              <Button asChild variant="outline">
-                <a
-                  href={urls.github}
-                  className="rounded-full mx-auto px-5 block"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaGithub className="" />
+              <a href={urls.github} target="_blank" rel="noopener noreferrer">
+                <Button variant="outline">
+                  <FaGithub />
                   Star on Github
-                </a>
-              </Button>
-              <Button>
-                <FaPlus />
-                <Link href="/my-forms?id=template-signup">Create form</Link>
-              </Button>
+                </Button>
+              </a>
+              <Link href="/my-forms?id=template-signup">
+                <Button>
+                  <FaPlus />
+                  Create form
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
