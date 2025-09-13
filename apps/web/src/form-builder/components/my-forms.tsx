@@ -78,11 +78,7 @@ function SavedFormCard(props: { name: string; id: string }) {
   function handleDelete() {
     deleteForm(props.id);
     toast("Form deleted successfully");
-    router.push(
-      `/my-forms?id=${
-        savedForms.length > 0 ? savedForms[0].id : templates[0].id
-      }`
-    );
+    router.push(`/my-forms?id=${templates[0].id}`);
   }
 
   return (
