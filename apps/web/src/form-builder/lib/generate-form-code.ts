@@ -68,7 +68,7 @@ const isPending = formResponse.status === "executing"
 return (
   <div>
     <Form {...form}>
-      <form onSubmit={handleSubmit} className="flex flex-col p-2 md:p-5 w-full mx-auto rounded-md max-w-3xl gap-2 border">
+      <form onSubmit={handleSubmit} className="flex flex-col p-2 sm:p-5 md:p-8 w-full mx-auto rounded-md max-w-3xl gap-2 border">
         ${renderFields(formElements as FormElementOrList[])}
         <div className="flex justify-end items-center w-full pt-3">
           <Button className="rounded-lg" size="sm">

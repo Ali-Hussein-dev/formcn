@@ -10,9 +10,9 @@ export const getFormElementCode = (field: FormElement) => {
                     <FormItem className="w-full">
                       ${
                         field.label &&
-                        `<FormLabel>${field.label}</FormLabel> ${
+                        `<FormLabel>${field.label} ${
                           field.required ? "*" : ""
-                        }`
+                        } </FormLabel>`
                       }
                       <FormControl>
                         <Input
@@ -52,9 +52,9 @@ export const getFormElementCode = (field: FormElement) => {
             <FormItem className="w-full">
                ${
                  field.label &&
-                 `<FormLabel>${field.label}</FormLabel> ${
+                 `<FormLabel>${field.label} ${
                    field.required ? "*" : ""
-                 }`
+                 } </FormLabel>`
                }
               <FormControl>
                 <FileUpload
@@ -81,7 +81,9 @@ export const getFormElementCode = (field: FormElement) => {
            <FormItem className="w-full">
           ${
             field.label &&
-            `<FormLabel>${field.label}</FormLabel> ${field.required ? "*" : ""}`
+            `<FormLabel>${field.label} ${
+              field.required ? "*" : ""
+            } </FormLabel>`
           }
           <FormControl>
             <InputOTP
@@ -123,9 +125,9 @@ export const getFormElementCode = (field: FormElement) => {
             <FormItem>
               ${
                 field.label &&
-                `<FormLabel>${field.label}</FormLabel> ${
+                `<FormLabel>${field.label} ${
                   field.required ? "*" : ""
-                }`
+                } </FormLabel>`
               }
               <FormControl>
                 <Textarea
@@ -154,9 +156,9 @@ export const getFormElementCode = (field: FormElement) => {
             <FormItem className="w-full">
               ${
                 field.label &&
-                `<FormLabel>${field.label}</FormLabel> ${
+                `<FormLabel>${field.label} ${
                   field.required ? "*" : ""
-                }`
+                } </FormLabel>`
               }
               <FormControl>
                 <Password
@@ -186,7 +188,7 @@ export const getFormElementCode = (field: FormElement) => {
           control={form.control}
           name="${field.name}"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+            <FormItem className="flex flex-row items-start space-x-1 space-y-0">
               <FormControl>
                 <Checkbox
                   checked={field.value}
@@ -214,7 +216,7 @@ export const getFormElementCode = (field: FormElement) => {
       name="${field.name}"
       render={({ field }) => (
         <FormItem className="flex flex-col">
-          <FormLabel>${field.label}</FormLabel>
+          ${field.label && `<FormLabel>${field.label} ${field.required ? "*" : ""}</FormLabel>`}
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>
@@ -264,9 +266,9 @@ export const getFormElementCode = (field: FormElement) => {
                 <FormItem className="w-full">
                   ${
                     field.label &&
-                    `<FormLabel>${field.label}</FormLabel> ${
+                    `<FormLabel>${field.label} ${
                       field.required ? "*" : ""
-                    }`
+                    }</FormLabel>`
                   }
                   <MultiSelect 
                     value={field.value} 
@@ -315,9 +317,9 @@ export const getFormElementCode = (field: FormElement) => {
             <FormItem className="w-full">
               ${
                 field.label &&
-                `<FormLabel>${field.label}</FormLabel> ${
+                `<FormLabel>${field.label} ${
                   field.required ? "*" : ""
-                }`
+                }</FormLabel>`
               }
               <Select 
               onValueChange={field.onChange} 
@@ -352,33 +354,35 @@ export const getFormElementCode = (field: FormElement) => {
             <FormField
               control={form.control}
               name="${field.name}"
-              render={({ field }) => (
-              <FormItem className="w-full py-3">
-                <FormLabel className="flex justify-between items-center">${
-                  field.label
-                }<span>{field.value}/{max}</span>
-                </FormLabel>
-                <FormControl>
-                  <Slider
-                    min={${field.min}}
-                    max={${field.max}}
-                    step={${field.step}}
-                    value={field.value}
-                    onValueChange={(values) => {
-                      field.onChange(values[0]);
-                    }}
-                    ${field.disabled ? "disabled" : ""}
-                    ${field.required ? "required" : ""}
-                  />
-                </FormControl>
-                ${
-                  field.description
-                    ? `<FormDescription>${field.description}</FormDescription>`
-                    : ""
-                }
-                <FormMessage />
+              render={({ field }) => {
+              const currentValue = field.value || 0;
+              const min = ${field.min};
+              const max = ${field.max};
+              const step = ${field.step};
+              return (
+                <FormItem className="w-full py-3">
+                <FormLabel className="flex justify-between items-center">
+                ${field.label} ${field.required ? " *" : ""}<span>{currentValue}/{max}</span></FormLabel>
+                  <FormControl>
+                    <Slider
+                      min={min}
+                      max={max}
+                      step={step}
+                      value={[field.value]}
+                      onValueChange={(values) => {
+                        field.onChange(values[0]);
+                      }}
+                      ${field.disabled ? "disabled" : ""}
+                    />
+                  </FormControl>
+                  ${
+                    field.description
+                      ? `<FormDescription>${field.description}</FormDescription>`
+                      : ""
+                  }
+                  <FormMessage />
               </FormItem>
-              )}
+              )}}
             />`;
     case "Switch":
       return `
@@ -390,9 +394,7 @@ export const getFormElementCode = (field: FormElement) => {
                     <div className="flex items-center justify-between h-full">
                       ${
                         field.label &&
-                        `<FormLabel>${field.label}</FormLabel> ${
-                          field.required ? "*" : ""
-                        }`
+                        `<FormLabel>${field.label} ${field.required ? "*" : ""}</FormLabel>`
                       }
                       <FormControl>
                         <Switch
@@ -418,12 +420,12 @@ export const getFormElementCode = (field: FormElement) => {
               render={({ field }) => {
               const options = ${JSON.stringify(field.options)};
               return (
-                <FormItem className="flex flex-col gap-2 w-full py-3">
+                <FormItem className="flex flex-col gap-3 w-full py-3">
                     ${
                       field.label &&
-                      `<FormLabel>${field.label}</FormLabel> ${
+                      `<FormLabel>${field.label} ${
                         field.required ? "*" : ""
-                      }`
+                      }</FormLabel>`
                     }
                     <FormControl>
                       <RadioGroup
@@ -433,13 +435,10 @@ export const getFormElementCode = (field: FormElement) => {
                         ${field.required ? "required" : ""}
                       >
                         {options.map(({ label, value }) => (
-                          <RadioGroupItem
-                          key={value}
-                          value={value}
-                          className="flex items-center gap-x-2"
-                        >
-                          {label}
-                        </RadioGroupItem>
+                        <div key={value} className="flex items-center gap-x-2">
+                         <RadioGroupItem value={value} id={value} />
+                         <Label htmlFor={value} className="font-normal">{label}</Label>
+                        </div>
                         ))}
                       </RadioGroup>
                     </FormControl>
@@ -462,9 +461,9 @@ export const getFormElementCode = (field: FormElement) => {
               <FormItem className="flex flex-col gap-2 w-full py-1">
                 ${
                   field.label &&
-                  `<FormLabel>${field.label}</FormLabel> ${
+                  `<FormLabel>${field.label} ${
                     field.required ? "*" : ""
-                  }`
+                  }</FormLabel>`
                 }
                 <FormControl>
                   <ToggleGroup
