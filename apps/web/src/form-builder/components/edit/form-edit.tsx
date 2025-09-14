@@ -12,6 +12,8 @@ import { FieldCustomizationView } from "@/form-builder/components/edit/field-edi
 import { FormElementsDropdown } from "@/form-builder/components/edit/form-elements-dropdown";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
 import { StepContainer } from "@/form-builder/components/edit/step-container";
+import { formElementsList } from "@/form-builder/constant/form-elements-list";
+import { MdQuestionMark } from "react-icons/md";
 
 type EditFormItemProps = {
   element: FormElement;
@@ -30,20 +32,33 @@ const EditFormItem = (props: EditFormItemProps) => {
   const { element, fieldIndex } = props;
   const dropElement = useFormBuilderStore((s) => s.dropElement);
   const isNested = typeof props?.j === "number";
-  let DisplayName =
+  let DisplayLabel =
     "static" in element && element.static
       ? element.content
       : element.label || element.name;
 
+  const findElement = () => {
+    return formElementsList.find((el) => el.fieldType === element.fieldType);
+  };
+
+  let DisplayIcon = findElement()?.icon || MdQuestionMark;
+  let DisplayName = findElement()?.name;
+
   return (
     <div className="w-full group">
       <div className="flex items-center justify-between px-2">
-        <div className="flex items-center justify-start gap-2 size-full">
+        <div
+          className="flex items-center justify-start gap-2 size-full"
+          title={DisplayLabel}
+        >
           {isNested ? (
             <span className="w-1" />
           ) : (
             <LuGripVertical className="dark:text-muted-foreground text-muted-foreground" />
           )}
+          <span className="border rounded-xl size-8 border-dashed bg-accent/40 grid place-items-center">
+            <DisplayIcon className="size-4 text-accent-foreground" />
+          </span>
           <span className="truncate max-w-xs md:max-w-sm">{DisplayName}</span>
         </div>
         <div className="flex items-center justify-end opacity-0 group-hover:opacity-100 duration-100">

@@ -65,7 +65,7 @@ export const formElementsList = [
   },
   {
     group: "display",
-    name: "paragraph",
+    name: "Paragraph",
     fieldType: "P",
     content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
     icon: BsTextLeft,
