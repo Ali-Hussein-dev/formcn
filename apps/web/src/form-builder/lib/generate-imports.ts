@@ -54,6 +54,7 @@ export const generateImports = (formElements: FormElement[]): Set<string> => {
         importSet.add(
           "import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'"
         );
+        importSet.add("import { Label } from '@/components/ui/label'");
         break;
       case "ToggleGroup":
         importSet.add(
