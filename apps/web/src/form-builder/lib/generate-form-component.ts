@@ -59,7 +59,7 @@ export const getFormElementCode = (field: FormElement) => {
               <FormControl>
                 <FileUpload
                   {...field}
-                  placeholder=${field.placeholder}
+                  placeholder="${field.placeholder}"
                   value={field.value}
                   onChange={field.onChange}
                   maxFiles={${field.maxFiles ?? 1}}
