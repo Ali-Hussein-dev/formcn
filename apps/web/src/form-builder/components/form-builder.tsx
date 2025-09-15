@@ -26,6 +26,8 @@ import { MdOutlineEditOff } from "react-icons/md";
 import { BsFillSendFill } from "react-icons/bs";
 import { HiOutlineCodeBracket } from "react-icons/hi2";
 import { WebPreview } from "./web-preview";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorFallback } from "@/components/shared/error-fallback";
 
 const tabsList = [
   {
@@ -96,19 +98,21 @@ export function FormBuilderBase() {
             </TabsList>
             <TabsContent value={tabsList[0].name} tabIndex={-1}>
               {formElements.length > 0 ? (
-                <div className="pt-2">
-                  <FormEdit />
-                  <div className="pt-4 flex items-center justify-between">
-                    {formElements.length > 1 && (
-                      <Button variant="ghost" onClick={resetForm}>
-                        Remove All
+                <ErrorBoundary FallbackComponent={ErrorFallback}>
+                  <div className="pt-2">
+                    <FormEdit />
+                    <div className="pt-4 flex items-center justify-between">
+                      {formElements.length > 1 && (
+                        <Button variant="ghost" onClick={resetForm}>
+                          Remove All
+                        </Button>
+                      )}
+                      <Button variant="secondary" onClick={handleSaveForm}>
+                        Save
                       </Button>
-                    )}
-                    <Button variant="secondary" onClick={handleSaveForm}>
-                      Save
-                    </Button>
+                    </div>
                   </div>
-                </div>
+                </ErrorBoundary>
               ) : (
                 <div>
                   <Placeholder>
@@ -122,13 +126,19 @@ export function FormBuilderBase() {
               )}
             </TabsContent>
             <TabsContent value={tabsList[1].name} tabIndex={-1}>
-              <GeneratedFormCodeViewer />
+              <ErrorBoundary FallbackComponent={ErrorFallback}>
+                <GeneratedFormCodeViewer />
+              </ErrorBoundary>
             </TabsContent>
             {/* <TabsContent value={tabsList[2].name} tabIndex={-1}>
               <JsonViewer json={formElements} isMS={isMS} />
             </TabsContent> */}
             <TabsContent value={tabsList[2].name} tabIndex={-1}>
-              <JsonViewer json={submittedData} isMS={isMS} />
+              {Object.keys(submittedData).length > 0 ? (
+                <JsonViewer json={submittedData} isMS={isMS} />
+              ) : (
+                <Placeholder>Fill out the form to see fields values</Placeholder>
+              )}
             </TabsContent>
           </Tabs>
         </div>
