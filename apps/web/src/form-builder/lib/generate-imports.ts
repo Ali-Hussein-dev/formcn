@@ -1,17 +1,35 @@
 import type { FormElement } from "../form-types";
 
-export const generateImports = (formElements: FormElement[]): Set<string> => {
+export const generateImports = (
+  formElements: FormElement[],
+  { isMS = false }: { isMS?: boolean } = { isMS: false }
+): Set<string> => {
   const importSet = new Set([
     '"use client"',
     'import * as z from "zod"',
     "import { formSchema } from '@/lib/form-schema'",
     "import { serverAction } from '@/actions/server-action'",
     'import { zodResolver } from "@hookform/resolvers/zod"',
-    'import { Button } from "@/components/ui/button"',
     'import { useForm } from "react-hook-form"',
     'import { useAction } from "next-safe-action/hooks"',
     'import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"',
   ]);
+  if (isMS) {
+    importSet.add(`import {
+  MultiStepFormContent,
+  FormHeader,
+  StepFields,
+  FormFooter,
+  PreviousButton,
+  NextButton,
+  SubmitButton,
+} from "@/components/multi-step-viewer";
+import { MultiStepFormProvider } from "@/hooks/use-multi-step-viewer";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+`);
+  } else {
+    importSet.add('import { Button } from "@/components/ui/button"');
+  }
   const processField = (field: FormElement) => {
     switch (field.fieldType) {
       case "DatePicker":
@@ -77,6 +95,6 @@ export const generateImports = (formElements: FormElement[]): Set<string> => {
   };
 
   formElements.flat().forEach(processField);
-
+  console.log(importSet);
   return importSet;
 };

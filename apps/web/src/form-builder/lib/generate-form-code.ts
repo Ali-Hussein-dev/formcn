@@ -33,14 +33,13 @@ export const generateFormCode = ({
     : formElements.flat();
 
   const imports = Array.from(
-    generateImports(flattenedFormElements as FormElement[])
+    generateImports(flattenedFormElements as FormElement[], { isMS })
   ).join("\n");
 
   const singleStepFormCode = [
     {
       file: "single-step-form.tsx",
       code: `
-
 ${imports}
 
 type Schema = z.infer<typeof formSchema>;
@@ -59,25 +58,23 @@ const formResponse = useAction(serverAction, {
   // TODO: show error message
   },
 });
-const handleSubmit = form.handleSubmit((data: Schema) => {
+const handleSubmit = form.handleSubmit(async (data: Schema) => {
     formResponse.execute(data);
   });
 
-const isPending = formResponse.status === "executing"
+const { isExecuting } = formResponse;
 
 return (
-  <div>
     <Form {...form}>
       <form onSubmit={handleSubmit} className="flex flex-col p-2 sm:p-5 md:p-8 w-full mx-auto rounded-md max-w-3xl gap-2 border">
         ${renderFields(formElements as FormElementOrList[])}
         <div className="flex justify-end items-center w-full pt-3">
           <Button className="rounded-lg" size="sm">
-            {isPending ? 'Submitting...' : 'Submit'}
+            {isExecuting ? 'Submitting...' : 'Submit'}
           </Button>
         </div>
       </form>
     </Form>
-  </div>
 )
 }`,
     },
@@ -95,7 +92,7 @@ return (
       return `
       { 
         fields: ${JSON.stringify(fields)},
-        component: <div>
+        component: <div className="space-y-4">
                 ${renderedFields}
                   </div>
       }
@@ -108,89 +105,16 @@ return (
     formElements as FormStep[]
   );
 
-  const MultiStepFormViewer = `
-
-export const MultiStepViewerWrapper = ({ form }:{
-  form: ReturnType<typeof useForm<typeof formSchema>>;
-}) => {
-  const stepsFields = [${stringifiedStepComponents}];
-  const {
-    formState: { isDirty, isSubmitting },
-  } = form;
-  return (
-    <MultiStepFormProvider
-      stepsFields={stepsFields}
-      onStepValidation={async (step) => {
-        const isValid = await form.trigger(step.fields);
-        return isValid;
-      }}>
-    <MultiStepFormContent>
-      <FormHeader />
-      <StepFields />
-      <FormFooter>
-      <div className="grow">
-        <ResetButton
-          hidden={!isDirty}
-          disabled={isSubmitting}
-          onClick={() => {
-            form.reset({});
-          }}
-        >
-          Reset
-        </ResetButton>
-      </div>
-      <PreviousButton>
-        <ChevronLeft />
-        Previous
-      </PreviousButton>
-      <NextButton>
-        Next <ChevronRight />
-      </NextButton>
-      <SubmitButton
-        onClick={async (e) => {
-          e.preventDefault();
-          await form.handleSubmit(async () => {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            // console.log("Form submitted:", data);
-          })();
-        }}
-        disabled={isSubmitting}
-      >
-        {isSubmitting ? "Submitting..." : "Submit"}
-      </SubmitButton>
-    </FormFooter>
-  </MultiStepFormContent>
-</MultiStepFormProvider>
-    )
-  };
-`;
   const MSF_Code = `
   ${imports}
-  import {
-  MultiStepFormContent,
-  FormHeader,
-  StepFields,
-  FormFooter,
-  ResetButton,
-  PreviousButton,
-  NextButton,
-  SubmitButton,
-} from "@/components/multi-step-viewer";
-import { MultiStepFormProvider } from "@/hooks/use-multi-step-viewer";
-import type { JSX } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 //------------------------------
-${MultiStepFormViewer}
-//------------------------------
-
 type Schema = z.infer<typeof formSchema>;
 export function GeneratedForm() {
     
   const form = useForm<Schema>({
     resolver: zodResolver(formSchema as any),
-    })
-
+  });
   const formResponse = useAction(serverAction, {
       onSuccess: () => {
         // TODO: show success message
@@ -200,20 +124,41 @@ export function GeneratedForm() {
         // TODO: show error message
       },
   });
-  const handleSubmit = form.handleSubmit((data: Schema) => {
+  const handleSubmit = form.handleSubmit(async (data: Schema) => {
     formResponse.execute(data);
   });
-  const isPending = formResponse.status === "executing"
+  const { isExecuting } = formResponse;
+  const stepsFields = [${stringifiedStepComponents}];
   return (
     <div>
       <Form {...form}>
         <form onSubmit={handleSubmit} className="flex flex-col p-2 md:p-5 w-full mx-auto rounded-md max-w-3xl gap-2 border">
-          <MultiStepViewerWrapper form={form} />
-          <div className="flex justify-end items-center w-full pt-3">
-            <Button className="rounded-lg" size="sm">
-              {isPending ? 'Submitting...' : 'Submit'}
-            </Button>
-          </div>
+        <MultiStepFormProvider
+          stepsFields={stepsFields}
+          onStepValidation={async (step) => {
+            const isValid = await form.trigger(step.fields);
+            return isValid;
+          }}>
+          <MultiStepFormContent>
+            <FormHeader />
+            <StepFields />
+            <FormFooter>
+                <PreviousButton>
+                  <ChevronLeft />
+                  Previous
+                </PreviousButton>
+                <NextButton>
+                  Next <ChevronRight />
+                </NextButton>
+                <SubmitButton 
+                  type="submit"
+                  disabled={isExecuting} 
+                >
+                  {isExecuting ? "Submitting..." : "Submit"}
+                </SubmitButton>
+              </FormFooter>
+            </MultiStepFormContent>
+          </MultiStepFormProvider>
         </form>
       </Form>
     </div>
