@@ -35,6 +35,34 @@ export const generateFormCode = ({
   const imports = Array.from(
     generateImports(flattenedFormElements as FormElement[], { isMS })
   ).join("\n");
+const successCard = `<div className="p-2 sm:p-5 md:p-8 w-full rounded-md gap-2 border">
+        <motion.div
+          initial={{ opacity: 0, y: -16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, stiffness: 300, damping: 25 }}
+          className="h-full py-6 px-3"
+        >
+          <motion.div
+            initial={{ scale: 0.5 }}
+            animate={{ scale: 1 }}
+            transition={{
+              delay: 0.3,
+              type: "spring",
+              stiffness: 500,
+              damping: 15,
+            }}
+            className="mb-4 flex justify-center border rounded-full w-fit mx-auto p-2"
+          >
+            <Check className="size-8" />
+          </motion.div>
+          <h2 className="text-center text-2xl text-pretty font-bold mb-2">
+            Thank you
+          </h2>
+          <p className="text-center text-lg text-pretty text-muted-foreground">
+            Form submitted successfully, we will get back to you soon
+          </p>
+        </motion.div>
+      </div>`;
 
   const singleStepFormCode = [
     {
@@ -49,7 +77,7 @@ export function DraftForm() {
 const form = useForm<Schema>({
   resolver: zodResolver(formSchema as any),
 })
-const formResponse = useAction(serverAction, {
+const formAction = useAction(serverAction, {
   onSuccess: () => {
     // TODO: show success message
     form.reset();
@@ -59,14 +87,18 @@ const formResponse = useAction(serverAction, {
   },
 });
 const handleSubmit = form.handleSubmit(async (data: Schema) => {
-    formResponse.execute(data);
+    formAction.execute(data);
   });
 
-const { isExecuting } = formResponse;
-
+const { isExecuting, hasSucceeded } = formAction;
+  if (hasSucceeded) {
+    return (
+      ${successCard}
+    );
+  }
 return (
     <Form {...form}>
-      <form onSubmit={handleSubmit} className="flex flex-col p-2 sm:p-5 md:p-8 w-full mx-auto rounded-md max-w-3xl gap-2 border">
+      <form onSubmit={handleSubmit} className="flex flex-col p-2 sm:p-5 md:p-8 w-full rounded-md gap-2 border">
         ${renderFields(formElements as FormElementOrList[])}
         <div className="flex justify-end items-center w-full pt-3">
           <Button className="rounded-lg" size="sm">
@@ -115,7 +147,7 @@ export function GeneratedForm() {
   const form = useForm<Schema>({
     resolver: zodResolver(formSchema as any),
   });
-  const formResponse = useAction(serverAction, {
+  const formAction = useAction(serverAction, {
       onSuccess: () => {
         // TODO: show success message
         form.reset();
@@ -125,10 +157,16 @@ export function GeneratedForm() {
       },
   });
   const handleSubmit = form.handleSubmit(async (data: Schema) => {
-    formResponse.execute(data);
+    formAction.execute(data);
   });
-  const { isExecuting } = formResponse;
+  const { isExecuting, hasSucceeded } = formAction;
   const stepsFields = [${stringifiedStepComponents}];
+
+  if (hasSucceeded) {
+    return (
+      ${successCard}
+    );
+  }
   return (
     <div>
       <Form {...form}>

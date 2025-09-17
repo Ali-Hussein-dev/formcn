@@ -44,7 +44,7 @@ export function MultiStepFormPreview({
   const [rerender, setRerender] = React.useState(false);
   return (
     <div className="flex flex-col gap-2 pt-3">
-      <div className="flex flex-col items-start justify-center gap-1">
+      <div className="flex flex-col items-start justify-center gap-1 pb-4">
         <span>
           Step {currentStep} of {steps.length}
         </span>

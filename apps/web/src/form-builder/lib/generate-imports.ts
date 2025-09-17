@@ -12,6 +12,8 @@ export const generateImports = (
     'import { zodResolver } from "@hookform/resolvers/zod"',
     'import { useForm } from "react-hook-form"',
     'import { useAction } from "next-safe-action/hooks"',
+    'import { motion } from "motion/react"',
+    'import { Check } from "lucide-react"',
     'import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"',
   ]);
   if (isMS) {
