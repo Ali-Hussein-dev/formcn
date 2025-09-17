@@ -5,7 +5,6 @@ import { Progress } from "@/components/ui/progress";
 import { AnimatePresence, motion, type MotionProps } from "motion/react";
 import * as React from "react";
 import type { VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
 
 const NextButton = (
   props: React.ComponentProps<"button"> &
@@ -62,7 +61,10 @@ const ResetButton = (
 const FormHeader = (props: React.ComponentProps<"div">) => {
   const { currentStepIndex, steps } = useMultiStepForm();
   return (
-    <div className="flex flex-col items-start justify-center gap-1" {...props}>
+    <div
+      className="flex flex-col items-start justify-center gap-1 pb-4"
+      {...props}
+    >
       <span>
         Step {currentStepIndex} of {steps.length}
       </span>
@@ -98,7 +100,6 @@ const StepFields = (props: React.ComponentProps<"div"> & MotionProps) => {
         exit={{ opacity: 0, x: -15 }}
         transition={{ duration: 0.4, type: "spring" }}
         {...props}
-        className={cn("flex flex-col gap-2", props.className)}
       >
         {currentFormStep.component}
       </motion.div>
