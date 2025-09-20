@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "homepage": "https://formcn.dev",
+  "author": "formcn (https://formcn.dev)",
+  "name": "signup-form-template",
+  "dependencies": [
+    "react-hook-form",
+    "zod",
+    "@hookform/resolvers",
+    "motion",
+    "next-safe-action"
+  ],
+  "registryDependencies": [
+    "input",
+    "@formcn/password",
+    "checkbox",
+    "form",
+    "@formcn/server-action"
+  ],
+  "type": "registry:block",
+  "files": [
+    {
+      "path": "components/signup-form-template.tsx",
+      "content": "\n\n\"use client\"\nimport * as z from \"zod\"\nimport { formSchema } from '@/lib/form-schema'\nimport { serverAction } from '@/actions/server-action'\nimport { zodResolver } from \"@hookform/resolvers/zod\"\nimport { Button } from \"@/components/ui/button\"\nimport { useForm } from \"react-hook-form\"\nimport { useAction } from \"next-safe-action/hooks\"\nimport { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from \"@/components/ui/form\"\nimport { Input } from \"@/components/ui/input\"\nimport { Password } from \"@/components/password\"\nimport { Checkbox } from \"@/components/ui/checkbox\"\n\ntype Schema = z.infer<typeof formSchema>;\n\nexport function DraftForm() {\n\nconst form = useForm<Schema>({\n  resolver: zodResolver(formSchema as any),\n})\nconst formResponse = useAction(serverAction, {\n  onSuccess: () => {\n    // TODO: show success message\n    form.reset();\n  },\n  onError: () => {\n  // TODO: show error message\n  },\n});\nconst handleSubmit = form.handleSubmit((data: Schema) => {\n    formResponse.execute(data);\n  });\n\nconst isPending = formResponse.status === \"executing\"\n\nreturn (\n  <div>\n    <Form {...form}>\n      <form onSubmit={handleSubmit} className=\"flex flex-col p-2 md:p-5 w-full mx-auto rounded-md max-w-3xl gap-2 border\">\n        <h1 className=\"mt-6 font-extrabold text-3xl tracking-tight\">Sign Up</h1>\n<p className=\"tracking-wide text-muted-foreground mb-6 text-wrap text-sm\">You need an account to get started</p>\n<FormField\n                control={form.control}\n                name=\"firstname\"\n                render={({ field }) => (\n                    <FormItem className=\"w-full\">\n                      <FormLabel>First Name</FormLabel> *\n                      <FormControl>\n                        <Input\n                          type=\"text\"\n                          value={field.value}\n                          onChange={(e) => {\n                            const val = e.target.value;\n                            field.onChange(val);\n                          }}\n                          \n                          required\n                          placeholder=\"Enter your First Name\"\n                        />\n                      </FormControl>\n                      \n                      <FormMessage />\n                  </FormItem>\n                  )\n                }\n              />\n<FormField\n                control={form.control}\n                name=\"email\"\n                render={({ field }) => (\n                    <FormItem className=\"w-full\">\n                      <FormLabel>Email</FormLabel> *\n                      <FormControl>\n                        <Input\n                          type=\"email\"\n                          value={field.value}\n                          onChange={(e) => {\n                            const val = e.target.value;\n                            field.onChange(val);\n                          }}\n                          \n                          required\n                          placeholder=\"Enter your Email\"\n                        />\n                      </FormControl>\n                      \n                      <FormMessage />\n                  </FormItem>\n                  )\n                }\n              />\n\n          <div className=\"flex items-center justify-between flex-wrap sm:flex-nowrap w-full gap-2\">\n            \n        <FormField\n          control={form.control}\n          name=\"password\"\n          render={({ field }) => (\n            <FormItem className=\"w-full\">\n              <FormLabel>Password</FormLabel> *\n              <FormControl>\n                <Password\n                  {...field}\n                  \n                  required\n                  placeholder=\"Password\"\n                />\n              </FormControl>\n              \n              <FormMessage />\n            </FormItem>\n          )\n        }\n        />\n        \n        <FormField\n          control={form.control}\n          name=\"confirm-password\"\n          render={({ field }) => (\n            <FormItem className=\"w-full\">\n              <FormLabel>Confirm Password</FormLabel> *\n              <FormControl>\n                <Password\n                  {...field}\n                  \n                  required\n                  placeholder=\"Confirm Password\"\n                />\n              </FormControl>\n              \n              <FormMessage />\n            </FormItem>\n          )\n        }\n        />\n        \n          </div>\n<FormField\n          control={form.control}\n          name=\"agree\"\n          render={({ field }) => (\n            <FormItem className=\"flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4\">\n              <FormControl>\n                <Checkbox\n                  checked={field.value}\n                  onCheckedChange={field.onChange}\n                  \n                  required\n                />\n              </FormControl>\n              <div className=\"space-y-1 leading-none\">\n                <FormLabel>I agree to the terms and conditions</FormLabel>\n                \n                <FormMessage />\n              </div>\n            </FormItem>\n          )}\n        />\n        <div className=\"flex justify-end items-center w-full pt-3\">\n          <Button className=\"rounded-lg\" size=\"sm\">\n            {isPending ? 'Submitting...' : 'Submit'}\n          </Button>\n        </div>\n      </form>\n    </Form>\n  </div>\n)\n}",
+      "type": "registry:component",
+      "target": ""
+    },
+    {
+      "path": "lib/form-schema.ts",
+      "content": "\n  import * as z from \"zod\"\n\n  export interface ActionResponse<T = any> {\n      success: boolean\n      message: string\n      errors?: {\n          [K in keyof T]?: string[]\n      }\n      inputs?: T\n  }\n  export const formSchema = z.object({\n\"firstname\": z.string(),\n\"email\": z.email(),\n\"password\": z.string(),\n\"confirm-password\": z.string(),\n\"agree\": z.boolean().default(false)\n});",
+      "type": "registry:lib",
+      "target": ""
+    }
+  ]
+}
