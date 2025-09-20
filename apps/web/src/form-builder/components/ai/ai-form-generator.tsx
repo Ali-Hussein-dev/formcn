@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { ErrorBoundary } from "react-error-boundary";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
 import React from "react";
-import { ArrowUp, Info } from "lucide-react";
+import { ArrowLeft, ArrowUp, Info, Pencil } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import useLocalForms from "@/form-builder/hooks/use-local-forms";
 import { useRouter } from "next/navigation";
@@ -24,7 +24,9 @@ import {
   type FormFieldType,
 } from "@/form-builder/form-types";
 import { RenderFormElement } from "@/form-builder/components/edit/render-form-element";
+import { MdOutlineReplay } from "react-icons/md";
 
+const list = [];
 function RenderFormWhileStreaming({
   list,
   form,
@@ -34,11 +36,11 @@ function RenderFormWhileStreaming({
 }) {
   if (!list) return null;
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       {list.map((element, i) => {
         if (
           !fieldTypes.includes(element.fieldType as FormFieldType) ||
-          !element?.name
+          (!element?.name && !element?.content)
         )
           return <span key={crypto.randomUUID()}>streaming...</span>;
         if (
@@ -71,37 +73,52 @@ const promptExamples = [
   {
     label: "RSVP Event",
     prompt:
-      "a RSVP event form with name, email, phone, meal preferences, additional note, How did you hear about the event? (dropdown or text)",
+      "Create a form that allows users to RSVP for an event. The form should collect attendee names, contact information (email and phone), number of guests, and include any special requirements or comments. Add a date/time picker for the event, and a field for selecting attendance (Yes/No/Maybe).",
   },
   {
     label: "New Employee",
     prompt:
-      "a new employee form with name, email, phone, message fields, and department selection",
+      "a new employee professional form for startup Acme works in IoT. split it into two sections",
   },
   {
     label: "Survey Form",
-    prompt:
-      "a survey form with Multiple choice questions, open-ended questions, and rating scale",
+    prompt: `Create a survey form that includes these sections:  
+First, add multiple choice questions where users pick from several options. Next, include at least one open-ended question for written feedback. Finally, add a rating scale question so users can rate their experience numerically. Label each section clearly and make sure all three types are present.`,
   },
   {
     label: "Booking/Reservation Form",
     prompt:
-      "a booking/reservation form with name, email, phone, message fields, and date selection",
+      "create a hotel booking form to collect guest details including title, description, name, contact info, check-in and check-out dates, room type selection, and any additional requests",
   },
 ];
 const useAiFormGenerator = () => {
   const [prompt, setPrompt] = useState("");
-  const id = React.useRef(crypto.randomUUID());
+  const inputRef = React.useRef<HTMLTextAreaElement | null>(null);
 
   const { object, submit, isLoading, error, stop } = useObject({
     api: `/api/generate?prompt=${encodeURIComponent(prompt)}`,
+    // @ts-ignore error message is verbose and messy
     schema: aiFormSchema,
-    id: id.current,
+    // initialValue: {
+    //   form: {
+    //     title: "New Form",
+    //     fields: list,
+    //   },
+    // },
   });
 
   const handleGenerate = async () => {
     if (!prompt.trim()) return;
     submit({ prompt });
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (!isLoading && prompt.trim()) {
+        handleGenerate();
+      }
+    }
   };
 
   const form = useForm();
@@ -136,6 +153,12 @@ const useAiFormGenerator = () => {
     });
     router.push(`/form-builder?id=${formId}`);
   };
+  const handleNew = () => {
+    setPrompt("");
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
 
   return {
     prompt,
@@ -147,6 +170,10 @@ const useAiFormGenerator = () => {
     isLoading,
     stop,
     handleSave,
+    handleNew,
+    inputRef,
+    response: object,
+    handleKeyDown,
   };
 };
 export function AiFormGenerator() {
@@ -160,18 +187,25 @@ export function AiFormGenerator() {
     isLoading,
     stop,
     handleSave,
+    handleNew,
+    inputRef,
+    handleKeyDown,
   } = useAiFormGenerator();
+  const router = useRouter();
+
   return (
     <div>
-      <div className="w-full flex flex-col justify-end mb-4">
+      <div className="w-full flex flex-col justify-end mb-4 md:mb-8">
         <div className="w-full border  rounded-md p-2 focus-within:bg-secondary/30 transition-colors duration-200">
           <Textarea
-            id="prompt"
+            id="prompt-area"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="e.g., a contact form with name, email, and message fields"
-            className="bg-transparent dark:bg-transparent border-none resize-none focus-visible:ring-0 shadow-none"
+            className="bg-transparent dark:bg-transparent border-none resize-none focus-visible:ring-0 shadow-none md:text-base text-secondary-foreground"
             autoFocus
+            ref={inputRef}
           />
           <div className="flex justify-end pt-2">
             <AnimatePresence mode="wait">
@@ -216,6 +250,7 @@ export function AiFormGenerator() {
           </div>
         </div>
       </div>
+      {/* <pre >{JSON.stringify(fields, null, 2)}</pre> */}
       {fields && (
         <ErrorBoundary
           FallbackComponent={ErrorFallback}
@@ -228,7 +263,7 @@ export function AiFormGenerator() {
               onSubmit={async (e) => {
                 e.preventDefault();
               }}
-              className="flex flex-col w-full gap-4 p-4 lg:p-6 border rounded-lg bg-muted/50"
+              className="flex flex-col w-full gap-6 p-4 lg:p-6 border rounded-lg bg-muted/50"
             >
               <RenderFormWhileStreaming
                 list={fields as FormElement[]}
@@ -244,10 +279,21 @@ export function AiFormGenerator() {
         </div>
       )}
       {fields && !isLoading && !error && (
-        <div className="flex justify-end">
-          <Button onClick={handleSave} type="button">
-            Edit
+        <div className="flex justify-between gap-4 pt-4">
+          <Button onClick={() => router.back()} type="button" variant="ghost">
+            <ArrowLeft className="size-4" />
+            Back
           </Button>
+          <div className="flex gap-2">
+            <Button onClick={handleNew} type="button" variant="secondary">
+              <MdOutlineReplay className="size-4" />
+              Retry
+            </Button>
+            <Button onClick={handleSave} type="button">
+              <Pencil className="size-4" />
+              Edit
+            </Button>
+          </div>
         </div>
       )}
       <div hidden={!!fields || !!error?.message}>

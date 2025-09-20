@@ -156,41 +156,45 @@ const datePicker = z
     placeholder: z.string(),
   })
   .describe("DatePicker element");
+
+const staticPropertySchema = z.literal(true).refine((v) => v === true, {
+  message: "static field is required and must be true",
+});
 const h1Schema = z
   .object({
     id: z.string(),
-    static: z.literal(true),
+    static: staticPropertySchema,
     name: z.string(),
     fieldType: z.literal("H1"),
     content: z.string().min(2),
   })
-  .describe("use it as a top heading for your form");
+  .describe("use it as a top title");
 
 const h2Schema = z
   .object({
     id: z.string(),
-    static: z.literal(true),
-    name: z.string(),
+    static: staticPropertySchema,
+    name: z.string().min(2),
     fieldType: z.literal("H2"),
     content: z.string().min(2),
   })
-  .describe("H2 element");
+  .describe("use it as a title form sections");
 
 const h3Schema = z
   .object({
     id: z.string(),
-    static: z.literal(true),
-    name: z.string(),
+    static: staticPropertySchema,
+    name: z.string().min(2),
     fieldType: z.literal("H3"),
     content: z.string().min(2),
   })
-  .describe("H3 element");
+  .describe("use it as a title for nested form sections");
 
 const paragraphSchema = z
   .object({
     id: z.string(),
-    static: z.literal(true),
-    name: z.string(),
+    static: staticPropertySchema,
+    name: z.string().min(2),
     fieldType: z.literal("P"),
     content: z.string().min(2),
   })
@@ -199,7 +203,7 @@ const paragraphSchema = z
 const seperatorSchema = z
   .object({
     id: z.string(),
-    static: z.literal(true),
+    static: staticPropertySchema,
     name: z.string(),
     fieldType: z.literal("Separator"),
   })

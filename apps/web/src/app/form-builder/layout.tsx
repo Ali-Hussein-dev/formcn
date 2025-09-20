@@ -14,7 +14,7 @@ export default function FormBuilderLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="pt-4 pb-10 container">
+    <div className="pt-4 pb-10 max-w-[90rem] mx-auto w-full">
       <div className="lg:hidden text-center py-6 bg-accent text-accent-foreground">
         <MdInfo className="inline mr-1 size-5" />
         The form builder works best on desktop

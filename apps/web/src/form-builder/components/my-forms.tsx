@@ -18,6 +18,8 @@ import { MyFormSkeleton } from "./form-skeleton";
 import dynamic from "next/dynamic";
 import { WebPreview } from "./web-preview";
 import * as motion from "motion/react-client";
+import Link from "next/link";
+import { BsStars } from "react-icons/bs";
 
 function DeleteButtonWithConfim({ cb }: { cb: () => void }) {
   const [open, setOpen] = React.useState(false);
@@ -186,10 +188,16 @@ export function MyFormsBase() {
 
   return (
     <div>
-      <div className="flex justify-end px-4 lg:px-6">
+      <div className="flex justify-end px-4 lg:px-6 gap-3">
         <div className="w-fit">
           <NewForm />
         </div>
+        <Button variant="default" asChild>
+          <Link href={"/ai-form-generator"}>
+            <BsStars />
+            Formcn AI
+          </Link>
+        </Button>
       </div>
       <div className="grid md:grid-cols-10 py-4 ">
         <div className="lg:col-span-2 hidden md:block md:col-span-3 px-3 border rounded-sm border-dashed py-2">

@@ -38,15 +38,16 @@ export const POST = async (req: NextRequest) => {
     }
     const res = streamObject({
       model: openai("gpt-4o-mini"),
+      // @ts-ignore error message is verbose and messy
       schema: aiFormSchema,
       prompt: prompt,
       system:
-        "You are a form generator. Generate a form json based on the given prompt. Ignore form buttons, or any other elements that are not specified in the schema.",
+        "You are an advanced form generator. Based on the provided form schema and user input, generate a JSON representation of the form elements. Note that the form schema can include both input fields and text-based elements such as titles and descriptions. Exclude any form buttons from the output. Ensure the JSON follows the schema and fully reflects the user’s requirements",
       maxRetries: 2,
       onError: (event) => {
         console.log(event.error);
       },
-      mode: "json",
+      output: "object",
     });
     return res.toTextStreamResponse();
   } catch (error) {

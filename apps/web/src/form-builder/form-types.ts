@@ -279,7 +279,7 @@ export const fieldTypes = [
   "H1",
   "H2",
   "H3",
-  "Paragraph",
+  "P",
   "Separator",
 ] as const;
 
