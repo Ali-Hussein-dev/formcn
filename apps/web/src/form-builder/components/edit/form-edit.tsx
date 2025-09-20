@@ -4,7 +4,7 @@ import type {
   FormStep,
 } from "@/form-builder/form-types";
 import * as React from "react";
-import { Reorder } from "motion/react";
+import { Reorder, useDragControls } from "motion/react";
 import { MdDelete } from "react-icons/md";
 import { Button } from "@/components/ui/button";
 import { LuGripVertical } from "react-icons/lu";
@@ -91,19 +91,61 @@ const NoStepsPlaceholder = () => {
     </div>
   );
 };
+
+const animateVariants = {
+  initial: { opacity: 0, y: -10 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, scale: 0.85 },
+  transition: { duration: 0.3, ease: "easeInOut" },
+};
+
+const RowItems = ({
+  element,
+  children,
+}: {
+  element: FormElement[];
+  children: React.ReactNode;
+}) => {
+  const controls = useDragControls();
+  return (
+    <Reorder.Item
+      key={element[0].id}
+      value={element}
+      variants={animateVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      layout
+      dragControls={controls}
+      dragListener={false}
+      className="flex items-center justify-start gap-2"
+    >
+      <div
+        className="w-8 h-12 hover:cursor-grab active:grabbing grid place-items-center"
+        onPointerDown={(e) => {
+          e.stopPropagation();
+          controls.start(e);
+        }}
+      >
+        <LuGripVertical className="dark:text-muted-foreground text-muted-foreground" />
+      </div>
+      <div
+        className="flex-1"
+        onPointerDown={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        {children}
+      </div>
+    </Reorder.Item>
+  );
+};
 //======================================
 export function FormEdit() {
   const isMS = useFormBuilderStore((s) => s.isMS);
   const formElements = useFormBuilderStore((s) => s.formElements);
   const reorder = useFormBuilderStore((s) => s.reorder);
   const reorderSteps = useFormBuilderStore((s) => s.reorderSteps);
-
-  const animateVariants = {
-    initial: { opacity: 0, y: -10 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, scale: 0.85 },
-    transition: { duration: 0.3, ease: "easeInOut" },
-  };
 
   switch (isMS) {
     case true:
@@ -143,24 +185,15 @@ export function FormEdit() {
                     {step.stepFields.map((element, fieldIndex) => {
                       if (Array.isArray(element)) {
                         return (
-                          <Reorder.Item
-                            key={element[0].id}
-                            value={element}
-                            variants={animateVariants}
-                            initial="initial"
-                            animate="animate"
-                            exit="exit"
-                            className="flex items-center justify-start gap-2 pl-2"
-                            layout
-                          >
-                            <LuGripVertical className="dark:text-muted-foreground text-muted-foreground" />
+                          <RowItems key={element[0].id} element={element}>
                             <Reorder.Group
-                              value={element}
-                              onReorder={(newOrder) => {
-                                reorder({ newOrder, fieldIndex });
-                              }}
+                              axis="x"
                               values={element}
+                              onReorder={(newOrder) => {
+                                reorder({ newOrder, fieldIndex, stepIndex });
+                              }}
                               className="w-full flex items-center justify-start gap-2"
+                              tabIndex={-1}
                             >
                               {element.map((el, j) => (
                                 <Reorder.Item
@@ -177,7 +210,7 @@ export function FormEdit() {
                                 </Reorder.Item>
                               ))}
                             </Reorder.Group>
-                          </Reorder.Item>
+                          </RowItems>
                         );
                       }
                       return (
@@ -214,29 +247,19 @@ export function FormEdit() {
             reorder({ newOrder, fieldIndex: null });
           }}
           values={formElements as FormElementOrList[]}
-          className="flex flex-col gap-3 rounded-lg px-3 md:px-4 md:py-5 py-4 border-dashed border bg-muted"
+          className="flex flex-col gap-3 rounded-lg px-3 md:px-4 lg:px-5 md:py-5 py-4 border-dashed border bg-muted"
           tabIndex={-1}
         >
           {(formElements as FormElementOrList[]).map((element, i) => {
             if (Array.isArray(element)) {
               return (
-                <Reorder.Item
-                  value={element}
-                  key={element[0].id}
-                  variants={animateVariants}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  className="flex items-center justify-start gap-2 pl-2"
-                  layout
-                >
-                  <LuGripVertical className="dark:text-muted-foreground text-muted-foreground" />
+                <RowItems element={element} key={element[0].id}>
                   <Reorder.Group
                     axis="x"
+                    values={element}
                     onReorder={(newOrder) => {
                       reorder({ newOrder, fieldIndex: i });
                     }}
-                    values={element}
                     className="flex items-center justify-start gap-2 w-full"
                     tabIndex={-1}
                   >
@@ -250,6 +273,7 @@ export function FormEdit() {
                         animate="animate"
                         exit="exit"
                         layout
+                        axis="x"
                       >
                         <EditFormItem
                           key={el.id}
@@ -260,7 +284,7 @@ export function FormEdit() {
                       </Reorder.Item>
                     ))}
                   </Reorder.Group>
-                </Reorder.Item>
+                </RowItems>
               );
             }
             return (
