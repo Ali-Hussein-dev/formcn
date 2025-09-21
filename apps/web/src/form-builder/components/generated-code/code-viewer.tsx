@@ -209,7 +209,9 @@ const Cli = ({
         disabled={res.status === "pending"}
         className="w-full active:scale-100 active:translate-y-0.5 mb-4"
       >
-        {status === "pending" ? "Fetching..." : "Fetch registry ID"}
+        {status === "pending"
+          ? "Generating command..."
+          : "Install with one command"}
       </Button>
       {status == "error" && (
         <div className="text-destructive text-center py-2">

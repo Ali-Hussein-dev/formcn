@@ -298,7 +298,7 @@ export function AiFormGenerator() {
       )}
       <div hidden={!!fields || !!error?.message}>
         <h2 className="text-xl font-bold mb-1">Form Examples</h2>
-        <div className="flex gap-2 pt-1 w-full justify-start">
+        <div className="flex gap-2 pt-1 w-full justify-start flex-wrap">
           {promptExamples.map((o) => (
             <Button
               variant="outline"
