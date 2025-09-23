@@ -496,6 +496,44 @@ export const getFormElementCode = (field: FormElement) => {
             )
               }}
             />`;
+    case "Rating":
+      return `<FormField
+          control={form.control}
+          name="${field.name}"
+          render={({ field }) => (
+            <FormItem>
+              ${
+                field.label &&
+                `<FormLabel>${field.label} ${
+                  field.required ? "*" : ""
+                }</FormLabel>`
+              }
+              ${
+                field.description
+                  ? `<FormDescription>${field.description}</FormDescription>`
+                  : ""
+              }
+              <FormControl>
+                <div>
+                  <Rating value={field.value} onValueChange={field.onChange}>
+                    {Array.from({
+                      length: ${field.numberOfStars ?? 5},
+                    }).map((_, index) => (
+                      <RatingButton key={index} />
+                    ))}
+                  </Rating>
+                  <input 
+                    type="number" 
+                    required={${!!field.required}} 
+                    {...field} 
+                    className="sr-only" 
+                  />
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />`;
     case "H1":
       return `<h1 className="mt-6 font-extrabold text-3xl tracking-tight">${field.content}</h1>`;
     case "H2":

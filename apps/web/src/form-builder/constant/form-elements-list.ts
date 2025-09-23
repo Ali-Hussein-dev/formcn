@@ -6,6 +6,7 @@ import {
   MdOutlineToggleOff,
   MdOutlineWrapText,
   MdOutlinePassword,
+  MdStar,
 } from "react-icons/md";
 import { CgSelectO } from "react-icons/cg";
 import { GoShieldLock } from "react-icons/go";
@@ -130,6 +131,14 @@ export const formElementsList = [
     type: "password",
     icon: MdOutlinePassword,
     description: "Password field",
+  },
+  {
+    group: "field",
+    name: "Rating",
+    fieldType: "Rating",
+    icon: MdStar,
+    description: "A field to rate something on a scale",
+    isNew: true,
   },
   {
     group: "field",

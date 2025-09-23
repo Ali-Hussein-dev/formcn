@@ -118,6 +118,12 @@ type DatePicker = {
 } & React.InputHTMLAttributes<HTMLInputElement> &
   SharedFormProps;
 
+type Rating = {
+  fieldType: "Rating";
+  numberOfStars?: number;
+} & React.InputHTMLAttributes<HTMLInputElement> &
+  SharedFormProps;
+
 type H1 = {
   fieldType: "H1";
   /**
@@ -181,6 +187,7 @@ type FormFieldElement =
   | MultiSelect
   | Slider
   | FileUpload
+  | Rating
   | DatePicker;
 
 /**

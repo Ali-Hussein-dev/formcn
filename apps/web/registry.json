@@ -31,6 +31,19 @@
       ]
     },
     {
+      "name": "rating",
+      "type": "registry:component",
+      "title": "Rating",
+      "description": "Rating component",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/rating.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "file-upload",
       "type": "registry:component",
       "title": "File Input",

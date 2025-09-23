@@ -94,6 +94,7 @@ const installableShadcnComponents: Partial<
   MultiSelect: "@formcn/multi-select",
   Password: "@formcn/password",
   FileUpload: "@formcn/file-upload",
+  Rating: "@formcn/rating",
 };
 
 const PackagesInstallation = ({

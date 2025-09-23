@@ -22,7 +22,12 @@ import { Form } from "@/components/ui/form";
 import { isStatic } from "@/form-builder/lib/utils";
 import { RenderFormElement } from "@/form-builder/components/edit/render-form-element";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
-import { MdAttachFile, MdOutlineTextFields } from "react-icons/md";
+import {
+  MdAttachFile,
+  MdOutlineTextFields,
+  MdStar,
+  MdStars,
+} from "react-icons/md";
 import { FaLink, FaPhone, FaClock } from "react-icons/fa";
 import { MdEmail, MdOutlineNumbers, MdOutlinePassword } from "react-icons/md";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -318,9 +323,12 @@ function FormElementAttributes({
     fieldType === "MultiSelect" ||
     fieldType === "RadioGroup" ||
     fieldType === "ToggleGroup";
-  const withoutPlaceholder = ["Slider", "ToggleGroup", "Checkbox"].includes(
-    fieldType
-  );
+  const withoutPlaceholder = [
+    "Slider",
+    "ToggleGroup",
+    "Checkbox",
+    "Rating",
+  ].includes(fieldType);
   return (
     <Form {...form}>
       <form
@@ -351,7 +359,7 @@ function FormElementAttributes({
                 formElement={{
                   id: formElement.id,
                   name: "label",
-                  label: "Label attribute",
+                  label: "Label",
                   fieldType: "Input",
                   type: "text",
                 }}
@@ -362,7 +370,7 @@ function FormElementAttributes({
                   formElement={{
                     id: formElement.id,
                     name: "name",
-                    label: "Name attribute",
+                    label: "Name",
                     fieldType: "Input",
                     defaultValue: formElement.name,
                     required: true,
@@ -375,7 +383,7 @@ function FormElementAttributes({
                     formElement={{
                       id: formElement.id,
                       name: "placeholder",
-                      label: "Placeholder attribute",
+                      label: "Placeholder",
                       fieldType: "Input",
                       type: "text",
                     }}
@@ -387,7 +395,7 @@ function FormElementAttributes({
                 formElement={{
                   id: formElement.id,
                   name: "description",
-                  label: "Description attribute",
+                  label: "Description",
                   fieldType: "Textarea",
                   placeholder: "Add a description",
                 }}
@@ -472,6 +480,48 @@ function FormElementAttributes({
                   onChange={(options) => form.setValue("options", options)}
                 />
               )}
+              <div className="flex items-center w-full gap-4 justify-start">
+                <div>
+                  <RenderFormElement
+                    formElement={{
+                      id: formElement.id,
+                      name: "required",
+                      label: "Required",
+                      fieldType: "Checkbox",
+                    }}
+                    form={form}
+                  />
+                </div>
+                <RenderFormElement
+                  formElement={{
+                    id: formElement.id,
+                    name: "disabled",
+                    label: "Disabled",
+                    fieldType: "Checkbox",
+                  }}
+                  form={form}
+                />
+              </div>
+              {fieldType === "Rating" && (
+                <div className="w-full border-t pt-2 border-dashed">
+                  <h2 className="flex items-center gap-1.5 text-forground mb-3 font-medium text-lg">
+                    <MdStar />
+                    Rating options
+                  </h2>
+                  <RenderFormElement
+                    formElement={{
+                      id: formElement.id,
+                      name: "numberOfStars",
+                      label: "Number of stars",
+                      fieldType: "Input",
+                      type: "number",
+                      defaultValue: 5,
+                      required: false,
+                    }}
+                    form={form}
+                  />
+                </div>
+              )}
               {fieldType === "FileUpload" && (
                 <div className="w-full border-t pt-2 border-dashed">
                   <h2 className="flex items-center gap-1.5 text-forground mb-3 font-medium text-lg">
@@ -528,28 +578,6 @@ function FormElementAttributes({
                   </div>
                 </div>
               )}
-              <div className="flex items-center w-full gap-4 justify-start">
-                <div>
-                  <RenderFormElement
-                    formElement={{
-                      id: formElement.id,
-                      name: "required",
-                      label: "Required",
-                      fieldType: "Checkbox",
-                    }}
-                    form={form}
-                  />
-                </div>
-                <RenderFormElement
-                  formElement={{
-                    id: formElement.id,
-                    name: "disabled",
-                    label: "Disabled",
-                    fieldType: "Checkbox",
-                  }}
-                  form={form}
-                />
-              </div>
             </div>
           )}
         </div>

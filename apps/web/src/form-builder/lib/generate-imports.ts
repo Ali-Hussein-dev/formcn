@@ -70,6 +70,11 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
       case "Password":
         importSet.add('import { Password } from "@/components/password"');
         break;
+      case "Rating":
+        importSet.add(
+          'import { Rating, RatingButton } from "@/components/ui/rating"'
+        );
+        break;
       case "RadioGroup":
         importSet.add(
           "import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'"

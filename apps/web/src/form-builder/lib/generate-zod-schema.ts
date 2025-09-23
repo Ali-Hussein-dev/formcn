@@ -30,6 +30,15 @@ export const genFormZodSchema = (
       case "DatePicker":
         elementSchema = z.coerce.date();
         break;
+      case "Password":
+        elementSchema = z.string();
+        if (!element.required) {
+          elementSchema = elementSchema.optional();
+        }
+        break;
+      case "Rating":
+        elementSchema = z.coerce.number();
+        break;
       case "Checkbox":
         elementSchema = z.boolean().default(false);
         break;

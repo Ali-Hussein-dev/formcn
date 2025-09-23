@@ -1,6 +1,6 @@
 # Formcn 
 
-***Build production-ready forms effortlessly with shadcn/ui***
+**Build production-ready forms with a few clicks**
 
 ![screenshot](https://0ecd2qxhjqgqxftv.public.blob.vercel-storage.com/850_1x_shots_so.jpg)
 

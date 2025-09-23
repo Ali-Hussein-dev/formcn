@@ -51,6 +51,7 @@ import { Label } from "@/components/ui/label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Password } from "@/components/password";
 import { FileUpload } from "@/components/form-fields/file-upload";
+import { Rating, RatingButton } from "@/components/ui/rating";
 
 export const RenderFormElement = ({
   formElement,
@@ -551,6 +552,41 @@ export const RenderFormElement = ({
               </FormItem>
             );
           }}
+        />
+      );
+    case "Rating":
+      return (
+        <FormField
+          control={form.control}
+          name={formElement.name}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{formElement.label}</FormLabel>
+              <FormDescription>{formElement.description}</FormDescription>
+              <FormControl>
+                <div>
+                  <Rating
+                    readOnly={formElement.disabled}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  >
+                    {Array.from({
+                      length: (formElement.numberOfStars as number) ?? 5,
+                    }).map((_, index) => (
+                      <RatingButton key={index} />
+                    ))}
+                  </Rating>
+                  <input
+                    required={formElement.required}
+                    type="number"
+                    className="sr-only"
+                    {...field}
+                  />
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
       );
     case "H1":

@@ -82,6 +82,10 @@ export const defaultFormElements: Record<
     label: "Toggle Switch",
     description: "Turn on or off.",
   },
+  Rating: {
+    label: "Rate your experience",
+    description: "Please rate your experience on a scale from 1 to 5",
+  },
   Textarea: {
     label: "Textarea",
     description: "A multi-line text input field",
