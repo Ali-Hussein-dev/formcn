@@ -16,6 +16,9 @@ import { FaPlus } from "react-icons/fa6";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { GoGitCommit } from "react-icons/go";
+import { CgFileDocument } from "react-icons/cg";
+
 export const NewForm = () => {
   const router = useRouter();
   const [formValue, setFormValue] = React.useState({ name: "", isMS: false });
@@ -81,9 +84,11 @@ export const NewForm = () => {
               className="flex gap-1 rounded-none"
             >
               <ToggleGroupItem className="rounded-md px-2" value="single">
+                <CgFileDocument className="size-4 text-secondary-foreground/50" />
                 Simple Form
               </ToggleGroupItem>
               <ToggleGroupItem className="rounded-md px-4" value="multi">
+                <GoGitCommit className="size-4 text-secondary-foreground/50" />
                 Multi-step Form
               </ToggleGroupItem>
             </ToggleGroup>

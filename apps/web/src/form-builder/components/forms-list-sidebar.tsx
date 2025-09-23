@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { templates } from "@/form-builder/constant/templates";
-import { PiStackSimple, PiStackPlusLight } from "react-icons/pi";
+import { GoGitCommit } from "react-icons/go";
+import { CgFileDocument } from "react-icons/cg";
 import useLocalForms from "@/form-builder/hooks/use-local-forms";
 import { useQueryState } from "nuqs";
 import React from "react";
@@ -40,9 +41,9 @@ function FormsSelect() {
                   variant={formId === savedForm.id ? "secondary" : "ghost"}
                 >
                   {savedForm.isMS ? (
-                    <PiStackPlusLight className="size-4" />
+                    <GoGitCommit className="size-4 text-secondary-foreground/50" />
                   ) : (
-                    <PiStackSimple className="size-4" />
+                    <CgFileDocument className="size-4 text-secondary-foreground/50" />
                   )}
                   <span className="truncate">{savedForm.name}</span>
                 </Button>
@@ -62,9 +63,9 @@ function FormsSelect() {
               variant={formId === id ? "secondary" : "ghost"}
             >
               {isMS ? (
-                <PiStackPlusLight className="size-4" />
+                <GoGitCommit className="size-4 text-secondary-foreground/50" />
               ) : (
-                <PiStackSimple className="size-4" />
+                <CgFileDocument className="size-4 text-secondary-foreground/50" />
               )}
               {title}
             </Button>
