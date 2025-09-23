@@ -91,6 +91,7 @@ function SavedFormCard(props: { name: string; id: string }) {
             // ref={inputRef}
             value={name}
             onChange={(e) => setName(e.target.value)}
+            className="bg-background dark:bg-background"
           />
           <Button
             variant="ghost"
@@ -206,10 +207,10 @@ export function MyFormsBase() {
         <div className="lg:col-span-8 md:col-span-7 px-4 lg:px-6">
           {PreviewFormId && (
             <WebPreview>
-              <div className="p-2 lg:p-4">
+              <div className="p-2 lg:p-4 ">
                 <motion.div
                   key={PreviewFormId}
-                  className="border rounded-lg p-3 lg:p-4 bg-primary-foreground"
+                  className="border rounded-lg p-3 lg:p-4 bg-background"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ type: "keyframes", duration: 0.35 }}
