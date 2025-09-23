@@ -1,6 +1,8 @@
-# formcn
+# Formcn 
 
-![screenshot](https://0ecd2qxhjqgqxftv.public.blob.vercel-storage.com/893_1x_shots_so.jpg)
+***Build production-ready forms effortlessly with shadcn/ui***
+
+![screenshot](https://0ecd2qxhjqgqxftv.public.blob.vercel-storage.com/850_1x_shots_so.jpg)
 
 A modern form builder that allows you to build forms with shadcn components.
 
