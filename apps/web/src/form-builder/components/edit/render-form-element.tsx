@@ -376,6 +376,7 @@ export const RenderFormElement = ({
         <FormField
           control={form.control}
           name={formElement.name}
+          rules={{ required: formElement.required }}
           render={({ field }: { field: ControllerRenderProps }) => {
             const { max, min = 0, step } = formElement;
             const value = Array.isArray(field.value)
@@ -400,6 +401,12 @@ export const RenderFormElement = ({
                     disabled={formElement.disabled}
                   />
                 </FormControl>
+                <input
+                  type="number"
+                  className="sr-only"
+                  value={field.value}
+                  onChange={(e) => field.onChange(e.target.value)}
+                />
                 <FormDescription className="py-1">
                   {formElement.description}
                 </FormDescription>
@@ -559,6 +566,7 @@ export const RenderFormElement = ({
         <FormField
           control={form.control}
           name={formElement.name}
+          rules={{ required: formElement.required, min: 1 }}
           render={({ field }) => (
             <FormItem>
               <FormLabel>{formElement.label}</FormLabel>
@@ -577,10 +585,10 @@ export const RenderFormElement = ({
                     ))}
                   </Rating>
                   <input
-                    required={formElement.required}
                     type="number"
                     className="sr-only"
-                    {...field}
+                    value={field.value}
+                    onChange={(e) => field.onChange(e.target.value)}
                   />
                 </div>
               </FormControl>

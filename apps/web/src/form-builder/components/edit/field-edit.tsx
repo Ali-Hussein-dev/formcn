@@ -355,17 +355,17 @@ function FormElementAttributes({
             </div>
           ) : (
             <div className="flex flex-col items-center justify-start w-full gap-3 mb-2">
-              <RenderFormElement
-                formElement={{
-                  id: formElement.id,
-                  name: "label",
-                  label: "Label",
-                  fieldType: "Input",
-                  type: "text",
-                }}
-                form={form}
-              />
               <div className="flex items-center justify-between gap-4 w-full">
+                <RenderFormElement
+                  formElement={{
+                    id: formElement.id,
+                    name: "label",
+                    label: "Label",
+                    fieldType: "Input",
+                    type: "text",
+                  }}
+                  form={form}
+                />
                 <RenderFormElement
                   formElement={{
                     id: formElement.id,
@@ -378,19 +378,19 @@ function FormElementAttributes({
                   }}
                   form={form}
                 />
-                {!withoutPlaceholder && (
-                  <RenderFormElement
-                    formElement={{
-                      id: formElement.id,
-                      name: "placeholder",
-                      label: "Placeholder",
-                      fieldType: "Input",
-                      type: "text",
-                    }}
-                    form={form}
-                  />
-                )}
               </div>
+              {!withoutPlaceholder && (
+                <RenderFormElement
+                  formElement={{
+                    id: formElement.id,
+                    name: "placeholder",
+                    label: "Placeholder",
+                    fieldType: "Input",
+                    type: "text",
+                  }}
+                  form={form}
+                />
+              )}
               <RenderFormElement
                 formElement={{
                   id: formElement.id,

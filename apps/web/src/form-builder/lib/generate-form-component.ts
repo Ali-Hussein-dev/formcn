@@ -354,6 +354,7 @@ export const getFormElementCode = (field: FormElement) => {
             <FormField
               control={form.control}
               name="${field.name}"
+              rules={{ required: ${field.required} }}
               render={({ field }) => {
               const currentValue = field.value || 0;
               const min = ${field.min};
@@ -375,6 +376,12 @@ export const getFormElementCode = (field: FormElement) => {
                       ${field.disabled ? "disabled" : ""}
                     />
                   </FormControl>
+                  <input
+                    type="number"
+                    className="sr-only"
+                    value={field.value}
+                    onChange={(e) => field.onChange(e.target.value)}
+                  />
                   ${
                     field.description
                       ? `<FormDescription>${field.description}</FormDescription>`
@@ -500,6 +507,7 @@ export const getFormElementCode = (field: FormElement) => {
       return `<FormField
           control={form.control}
           name="${field.name}"
+          rules={{ required: ${field.required}, min: ${field.required ? 1 : undefined} }}
           render={({ field }) => (
             <FormItem>
               ${
@@ -523,10 +531,10 @@ export const getFormElementCode = (field: FormElement) => {
                     ))}
                   </Rating>
                   <input 
-                    type="number" 
-                    required={${!!field.required}} 
-                    {...field} 
-                    className="sr-only" 
+                    type="number"
+                    className="sr-only"
+                    value={field.value}
+                    onChange={(e) => field.onChange(e.target.value)}
                   />
                 </div>
               </FormControl>
