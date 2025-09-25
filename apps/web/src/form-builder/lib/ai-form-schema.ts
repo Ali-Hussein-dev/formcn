@@ -146,6 +146,18 @@ const switchSchema = z
   })
   .describe("Switch element");
 
+const ratingSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    label: z.string(),
+    description: z.string().optional(),
+    numberOfStars: z.number().optional().default(5),
+    fieldType: z.literal("Rating"),
+    required: z.boolean().optional(),
+  })
+  .describe("Rating element with number of stars");
+
 const datePicker = z
   .object({
     id: z.string(),
@@ -235,6 +247,7 @@ const fieldSchema = z.union([
   CheckboxSchema,
   MultiSelectSchema,
   fileUploadSchema,
+  ratingSchema,
 ]);
 
 const singleFormFieldsSchema = z

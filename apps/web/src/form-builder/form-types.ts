@@ -283,6 +283,7 @@ export const fieldTypes = [
   "DatePicker",
   "Select",
   "MultiSelect",
+  "Rating",
   "H1",
   "H2",
   "H3",

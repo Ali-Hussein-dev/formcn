@@ -82,8 +82,8 @@ const promptExamples = [
   },
   {
     label: "Survey Form",
-    prompt: `Create a survey form that includes these sections:  
-First, add multiple choice questions where users pick from several options. Next, include at least one open-ended question for written feedback. Finally, add a rating scale question so users can rate their experience numerically. Label each section clearly and make sure all three types are present.`,
+    prompt: `Create a survey form for React library that includes these sections:  
+First, multiple choice questions where users pick from several options. Next, include at least one open-ended question for written feedback. Finally, add a rating scale question so users can rate their experience numerically. Label each section clearly and make sure all three types are present.`,
   },
   {
     label: "Booking/Reservation Form",
