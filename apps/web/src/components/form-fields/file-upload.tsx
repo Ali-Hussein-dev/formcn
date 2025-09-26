@@ -1,17 +1,14 @@
 "use client";
 
-import { AlertCircleIcon, XIcon } from "lucide-react";
-import { AiOutlineCloudUpload } from "react-icons/ai";
+import { AlertCircleIcon, XIcon, CloudUpload, File } from "lucide-react";
 import {
   formatBytes,
   useFileUpload,
 } from "@/form-builder/hooks/use-file-upload";
 import { Button } from "@/components/ui/button";
-import { MdAttachFile } from "react-icons/md";
 
 const getFileIcon = (file: { file: File | { type: string; name: string } }) => {
-  const fileType = file.file instanceof File ? file.file.type : file.file.type;
-  // const fileName = file.file instanceof File ? file.file.name : file.file.name;
+  const fileType = file.file.type;
   if (fileType.startsWith("image/")) {
     // return preview
     return (
@@ -25,7 +22,7 @@ const getFileIcon = (file: { file: File | { type: string; name: string } }) => {
   }
   return (
     <div className="aspect-square size-10 flex items-center justify-center overflow-hidden rounded-full">
-      <MdAttachFile className="size-5 opacity-60" />
+      <File className="size-5 opacity-60" />
     </div>
   );
 };
@@ -102,7 +99,7 @@ export function FileUpload({
             className="bg-secondary mb-2 flex size-11 shrink-0 items-center justify-center rounded-full border"
             aria-hidden="true"
           >
-            <AiOutlineCloudUpload className="size-4 opacity-60" />
+            <CloudUpload className="size-4 opacity-60" />
           </div>
           {/* <p className="mb-1.5 text-sm font-medium">
             Upload
@@ -138,16 +135,10 @@ export function FileUpload({
                 {getFileIcon(file)}
                 <div className="flex min-w-0 flex-col gap-0.5">
                   <p className="truncate text-[11px] font-medium max-w-[200px]">
-                    {file.file instanceof File
-                      ? file.file.name
-                      : file.file.name}
+                    {file.file.name}
                   </p>
                   <p className="text-muted-foreground text-xs">
-                    {formatBytes(
-                      file.file instanceof File
-                        ? file.file.size
-                        : file.file.size
-                    )}
+                    {formatBytes(file.file.size)}
                   </p>
                 </div>
               </div>

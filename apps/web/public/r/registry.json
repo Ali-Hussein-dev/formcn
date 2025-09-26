@@ -50,13 +50,13 @@
       "description": "File upload component",
       "files": [
         {
-          "path": "registry/default/components/file-upload.tsx",
+          "path": "src/components/form-fields/file-upload.tsx",
           "type": "registry:component"
         }
       ],
       "registryDependencies": [
         "https://formcn.dev/r/use-file-upload.json",
-        "Button"
+        "button"
       ]
     },
     {
@@ -66,7 +66,7 @@
       "description": "state management hook for file upload component",
       "files": [
         {
-          "path": "registry/default/hooks/use-file-upload.tsx",
+          "path": "src/hooks/form-builder/use-file-upload.tsx",
           "type": "registry:hook"
         }
       ]

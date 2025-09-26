@@ -85,7 +85,7 @@ const installableShadcnComponents: Partial<
   Select: "select",
   Slider: "slider",
   Switch: "switch",
-  OTP: "otp",
+  OTP: "input-otp",
   RadioGroup: "radio-group",
   ToggleGroup: "toggle-group",
   DatePicker: "popover calendar",
