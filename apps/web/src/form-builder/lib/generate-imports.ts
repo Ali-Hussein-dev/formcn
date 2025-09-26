@@ -102,6 +102,5 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
   };
 
   formElements.flat().forEach(processField);
-  console.log(importSet);
   return importSet;
 };

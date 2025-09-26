@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --radius: 0.1rem;
+  --radius: 0.2rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
@@ -154,6 +154,9 @@
   }
   .container {
     @apply max-w-[84rem] mx-auto w-full;
+  }
+  .reorderItem {
+    @apply rounded-xl border border-dashed py-1.5 w-full bg-background hover:cursor-grab active:cursor-grabbing;
   }
 }
 

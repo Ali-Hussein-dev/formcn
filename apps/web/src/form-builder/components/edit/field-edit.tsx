@@ -327,6 +327,7 @@ function FormElementAttributes({
     "Slider",
     "ToggleGroup",
     "Checkbox",
+    "Switch",
     "Rating",
   ].includes(fieldType);
   return (

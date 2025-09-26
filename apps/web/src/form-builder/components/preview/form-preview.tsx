@@ -69,7 +69,13 @@ export function FormPreview({
           transition={{ duration: 0.4, damping: 25 }}
           className="flex items-center justify-center"
         >
-          <Button variant="outline" onClick={() => form.reset()}>
+          <Button
+            variant="outline"
+            onClick={() => {
+              form.reset({});
+              setRerender(!rerender);
+            }}
+          >
             Back to form
           </Button>
         </motion.div>

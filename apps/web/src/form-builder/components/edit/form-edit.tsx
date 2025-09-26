@@ -199,7 +199,7 @@ export function FormEdit() {
                                 <Reorder.Item
                                   value={el}
                                   key={el.id}
-                                  className="w-full rounded-xl border border-dashed py-1.5 bg-background"
+                                  className="reorderItem"
                                 >
                                   <EditFormItem
                                     fieldIndex={fieldIndex}
@@ -217,7 +217,7 @@ export function FormEdit() {
                         <Reorder.Item
                           key={element.id}
                           value={element}
-                          className="w-full rounded-xl border border-dashed py-1.5 bg-background"
+                          className="reorderItem"
                           variants={animateVariants}
                           initial="initial"
                           animate="animate"
@@ -267,7 +267,7 @@ export function FormEdit() {
                       <Reorder.Item
                         key={el.id}
                         value={el}
-                        className="w-full rounded-xl border border-dashed py-1.5 bg-background"
+                        className="reorderItem"
                         variants={animateVariants}
                         initial="initial"
                         animate="animate"
@@ -291,7 +291,7 @@ export function FormEdit() {
               <Reorder.Item
                 key={element.id}
                 value={element}
-                className="rounded-xl border border-dashed py-1.5 w-full bg-background"
+                className="reorderItem"
                 variants={animateVariants}
                 initial="initial"
                 animate="animate"

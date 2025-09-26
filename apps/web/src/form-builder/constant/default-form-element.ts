@@ -79,7 +79,7 @@ export const defaultFormElements: Record<
     step: 5,
   },
   Switch: {
-    label: "Toggle Switch",
+    label: "Switch",
     description: "Turn on or off.",
   },
   Rating: {
