@@ -72,11 +72,12 @@ export const useFormBuilderStore = create<FormBuilderState>()(
               const clonedFormElements = [...state.formElements];
 
               const stepFields = clonedFormElements[stepIndex].stepFields;
+              const id = uuid();
               const newFormElement = {
-                id: uuid(),
+                id,
                 ...defaultFormElements[fieldType],
                 fieldType,
-                name: `${fieldType}-${stepFields.length + 100}`.toLowerCase(),
+                name: `${fieldType.toLowerCase()}-${id.slice(0, 3)}`,
               } as FormElement;
               if (typeof fieldIndex == "number") {
                 // Append to a nested array
@@ -91,11 +92,12 @@ export const useFormBuilderStore = create<FormBuilderState>()(
               return { formElements: clonedFormElements };
             }
             default:
+              const id = uuid();
               const newFormElement = {
-                id: uuid(),
+                id,
                 ...defaultFormElements[fieldType],
                 fieldType,
-                name: `${fieldType}-${state.formElements.length + 1}`.toLowerCase(),
+                name: `${fieldType.toLowerCase()}-${id.slice(0, 3)}`,
               } as FormElement;
               const clonedFormElements = [...state.formElements];
               if (typeof fieldIndex == "number") {
