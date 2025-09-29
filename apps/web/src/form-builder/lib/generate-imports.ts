@@ -86,6 +86,12 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
           "import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'"
         );
         break;
+      case "FileUpload":
+        importSet.add(
+          `import type { ControllerFieldState, ControllerRenderProps } from 'react-hook-form';
+           import { FileUpload } from '@/components/file-upload'`
+        );
+        break;
       case "H1":
       case "H2":
       case "H3":

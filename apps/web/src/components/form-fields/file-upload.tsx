@@ -44,7 +44,15 @@ export function FileUpload({
   // description?: string;
   required?: boolean;
   disabled?: boolean;
-  setValue: (name: string, value: any) => void;
+  setValue: (
+    name: string,
+    value: any,
+    options?: {
+      shouldValidate?: boolean;
+      shouldDirty?: boolean;
+      shouldTouch?: boolean;
+    }
+  ) => void;
   accept?: string;
   name: string;
 }) {
@@ -68,7 +76,8 @@ export function FileUpload({
     onFilesChange: (files) => {
       setValue(
         name,
-        files.map((file) => file.file)
+        files.map((file) => file.file),
+        { shouldValidate: true, shouldDirty: true, shouldTouch: true }
       );
     },
   });

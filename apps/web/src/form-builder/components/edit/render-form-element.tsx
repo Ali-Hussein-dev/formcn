@@ -10,7 +10,11 @@ import {
 import type * as React from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import type { ControllerRenderProps, UseFormReturn } from "react-hook-form";
+import type {
+  ControllerFieldState,
+  ControllerRenderProps,
+  UseFormReturn,
+} from "react-hook-form";
 import type { FormElement } from "@/form-builder/form-types";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
@@ -66,6 +70,11 @@ export const RenderFormElement = ({
         <FormField
           control={form.control}
           name={formElement.name}
+          rules={{
+            required: formElement.required,
+            min: formElement.min,
+            max: formElement.max,
+          }}
           render={({ field }: { field: ControllerRenderProps }) => (
             <FormItem className="w-full">
               <FormLabel>
@@ -76,8 +85,7 @@ export const RenderFormElement = ({
                   {...field}
                   placeholder={formElement.placeholder}
                   disabled={formElement.disabled}
-                  type={formElement.type ?? "text"}
-                  required={formElement.required}
+                  type={formElement.type === "number" ? "number" : "text"}
                   min={formElement.min}
                   max={formElement.max}
                   onChange={(e) => {
@@ -102,6 +110,9 @@ export const RenderFormElement = ({
         <FormField
           control={form.control}
           name={formElement.name}
+          rules={{
+            required: formElement.required,
+          }}
           render={({ field }: { field: ControllerRenderProps }) => (
             <FormItem className="w-full">
               <FormLabel>
@@ -111,7 +122,6 @@ export const RenderFormElement = ({
                 <Password
                   placeholder={formElement.placeholder}
                   disabled={formElement.disabled}
-                  required={formElement.required}
                   {...field}
                   value={field.value ?? ""}
                   onChange={field.onChange}
@@ -130,7 +140,16 @@ export const RenderFormElement = ({
         <FormField
           control={form.control}
           name={formElement.name}
-          render={({ field }: { field: ControllerRenderProps }) => (
+          rules={{
+            required: formElement.required,
+          }}
+          render={({
+            field,
+            fieldState,
+          }: {
+            field: ControllerRenderProps;
+            fieldState: ControllerFieldState;
+          }) => (
             <FormItem className="w-full">
               <FormLabel>
                 {formElement.label} {formElement.required && " *"}
@@ -140,7 +159,6 @@ export const RenderFormElement = ({
                   disabled={formElement.disabled}
                   {...field}
                   placeholder={formElement.placeholder}
-                  required={formElement.required}
                   accept={formElement.accept}
                   maxFiles={formElement.maxFiles ?? 1}
                   maxSize={formElement.maxSize ?? 1024 * 1024}
@@ -148,7 +166,19 @@ export const RenderFormElement = ({
                   name={formElement.name}
                 />
               </FormControl>
-              <FormMessage />
+              {Array.isArray(fieldState.error) ? (
+                fieldState.error?.map((error, i) => (
+                  <p
+                    data-slot="form-message"
+                    className="text-destructive text-sm"
+                    key={i}
+                  >
+                    {error.message}
+                  </p>
+                ))
+              ) : (
+                <FormMessage />
+              )}
             </FormItem>
           )}
         />
@@ -158,6 +188,9 @@ export const RenderFormElement = ({
         <FormField
           control={form.control}
           name={formElement.name}
+          rules={{
+            required: formElement.required,
+          }}
           render={({ field }: { field: ControllerRenderProps }) => (
             <FormItem className="w-full">
               <FormLabel>
@@ -165,11 +198,9 @@ export const RenderFormElement = ({
               </FormLabel>
               <FormControl>
                 <InputOTP
-                  {...field}
                   maxLength={formElement.maxLength ?? 6}
-                  name={formElement.name}
-                  value={formElement.value}
-                  onChange={field.onChange}
+                  disabled={formElement.disabled}
+                  {...field}
                 >
                   <InputOTPGroup>
                     <InputOTPSlot index={0} />
@@ -197,6 +228,9 @@ export const RenderFormElement = ({
         <FormField
           control={form.control}
           name={formElement.name}
+          rules={{
+            required: formElement.required,
+          }}
           render={({ field }: { field: ControllerRenderProps }) => (
             <FormItem className="w-full">
               <FormLabel>
@@ -206,7 +240,6 @@ export const RenderFormElement = ({
                 <Textarea
                   {...field}
                   placeholder={formElement.placeholder}
-                  required={formElement.required}
                   disabled={formElement.disabled}
                   className="resize-none"
                 />
@@ -224,6 +257,9 @@ export const RenderFormElement = ({
         <FormField
           control={form.control}
           name={formElement.name}
+          rules={{
+            required: formElement.required,
+          }}
           render={({ field }: { field: ControllerRenderProps }) => (
             <FormItem className="flex items-start gap-2 w-full py-1 space-y-0">
               <FormControl>
@@ -231,7 +267,6 @@ export const RenderFormElement = ({
                   {...field}
                   checked={field.value}
                   onCheckedChange={field.onChange}
-                  required={formElement.required}
                   disabled={formElement.disabled}
                 />
               </FormControl>
@@ -253,6 +288,9 @@ export const RenderFormElement = ({
         <FormField
           control={form.control}
           name={formElement.name}
+          rules={{
+            required: formElement.required,
+          }}
           render={({ field }: { field: ControllerRenderProps }) => (
             <FormItem className="flex flex-col gap-2 w-full py-3">
               <FormLabel className="mt-0">
@@ -263,7 +301,6 @@ export const RenderFormElement = ({
                   onValueChange={field.onChange}
                   value={field.value}
                   disabled={formElement.disabled}
-                  required={formElement.required}
                 >
                   {(formElement?.options || []).map(({ label, value }) => (
                     <div
@@ -367,6 +404,7 @@ export const RenderFormElement = ({
               {formElement.description && (
                 <FormDescription>{formElement.description}</FormDescription>
               )}
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -401,12 +439,6 @@ export const RenderFormElement = ({
                     disabled={formElement.disabled}
                   />
                 </FormControl>
-                <input
-                  type="number"
-                  className="sr-only"
-                  value={field.value}
-                  onChange={(e) => field.onChange(e.target.value)}
-                />
                 <FormDescription className="py-1">
                   {formElement.description}
                 </FormDescription>
@@ -421,6 +453,7 @@ export const RenderFormElement = ({
         <FormField
           control={form.control}
           name={formElement.name}
+          rules={{ required: formElement.required }}
           render={({ field }: { field: ControllerRenderProps }) => (
             <FormItem className="w-full">
               <FormLabel>
@@ -430,7 +463,6 @@ export const RenderFormElement = ({
               <Select
                 value={field.value}
                 onValueChange={field.onChange}
-                required={formElement.required}
                 disabled={formElement.disabled}
               >
                 <FormControl>

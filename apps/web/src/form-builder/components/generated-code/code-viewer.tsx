@@ -297,7 +297,7 @@ const useGenerateCode = () => {
     isMS,
   });
   const parsedFormElements = isMS
-    ? flattenFormSteps(formElements as FormStep[])
+    ? flattenFormSteps(formElements as FormStep[]).flat()
     : formElements.flat();
   const zodSchema = genFormZodSchemaCode(parsedFormElements as FormElement[]);
   const serverAction = generateServerActionCode();

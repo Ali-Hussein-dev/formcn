@@ -2,6 +2,9 @@ import { isStatic } from "@/form-builder/lib/utils";
 import type { FormElement } from "@/form-builder/form-types";
 import { z, type ZodType } from "zod";
 
+/**
+ * use in form preview
+ */
 export const genFormZodSchema = (
   formElements: FormElement[]
 ): z.ZodObject<any> => {
@@ -9,96 +12,113 @@ export const genFormZodSchema = (
 
   const addType = (element: FormElement): void => {
     if (isStatic(element.fieldType)) return;
-
-    let elementSchema: ZodType;
+    let elementSchema: ZodType = z.string({ error: "This field is required" });
+    // .min(1, "Empty string is not allowed");
     switch (element.fieldType) {
       case "Input":
         if (element.type === "email") {
-          elementSchema = z.email();
-          break;
+          elementSchema = z.email({ error: "Please enter a valid email" });
+        }
+        if (element.type === "url") {
+          elementSchema = z.url({
+            error: "Please enter a valid url",
+          });
         }
         if (element.type === "number") {
-          elementSchema = z.coerce.number();
-          break;
+          elementSchema = z.number({
+            message: "Please enter a valid number",
+          });
         }
-        if (element.required) {
-          elementSchema = z.string().min(1, "This field is required");
-        } else {
-          elementSchema = z.string().optional();
+        if (element.type === "tel") {
+          elementSchema = z.coerce.number();
+        }
+        if (element.type === "time") {
+          elementSchema = z
+            .string()
+            .refine(
+              (value) => value.match(/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/),
+              "Please enter a valid time 00:00:00"
+            );
         }
         break;
-      case "DatePicker":
-        elementSchema = z.coerce.date();
+      case "Textarea":
+        elementSchema = z.string({ error: "This field is required" });
         break;
       case "Password":
-        elementSchema = z.string();
-        if (!element.required) {
-          elementSchema = elementSchema.optional();
+        break;
+      case "Switch":
+      case "Checkbox":
+        elementSchema = z.boolean().default(false);
+        if (element.required) {
+          elementSchema = z.literal(true, {
+            error: "This field is required",
+          });
         }
         break;
       case "Rating":
-        elementSchema = z.coerce.number();
-        break;
-      case "Checkbox":
-        elementSchema = z.boolean().default(false);
-        break;
       case "Slider":
-        elementSchema = z.coerce.number();
-        break;
-      case "Switch":
-        elementSchema = z.boolean();
+        elementSchema = z.coerce.number({
+          error: "This field must be a number",
+        });
+        // if (element.fieldType === "Slider") {
+        //   if (element.min !== undefined) {
+        //     elementSchema = (elementSchema as any).min(
+        //       element.min,
+        //       `Must be at least ${element.min}`
+        //     );
+        //   }
+        //   if (element.max !== undefined) {
+        //     elementSchema = (elementSchema as any).max(
+        //       element.max,
+        //       `Must be at most ${element.max}`
+        //     );
+        //   }
+        // }
         break;
       case "Select":
-        elementSchema = z.string().min(1, "Please an item");
+      case "RadioGroup":
+        elementSchema = z.string();
+        if (element.required) {
+          elementSchema = z.string().min(1, "Please select an item");
+        }
         break;
       case "ToggleGroup":
         elementSchema =
           element.type === "single"
-            ? z.string().min(1, "Please an item")
-            : z.array(z.string()).nonempty("Please select at least one item");
+            ? z.string().min(1, "Please select an item")
+            : z.array(z.string()).min(1, "Please select at least one item");
         break;
       case "MultiSelect":
         elementSchema = z
-          .array(z.string())
+          .array(z.string(), { error: "Please select at least one item" })
           .min(1, "Please select at least one item");
         break;
-      case "RadioGroup":
-        elementSchema = z.string().min(1, "Please select an item");
+      case "DatePicker":
+        elementSchema = z.date({ error: "This field is required" });
         break;
       case "FileUpload":
+        const fileSchema = z
+          .file()
+          .max(element.maxSize!, { error: "File size is too big" })
+          .mime(element.accept?.split(", ") ?? [], {
+            error: "File type is not allowed",
+          });
         elementSchema = z.union([
-          z
-            .file()
-            .mime(element.accept?.split(", ") ?? [])
-            .max(element.maxSize!),
-          z.array(
-            z
-              .file()
-              .mime(element.accept?.split(", ") ?? [])
-              .max(element.maxSize!)
-          ),
+          fileSchema,
+          z.array(fileSchema).nonempty({ message: "Please select a file" }),
           z.string().min(1, "Please select a file"),
           z.instanceof(FileList),
         ]);
+        if (!element.required) {
+          elementSchema = elementSchema.optional();
+        }
+        break;
+      case "OTP":
+        elementSchema = z.string().min(6, "Please enter a valid OTP");
         break;
       default:
-        elementSchema = z.string();
+        elementSchema = z.unknown();
     }
-    if (element.fieldType === "Slider") {
-      if (element.min !== undefined) {
-        elementSchema = (elementSchema as any).min(
-          element.min,
-          `Must be at least ${element.min}`
-        );
-      }
-      if (element.max !== undefined) {
-        elementSchema = (elementSchema as any).max(
-          element.max,
-          `Must be at most ${element.max}`
-        );
-      }
-    }
-
     if (!("required" in element) || !element.required) {
       elementSchema = elementSchema.optional();
     }
@@ -110,120 +130,126 @@ export const genFormZodSchema = (
   return z.object(schemaObject);
 };
 
-export const genFieldZodSchemaCode = (schema: ZodType): string => {
-  if (schema instanceof z.ZodDefault) {
-    return `${genFieldZodSchemaCode(
-      schema.def.innerType as ZodType
-    )}.default(${JSON.stringify(schema.def.defaultValue)})`;
-  }
-
-  if (schema instanceof z.ZodBoolean) {
-    return "z.boolean()";
-  }
-  if (schema instanceof z.ZodFile) {
-    let code = "z.file()";
-
-    // Extract mime type constraints from the schema definition (Zod v4)
-    if (schema.def && schema.def.checks) {
-      const mimeCheck = schema.def.checks.find((o: any) => {
-        return o._zod.def.check === "mime_type";
-      });
-      if (mimeCheck) {
-        // @ts-expect-error mime is expected
-        code += `.mime([${mimeCheck._zod.def.mime?.map((type: string) => `"${type}"`).join(", ")}])`;
+export const genFieldZodSchemaCode = (formElement: FormElement): string => {
+  const { fieldType } = formElement;
+  if (isStatic(fieldType)) return "";
+  let schemaItem = "z.string({ error: 'This field is required' })";
+  switch (fieldType) {
+    case "Input":
+      if (formElement.type === "email") {
+        schemaItem = "z.email({error: 'Please enter a valid email'})";
       }
-
-      const maxSizeCheck = schema.def.checks.find(
-        (o: any) => o._zod.def.check === "max_size"
-      );
-      if (maxSizeCheck) {
-        // @ts-expect-error maximum is expected
-        code += `.maxSize(${maxSizeCheck._zod.def.maximum})`;
+      if (formElement.type === "url") {
+        schemaItem = "z.url({error: 'Please enter a valid url'})";
       }
-    }
-    return code;
+      if (formElement.type === "number") {
+        schemaItem = "z.coerce.number({error: 'Please enter a valid number'})";
+      }
+      if (formElement.type === "tel") {
+        schemaItem =
+          "z.coerce.number({error: 'Please enter a valid phone number'})";
+      }
+      if (formElement.type === "time") {
+        schemaItem =
+          "z.string({error: 'Please enter a valid time 00:00:00'}).refine((value) => value.match(/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/), 'Please enter a valid time 00:00:00')";
+      }
+      if (!formElement.required) {
+        schemaItem += ".optional()";
+      }
+      return schemaItem;
+    case "Textarea":
+      if (!formElement.required) {
+        schemaItem += ".optional()";
+      }
+      return schemaItem;
+    case "Password":
+      if (!formElement.required) {
+        schemaItem += ".optional()";
+      }
+      return schemaItem;
+    case "Switch":
+    case "Checkbox":
+      schemaItem = "z.litral(true, {error: 'This field is required'})";
+      if (!formElement.required) {
+        schemaItem = "z.boolean().default(false)";
+      }
+      return schemaItem;
+    case "Rating":
+    case "Slider":
+      schemaItem = "z.coerce.number({error: 'This field must be a number'})";
+      if (!formElement.required) {
+        schemaItem += ".optional()";
+      }
+      return schemaItem;
+    case "Select":
+    case "RadioGroup":
+      schemaItem = "z.string().min(1, 'Please select an item')";
+      if (!formElement.required) {
+        schemaItem += ".optional()";
+      }
+      return schemaItem;
+    case "ToggleGroup":
+      if (formElement.type === "single") {
+        schemaItem = "z.string().min(1,'Please select an item')";
+      } else {
+        schemaItem = `z
+        .array(z.string(), { error: 'Please select at least one item'})
+        .min(1,'Please select at least one item')`;
+      }
+      if (!formElement.required) {
+        schemaItem += ".optional()";
+      }
+      return schemaItem;
+    case "MultiSelect":
+      schemaItem = `
+      z.array(z.string(), { error: 'Please select at least one item'})
+       .min(1,'Please select at least one item')`;
+      if (!formElement.required) {
+        schemaItem += ".optional()";
+      }
+      return schemaItem;
+    case "DatePicker":
+      schemaItem = "z.date({error: 'This field is required'})";
+      if (!formElement.required) {
+        schemaItem += ".optional()";
+      }
+      return schemaItem;
+    case "FileUpload":
+      const mime = JSON.stringify(formElement.accept?.split(", ") ?? []);
+      schemaItem = `z.union([
+          z.file()
+           .mime(${mime})
+           .max(${formElement.maxSize!}),
+          z.array(
+            z.file()
+             .mime(${mime})
+             .max(${formElement.maxSize!})
+          ).nonempty({ message: "Please select a file" }),
+          z.string().min(1, "Please select a file"),
+          z.instanceof(FileList),
+        ])`;
+      if (!formElement.required) {
+        schemaItem += ".optional()";
+      }
+      return schemaItem;
+    case "OTP":
+      schemaItem = "z.string().min(6, 'Please enter a valid OTP')";
+      if (!formElement.required) {
+        schemaItem += ".optional()";
+      }
+      return schemaItem;
+    default:
+      return "z.unknown()";
   }
-
-  if (schema instanceof z.ZodEmail) {
-    return "z.email()";
-  }
-
-  if (schema instanceof z.ZodNumber) {
-    let result = "z.number()";
-    if ("checks" in schema.def && schema.def.checks) {
-      schema.def.checks.forEach((check: any) => {
-        if (check.kind === "min") {
-          result += `.min(${check.value})`;
-        } else if (check.kind === "max") {
-          result += `.max(${check.value})`;
-        }
-      });
-    }
-    return result;
-  }
-
-  if (schema instanceof z.ZodString) {
-    let result = "z.string()";
-    if ("checks" in schema.def && schema.def.checks) {
-      schema.def.checks.forEach((check: any) => {
-        if (check.kind === "min") {
-          result += `.min(${check.value})`;
-        } else if (check.kind === "max") {
-          result += `.max(${check.value})`;
-        }
-      });
-    }
-
-    return result;
-  }
-
-  if (schema instanceof z.ZodDate) {
-    return "z.coerce.date()";
-  }
-
-  if (schema instanceof z.ZodArray) {
-    return `z.array(${genFieldZodSchemaCode(
-      schema.element as ZodType
-    )}).min(1, "Please select at least one item")`;
-  }
-
-  if (schema instanceof z.ZodTuple) {
-    return `z.tuple([${schema.def.items
-      .map((item) => genFieldZodSchemaCode(item as any))
-      .join(", ")}])`;
-  }
-
-  if (schema instanceof z.ZodObject) {
-    const shape = schema.shape;
-    const shapeStrs = Object.entries(shape).map(
-      ([key, value]) => `${key}: ${genFieldZodSchemaCode(value as ZodType)}`
-    );
-    return `
-    z.object({
-      ${shapeStrs.join(",\n  ")}
-    })`;
-  }
-
-  if (schema instanceof z.ZodOptional) {
-    return `${genFieldZodSchemaCode(schema.unwrap() as ZodType)}.optional()`;
-  }
-
-  if (schema instanceof z.ZodUnion) {
-    // return JSON.stringify(schema.options);
-
-    return `z.union([${schema.def.options
-      .map((option) => genFieldZodSchemaCode(option as ZodType))
-      .join(", ")}])`;
-  }
-
-  return "z.unknown()";
 };
 
 export const genFormZodSchemaCode = (formElements: FormElement[]): string => {
   const schema = genFormZodSchema(formElements);
   const schemaEntries = Object.entries(schema.shape)
     .map(([key, value]) => {
-      return `"${key}": ${genFieldZodSchemaCode(value as ZodType)}`;
+      return `"${key}": ${genFieldZodSchemaCode(
+        formElements.find((o) => o.name === key)!
+      )}`;
     })
     .join(",\n");
 

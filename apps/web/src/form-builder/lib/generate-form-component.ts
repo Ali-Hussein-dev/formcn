@@ -6,6 +6,7 @@ export const getFormElementCode = (field: FormElement) => {
       return `<FormField
                 control={form.control}
                 name="${field.name}"
+                rules={{ required: ${field.required}}}
                 render={({ field }) => (
                     <FormItem className="w-full">
                       ${
@@ -25,7 +26,6 @@ export const getFormElementCode = (field: FormElement) => {
                             });
                           }}
                           ${field.disabled ? "disabled" : ""}
-                          ${field.required ? "required" : ""}
                           ${
                             field.placeholder
                               ? `placeholder="${field.placeholder}"`
@@ -48,7 +48,8 @@ export const getFormElementCode = (field: FormElement) => {
         <FormField
           control={form.control}
           name="${field.name}"
-          render={({ field }: { field: ControllerRenderProps }) => (
+          rules={{ required: ${field.required}}}
+          render={({ field, fieldState }: { field: ControllerRenderProps; fieldState: ControllerFieldState }) => (
             <FormItem className="w-full">
                ${
                  field.label &&
@@ -68,7 +69,19 @@ export const getFormElementCode = (field: FormElement) => {
                   ${field.disabled ? "disabled" : ""}
                 />
               </FormControl>
-              <FormMessage />
+              {Array.isArray(fieldState.error) ? (
+                fieldState.error?.map((error, i) => (
+                  <p
+                    data-slot="form-message"
+                    className="text-destructive text-sm"
+                    key={i}
+                  >
+                    {error.message}
+                  </p>
+                ))
+              ) : (
+                <FormMessage />
+              )}
             </FormItem>
           )}
         />`;
@@ -77,6 +90,7 @@ export const getFormElementCode = (field: FormElement) => {
        <FormField
           control={form.control}
           name="${field.name}"
+          rules={{ required: ${field.required}}}
           render={({ field }) => (
            <FormItem className="w-full">
           ${
@@ -88,11 +102,8 @@ export const getFormElementCode = (field: FormElement) => {
           <FormControl>
             <InputOTP
               maxLength={6}
-              name={field.name}
-              value={field.value}
-              onChange={field.onChange}
+              {...field}
               ${field.disabled ? "disabled" : ""}
-              ${field.required ? "required" : ""}
             >
               <InputOTPGroup>
                 <InputOTPSlot index={0} />
@@ -121,6 +132,7 @@ export const getFormElementCode = (field: FormElement) => {
         <FormField
           control={form.control}
           name="${field.name}"
+          rules={{ required: ${field.required}}}
           render={({ field }) => (
             <FormItem>
               ${
@@ -135,7 +147,6 @@ export const getFormElementCode = (field: FormElement) => {
                   placeholder="${field.placeholder ?? ""}"
                   className="resize-none"
                   ${field.disabled ? "disabled" : ""}
-                  ${field.required ? "required" : ""}
                 />
               </FormControl>
               ${
@@ -152,6 +163,7 @@ export const getFormElementCode = (field: FormElement) => {
         <FormField
           control={form.control}
           name="${field.name}"
+          rules={{ required: ${field.required}}}
           render={({ field }) => (
             <FormItem className="w-full">
               ${
@@ -164,7 +176,6 @@ export const getFormElementCode = (field: FormElement) => {
                 <Password
                   {...field}
                   ${field.disabled ? "disabled" : ""}
-                  ${field.required ? "required" : ""}
                   ${
                     field.placeholder
                       ? `placeholder="${field.placeholder}"`
@@ -186,6 +197,7 @@ export const getFormElementCode = (field: FormElement) => {
     case "Checkbox":
       return `<FormField
           control={form.control}
+          rules={{ required: ${field.required}}}
           name="${field.name}"
           render={({ field }) => (
             <FormItem className="flex flex-row items-start space-x-1 space-y-0">
@@ -213,6 +225,7 @@ export const getFormElementCode = (field: FormElement) => {
       return `
       <FormField
       control={form.control}
+      rules={{ required: ${field.required}}}
       name="${field.name}"
       render={({ field }) => (
         <FormItem className="flex flex-col">
@@ -242,7 +255,6 @@ export const getFormElementCode = (field: FormElement) => {
                 selected={field.value}
                 onSelect={field.onChange}
                 ${field.disabled ? "disabled" : ""}
-                ${field.required ? "required" : ""}
               />
             </PopoverContent>
           </Popover>
@@ -259,6 +271,7 @@ export const getFormElementCode = (field: FormElement) => {
       return `
            <FormField
               control={form.control}
+              rules={{ required: ${field.required}}}
               name="${field.name}"
               render={({ field }) => {
               const options = ${JSON.stringify(field.options)};
@@ -274,7 +287,6 @@ export const getFormElementCode = (field: FormElement) => {
                     value={field.value} 
                     onValueChange={field.onChange} 
                     ${field.disabled ? "disabled" : ""}
-                    ${field.required ? "required" : ""}
                   >
                     <FormControl>
                       <MultiSelectTrigger>
@@ -310,6 +322,7 @@ export const getFormElementCode = (field: FormElement) => {
       return `
         <FormField
           control={form.control}
+          rules={{ required: ${field.required}}}
           name="${field.name}"
           render={({ field }) => {
           const options = ${JSON.stringify(field.options)};
@@ -325,7 +338,6 @@ export const getFormElementCode = (field: FormElement) => {
               onValueChange={field.onChange} 
               value={field.value} 
               ${field.disabled ? "disabled" : ""} 
-              ${field.required ? "required" : ""}
               >
                 <FormControl>
                   <SelectTrigger className="w-full">
@@ -396,6 +408,7 @@ export const getFormElementCode = (field: FormElement) => {
           <FormField
               control={form.control}
               name="${field.name}"
+              rules={{ required: ${field.required} }}
               render={({ field }) => (
                 <FormItem className="flex flex-col p-3 justify-center w-full border rounded">
                     <div className="flex items-center justify-between h-full">
@@ -408,7 +421,6 @@ export const getFormElementCode = (field: FormElement) => {
                           checked={field.value}
                           onCheckedChange={field.onChange}
                           ${field.disabled ? "disabled" : ""}
-                          ${field.required ? "required" : ""}
                         />
                       </FormControl>
                     </div>
@@ -417,6 +429,7 @@ export const getFormElementCode = (field: FormElement) => {
                         ? `<FormDescription>${field.description}</FormDescription>`
                         : ""
                     }
+                    <FormMessage />
                 </FormItem>
               )}
             />`;
@@ -424,6 +437,7 @@ export const getFormElementCode = (field: FormElement) => {
       return `<FormField
               control={form.control}
               name="${field.name}"
+              rules={{ required: ${field.required} }}
               render={({ field }) => {
               const options = ${JSON.stringify(field.options)};
               return (
@@ -439,7 +453,6 @@ export const getFormElementCode = (field: FormElement) => {
                         onValueChange={field.onChange}
                         value={field.value}
                         ${field.disabled ? "disabled" : ""}
-                        ${field.required ? "required" : ""}
                       >
                         {options.map(({ label, value }) => (
                         <div key={value} className="flex items-center gap-x-2">
@@ -478,7 +491,6 @@ export const getFormElementCode = (field: FormElement) => {
                       onValueChange={field.onChange}
                       value={field.value}
                       ${field.disabled ? "disabled" : ""}
-                      ${field.required ? "required" : ""}
                       type='${field.type}'
                       className="flex justify-start items-center gap-2 flex-wrap"
                     >
