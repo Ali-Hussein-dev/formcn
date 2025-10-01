@@ -176,7 +176,7 @@ export const genFieldZodSchemaCode = (formElement: FormElement): string => {
       return schemaItem;
     case "Rating":
     case "Slider":
-      schemaItem = "z.coerce.number({error: 'This field must be a number'})";
+      schemaItem = "z.coerce.number({error: 'This field is required'})";
       if (!formElement.required) {
         schemaItem += ".optional()";
       }

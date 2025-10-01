@@ -62,11 +62,14 @@ export const NewForm = () => {
       <DialogOverlay className="" />
       <DialogContent className="p-6 bg-glass">
         <DialogHeader>
-          <DialogTitle>Create new Form</DialogTitle>
+          <DialogTitle>Create new form</DialogTitle>
         </DialogHeader>
         <div className="w-full pt-4">
           {/* <h1 className="text-2xl font-bold mb-4"></h1> */}
-          <div className="flex items-start justify-center flex-col gap-3">
+          <form
+            onSubmit={handleSave}
+            className="flex items-start justify-center flex-col gap-3"
+          >
             <Input
               placeholder="Form Name"
               value={formValue.name}
@@ -74,6 +77,7 @@ export const NewForm = () => {
                 setFormValue({ ...formValue, name: e.target.value })
               }
               onKeyDown={onKeyDown}
+              required
             />
             <ToggleGroup
               type="single"
@@ -93,9 +97,9 @@ export const NewForm = () => {
               </ToggleGroupItem>
             </ToggleGroup>
             <div className="w-full flex justify-end pt-2">
-              <Button onClick={handleSave}>Create new Form</Button>
+              <Button onClick={handleSave}>Create new form</Button>
             </div>
-          </div>
+          </form>
         </div>
       </DialogContent>
     </Dialog>

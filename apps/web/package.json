@@ -68,7 +68,7 @@
     "react-day-picker": "^9.8.1",
     "react-dom": "^19.0.0",
     "react-error-boundary": "^6.0.0",
-    "react-hook-form": "^7.62.0",
+    "react-hook-form": "^7.63.0",
     "react-icons": "^5.5.0",
     "react-resizable-panels": "^3.0.4",
     "recharts": "2.15.4",
@@ -80,7 +80,7 @@
     "typescript-eslint": "^8.43.0",
     "uuid": "^11.1.0",
     "vaul": "^1.1.2",
-    "zod": "^4.1.9",
+    "zod": "^4.1.11",
     "zustand": "^5.0.7"
   },
   "devDependencies": {
