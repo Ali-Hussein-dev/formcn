@@ -407,7 +407,7 @@ function FormElementAttributes({
                   formElement={{
                     id: formElement.id,
                     name: "type",
-                    label: "Type attribute",
+                    label: "Type",
                     fieldType: "ToggleGroup",
                     type: "single",
                     options: inputTypes,

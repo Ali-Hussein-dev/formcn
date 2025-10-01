@@ -5,7 +5,6 @@ import {
   MdRadioButtonChecked,
   MdOutlineToggleOff,
   MdOutlineWrapText,
-  MdOutlinePassword,
   MdStar,
 } from "react-icons/md";
 import { CgSelectO } from "react-icons/cg";
@@ -16,7 +15,29 @@ import { CgFormatSeparator } from "react-icons/cg";
 import { RxSlider } from "react-icons/rx";
 import { PiSquaresFour } from "react-icons/pi";
 import { AiOutlineCloudUpload } from "react-icons/ai";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
 
+export const formFieldsIcons = {
+  Input: BsInputCursor,
+  Textarea: MdOutlineWrapText,
+  Password: EyeOffIcon,
+  OTP: GoShieldLock,
+  Checkbox: MdOutlineCheckBox,
+  Switch: MdOutlineToggleOff,
+  DatePicker: CiCalendarDate,
+  Select: CgSelectO,
+  MultiSelect: MdOutlineChecklist,
+  ToggleGroup: PiSquaresFour,
+  Slider: RxSlider,
+  Rating: MdStar,
+  FileUpload: AiOutlineCloudUpload,
+  RadioGroup: MdRadioButtonChecked,
+  H1: LuHeading1,
+  H2: LuHeading2,
+  H3: LuHeading3,
+  P: BsTextLeft,
+  Separator: CgFormatSeparator,
+};
 /**
  * used in
  * - form-elements-selector.tsx
@@ -27,14 +48,14 @@ export const formElementsList = [
     group: "field",
     name: "Input",
     fieldType: "Input",
-    icon: BsInputCursor,
+    icon: formFieldsIcons.Input,
     description: "Input field",
   },
   {
     group: "field",
     name: "Textarea",
     fieldType: "Textarea",
-    icon: MdOutlineWrapText,
+    icon: formFieldsIcons.Textarea,
     description: "multi-line text input",
   },
   {
@@ -42,41 +63,41 @@ export const formElementsList = [
     name: "Password",
     fieldType: "Password",
     type: "password",
-    icon: MdOutlinePassword,
+    icon: formFieldsIcons.Password,
     description: "Password field",
   },
   {
     group: "field",
     name: "Input OTP",
     fieldType: "OTP",
-    icon: GoShieldLock,
+    icon: formFieldsIcons.OTP,
     description: "One time password field",
   },
   {
     group: "field",
     name: "Checkbox",
     fieldType: "Checkbox",
-    icon: MdOutlineCheckBox,
+    icon: formFieldsIcons.Checkbox,
     description: "Checkbox input",
   },
   {
     group: "field",
     name: "Switch",
     fieldType: "Switch",
-    icon: MdOutlineToggleOff,
+    icon: formFieldsIcons.Switch,
     description: "Switch element",
   },
   {
     group: "field",
     name: "Date Picker",
     fieldType: "DatePicker",
-    icon: CiCalendarDate,
+    icon: formFieldsIcons.DatePicker,
     description: "Date picker input",
   },
   {
     group: "field",
     name: "Select",
-    icon: CgSelectO,
+    icon: formFieldsIcons.Select,
     fieldType: "Select",
     options: [
       {
@@ -94,7 +115,7 @@ export const formElementsList = [
     group: "field",
     name: "Multi select",
     fieldType: "MultiSelect",
-    icon: MdOutlineChecklist,
+    icon: formFieldsIcons.MultiSelect,
     options: [
       {
         value: "1",
@@ -123,13 +144,13 @@ export const formElementsList = [
     group: "field",
     name: "Toggle",
     fieldType: "ToggleGroup",
-    icon: PiSquaresFour,
+    icon: formFieldsIcons.ToggleGroup,
     description: "Toggle group element",
   },
   {
     group: "field",
     name: "Radio",
-    icon: MdRadioButtonChecked,
+    icon: formFieldsIcons.RadioGroup,
     fieldType: "RadioGroup",
     options: [
       {
@@ -151,14 +172,14 @@ export const formElementsList = [
     group: "field",
     name: "Slider",
     fieldType: "Slider",
-    icon: RxSlider,
+    icon: formFieldsIcons.Slider,
     description: "Slider element",
   },
   {
     group: "field",
     name: "Rating",
     fieldType: "Rating",
-    icon: MdStar,
+    icon: formFieldsIcons.Rating,
     description: "A field to rate something on a scale",
     isNew: true,
   },
@@ -166,7 +187,7 @@ export const formElementsList = [
     group: "field",
     name: "File upload",
     fieldType: "FileUpload",
-    icon: AiOutlineCloudUpload,
+    icon: formFieldsIcons.FileUpload,
     isNew: true,
     description: "Dropzone file upload",
   },
@@ -175,7 +196,7 @@ export const formElementsList = [
     name: "Heading 1",
     fieldType: "H1",
     content: "Heading 1",
-    icon: LuHeading1,
+    icon: formFieldsIcons.H1,
     static: true,
     description: "Heading 1",
   },
@@ -184,7 +205,7 @@ export const formElementsList = [
     name: "Heading 2",
     fieldType: "H2",
     content: "Heading 2",
-    icon: LuHeading2,
+    icon: formFieldsIcons.H2,
     static: true,
     description: "Heading 2",
   },
@@ -202,7 +223,7 @@ export const formElementsList = [
     name: "paragraph",
     fieldType: "P",
     content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
-    icon: BsTextLeft,
+    icon: formFieldsIcons.P,
     static: true,
     description: "Paragraph",
   },
@@ -211,7 +232,7 @@ export const formElementsList = [
     name: "Separator",
     fieldType: "Separator",
     static: true,
-    icon: CgFormatSeparator,
+    icon: formFieldsIcons.Separator,
     description: "Divider element",
   },
 ];

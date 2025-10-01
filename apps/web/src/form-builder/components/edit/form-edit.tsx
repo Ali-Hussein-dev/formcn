@@ -12,6 +12,7 @@ import { FieldCustomizationView } from "@/form-builder/components/edit/field-edi
 import { FormElementsDropdown } from "@/form-builder/components/edit/form-elements-dropdown";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
 import { StepContainer } from "@/form-builder/components/edit/step-container";
+import { formFieldsIcons } from "@/form-builder/constant/form-elements-list";
 
 type EditFormItemProps = {
   element: FormElement;
@@ -34,16 +35,16 @@ const EditFormItem = (props: EditFormItemProps) => {
     "static" in element && element.static
       ? element.content
       : element.label || element.name;
-
+  const Icon = formFieldsIcons[element.fieldType];
   return (
     <div className="w-full group">
       <div className="flex items-center justify-between px-2">
-        <div className="flex items-center justify-start gap-2 size-full">
-          {isNested ? (
-            <span className="w-1" />
-          ) : (
-            <LuGripVertical className="dark:text-muted-foreground text-muted-foreground" />
-          )}
+        <div className="flex items-center justify-start gap-1 size-full">
+          <div className="size-6 grid place-items-center">
+            {Icon && (
+              <Icon className="size-4 dark:text-muted-foreground text-muted-foreground " />
+            )}
+          </div>
           <span className="truncate max-w-xs md:max-w-sm">{DisplayName}</span>
         </div>
         <div className="flex items-center justify-end opacity-0 group-hover:opacity-100 duration-100">
@@ -121,7 +122,7 @@ const RowItems = ({
       className="flex items-center justify-start gap-2"
     >
       <div
-        className="w-8 h-12 hover:cursor-grab active:grabbing grid place-items-center"
+        className="w-7 h-12 hover:cursor-grab active:grabbing grid place-items-center"
         onPointerDown={(e) => {
           e.stopPropagation();
           controls.start(e);
