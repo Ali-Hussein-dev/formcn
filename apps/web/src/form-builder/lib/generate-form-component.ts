@@ -6,7 +6,7 @@ export const getFormElementCode = (field: FormElement) => {
       return `<FormField
                 control={form.control}
                 name="${field.name}"
-                rules={{ required: ${field.required}}}
+                rules={{ required: ${!!field.required}}}
                 render={({ field }) => (
                     <FormItem className="w-full">
                       ${
@@ -48,7 +48,7 @@ export const getFormElementCode = (field: FormElement) => {
         <FormField
           control={form.control}
           name="${field.name}"
-          rules={{ required: ${field.required}}}
+          rules={{ required: ${!!field.required}}}
           render={({ field, fieldState }: { field: ControllerRenderProps; fieldState: ControllerFieldState }) => (
             <FormItem className="w-full">
                ${
@@ -90,7 +90,7 @@ export const getFormElementCode = (field: FormElement) => {
        <FormField
           control={form.control}
           name="${field.name}"
-          rules={{ required: ${field.required}}}
+          rules={{ required: ${!!field.required}}}
           render={({ field }) => (
            <FormItem className="w-full">
           ${
@@ -132,7 +132,7 @@ export const getFormElementCode = (field: FormElement) => {
         <FormField
           control={form.control}
           name="${field.name}"
-          rules={{ required: ${field.required}}}
+          rules={{ required: ${!!field.required}}}
           render={({ field }) => (
             <FormItem>
               ${
@@ -163,7 +163,7 @@ export const getFormElementCode = (field: FormElement) => {
         <FormField
           control={form.control}
           name="${field.name}"
-          rules={{ required: ${field.required}}}
+          rules={{ required: ${!!field.required}}}
           render={({ field }) => (
             <FormItem className="w-full">
               ${
@@ -197,7 +197,7 @@ export const getFormElementCode = (field: FormElement) => {
     case "Checkbox":
       return `<FormField
           control={form.control}
-          rules={{ required: ${field.required}}}
+          rules={{ required: ${!!field.required}}}
           name="${field.name}"
           render={({ field }) => (
             <FormItem className="flex flex-row items-start space-x-1 space-y-0">
@@ -225,7 +225,7 @@ export const getFormElementCode = (field: FormElement) => {
       return `
       <FormField
       control={form.control}
-      rules={{ required: ${field.required}}}
+      rules={{ required: ${!!field.required}}}
       name="${field.name}"
       render={({ field }) => (
         <FormItem className="flex flex-col">
@@ -271,7 +271,7 @@ export const getFormElementCode = (field: FormElement) => {
       return `
            <FormField
               control={form.control}
-              rules={{ required: ${field.required}}}
+              rules={{ required: ${!!field.required}}}
               name="${field.name}"
               render={({ field }) => {
               const options = ${JSON.stringify(field.options)};
@@ -322,7 +322,7 @@ export const getFormElementCode = (field: FormElement) => {
       return `
         <FormField
           control={form.control}
-          rules={{ required: ${field.required}}}
+          rules={{ required: ${!!field.required}}}
           name="${field.name}"
           render={({ field }) => {
           const options = ${JSON.stringify(field.options)};
@@ -447,7 +447,7 @@ export const getFormElementCode = (field: FormElement) => {
             <FormField
               control={form.control}
               name="${field.name}"
-              rules={{ required: ${field.required} }}
+              rules={{ required: ${!!field.required} }}
               render={({ field }) => {
               const currentValue = field.value || 0;
               const min = ${field.min};
@@ -489,7 +489,7 @@ export const getFormElementCode = (field: FormElement) => {
           <FormField
               control={form.control}
               name="${field.name}"
-              rules={{ required: ${field.required} }}
+              rules={{ required: ${!!field.required} }}
               render={({ field }) => (
                 <FormItem className="flex flex-col p-3 justify-center w-full border rounded">
                     <div className="flex items-center justify-between h-full">
@@ -518,7 +518,7 @@ export const getFormElementCode = (field: FormElement) => {
       return `<FormField
               control={form.control}
               name="${field.name}"
-              rules={{ required: ${field.required} }}
+              rules={{ required: ${!!field.required} }}
               render={({ field }) => {
               const options = ${JSON.stringify(field.options)};
               return (
@@ -600,7 +600,7 @@ export const getFormElementCode = (field: FormElement) => {
       return `<FormField
           control={form.control}
           name="${field.name}"
-          rules={{ required: ${field.required}, min: ${field.required ? 1 : undefined} }}
+          rules={{ required: ${!!field.required}, min: ${field.required ? 1 : undefined} }}
           render={({ field }) => (
             <FormItem>
               ${
