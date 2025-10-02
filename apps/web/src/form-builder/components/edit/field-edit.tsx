@@ -322,7 +322,8 @@ function FormElementAttributes({
     fieldType === "Select" ||
     fieldType === "MultiSelect" ||
     fieldType === "RadioGroup" ||
-    fieldType === "ToggleGroup";
+    fieldType === "ToggleGroup" ||
+    fieldType === "Combobox";
   const withoutPlaceholder = [
     "Slider",
     "ToggleGroup",

@@ -83,6 +83,7 @@ const installableShadcnComponents: Partial<
   Textarea: "textarea",
   Checkbox: "checkbox",
   Select: "select",
+  Combobox: "popover command",
   Slider: "slider",
   Switch: "switch",
   OTP: "input-otp",

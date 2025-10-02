@@ -54,8 +54,24 @@ export const defaultFormElements: Record<
     label: "Select option",
     placeholder: "Select an option",
     options: [
-      { value: "1", label: "Option 1" },
-      { value: "2", label: "Option 2" },
+      { value: "option-1", label: "Option 1" },
+      { value: "option-2", label: "Option 2" },
+      { value: "option-3", label: "Option 3" },
+      { value: "option-4", label: "Option 4" },
+    ],
+  },
+  Combobox: {
+    label: "Select language",
+    placeholder: "tap to search language",
+    options: [
+      { value: "arabic", label: "Arabic" },
+      { value: "english", label: "English" },
+      { value: "turkish", label: "Turkish" },
+      { value: "russian", label: "Russian" },
+      { value: "korean", label: "Korean" },
+      { value: "chinese", label: "Chinese" },
+      { value: "german", label: "German" },
+      { value: "spanish", label: "Spanish" },
     ],
   },
   MultiSelect: {

@@ -41,7 +41,7 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -56,6 +56,14 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Password } from "@/components/password";
 import { FileUpload } from "@/components/form-fields/file-upload";
 import { Rating, RatingButton } from "@/components/ui/rating";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 
 export const RenderFormElement = ({
   formElement,
@@ -487,6 +495,79 @@ export const RenderFormElement = ({
               {formElement.description && (
                 <FormDescription>{formElement.description}</FormDescription>
               )}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      );
+    case "Combobox":
+      return (
+        <FormField
+          control={form.control}
+          name={formElement.name}
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>
+                {formElement.label}
+                {formElement.required && " *"}
+              </FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                        "justify-between active:scale-100",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value
+                        ? formElement.options.find(
+                            (option) => option.value === field.value
+                          )?.label
+                        : "Select an item"}
+                      <ChevronsUpDown className="opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent
+                  className="p-0 min-w-[var(--radix-popper-anchor-width)] w-full bg-accent/40 backdrop-blur-lg"
+                  align="start"
+                >
+                  <Command className="bg-transparent">
+                    <CommandInput
+                      placeholder="Search items..."
+                      className="h-10"
+                    />
+                    <CommandList>
+                      <CommandEmpty>No items found.</CommandEmpty>
+                      <CommandGroup>
+                        {(formElement?.options || []).map((option) => (
+                          <CommandItem
+                            value={option.value}
+                            key={option.value}
+                            onSelect={() => {
+                              form.setValue(formElement.name, option.value);
+                            }}
+                          >
+                            {option.label}
+                            <Check
+                              className={cn(
+                                "ml-auto",
+                                option.value === field.value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              <FormDescription>{formElement.description}</FormDescription>
               <FormMessage />
             </FormItem>
           )}

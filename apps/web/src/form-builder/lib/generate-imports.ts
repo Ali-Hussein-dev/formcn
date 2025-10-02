@@ -55,6 +55,15 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
           'import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"'
         );
         break;
+      case "Combobox":
+        importSet.add('import { Check, ChevronsUpDown } from "lucide-react"');
+        importSet.add(
+          'import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"'
+        );
+        importSet.add(
+          'import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"'
+        );
+        break;
       case "MultiSelect":
         importSet.add(
           `import {

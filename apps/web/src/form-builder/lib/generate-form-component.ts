@@ -361,6 +361,87 @@ export const getFormElementCode = (field: FormElement) => {
             </FormItem>
           )}}
         />`;
+    case "Combobox":
+      return `
+        <FormField
+          control={form.control}
+          name="${field.name}"
+          rules={{ required: ${!!field.required}}}
+          render={({ field }) => {
+          const options = ${JSON.stringify(field.options)};
+          return (
+            <FormItem className="flex flex-col">
+               ${
+                 field.label &&
+                 `<FormLabel>${field.label} ${
+                   field.required ? "*" : ""
+                 }</FormLabel>`
+               }
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                        "justify-between",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value
+                        ? options.find(
+                            (option) => option.value === field.value
+                          )?.label
+                        : "Select an item"}
+                      <ChevronsUpDown className="opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent
+                  className="p-0 min-w-[var(--radix-popper-anchor-width)] w-full"
+                  align="start"
+                >
+                  <Command>
+                    <CommandInput
+                      placeholder="${field.placeholder}"
+                      className="h-10"
+                    />
+                    <CommandList>
+                      <CommandEmpty>No items found!</CommandEmpty>
+                      <CommandGroup>
+                        {options.map((option) => (
+                          <CommandItem
+                            value={option.value}
+                            key={option.value}
+                            onSelect={() => {
+                              form.setValue(formElement.name, option.value);
+                            }}
+                          >
+                            {option.label}
+                            <Check
+                              className={cn(
+                                "ml-auto",
+                                option.value === field.value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              ${
+                field.description
+                  ? `<FormDescription>${field.description}</FormDescription>`
+                  : ""
+              }
+              <FormMessage />
+            </FormItem>
+          )}}
+        />`;
     case "Slider":
       return `
             <FormField

@@ -15,7 +15,8 @@ import { CgFormatSeparator } from "react-icons/cg";
 import { RxSlider } from "react-icons/rx";
 import { PiSquaresFour } from "react-icons/pi";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { EyeOffIcon } from "lucide-react";
+import { FaAngleDown } from "react-icons/fa6";
 
 export const formFieldsIcons = {
   Input: BsInputCursor,
@@ -25,7 +26,8 @@ export const formFieldsIcons = {
   Checkbox: MdOutlineCheckBox,
   Switch: MdOutlineToggleOff,
   DatePicker: CiCalendarDate,
-  Select: CgSelectO,
+  Select: FaAngleDown,
+  Combobox: CgSelectO,
   MultiSelect: MdOutlineChecklist,
   ToggleGroup: PiSquaresFour,
   Slider: RxSlider,
@@ -110,6 +112,24 @@ export const formElementsList = [
       },
     ],
     description: "Select field",
+  },
+  {
+    group: "field",
+    name: "Combobox",
+    fieldType: "Combobox",
+    icon: formFieldsIcons.Combobox,
+    options: [
+      {
+        value: "1",
+        label: "Option 1",
+      },
+      {
+        value: "2",
+        label: "Option 2",
+      },
+    ],
+    description: "Combobox field",
+    isNew: true,
   },
   {
     group: "field",

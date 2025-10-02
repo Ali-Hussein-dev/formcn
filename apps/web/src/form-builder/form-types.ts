@@ -104,6 +104,16 @@ type Select = {
 } & React.SelectHTMLAttributes<HTMLSelectElement> &
   SharedFormProps;
 
+type Combobox = {
+  fieldType: "Combobox";
+  /**
+   * Options for the select field
+   */
+  options: Option[];
+  placeholder: string;
+} & React.SelectHTMLAttributes<HTMLSelectElement> &
+  SharedFormProps;
+
 type MultiSelect = {
   fieldType: "MultiSelect";
   /**
@@ -188,6 +198,7 @@ type FormFieldElement =
   | Slider
   | FileUpload
   | Rating
+  | Combobox
   | DatePicker;
 
 /**

@@ -76,6 +76,7 @@ export const genFormZodSchema = (
         // }
         break;
       case "Select":
+      case "Combobox":
       case "RadioGroup":
         elementSchema = z.string();
         if (element.required) {
@@ -182,6 +183,7 @@ export const genFieldZodSchemaCode = (formElement: FormElement): string => {
       }
       return schemaItem;
     case "Select":
+    case "Combobox":
     case "RadioGroup":
       schemaItem = "z.string().min(1, 'Please select an item')";
       if (!formElement.required) {
