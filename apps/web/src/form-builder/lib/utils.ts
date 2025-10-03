@@ -3,7 +3,7 @@ import parserTypeScript from "prettier/plugins/typescript";
 import pluginEstree from "prettier/plugins/estree"; // required!
 
 export const isStatic = (fieldType: string) => {
-  return ["Separator", "H1", "H2", "H3", "P"].includes(fieldType);
+  return ["Separator", "H1", "H2", "H3", "P", "Text"].includes(fieldType);
 };
 
 export async function formatCode(code: string): Promise<string> {

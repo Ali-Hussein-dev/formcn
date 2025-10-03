@@ -133,7 +133,9 @@ type Rating = {
   numberOfStars?: number;
 } & React.InputHTMLAttributes<HTMLInputElement> &
   SharedFormProps;
-
+/**
+ * @deprecated
+ */
 type H1 = {
   fieldType: "H1";
   /**
@@ -143,6 +145,10 @@ type H1 = {
   content: string;
   static: true;
 } & React.HTMLAttributes<HTMLHeadingElement>;
+
+/**
+ * @deprecated
+ */
 type H2 = {
   fieldType: "H2";
   /**
@@ -152,6 +158,10 @@ type H2 = {
   static: true;
   content: string;
 } & React.HTMLAttributes<HTMLHeadingElement>;
+
+/**
+ * @deprecated
+ */
 type H3 = {
   fieldType: "H3";
   /**
@@ -161,12 +171,27 @@ type H3 = {
   static: true;
   content: string;
 } & React.HTMLAttributes<HTMLHeadingElement>;
+
+/**
+ * @deprecated
+ */
 type Paragraph = {
   fieldType: "P";
   /**
    * the name is used as a key to identify the field
    */
   name: string;
+  static: true;
+  content: string;
+} & React.HTMLAttributes<HTMLParagraphElement>;
+
+type Text = {
+  fieldType: "Text";
+  /**
+   * the name is used as a key to identify the field
+   */
+  name: string;
+  variant: "H1" | "H2" | "H3" | "P";
   static: true;
   content: string;
 } & React.HTMLAttributes<HTMLParagraphElement>;
@@ -199,6 +224,7 @@ type FormFieldElement =
   | FileUpload
   | Rating
   | Combobox
+  | Text
   | DatePicker;
 
 /**
@@ -299,6 +325,7 @@ export const fieldTypes = [
   "H2",
   "H3",
   "P",
+  "Text",
   "Separator",
 ] as const;
 

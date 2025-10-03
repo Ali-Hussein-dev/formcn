@@ -635,6 +635,19 @@ export const getFormElementCode = (field: FormElement) => {
             </FormItem>
           )}
         />`;
+    case "Text":
+      if (field.variant == "H1")
+        return `<h1 className="mt-6 mb-1 font-extrabold text-3xl tracking-tight">${field.content}</h1>`;
+      if (field.variant == "H2")
+        return `<h2 className="mt-4 mb-1 font-bold text-2xl tracking-tight">${field.content}</h2>`;
+      if (field.variant == "H3")
+        return `<h3 className="mt-3 mb-1 font-semibold text-xl tracking-tight">${field.content}</h3>`;
+      if (field.variant == "P")
+        return `<p className="tracking-wide text-muted-foreground mb-5 text-wrap text-sm">${field.content}</p>`;
+    case "Separator":
+      return `<div className="py-1 w-full">
+                <Separator />
+              </div>`;
     case "H1":
       return `<h1 className="mt-6 font-extrabold text-3xl tracking-tight">${field.content}</h1>`;
     case "H2":
@@ -643,10 +656,6 @@ export const getFormElementCode = (field: FormElement) => {
       return `<h3 className="mt-3 font-semibold text-xl tracking-tight">${field.content}</h3>`;
     case "P":
       return `<p className="tracking-wide text-muted-foreground mb-6 text-wrap text-sm">${field.content}</p>`;
-    case "Separator":
-      return `<div className="py-1 w-full">
-                <Separator />
-              </div>`;
     default:
       return null;
   }

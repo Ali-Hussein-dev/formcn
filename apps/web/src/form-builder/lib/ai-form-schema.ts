@@ -72,6 +72,18 @@ const selectSchema = z
   })
   .describe("Use it when you want to let users select one from a list.");
 
+const comboboxSchema = z
+  .object({
+    id: z.string(),
+    label: z.string(),
+    name: z.string(),
+    fieldType: z.literal("Combobox"),
+    required: z.boolean().optional(),
+    placeholder: z.string().optional(),
+    options: optionsSchema,
+  })
+  .describe("Use it for longer lists to select one from a list.");
+
 const MultiSelectSchema = z
   .object({
     id: z.string(),
@@ -172,12 +184,14 @@ const datePicker = z
 const staticPropertySchema = z.literal(true).refine((v) => v === true, {
   message: "static field is required and must be true",
 });
+
 const h1Schema = z
   .object({
     id: z.string(),
     static: staticPropertySchema,
     name: z.string(),
-    fieldType: z.literal("H1"),
+    fieldType: z.literal("Text"),
+    variant: z.literal("H1"),
     content: z.string().min(2),
   })
   .describe("use it as a top title");
@@ -187,7 +201,8 @@ const h2Schema = z
     id: z.string(),
     static: staticPropertySchema,
     name: z.string().min(2),
-    fieldType: z.literal("H2"),
+    fieldType: z.literal("Text"),
+    variant: z.literal("H2"),
     content: z.string().min(2),
   })
   .describe("use it as a title form sections");
@@ -197,7 +212,8 @@ const h3Schema = z
     id: z.string(),
     static: staticPropertySchema,
     name: z.string().min(2),
-    fieldType: z.literal("H3"),
+    fieldType: z.literal("Text"),
+    variant: z.literal("H3"),
     content: z.string().min(2),
   })
   .describe("use it as a title for nested form sections");
@@ -207,7 +223,8 @@ const paragraphSchema = z
     id: z.string(),
     static: staticPropertySchema,
     name: z.string().min(2),
-    fieldType: z.literal("P"),
+    fieldType: z.literal("Text"),
+    variant: z.literal("P"),
     content: z.string().min(2),
   })
   .describe("Paragraph element use for description, subtitle, etc.");
@@ -248,6 +265,7 @@ const fieldSchema = z.union([
   MultiSelectSchema,
   fileUploadSchema,
   ratingSchema,
+  comboboxSchema,
 ]);
 
 const singleFormFieldsSchema = z

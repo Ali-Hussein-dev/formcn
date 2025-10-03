@@ -22,12 +22,7 @@ import { Form } from "@/components/ui/form";
 import { isStatic } from "@/form-builder/lib/utils";
 import { RenderFormElement } from "@/form-builder/components/edit/render-form-element";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
-import {
-  MdAttachFile,
-  MdOutlineTextFields,
-  MdStar,
-  MdStars,
-} from "react-icons/md";
+import { MdAttachFile, MdOutlineTextFields, MdStar } from "react-icons/md";
 import { FaLink, FaPhone, FaClock } from "react-icons/fa";
 import { MdEmail, MdOutlineNumbers, MdOutlinePassword } from "react-icons/md";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -42,6 +37,8 @@ import { MdAdd, MdDelete, MdEdit, MdCheck, MdClose } from "react-icons/md";
 import { LuGripVertical } from "react-icons/lu";
 import { Reorder } from "motion/react";
 import { useListState } from "@mantine/hooks";
+import { LuHeading1, LuHeading2, LuHeading3 } from "react-icons/lu";
+import { BiParagraph } from "react-icons/bi";
 
 const OptionLabel = ({
   label,
@@ -95,6 +92,24 @@ const inputTypes = [
   },
 ];
 
+const textVariants = [
+  {
+    label: <OptionLabel label="Header 1" Icon={<LuHeading1 />} />,
+    value: "H1",
+  },
+  {
+    label: <OptionLabel label="Header 2" Icon={<LuHeading2 />} />,
+    value: "H2",
+  },
+  {
+    label: <OptionLabel label="Header 3" Icon={<LuHeading3 />} />,
+    value: "H3",
+  },
+  {
+    label: <OptionLabel label="Paragraph" Icon={<BiParagraph />} />,
+    value: "P",
+  },
+];
 function OptionsList({
   options = [],
   onChange,
@@ -331,6 +346,7 @@ function FormElementAttributes({
     "Switch",
     "Rating",
   ].includes(fieldType);
+  const isDeprectated = ["H1", "H2", "H3", "P"].includes(fieldType);
   return (
     <Form {...form}>
       <form
@@ -341,7 +357,7 @@ function FormElementAttributes({
         {/* {JSON.stringify(formElement, null, 2)} */}
         <div>
           {isStatic(fieldType) ? (
-            <div className="mb-4">
+            <div className="mb-4 space-y-2">
               <RenderFormElement
                 formElement={{
                   id: formElement.id,
@@ -350,10 +366,30 @@ function FormElementAttributes({
                   fieldType: "Input",
                   defaultValue: formElement.content,
                   required: true,
-                  className: "border-secondary",
                 }}
                 form={form}
               />
+              {isDeprectated && (
+                <p className="text-destructive-foreground bg-destructive/10 rounded-sm p-2.5 text-sm">
+                  This element is longer supported, Please use the Text element
+                  instead so that you switch between different text tags easily
+                </p>
+              )}
+              {!isDeprectated && (
+                <RenderFormElement
+                  formElement={{
+                    id: formElement.id,
+                    name: "variant",
+                    label: "Pick text tag",
+                    fieldType: "ToggleGroup",
+                    type: "single",
+                    defaultValue: "H1",
+                    options: textVariants,
+                    required: true,
+                  }}
+                  form={form}
+                />
+              )}
             </div>
           ) : (
             <div className="flex flex-col items-center justify-start w-full gap-3 mb-2">
@@ -610,7 +646,7 @@ export function FieldCustomizationView({
   const [open, setOpen] = React.useState(false);
   const isMobile = useIsMobile();
   const close = () => setOpen(false);
-  const title = "Customize Form Field Attributes";
+  const title = "Customize field attributes";
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={setOpen}>

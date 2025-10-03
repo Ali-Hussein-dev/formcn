@@ -38,8 +38,7 @@ export function Footer() {
               <Logo />
             </Link>
             <p className="text-muted-foreground text-sm pt-2">
-              Modern form builder for shadcn/ui. Easily build single- and
-              multi-step forms with auto-generated client- and server-side code.
+              Build production-ready forms with a few clicks
             </p>
             <div className="flex gap-4">
               <a

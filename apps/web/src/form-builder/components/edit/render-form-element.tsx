@@ -710,6 +710,49 @@ export const RenderFormElement = ({
           )}
         />
       );
+    case "Text": {
+      const variant = formElement.variant;
+      if (variant === "H1") {
+        return (
+          <h1
+            key={formElement.content}
+            className={cn(
+              "mt-6 font-black text-3xl tracking-tight mb-1",
+              formElement.className
+            )}
+          >
+            {formElement.content}
+          </h1>
+        );
+      }
+      if (variant === "H2") {
+        return (
+          <h2 className="mt-4 font-extrabold text-2xl tracking-tight mb-1">
+            {formElement.content}
+          </h2>
+        );
+      }
+      if (variant === "H3") {
+        return (
+          <h3 className="mt-3 font-bold text-xl tracking-tight mb-1">
+            {formElement.content}
+          </h3>
+        );
+      }
+      if (variant === "P") {
+        return (
+          <p className="tracking-wide text-muted-foreground mb-5 text-wrap text-sm">
+            {formElement.content}
+          </p>
+        );
+      }
+    }
+    case "Separator":
+      return (
+        <div className="py-1 w-full">
+          <Separator {...formElement} />
+        </div>
+      );
     case "H1":
       return (
         <h1
@@ -739,12 +782,6 @@ export const RenderFormElement = ({
         <p className="tracking-wide text-muted-foreground mb-6 text-wrap text-sm">
           {formElement.content}
         </p>
-      );
-    case "Separator":
-      return (
-        <div className="py-1 w-full">
-          <Separator {...formElement} />
-        </div>
       );
     default:
       // @ts-expect-error show the fieldType in the error, use in ai-generated-form

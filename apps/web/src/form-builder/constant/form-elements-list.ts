@@ -1,6 +1,5 @@
-import { BsInputCursor, BsTextLeft } from "react-icons/bs";
+import { BsInputCursor } from "react-icons/bs";
 import {
-  MdOutlineCheckBox,
   MdOutlineChecklist,
   MdRadioButtonChecked,
   MdOutlineToggleOff,
@@ -17,13 +16,15 @@ import { PiSquaresFour } from "react-icons/pi";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { EyeOffIcon } from "lucide-react";
 import { FaAngleDown } from "react-icons/fa6";
-
+import { RiText } from "react-icons/ri";
+import { BiParagraph } from "react-icons/bi";
+import { TbCheckbox } from "react-icons/tb";
 export const formFieldsIcons = {
   Input: BsInputCursor,
   Textarea: MdOutlineWrapText,
   Password: EyeOffIcon,
   OTP: GoShieldLock,
-  Checkbox: MdOutlineCheckBox,
+  Checkbox: TbCheckbox,
   Switch: MdOutlineToggleOff,
   DatePicker: CiCalendarDate,
   Select: FaAngleDown,
@@ -34,11 +35,12 @@ export const formFieldsIcons = {
   Rating: MdStar,
   FileUpload: AiOutlineCloudUpload,
   RadioGroup: MdRadioButtonChecked,
+  Separator: CgFormatSeparator,
+  Text: RiText,
   H1: LuHeading1,
   H2: LuHeading2,
   H3: LuHeading3,
-  P: BsTextLeft,
-  Separator: CgFormatSeparator,
+  P: BiParagraph,
 };
 /**
  * used in
@@ -213,40 +215,50 @@ export const formElementsList = [
   },
   {
     group: "display",
-    name: "Heading 1",
-    fieldType: "H1",
-    content: "Heading 1",
-    icon: formFieldsIcons.H1,
+    name: "Text",
+    fieldType: "Text",
+    content: "Text",
+    icon: formFieldsIcons.Text,
     static: true,
-    description: "Heading 1",
+    description: "Text element",
+    isNew: true,
   },
-  {
-    group: "display",
-    name: "Heading 2",
-    fieldType: "H2",
-    content: "Heading 2",
-    icon: formFieldsIcons.H2,
-    static: true,
-    description: "Heading 2",
-  },
-  {
-    group: "display",
-    name: "Heading 3",
-    fieldType: "H3",
-    content: "Heading 3",
-    icon: LuHeading3,
-    static: true,
-    description: "Heading 3",
-  },
-  {
-    group: "display",
-    name: "paragraph",
-    fieldType: "P",
-    content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
-    icon: formFieldsIcons.P,
-    static: true,
-    description: "Paragraph",
-  },
+  // {
+  //   group: "display",
+  //   name: "Heading 1",
+  //   fieldType: "H1",
+  //   content: "Heading 1",
+  //   icon: formFieldsIcons.H1,
+  //   static: true,
+  //   description: "Heading 1",
+  // },
+  // {
+  //   group: "display",
+  //   name: "Heading 2",
+  //   fieldType: "H2",
+  //   content: "Heading 2",
+  //   icon: formFieldsIcons.H2,
+  //   static: true,
+  //   description: "Heading 2",
+  // },
+  // {
+  //   group: "display",
+  //   name: "Heading 3",
+  //   fieldType: "H3",
+  //   content: "Heading 3",
+  //   icon: LuHeading3,
+  //   static: true,
+  //   description: "Heading 3",
+  // },
+  // {
+  //   group: "display",
+  //   name: "paragraph",
+  //   fieldType: "P",
+  //   content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+  //   icon: formFieldsIcons.P,
+  //   static: true,
+  //   description: "Paragraph",
+  // },
   {
     group: "display",
     name: "Separator",

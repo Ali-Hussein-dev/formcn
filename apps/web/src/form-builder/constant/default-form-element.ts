@@ -115,6 +115,17 @@ export const defaultFormElements: Record<
     maxFiles: 1,
     accept: "image/png, image/jpeg, image/gif",
   },
+  Text: {
+    label: "Text",
+    content: "Text content",
+    static: true,
+    variant: "H1",
+  },
+  Separator: {
+    static: true,
+    content: "Separator",
+  },
+  // deprecated
   H1: {
     label: "Form heading 1",
     content: "Form Heading 1",
@@ -134,9 +145,5 @@ export const defaultFormElements: Record<
     label: "Paragraph",
     content: "This is a description text",
     static: true,
-  },
-  Separator: {
-    static: true,
-    content: "Separator",
   },
 };
