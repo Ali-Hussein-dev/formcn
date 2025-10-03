@@ -181,9 +181,12 @@ const datePicker = z
   })
   .describe("DatePicker element");
 
-const staticPropertySchema = z.literal(true).refine((v) => v === true, {
-  message: "static field is required and must be true",
-});
+const staticPropertySchema = z
+  .literal(true)
+  .refine((v) => v === true, {
+    message: "static field is required and must be true",
+  })
+  .nonoptional();
 
 const h1Schema = z
   .object({
