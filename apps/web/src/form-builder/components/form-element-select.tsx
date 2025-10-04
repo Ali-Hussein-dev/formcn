@@ -42,7 +42,7 @@ const FormElementSelect = () => {
       >
         <div className="flex items-center justify-start gap-1.5 text-accent-foreground">
           <span className="border rounded-xl size-8 border-dashed bg-accent/40 grid place-items-center">
-            <Icon className="size-4 text-accent-foreground" />
+            <Icon className="size-4 text-muted-foreground" />
           </span>
           <div className="flex flex-col justify-start items-start">
             <div className="text-xs">
