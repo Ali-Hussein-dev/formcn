@@ -22,7 +22,7 @@ const CommandProvider = ({ children }: { children: React.ReactNode }) => {
       ) {
         return;
       }
-      if (e.key === "f") {
+      if (e.key === "f" && e.altKey) {
         e.preventDefault();
         setOpenCommand((open) => !open);
       }

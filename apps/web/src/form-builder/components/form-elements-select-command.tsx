@@ -13,6 +13,7 @@ import { useCommand } from "@/form-builder/hooks/use-command-ctx";
 import type { FormElement } from "@/form-builder/form-types";
 import useFormBuilderStore from "../hooks/use-form-builder-store";
 import { HiArrowTurnDownLeft } from "react-icons/hi2";
+import { Kbd, KbdGroup } from "@/components/ui/kbd";
 
 export function FormElementsSelectCommand() {
   const appendElement = useFormBuilderStore((s) => s.appendElement);
@@ -22,11 +23,10 @@ export function FormElementsSelectCommand() {
   return (
     <div>
       <p className="text-sm text-muted-foreground">
-        Press{" "}
-        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-          f
-        </kbd>{" "}
-        to open fields command
+        Open fields command with{" "}
+        <KbdGroup>
+          <Kbd>Alt</Kbd>+<Kbd>f</Kbd>
+        </KbdGroup>
       </p>
       <CommandDialog open={open} onOpenChange={setOpen} className="border-4">
         <CommandInput

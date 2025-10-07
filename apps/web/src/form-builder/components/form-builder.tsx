@@ -28,6 +28,7 @@ import { HiOutlineCodeBracket } from "react-icons/hi2";
 import { WebPreview } from "./web-preview";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from "@/components/shared/error-fallback";
+import { Kbd, KbdGroup } from "@/components/ui/kbd";
 
 const tabsList = [
   {
@@ -117,9 +118,9 @@ export function FormBuilderBase() {
                 <div>
                   <Placeholder>
                     Add fields first from the left sidebar or use{" "}
-                    <kbd className="pointer-events-none inline-flex h-6 select-none items-center rounded border bg-muted px-2 font-mono text-[12px] font-medium text-muted-foreground opacity-100">
-                      f
-                    </kbd>{" "}
+                    <KbdGroup>
+                      <Kbd>Alt</Kbd>+<Kbd>f</Kbd>
+                    </KbdGroup>{" "}
                     to open the command palette
                   </Placeholder>
                 </div>
@@ -137,7 +138,9 @@ export function FormBuilderBase() {
               {Object.keys(submittedData).length > 0 ? (
                 <JsonViewer json={submittedData} isMS={isMS} />
               ) : (
-                <Placeholder>Fill out the form to see fields values</Placeholder>
+                <Placeholder>
+                  Fill out the form to see fields values
+                </Placeholder>
               )}
             </TabsContent>
           </Tabs>
