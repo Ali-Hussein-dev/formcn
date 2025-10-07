@@ -141,105 +141,114 @@ const RowItems = ({
     </Reorder.Item>
   );
 };
+
+const StepsWrapper = () => {
+  const reorderSteps = useFormBuilderStore((s) => s.reorderSteps);
+  const formElements = useFormBuilderStore((s) => s.formElements);
+  const reorder = useFormBuilderStore((s) => s.reorder);
+  const stepControls = useDragControls();
+  return (
+    <Reorder.Group
+      values={formElements as FormStep[]}
+      onReorder={(newOrder) => {
+        reorderSteps(newOrder);
+      }}
+      className="flex flex-col gap-4"
+      layoutScroll
+    >
+      <AnimatePresence mode="sync">
+        {(formElements as FormStep[]).map((step, stepIndex) => (
+          <Reorder.Item
+            value={step}
+            key={step.id}
+            layout
+            variants={animateVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            dragControls={stepControls}
+            dragListener={false}
+          >
+            <StepContainer stepIndex={stepIndex} dragControls={stepControls}>
+              <Reorder.Group
+                axis="y"
+                onReorder={(newOrder) => {
+                  reorder({ newOrder, stepIndex });
+                }}
+                values={step.stepFields}
+                className="flex flex-col gap-3"
+                tabIndex={-1}
+              >
+                {step.stepFields.map((element, fieldIndex) => {
+                  if (Array.isArray(element)) {
+                    return (
+                      <RowItems key={element[0].id} element={element}>
+                        <Reorder.Group
+                          axis="x"
+                          values={element}
+                          onReorder={(newOrder) => {
+                            reorder({ newOrder, fieldIndex, stepIndex });
+                          }}
+                          className="w-full flex items-center justify-start gap-2"
+                          tabIndex={-1}
+                        >
+                          {element.map((el, j) => (
+                            <Reorder.Item
+                              value={el}
+                              key={el.id}
+                              className="reorderItem"
+                            >
+                              <EditFormItem
+                                fieldIndex={fieldIndex}
+                                j={j}
+                                element={el}
+                                stepIndex={stepIndex}
+                              />
+                            </Reorder.Item>
+                          ))}
+                        </Reorder.Group>
+                      </RowItems>
+                    );
+                  }
+                  return (
+                    <Reorder.Item
+                      key={element.id}
+                      value={element}
+                      className="reorderItem"
+                      variants={animateVariants}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      layout
+                    >
+                      <EditFormItem
+                        fieldIndex={fieldIndex}
+                        element={element}
+                        stepIndex={stepIndex}
+                      />
+                    </Reorder.Item>
+                  );
+                })}
+              </Reorder.Group>
+            </StepContainer>
+          </Reorder.Item>
+        ))}
+      </AnimatePresence>
+    </Reorder.Group>
+  );
+};
+
 //======================================
 export function FormEdit() {
   const isMS = useFormBuilderStore((s) => s.isMS);
   const formElements = useFormBuilderStore((s) => s.formElements);
   const reorder = useFormBuilderStore((s) => s.reorder);
-  const reorderSteps = useFormBuilderStore((s) => s.reorderSteps);
-
   switch (isMS) {
     case true:
       if (formElements.length === 0) {
         return <NoStepsPlaceholder />;
       }
-      return (
-        <Reorder.Group
-          values={formElements as FormStep[]}
-          onReorder={(newOrder) => {
-            reorderSteps(newOrder);
-          }}
-          className="flex flex-col gap-4"
-          layoutScroll
-        >
-          <AnimatePresence mode="sync">
-            {(formElements as FormStep[]).map((step, stepIndex) => (
-              <Reorder.Item
-                value={step}
-                key={step.id}
-                layout
-                variants={animateVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-              >
-                <StepContainer stepIndex={stepIndex}>
-                  <Reorder.Group
-                    axis="y"
-                    onReorder={(newOrder) => {
-                      reorder({ newOrder, stepIndex });
-                    }}
-                    values={step.stepFields}
-                    className="flex flex-col gap-3"
-                    tabIndex={-1}
-                  >
-                    {step.stepFields.map((element, fieldIndex) => {
-                      if (Array.isArray(element)) {
-                        return (
-                          <RowItems key={element[0].id} element={element}>
-                            <Reorder.Group
-                              axis="x"
-                              values={element}
-                              onReorder={(newOrder) => {
-                                reorder({ newOrder, fieldIndex, stepIndex });
-                              }}
-                              className="w-full flex items-center justify-start gap-2"
-                              tabIndex={-1}
-                            >
-                              {element.map((el, j) => (
-                                <Reorder.Item
-                                  value={el}
-                                  key={el.id}
-                                  className="reorderItem"
-                                >
-                                  <EditFormItem
-                                    fieldIndex={fieldIndex}
-                                    j={j}
-                                    element={el}
-                                    stepIndex={stepIndex}
-                                  />
-                                </Reorder.Item>
-                              ))}
-                            </Reorder.Group>
-                          </RowItems>
-                        );
-                      }
-                      return (
-                        <Reorder.Item
-                          key={element.id}
-                          value={element}
-                          className="reorderItem"
-                          variants={animateVariants}
-                          initial="initial"
-                          animate="animate"
-                          exit="exit"
-                          layout
-                        >
-                          <EditFormItem
-                            fieldIndex={fieldIndex}
-                            element={element}
-                            stepIndex={stepIndex}
-                          />
-                        </Reorder.Item>
-                      );
-                    })}
-                  </Reorder.Group>
-                </StepContainer>
-              </Reorder.Item>
-            ))}
-          </AnimatePresence>
-        </Reorder.Group>
-      );
+      return <StepsWrapper />;
     default:
       return (
         <Reorder.Group
