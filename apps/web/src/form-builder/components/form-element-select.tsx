@@ -71,18 +71,6 @@ const FormElementSelect = () => {
       }}
     >
       <div className="py-2 space-y-3">
-        {/* Field Elements Group */}
-        {groupedElements.field && (
-          <div>
-            <h3 className="text-xs font-medium text-muted-foreground mb-2 pl-4">
-              Field Elements
-            </h3>
-            <div className="lg:grid flex flex-wrap gap-2">
-              {groupedElements.field.map(renderElementButton)}
-            </div>
-          </div>
-        )}
-
         {/* Display Elements Group */}
         {groupedElements.display && (
           <div className="mb-3">
@@ -91,6 +79,17 @@ const FormElementSelect = () => {
             </h3>
             <div className="lg:grid flex flex-wrap gap-2">
               {groupedElements.display.map(renderElementButton)}
+            </div>
+          </div>
+        )}
+        {/* Field Elements Group */}
+        {groupedElements.field && (
+          <div>
+            <h3 className="text-xs font-medium text-muted-foreground mb-2 pl-4">
+              Field Elements
+            </h3>
+            <div className="lg:grid flex flex-wrap gap-2">
+              {groupedElements.field.map(renderElementButton)}
             </div>
           </div>
         )}

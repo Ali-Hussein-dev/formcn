@@ -231,7 +231,7 @@ type FormFieldElement =
  * StaticFormElement is a type that represents a static form element
  * that is not editable by the user
  */
-export type StaticFormElement = H1 | H2 | H3 | Paragraph | Divider;
+export type StaticFormElement = H1 | H2 | H3 | Paragraph | Divider | Text;
 
 export type FormElement =
   | (FormFieldElement & { id: string })
@@ -335,6 +335,7 @@ export const formFieldTypeWithOptions = [
   "Select",
   "ToggleGroup",
   "MultiSelect",
+  "Combobox",
 ] as const;
 
 export type FormFieldTypeWithOptions =

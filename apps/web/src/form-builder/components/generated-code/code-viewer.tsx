@@ -26,6 +26,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { convertToKababCase } from "@/lib/utils";
 import { motion } from "motion/react";
+import { FieldSeparator } from "@/components/ui/field";
 
 const Wrapper = ({
   children,
@@ -417,46 +418,44 @@ export function GeneratedFormCodeViewer() {
     );
   }
   return (
-    <div>
-      <Tabs defaultValue="cli" className="w-full min-w-full">
-        <div className="flex justify-between">
-          <TabsList>
-            <TabsTrigger value="cli">CLI</TabsTrigger>
-            <TabsTrigger value="manual">Manual</TabsTrigger>
-          </TabsList>
-          <GeneratedCodeInfoCard />
-        </div>
-        <TabsContent value="cli" tabIndex={-1}>
-          <Cli
-            registryDependencies={registryDependencies.split(" ")}
-            tsx={tsx}
-            zodSchema={zodSchema}
-            meta={meta}
-            isMS={isMS}
+    <div className="w-full min-w-full">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="font-semibold text-secondary-foreground">
+          Install with one command
+        </h2>
+        <GeneratedCodeInfoCard />
+      </div>
+      <Cli
+        registryDependencies={registryDependencies.split(" ")}
+        tsx={tsx}
+        zodSchema={zodSchema}
+        meta={meta}
+        isMS={isMS}
+      />
+      <div className="py-7">
+        <FieldSeparator>
+          <span>Or manual installation</span>
+        </FieldSeparator>
+      </div>
+      <Tabs defaultValue="tsx" className="w-full min-w-full">
+        <TabsList>
+          <TabsTrigger value="tsx">TSX</TabsTrigger>
+          <TabsTrigger value="schema">Schema</TabsTrigger>
+          <TabsTrigger value="server-action">Server action</TabsTrigger>
+        </TabsList>
+        <TabsContent value="tsx" tabIndex={-1}>
+          <CodeBlockTSX code={tsx} />
+          <div className="border-t border-dashed w-full mt-6" />
+          <CodeBlockPackagesInstallation
+            depenedenciesTabs={dependenciesTabs}
+            registryDependeciesTabs={registryDependenciesTabs}
           />
         </TabsContent>
-        <TabsContent value="manual" tabIndex={-1}>
-          <Tabs defaultValue="tsx" className="w-full min-w-full">
-            <TabsList>
-              <TabsTrigger value="tsx">TSX</TabsTrigger>
-              <TabsTrigger value="schema">Schema</TabsTrigger>
-              <TabsTrigger value="server-action">Server action</TabsTrigger>
-            </TabsList>
-            <TabsContent value="tsx" tabIndex={-1}>
-              <CodeBlockTSX code={tsx} />
-              <div className="border-t border-dashed w-full mt-6" />
-              <CodeBlockPackagesInstallation
-                depenedenciesTabs={dependenciesTabs}
-                registryDependeciesTabs={registryDependenciesTabs}
-              />
-            </TabsContent>
-            <TabsContent value="schema" tabIndex={-1}>
-              <CodeBlockZodSchema code={zodSchema} />
-            </TabsContent>
-            <TabsContent value="server-action" tabIndex={-1}>
-              <CodeBlockServerAction code={serverAction} />
-            </TabsContent>
-          </Tabs>
+        <TabsContent value="schema" tabIndex={-1}>
+          <CodeBlockZodSchema code={zodSchema} />
+        </TabsContent>
+        <TabsContent value="server-action" tabIndex={-1}>
+          <CodeBlockServerAction code={serverAction} />
         </TabsContent>
       </Tabs>
     </div>
