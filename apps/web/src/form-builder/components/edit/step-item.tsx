@@ -5,17 +5,18 @@ import { LuGripVertical } from "react-icons/lu";
 import { FormElementsStepDropdown } from "@/form-builder/components/edit/form-elements-dropdown";
 import { motion, useDragControls, Reorder } from "motion/react";
 import type { FormStep } from "@/form-builder/form-types";
-import { animateVariants } from "./form-edit";
 
 //======================================
 export function StepItem({
   children,
   stepIndex,
   step,
+  transitionProps,
 }: {
   children: React.ReactNode;
   stepIndex: number;
   step: FormStep;
+  transitionProps: Record<string, any>;
 }) {
   const { addFormStep, removeFormStep, formElements } = useFormBuilderStore();
   const dragControls = useDragControls();
@@ -25,12 +26,9 @@ export function StepItem({
       value={step}
       key={step.id}
       layout
-      variants={animateVariants}
-      initial="initial"
-      animate="animate"
-      exit="exit"
       dragControls={dragControls}
       dragListener={false}
+      {...transitionProps}
     >
       <div className="rounded-lg px-3 md:px-4 lg:px-5 md:py-5 py-4 border border-dashed bg-muted">
         <motion.div
