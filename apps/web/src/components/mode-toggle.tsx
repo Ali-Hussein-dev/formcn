@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
@@ -17,7 +16,29 @@ export function ModeToggleBase() {
       type="button"
       className="size-8"
     >
-      {theme === "dark" ? <Sun /> : <Moon />}
+      <svg
+        viewBox="0 0 32 32"
+        width="24"
+        height="24"
+        fill="currentcolor"
+        // style="display: block;"
+        className="block"
+      >
+        <circle
+          cx="16"
+          cy="16"
+          r="14"
+          fill="none"
+          stroke="currentcolor"
+          strokeWidth="4"
+        ></circle>
+        <path
+          d="
+        M 16 0
+        A 16 16 0 0 0 16 32
+        z"
+        ></path>
+      </svg>
     </Button>
   );
 }

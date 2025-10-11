@@ -150,7 +150,7 @@
 
 @layer utilities {
   .bg-glass {
-    @apply dark:bg-secondary/45 bg-background/85 backdrop-blur-md dark:backdrop-blur-lg;
+    @apply dark:bg-secondary/45 bg-background backdrop-blur-md dark:backdrop-blur-lg;
   }
   .container {
     @apply max-w-[84rem] mx-auto w-full;

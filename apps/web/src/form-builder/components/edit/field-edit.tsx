@@ -50,12 +50,12 @@ const OptionLabel = ({
   <TooltipProvider>
     <Tooltip>
       <TooltipTrigger asChild>
-        <button
+        <div
+          role="button"
           className="size-full flex justify-center items-center"
-          type="button"
         >
           {Icon}
-        </button>
+        </div>
       </TooltipTrigger>
       <TooltipContent>
         <p>{label}</p>
