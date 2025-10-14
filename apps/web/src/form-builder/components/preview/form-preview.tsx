@@ -1,4 +1,4 @@
-import { Form } from "@/components/ui/form";
+import { FieldGroup } from "@/components/ui/field";
 import { RenderFormElement } from "@/form-builder/components/edit/render-form-element";
 import type { FormElementOrList, FormStep } from "@/form-builder/form-types";
 import { Button } from "@/components/ui/button";
@@ -92,7 +92,7 @@ export function FormPreview({
           : "pt-4.5"
       )}
     >
-      <Form {...form}>
+      <div className="w-full">
         <form
           key={rerender ? "reset" : "normal"}
           onSubmit={async (e) => {
@@ -101,65 +101,67 @@ export function FormPreview({
               await form.handleSubmit(onSubmit)(e);
             }
           }}
-          className="flex flex-col p-2 md:px-5 w-full gap-2"
+          className="flex flex-col p-2 md:px-5 w-full"
         >
-          {isMS ? (
-            <MultiStepFormPreview
-              formElements={formElements as unknown as FormStep[]}
-              form={form}
-            />
-          ) : (
-            <>
-              {(formElements as FormElementOrList[]).map((element, i) => {
-                if (Array.isArray(element)) {
+          <FieldGroup className="gap-3">
+            {isMS ? (
+              <MultiStepFormPreview
+                formElements={formElements as unknown as FormStep[]}
+                form={form}
+              />
+            ) : (
+              <>
+                {(formElements as FormElementOrList[]).map((element, i) => {
+                  if (Array.isArray(element)) {
+                    return (
+                      <div
+                        key={i}
+                        className="flex items-center justify-between flex-wrap sm:flex-nowrap w-full gap-2"
+                      >
+                        {element.map((el, ii) => (
+                          <div key={el.name + ii} className="w-full">
+                            <RenderFormElement formElement={el} form={form} />
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  }
                   return (
-                    <div
-                      key={i}
-                      className="flex items-center justify-between flex-wrap sm:flex-nowrap w-full gap-2"
-                    >
-                      {element.map((el, ii) => (
-                        <div key={el.name + ii} className="w-full">
-                          <RenderFormElement formElement={el} form={form} />
-                        </div>
-                      ))}
+                    <div key={element.name + i} className="w-full">
+                      <RenderFormElement formElement={element} form={form} />
                     </div>
                   );
-                }
-                return (
-                  <div key={element.name + i} className="w-full">
-                    <RenderFormElement formElement={element} form={form} />
-                  </div>
-                );
-              })}
-              <div className="flex items-center justify-end w-full pt-3 gap-3">
-                {isDirty && (
+                })}
+                <div className="flex items-center justify-end w-full pt-3 gap-3">
+                  {isDirty && (
+                    <Button
+                      variant="outline"
+                      type="button"
+                      size="sm"
+                      disabled={isSubmitting}
+                      className="rounded-lg"
+                      onClick={() => {
+                        form.reset({});
+                        setRerender(!rerender);
+                      }}
+                    >
+                      Reset
+                    </Button>
+                  )}
                   <Button
-                    variant="outline"
-                    type="button"
+                    type="submit"
+                    className="rounded-lg"
                     size="sm"
                     disabled={isSubmitting}
-                    className="rounded-lg"
-                    onClick={() => {
-                      form.reset({});
-                      setRerender(!rerender);
-                    }}
                   >
-                    Reset
+                    {isSubmitting ? "Submitting..." : "Submit"}
                   </Button>
-                )}
-                <Button
-                  type="submit"
-                  className="rounded-lg"
-                  size="sm"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Submitting..." : "Submit"}
-                </Button>
-              </div>
-            </>
-          )}
+                </div>
+              </>
+            )}
+          </FieldGroup>
         </form>
-      </Form>
+      </div>
     </div>
   );
 }

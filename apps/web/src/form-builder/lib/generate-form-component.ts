@@ -1,401 +1,330 @@
 import type { FormElement } from "../form-types";
 
+const getFieldLabel = (name: string, label?: string, required?: boolean) => {
+  return label
+    ? `<FieldLabel html="${name}">${label} ${required ? "*" : ""}</FieldLabel>`
+    : "";
+};
+const getDescription = (description?: string) => {
+  return description
+    ? `<FieldDescription>${description}</FieldDescription>`
+    : "";
+};
+type attributes =
+  | "disabled"
+  | "placeholder"
+  | "id"
+  | "name"
+  | "type"
+  | "min"
+  | "max"
+  | "readOnly"
+  | "accept"
+  | "maxFiles"
+  | "maxSize"
+  | "step";
+const getAttribute = (attr: attributes, value?: boolean | string | number) => {
+  if (typeof value === "string") {
+    return `${attr}="${value}"`;
+  }
+  if (typeof value === "number") {
+    return `${attr}={${value}}`;
+  }
+  if (value === true) {
+    return attr;
+  }
+  return "";
+};
 export const getFormElementCode = (field: FormElement) => {
   switch (field.fieldType) {
     case "Input":
-      return `<FormField
-                control={form.control}
-                name="${field.name}"
-                rules={{ required: ${!!field.required}}}
-                render={({ field }) => (
-                    <FormItem className="w-full">
-                      ${
-                        field.label &&
-                        `<FormLabel>${field.label} ${
-                          field.required ? "*" : ""
-                        } </FormLabel>`
-                      }
-                      <FormControl>
-                        <Input
-                          type="${field.type || "text"}"
-                          value={field.value}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            field.onChange(${
-                              field.type == "number" ? "+val" : "val"
-                            });
-                          }}
-                          ${field.disabled ? "disabled" : ""}
-                          ${
-                            field.placeholder
-                              ? `placeholder="${field.placeholder}"`
-                              : ""
-                          }
-                        />
-                      </FormControl>
-                      ${
-                        field.description
-                          ? `<FormDescription>${field.description}</FormDescription>`
-                          : ""
-                      }
-                      <FormMessage />
-                  </FormItem>
-                  )
-                }
-              />`;
-    case "FileUpload":
       return `
-        <FormField
+        <Controller
+          ${getAttribute("name", field.name)}
           control={form.control}
-          name="${field.name}"
-          rules={{ required: ${!!field.required}}}
-          render={({ field, fieldState }: { field: ControllerRenderProps; fieldState: ControllerFieldState }) => (
-            <FormItem className="w-full">
-               ${
-                 field.label &&
-                 `<FormLabel>${field.label} ${
-                   field.required ? "*" : ""
-                 } </FormLabel>`
-               }
-              <FormControl>
-                <FileUpload
-                  {...field}
-                  placeholder="${field.placeholder}"
-                  value={field.value}
-                  onChange={field.onChange}
-                  maxFiles={${field.maxFiles ?? 1}}
-                  accept="${field.accept || "*"}"
-                  ${field.required ? "required" : ""}
-                  ${field.disabled ? "disabled" : ""}
-                />
-              </FormControl>
-              {Array.isArray(fieldState.error) ? (
-                fieldState.error?.map((error, i) => (
-                  <p
-                    data-slot="form-message"
-                    className="text-destructive text-sm"
-                    key={i}
-                  >
-                    {error.message}
-                  </p>
-                ))
-              ) : (
-                <FormMessage />
-              )}
-            </FormItem>
-          )}
-        />`;
-    case "OTP":
-      return `
-       <FormField
-          control={form.control}
-          name="${field.name}"
-          rules={{ required: ${!!field.required}}}
-          render={({ field }) => (
-           <FormItem className="w-full">
-          ${
-            field.label &&
-            `<FormLabel>${field.label} ${
-              field.required ? "*" : ""
-            } </FormLabel>`
-          }
-          <FormControl>
-            <InputOTP
-              maxLength={6}
-              {...field}
-              ${field.disabled ? "disabled" : ""}
-            >
-              <InputOTPGroup>
-                <InputOTPSlot index={0} />
-                <InputOTPSlot index={1} />
-                <InputOTPSlot index={2} />
-              </InputOTPGroup>
-              <InputOTPSeparator />
-              <InputOTPGroup>
-                <InputOTPSlot index={3} />
-                <InputOTPSlot index={4} />
-                <InputOTPSlot index={5} />
-              </InputOTPGroup>
-            </InputOTP>
-          </FormControl>
-          ${
-            field.description
-              ? `<FormDescription>${field.description}</FormDescription>`
-              : ""
-          }
-          <FormMessage />
-        </FormItem>
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid} className="gap-1">
+            ${getFieldLabel(field.name, field.label, field.required)}
+              <Input
+                {...field}
+                ${getAttribute("id", field.name)}
+                type="${field.type === "number" ? "number" : "text"}"
+                onChange={(e) => {
+                  if (field.type === "number") {
+                    field.onChange(e.target.valueAsNumber);
+                  } else {
+                    field.onChange(e.target.value);
+                  }
+                }}
+                aria-invalid={fieldState.invalid}
+                ${getAttribute("placeholder", field.placeholder)}
+                ${getAttribute("disabled", field.disabled)}
+              />
+              ${getDescription(field.description)}
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
           )}
         />`;
     case "Textarea":
       return `
-        <FormField
-          control={form.control}
-          name="${field.name}"
-          rules={{ required: ${!!field.required}}}
-          render={({ field }) => (
-            <FormItem>
-              ${
-                field.label &&
-                `<FormLabel>${field.label} ${
-                  field.required ? "*" : ""
-                } </FormLabel>`
-              }
-              <FormControl>
-                <Textarea
-                  {...field}
-                  placeholder="${field.placeholder ?? ""}"
-                  className="resize-none"
-                  ${field.disabled ? "disabled" : ""}
-                />
-              </FormControl>
-              ${
-                field.description
-                  ? `<FormDescription>${field.description}</FormDescription>`
-                  : ""
-              }
-              <FormMessage />
-            </FormItem>
-          )}
-        />`;
+          <Controller
+              ${getAttribute("name", field.name)}
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid} className="gap-1">
+                ${getFieldLabel(field.name, field.label, field.required)}
+                  <Textarea
+                    {...field}
+                    aria-invalid={fieldState.invalid}
+                    ${getAttribute("id", field.name)}
+                    ${getAttribute("placeholder", field.placeholder)}
+                    ${getAttribute("disabled", field.disabled)}
+                  />
+                  ${getDescription(field.description)}
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                </Field>
+              )}
+            />`;
     case "Password":
       return `
-        <FormField
-          control={form.control}
-          name="${field.name}"
-          rules={{ required: ${!!field.required}}}
-          render={({ field }) => (
-            <FormItem className="w-full">
-              ${
-                field.label &&
-                `<FormLabel>${field.label} ${
-                  field.required ? "*" : ""
-                } </FormLabel>`
-              }
-              <FormControl>
-                <Password
-                  {...field}
-                  ${field.disabled ? "disabled" : ""}
-                  ${
-                    field.placeholder
-                      ? `placeholder="${field.placeholder}"`
-                      : ""
-                  }
-                />
-              </FormControl>
-              ${
-                field.description
-                  ? `<FormDescription>${field.description}</FormDescription>`
-                  : ""
-              }
-              <FormMessage />
-            </FormItem>
-          )
-        }
-        />
-        `;
+        <Controller 
+          ${getAttribute("name", field.name)} 
+          control={form.control} 
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid} className="gap-1">
+              ${getFieldLabel(field.name, field.label, field.required)}
+              <Password
+                {...field}
+                aria-invalid={fieldState.invalid}
+                ${getAttribute("id", field.name)}
+                ${getAttribute("placeholder", field.placeholder)}
+                ${getAttribute("disabled", field.disabled)}
+              />
+              ${getDescription(field.description)}
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+        )} />`;
+    case "OTP":
+      return `
+        <Controller
+            ${getAttribute("name", field.name)} 
+            control={form.control}
+            render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldContent className="gap-1">
+                    ${getFieldLabel(field.name, field.label, field.required)}
+                    ${getDescription(field.description)}
+                  </FieldContent>
+                    <InputOTP
+                      {...field}
+                      aria-invalid={fieldState.invalid}
+                      ${getAttribute("id", field.name)}
+                      ${getAttribute("disabled", field.disabled)}
+                      maxLength={6}
+                    >
+                      <InputOTPGroup>
+                        <InputOTPSlot index={0} />
+                        <InputOTPSlot index={1} />
+                        <InputOTPSlot index={2} />
+                      </InputOTPGroup>
+                      <InputOTPSeparator />
+                      <InputOTPGroup>
+                        <InputOTPSlot index={3} />
+                        <InputOTPSlot index={4} />
+                        <InputOTPSlot index={5} />
+                      </InputOTPGroup>
+                    </InputOTP>
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              </Field>
+          )}
+        />`;
     case "Checkbox":
-      return `<FormField
+      return `<Controller
+          ${getAttribute("name", field.name)} 
           control={form.control}
-          rules={{ required: ${!!field.required}}}
-          name="${field.name}"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-1 space-y-0">
-              <FormControl>
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid} className="gap-1">
                 <Checkbox
                   checked={field.value}
                   onCheckedChange={field.onChange}
-                  ${field.disabled ? "disabled" : ""}
-                  ${field.required ? "required" : ""}
+                  aria-invalid={fieldState.invalid}
+                  ${getAttribute("disabled", field.disabled)}
                 />
-              </FormControl>
-              <div className="space-y-1 leading-none">
-                <FormLabel>${field.label}</FormLabel>
-                ${
-                  field.description
-                    ? `<FormDescription>${field.description}</FormDescription>`
-                    : ""
-                }
-                <FormMessage />
-              </div>
-            </FormItem>
+                ${getFieldLabel(field.name, field.label, field.required)}
+                ${getDescription(field.description)}
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
           )}
         />`;
-    case "DatePicker":
+    case "Switch":
       return `
-      <FormField
-      control={form.control}
-      rules={{ required: ${!!field.required}}}
-      name="${field.name}"
-      render={({ field }) => (
-        <FormItem className="flex flex-col">
-          ${field.label && `<FormLabel>${field.label} ${field.required ? "*" : ""}</FormLabel>`}
-          <Popover>
-            <PopoverTrigger asChild>
-              <FormControl>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-[240px] pl-3 text-start font-normal",
-                    !field.value && "text-muted-foreground"
-                  )}
-                >
-                  {field.value ? (
-                    format(field.value, "PPP")
-                  ) : (
-                    <span>${field.placeholder ?? ""}</span>
-                  )}
-                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                </Button>
-              </FormControl>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={field.value}
-                onSelect={field.onChange}
-                ${field.disabled ? "disabled" : ""}
+        <Controller
+          ${getAttribute("name", field.name)} 
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field orientation="horizontal" data-invalid={fieldState.invalid}>
+              <FieldContent>  
+                ${getFieldLabel(field.name, field.label, field.required)}
+                ${getDescription(field.description)}
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              </FieldContent>
+              <Switch
+                {...field}
+                aria-invalid={fieldState.invalid}
+                ${getAttribute("id", field.name)}
+                checked={field.value}
+                onCheckedChange={field.onChange}
+                ${getAttribute("disabled", field.disabled)}
               />
-            </PopoverContent>
-          </Popover>
-            ${
-              field.description
-                ? `<FormDescription>${field.description}</FormDescription>`
-                : ""
-            }
-          <FormMessage />
-        </FormItem>
-      )}
-    />`;
-    case "MultiSelect":
+            </Field>
+          )}
+        />`;
+    case "Slider":
       return `
-           <FormField
-              control={form.control}
-              rules={{ required: ${!!field.required}}}
-              name="${field.name}"
-              render={({ field }) => {
-              const options = ${JSON.stringify(field.options)};
-              return (
-                <FormItem className="w-full">
-                  ${
-                    field.label &&
-                    `<FormLabel>${field.label} ${
-                      field.required ? "*" : ""
-                    }</FormLabel>`
-                  }
-                  <MultiSelect 
-                    value={field.value} 
-                    onValueChange={field.onChange} 
-                    ${field.disabled ? "disabled" : ""}
+        <Controller
+          ${getAttribute("name", field.name)} 
+          control={form.control}
+          render={({ field, fieldState }) => {
+            const { max = 100, min = 0, step } = field;
+            const value = Array.isArray(field.value)
+              ? field.value
+              : [field.value ?? max / 2];
+            return (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldContent className="mb-2 gap-1">
+                  <FieldLabel
+                    htmlFor={field.name}
+                    className="flex justify-between items-center w-full"
                   >
-                    <FormControl>
-                      <MultiSelectTrigger>
-                        <MultiSelectValue
-                          ${
-                            field.placeholder
-                              ? `placeholder="${field.placeholder}"`
-                              : ""
-                          }
-                        />
-                      </MultiSelectTrigger>
-                    </FormControl>
-                    <MultiSelectContent>
-                      <MultiSelectList>
-                        {options.map(({ label, value }) => (
-                          <MultiSelectItem key={label} value={value}>
-                            {label}
-                          </MultiSelectItem>
-                        ))}
-                      </MultiSelectList>
-                    </MultiSelectContent>
-                  </MultiSelect>
-                  ${
-                    field.description
-                      ? `<FormDescription>${field.description}</FormDescription>`
-                      : ""
+                    ${field.label}
+                    ${field.required ? " *" : ""}
+                    <span className="text-sm">
+                      {value}/{max}
+                    </span>
+                  </FieldLabel>
+                  ${getDescription(field.description)}
+                </FieldContent>
+                <Slider
+                  {...field}
+                  value={value}
+                  onValueChange={(newValue) => field.onChange(newValue[0])}
+                  aria-invalid={fieldState.invalid}
+                  ${getAttribute("min", field.min)}
+                  ${getAttribute("max", field.max)}
+                  ${getAttribute("step", field.step)}
+                  ${getAttribute("disabled", field.disabled)}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            );
+          }}
+        />
+      `;
+    case "ToggleGroup":
+      return `
+        <Controller
+          ${getAttribute("name", field.name)}
+          control={form.control}
+          render={({ field, fieldState }) => {
+            const options = ${JSON.stringify(field.options)};
+            return (
+              <Field data-invalid={fieldState.invalid} className="gap-1 [&_p]:pb-2">
+                ${getFieldLabel(field.name, field.label, field.required)}
+                ${getDescription(field.description)}
+                <ToggleGroup
+                  variant="outline"
+                  value={${
+                    field.type === "single"
+                      ? "field.value"
+                      : `// wrap in array and flat because value can be a string or an array
+                        [field.value].flat().filter((val) => val !== undefined)`
+                  }}
+                  onValueChange={field.onChange}
+                  ${getAttribute("type", field.type)}
+                  ${getAttribute("disabled", field.disabled)}
+                  className="flex justify-start items-center gap-2 flex-wrap"
+                >
+                  {options.map(({ label, value }) => (
+                    <ToggleGroupItem
+                      key={value}
+                      value={value}
+                      className="flex items-center gap-x-2"
+                    >
+                      {label}
+                    </ToggleGroupItem>))
                   }
-                  <FormMessage />
-                </FormItem>
-              )}}
-            />`;
+                  </ToggleGroup>
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            );
+          }}
+        />`;
     case "Select":
       return `
-        <FormField
+        <Controller
+          ${getAttribute("name", field.name)}
           control={form.control}
-          rules={{ required: ${!!field.required}}}
-          name="${field.name}"
-          render={({ field }) => {
+          render={({ field, fieldState }) => {
           const options = ${JSON.stringify(field.options)};
           return (
-            <FormItem className="w-full">
-              ${
-                field.label &&
-                `<FormLabel>${field.label} ${
-                  field.required ? "*" : ""
-                }</FormLabel>`
-              }
-              <Select 
-              onValueChange={field.onChange} 
-              value={field.value} 
-              ${field.disabled ? "disabled" : ""} 
+            <Field data-invalid={fieldState.invalid} className="gap-1">
+              ${getFieldLabel(field.name, field.label, field.required)}
+              ${getDescription(field.description)}
+              <Select
+                value={field.value}
+                onValueChange={field.onChange}
+                ${getAttribute("disabled", field.disabled)}
               >
-                <FormControl>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="${field.placeholder}" />
-                  </SelectTrigger>
-                </FormControl>
+                <SelectTrigger className="w-full">
+                  <SelectValue ${getAttribute("placeholder", field.placeholder)} />
+                </SelectTrigger>
                 <SelectContent>
-                  {options.map(({ label, value }) => (
-                    <SelectItem key={value} value={value}>
-                      {label}
-                    </SelectItem>
-                  ))}
+                  {options.map((option) => (
+                      <SelectItem
+                        key={option.value}
+                        value={option.value}
+                      >
+                        {option.label}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
-                ${
-                  field.description
-                    ? `<FormDescription>${field.description}</FormDescription>`
-                    : ""
-                }
-              <FormMessage />
-            </FormItem>
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
           )}}
         />`;
     case "Combobox":
       return `
-        <FormField
+        <Controller
+          ${getAttribute("name", field.name)}
           control={form.control}
-          name="${field.name}"
-          rules={{ required: ${!!field.required}}}
-          render={({ field }) => {
+          render={({ field, fieldState }) => {
           const options = ${JSON.stringify(field.options)};
           return (
-            <FormItem className="flex flex-col">
-               ${
-                 field.label &&
-                 `<FormLabel>${field.label} ${
-                   field.required ? "*" : ""
-                 }</FormLabel>`
-               }
+            <Field data-invalid={fieldState.invalid} className="gap-2">
+            ${getFieldLabel(field.name, field.label, field.required)}
+            ${getDescription(field.description)}
               <Popover>
                 <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      className={cn(
-                        "justify-between",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value
-                        ? options.find(
-                            (option) => option.value === field.value
-                          )?.label
-                        : "Select an item"}
-                      <ChevronsUpDown className="opacity-50" />
-                    </Button>
-                  </FormControl>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    className={cn(
+                      "justify-between active:scale-100",
+                      !field.value && "text-muted-foreground"
+                    )}
+                  >
+                    {field.value
+                      ? field.options.find(
+                          (option) => option.value === field.value
+                        )?.label
+                      : "${field.placeholder ?? ""}"}
+                    <ChevronsUpDown className="opacity-50" />
+                  </Button>
                 </PopoverTrigger>
                 <PopoverContent
                   className="p-0 min-w-[var(--radix-popper-anchor-width)] w-full"
@@ -403,25 +332,25 @@ export const getFormElementCode = (field: FormElement) => {
                 >
                   <Command>
                     <CommandInput
-                      placeholder="${field.placeholder}"
+                      placeholder="tap to search..."
                       className="h-10"
                     />
                     <CommandList>
-                      <CommandEmpty>No items found!</CommandEmpty>
+                      <CommandEmpty>No items found.</CommandEmpty>
                       <CommandGroup>
-                        {options.map((option) => (
+                        {options.map(({label, value}) => (
                           <CommandItem
-                            value={option.value}
-                            key={option.value}
+                            value={value}
+                            key={value}
                             onSelect={() => {
-                              form.setValue(formElement.name, option.value);
+                              form.setValue("${field.name}", value);
                             }}
                           >
-                            {option.label}
+                            {label}
                             <Check
                               className={cn(
                                 "ml-auto",
-                                option.value === field.value
+                                value === field.value
                                   ? "opacity-100"
                                   : "opacity-0"
                               )}
@@ -433,208 +362,197 @@ export const getFormElementCode = (field: FormElement) => {
                   </Command>
                 </PopoverContent>
               </Popover>
-              ${
-                field.description
-                  ? `<FormDescription>${field.description}</FormDescription>`
-                  : ""
-              }
-              <FormMessage />
-            </FormItem>
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
           )}}
-        />`;
-    case "Slider":
+        />
+      `;
+    case "MultiSelect":
       return `
-            <FormField
-              control={form.control}
-              name="${field.name}"
-              rules={{ required: ${!!field.required} }}
-              render={({ field }) => {
-              const currentValue = field.value || 0;
-              const min = ${field.min};
-              const max = ${field.max};
-              const step = ${field.step};
-              return (
-                <FormItem className="w-full py-3">
-                <FormLabel className="flex justify-between items-center">
-                ${field.label} ${field.required ? " *" : ""}<span>{currentValue}/{max}</span></FormLabel>
-                  <FormControl>
-                    <Slider
-                      min={min}
-                      max={max}
-                      step={step}
-                      value={[field.value]}
-                      onValueChange={(values) => {
-                        field.onChange(values[0]);
-                      }}
-                      ${field.disabled ? "disabled" : ""}
-                    />
-                  </FormControl>
-                  <input
-                    type="number"
-                    className="sr-only"
-                    value={field.value}
-                    onChange={(e) => field.onChange(e.target.value)}
-                  />
-                  ${
-                    field.description
-                      ? `<FormDescription>${field.description}</FormDescription>`
-                      : ""
-                  }
-                  <FormMessage />
-              </FormItem>
-              )}}
-            />`;
-    case "Switch":
-      return `
-          <FormField
-              control={form.control}
-              name="${field.name}"
-              rules={{ required: ${!!field.required} }}
-              render={({ field }) => (
-                <FormItem className="flex flex-col p-3 justify-center w-full border rounded">
-                    <div className="flex items-center justify-between h-full">
-                      ${
-                        field.label &&
-                        `<FormLabel>${field.label} ${field.required ? "*" : ""}</FormLabel>`
-                      }
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                          ${field.disabled ? "disabled" : ""}
-                        />
-                      </FormControl>
-                    </div>
-                    ${
-                      field.description
-                        ? `<FormDescription>${field.description}</FormDescription>`
-                        : ""
-                    }
-                    <FormMessage />
-                </FormItem>
-              )}
-            />`;
-    case "RadioGroup":
-      return `<FormField
-              control={form.control}
-              name="${field.name}"
-              rules={{ required: ${!!field.required} }}
-              render={({ field }) => {
-              const options = ${JSON.stringify(field.options)};
-              return (
-                <FormItem className="flex flex-col gap-3 w-full py-3">
-                    ${
-                      field.label &&
-                      `<FormLabel>${field.label} ${
-                        field.required ? "*" : ""
-                      }</FormLabel>`
-                    }
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        ${field.disabled ? "disabled" : ""}
-                      >
-                        {options.map(({ label, value }) => (
-                        <div key={value} className="flex items-center gap-x-2">
-                         <RadioGroupItem value={value} id={value} />
-                         <Label htmlFor={value} className="font-normal">{label}</Label>
-                        </div>
-                        ))}
-                      </RadioGroup>
-                    </FormControl>
-                    ${
-                      field.description
-                        ? `<FormDescription>${field.description}</FormDescription>`
-                        : ""
-                    }
-                    <FormMessage />
-                </FormItem>
-              )}}
-            />`;
-    case "ToggleGroup":
-      return `<FormField
-              control={form.control}
-              name="${field.name}"
-              render={({ field }) => {
-              const options = ${JSON.stringify(field.options)};
-            return (
-              <FormItem className="flex flex-col gap-2 w-full py-1">
-                ${
-                  field.label &&
-                  `<FormLabel>${field.label} ${
-                    field.required ? "*" : ""
-                  }</FormLabel>`
-                }
-                <FormControl>
-                  <ToggleGroup
-                      variant="outline"
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      ${field.disabled ? "disabled" : ""}
-                      type='${field.type}'
-                      className="flex justify-start items-center gap-2 flex-wrap"
-                    >
-                     {options.map(({ label, value }) => (
-                        <ToggleGroupItem
+        <Controller
+          ${getAttribute("name", field.name)}
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid} className="gap-2">
+              ${getFieldLabel(field.name, field.label, field.required)}
+              ${getDescription(field.description)}
+              <MultiSelect
+                value={field.value ?? []}
+                onValueChange={(value) => field.onChange(value ?? [])}
+                ${getAttribute("disabled", field.disabled)}
+              >
+                <MultiSelectTrigger>
+                  <MultiSelectValue ${getAttribute("placeholder", field.placeholder)} />
+                </MultiSelectTrigger>
+                <MultiSelectContent>
+                  <MultiSelectList>
+                    {options.map(({label, value}) => (
+                        <MultiSelectItem
                           key={value}
                           value={value}
-                          className="flex items-center gap-x-2"
                         >
                           {label}
-                        </ToggleGroupItem>))
-                    }
-                  </ToggleGroup>
-                </FormControl>
-                ${
-                  field.description
-                    ? `<FormDescription>${field.description}</FormDescription>`
-                    : ""
-                }
-                <FormMessage />
-              </FormItem>
-            )
-              }}
-            />`;
-    case "Rating":
-      return `<FormField
-          control={form.control}
-          name="${field.name}"
-          rules={{ required: ${!!field.required}, min: ${field.required ? 1 : undefined} }}
-          render={({ field }) => (
-            <FormItem>
-              ${
-                field.label &&
-                `<FormLabel>${field.label} ${
-                  field.required ? "*" : ""
-                }</FormLabel>`
-              }
-              ${
-                field.description
-                  ? `<FormDescription>${field.description}</FormDescription>`
-                  : ""
-              }
-              <FormControl>
-                <div>
-                  <Rating value={field.value} onValueChange={field.onChange}>
-                    {Array.from({
-                      length: ${field.numberOfStars ?? 5},
-                    }).map((_, index) => (
-                      <RatingButton key={index} />
-                    ))}
-                  </Rating>
-                  <input 
-                    type="number"
-                    className="sr-only"
-                    value={field.value}
-                    onChange={(e) => field.onChange(e.target.value)}
-                  />
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+                        </MultiSelectItem>
+                      ))}
+                  </MultiSelectList>
+                </MultiSelectContent>
+              </MultiSelect>
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
           )}
         />`;
+    case "Rating":
+      return `
+        <Controller
+          ${getAttribute("name", field.name)}
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid} className="gap-1 [&_p]:pb-2">
+              ${getFieldLabel(field.name, field.label, field.required)}
+              ${getDescription(field.description)}
+              <Rating
+                value={field.value}
+                onValueChange={field.onChange}
+                ${getAttribute("readOnly", field.disabled)}
+              >
+                {Array.from({
+                  length: ${(field.numberOfStars as number) ?? 5},
+                }).map((_, index) => (
+                  <RatingButton key={index} />
+                ))}
+              </Rating>
+              <input
+                type="number"
+                className="sr-only"
+                value={field.value}
+                onChange={(e) => field.onChange(e.target.value)}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />`;
+    case "RadioGroup":
+      return `
+        <Controller
+          ${getAttribute("name", field.name)}
+          control={form.control}
+          render={({ field, fieldState }) => {
+          const options = ${JSON.stringify(field.options)};
+            return(
+              <Field data-invalid={fieldState.invalid} className="gap-1 [&_p]:pb-2">
+                ${getFieldLabel(field.name, field.label, field.required)}
+                ${getDescription(field.description)}
+                <RadioGroup
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  aria-invalid={fieldState.invalid}
+                  ${getAttribute("disabled", field.disabled)}
+                >
+                  {options.map(({ label, value }) => (
+                    <div
+                      key={value}
+                      className="flex items-center gap-x-2"
+                    >
+                      <RadioGroupItem value={value} id={value} />
+                      <Label htmlFor={value}>{label}</Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              </Field>
+            )}}
+        />`;
+    case "DatePicker":
+      return `
+        <Controller
+          ${getAttribute("name", field.name)}
+          control={form.control}
+          render={({ field, fieldState }) => {
+            const date = field.value;
+            return (
+              <Field data-invalid={fieldState.invalid}>
+                ${getFieldLabel(field.name, field.label, field.required)}
+                ${getDescription(field.description)}
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-full justify-start text-start font-normal active:scale-none",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 size-4" />
+                      {date ? (
+                        format(date, "PPP")
+                      ) : (
+                        <span>${getAttribute("placeholder", field.placeholder)}</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={(newDate) => {
+                        form.setValue(field.name, newDate, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                          });
+                        }}
+                      ${getAttribute("disabled", field.disabled)}
+                    />
+                  </PopoverContent>
+                </Popover>
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            );
+          }}
+        />`;
+    case "FileUpload":
+      return `
+        <Controller
+          ${getAttribute("name", field.name)}
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <div>
+              <Field data-invalid={fieldState.invalid} className="gap-1">
+                ${getFieldLabel(field.name, field.label, field.required)}
+                ${getDescription(field.description)}
+                <FileUpload
+                  {...field}
+                  setValue={form.setValue}
+                  ${getAttribute("name", field.name)}
+                  ${getAttribute("placeholder", field.placeholder)}
+                  ${getAttribute("accept", field.accept)}
+                  ${getAttribute("maxFiles", field.maxFiles ?? 1)}
+                  ${getAttribute("maxSize", field.maxSize ?? 1024 * 1024)}
+                  ${getAttribute("disabled", field.disabled)}
+                />
+              </Field>
+              {Array.isArray(fieldState.error) ? (
+                fieldState.error?.map((error, i) => (
+                  <p
+                    key={i}
+                    role="alert"
+                    data-slot="field-error"
+                    className="text-destructive text-sm"
+                  >
+                    {error.message}
+                  </p>
+                ))
+              ) : (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </div>
+          )}
+        />`;
+    case "Separator":
+      return `<div className="py-1 w-full">
+                <Separator />
+              </div>`;
     case "Text":
       if (field.variant == "H1")
         return `<h1 className="mt-6 mb-1 font-extrabold text-3xl tracking-tight">${field.content}</h1>`;
@@ -644,10 +562,6 @@ export const getFormElementCode = (field: FormElement) => {
         return `<h3 className="mt-3 mb-1 font-semibold text-xl tracking-tight">${field.content}</h3>`;
       if (field.variant == "P")
         return `<p className="tracking-wide text-muted-foreground mb-5 text-wrap text-sm">${field.content}</p>`;
-    case "Separator":
-      return `<div className="py-1 w-full">
-                <Separator />
-              </div>`;
     case "H1":
       return `<h1 className="mt-6 font-extrabold text-3xl tracking-tight">${field.content}</h1>`;
     case "H2":

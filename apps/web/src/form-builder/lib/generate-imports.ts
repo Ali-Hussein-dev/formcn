@@ -14,7 +14,7 @@ export const generateImports = (
     'import { useAction } from "next-safe-action/hooks"',
     'import { motion } from "motion/react"',
     'import { Check } from "lucide-react"',
-    'import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"',
+    'import { Field, FieldContent, FieldLabel, FieldDescription, FieldError, FieldSeparator } from "@/components/ui/field"',
   ]);
   if (isMS) {
     importSet.add(`import {
