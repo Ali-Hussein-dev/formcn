@@ -35,7 +35,7 @@ export const generateFormCode = ({
   const imports = Array.from(
     generateImports(flattenedFormElements as FormElement[], { isMS })
   ).join("\n");
-const successCard = `<div className="p-2 sm:p-5 md:p-8 w-full rounded-md gap-2 border">
+  const successCard = `<div className="p-2 sm:p-5 md:p-8 w-full rounded-md gap-2 border">
         <motion.div
           initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -92,23 +92,20 @@ const handleSubmit = form.handleSubmit(async (data: Schema) => {
 
 const { isExecuting, hasSucceeded } = formAction;
   if (hasSucceeded) {
-    return (
-      ${successCard}
-    );
+    return (${successCard})
   }
 return (
-    <Form {...form}>
       <form onSubmit={handleSubmit} className="flex flex-col p-2 sm:p-5 md:p-8 w-full rounded-md gap-2 border">
-        ${renderFields(formElements as FormElementOrList[])}
-        <div className="flex justify-end items-center w-full pt-3">
-          <Button className="rounded-lg" size="sm">
-            {isExecuting ? 'Submitting...' : 'Submit'}
-          </Button>
-        </div>
+        <FieldGroup>
+          ${renderFields(formElements as FormElementOrList[])}
+          <div className="flex justify-end items-center w-full pt-3">
+            <Button className="rounded-lg" size="sm">
+              {isExecuting ? 'Submitting...' : 'Submit'}
+            </Button>
+          </div>
+        </FieldGroup>
       </form>
-    </Form>
-)
-}`,
+)}`,
     },
   ];
   if (!isMS) return singleStepFormCode;
@@ -169,8 +166,7 @@ export function GeneratedForm() {
   }
   return (
     <div>
-      <Form {...form}>
-        <form onSubmit={handleSubmit} className="flex flex-col p-2 md:p-5 w-full mx-auto rounded-md max-w-3xl gap-2 border">
+      <form onSubmit={handleSubmit} className="flex flex-col p-2 md:p-5 w-full mx-auto rounded-md max-w-3xl gap-2 border">
         <MultiStepFormProvider
           stepsFields={stepsFields}
           onStepValidation={async (step) => {
@@ -198,7 +194,6 @@ export function GeneratedForm() {
             </MultiStepFormContent>
           </MultiStepFormProvider>
         </form>
-      </Form>
     </div>
   )
 }

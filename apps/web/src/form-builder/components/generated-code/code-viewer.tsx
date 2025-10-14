@@ -242,10 +242,10 @@ export function CodeBlockPackagesInstallation({
 }) {
   return (
     <div className="w-full py-5 max-w-full">
-      <h2 className="font-sembold text-start">Install base packages</h2>
+      <h2 className="font-sembold text-start">Install npm packages</h2>
       <PackagesInstallation list={depenedenciesTabs} />
       <h2 className="font-sembold text-start mt-4">
-        Install required form components
+        Install registry components
       </h2>
       <PackagesInstallation list={registryDependeciesTabs} />
     </div>
@@ -313,7 +313,7 @@ const useGenerateCode = () => {
     .filter((str) => str && str.length > 0);
 
   const packagesSet = new Set(formElementTypes);
-  let registryDependencies = [...Array.from(packagesSet), "form"].join(" ");
+  let registryDependencies = ["field", ...Array.from(packagesSet)].join(" ");
   if (isMS) {
     registryDependencies += " @formcn/multi-step-viewer";
   }
@@ -325,16 +325,16 @@ const useGenerateCode = () => {
       value: `pnpm add ${dependencies}`,
     },
     {
+      name: "bun",
+      value: `bun add ${dependencies}`,
+    },
+    {
       name: "npm",
       value: `npm i ${dependencies}`,
     },
     {
       name: "yarn",
       value: `yarn add ${dependencies}`,
-    },
-    {
-      name: "bun",
-      value: `bun add ${dependencies}`,
     },
   ];
   const registryDependenciesTabs = [
@@ -343,16 +343,16 @@ const useGenerateCode = () => {
       value: `pnpm dlx shadcn@latest add ${registryDependencies}`,
     },
     {
+      name: "bun",
+      value: `bunx --bun shadcn@latest add ${registryDependencies}`,
+    },
+    {
       name: "npm",
       value: `npx shadcn@latest add ${registryDependencies}`,
     },
     {
       name: "yarn",
       value: `yarn shadcn@latest add ${registryDependencies}`,
-    },
-    {
-      name: "bun",
-      value: `bunx --bun shadcn@latest add ${registryDependencies}`,
     },
   ];
 
