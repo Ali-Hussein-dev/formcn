@@ -101,6 +101,7 @@ export const defaultFormElements: Record<
   Rating: {
     label: "Rate your experience",
     description: "Please rate your experience on a scale from 1 to 5",
+    numberOfStars: 5,
   },
   Textarea: {
     label: "Textarea",
@@ -109,7 +110,7 @@ export const defaultFormElements: Record<
   },
   FileUpload: {
     label: "File upload",
-    description: "Upload files",
+    description: "Select a file to upload from your device",
     placeholder: "PNG, JPEG or Gif, (max. 5MB)",
     maxSize: 5 * 1024 * 1024,
     maxFiles: 1,

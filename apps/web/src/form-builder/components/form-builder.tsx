@@ -149,11 +149,13 @@ export function FormBuilderBase() {
           <WebPreview>
             <div className="bg-background">
               <div className="pb-2 bg-accent/40 border">
-                <FormPreview
-                  {...previewForm}
-                  formElements={formElements}
-                  isMS={isMS}
-                />
+                <ErrorBoundary FallbackComponent={ErrorFallback}>
+                  <FormPreview
+                    {...previewForm}
+                    formElements={formElements}
+                    isMS={isMS}
+                  />
+                </ErrorBoundary>
               </div>
             </div>
           </WebPreview>

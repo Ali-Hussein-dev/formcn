@@ -9,17 +9,19 @@ export const metadata = {
 //======================================
 export default function AiGeneratedFormPage() {
   return (
-    <div className="pb-20 max-w-3xl mx-auto w-full p-6">
-      <h1 className="text-3xl font-bold mb-1">
-        Formcn AI{" "}
-        <span className="text-[11px] font-medium ml-1 rounded-full py-1 px-2 dark:bg-orange-950 bg-orange-600 text-orange-50">
-          Beta
-        </span>
-      </h1>
-      <p className="mb-6 text-muted-foreground text-sm">
-        Generate forms using AI, without having to start from scratch
-      </p>
-      <AiFormGenerator />
+    <div className="py-20 max-w-4xl w-full mx-auto px-2 ">
+      <div className=" w-full p-2 sm:p-6 md:p-10 border bg-muted/20 border-dashed">
+        <h1 className="text-3xl font-bold mb-1 text-center">
+          Formcn AI{" "}
+          <span className="text-[11px] font-medium ml-1 rounded-full py-1 px-2 dark:bg-orange-950 bg-orange-600 text-orange-50">
+            Beta
+          </span>
+        </h1>
+        <p className="mb-6 text-muted-foreground text-sm text-center">
+          Generate forms using AI, without having to start from scratch
+        </p>
+        <AiFormGenerator />
+      </div>
     </div>
   );
 }
