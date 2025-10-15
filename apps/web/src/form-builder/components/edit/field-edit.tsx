@@ -18,7 +18,6 @@ import {
 import { FaEdit } from "react-icons/fa";
 import type { FormElement, Option } from "@/form-builder/form-types";
 import { useForm } from "react-hook-form";
-import { Form } from "@/components/ui/form";
 import { isStatic } from "@/form-builder/lib/utils";
 import { RenderFormElement } from "@/form-builder/components/edit/render-form-element";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
@@ -348,287 +347,300 @@ function FormElementAttributes({
   ].includes(fieldType);
   const isDeprectated = ["H1", "H2", "H3", "P"].includes(fieldType);
   return (
-    <Form {...form}>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="pt-4 border-t border-dashed dark:border-foreground/30"
-      >
-        {/* {JSON.stringify(form.watch(), null, 2)} */}
-        {/* {JSON.stringify(formElement, null, 2)} */}
-        <div>
-          {isStatic(fieldType) ? (
-            <div className="mb-4 space-y-2">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="pt-4 border-t border-dashed dark:border-foreground/30"
+    >
+      {/* {JSON.stringify(form.watch(), null, 2)} */}
+      {/* {JSON.stringify(formElement, null, 2)} */}
+      <div>
+        {isStatic(fieldType) ? (
+          <div className="mb-4 space-y-2">
+            {fieldType === "Separator" ? (
               <RenderFormElement
                 formElement={{
                   id: formElement.id,
-                  name: "content",
-                  label: `Customize ${fieldType}`,
+                  name: "label",
+                  label: `Add label in the middle`,
                   fieldType: "Input",
-                  defaultValue: formElement.content,
-                  required: true,
                 }}
                 form={form}
               />
-              {isDeprectated && (
-                <p className="text-destructive-foreground bg-destructive/10 rounded-sm p-2.5 text-sm">
-                  This element is longer supported, Please use the Text element
-                  instead so that you switch between different text tags easily
-                </p>
-              )}
-              {!isDeprectated && (
+            ) : (
+              <>
                 <RenderFormElement
                   formElement={{
                     id: formElement.id,
-                    name: "variant",
-                    label: "Pick text tag",
-                    fieldType: "ToggleGroup",
-                    type: "single",
-                    defaultValue: "H1",
-                    options: textVariants,
+                    name: "content",
+                    label: `Customize ${fieldType}`,
+                    fieldType: "Input",
+                    defaultValue: formElement.content,
                     required: true,
                   }}
                   form={form}
                 />
-              )}
+                {isDeprectated && (
+                  <p className="text-destructive-foreground bg-destructive/10 rounded-sm p-2.5 text-sm">
+                    This element is longer supported, Please use the Text
+                    element instead so that you switch between different text
+                    tags easily
+                  </p>
+                )}
+                {!isDeprectated && (
+                  <RenderFormElement
+                    formElement={{
+                      id: formElement.id,
+                      name: "variant",
+                      label: "Pick text tag",
+                      fieldType: "ToggleGroup",
+                      type: "single",
+                      defaultValue: "H1",
+                      options: textVariants,
+                      required: true,
+                    }}
+                    form={form}
+                  />
+                )}
+              </>
+            )}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-start w-full gap-3 mb-2">
+            <div className="flex items-center justify-between gap-4 w-full">
+              <RenderFormElement
+                formElement={{
+                  id: formElement.id,
+                  name: "label",
+                  label: "Label",
+                  fieldType: "Input",
+                  type: "text",
+                }}
+                form={form}
+              />
+              <RenderFormElement
+                formElement={{
+                  id: formElement.id,
+                  name: "name",
+                  label: "Name",
+                  fieldType: "Input",
+                  defaultValue: formElement.name,
+                  required: true,
+                  className: "outline-secondary",
+                }}
+                form={form}
+              />
             </div>
-          ) : (
-            <div className="flex flex-col items-center justify-start w-full gap-3 mb-2">
-              <div className="flex items-center justify-between gap-4 w-full">
+            {!withoutPlaceholder && (
+              <RenderFormElement
+                formElement={{
+                  id: formElement.id,
+                  name: "placeholder",
+                  label: "Placeholder",
+                  fieldType: "Input",
+                  type: "text",
+                }}
+                form={form}
+              />
+            )}
+            <RenderFormElement
+              formElement={{
+                id: formElement.id,
+                name: "description",
+                label: "Description",
+                fieldType: "Textarea",
+                placeholder: "Add a description",
+              }}
+              form={form}
+            />
+            {fieldType === "Input" && (
+              <RenderFormElement
+                formElement={{
+                  id: formElement.id,
+                  name: "type",
+                  label: "Type",
+                  fieldType: "ToggleGroup",
+                  type: "single",
+                  options: inputTypes,
+                  required: true,
+                  value: formElement.type,
+                }}
+                form={form}
+              />
+            )}
+            {fieldType === "Slider" && (
+              <div className="flex items-center justify-between gap-4">
                 <RenderFormElement
                   formElement={{
                     id: formElement.id,
-                    name: "label",
-                    label: "Label",
+                    name: "min",
+                    label: "Min value",
                     fieldType: "Input",
-                    type: "text",
+                    type: "number",
+                    defaultValue: formElement.min,
+                    required: true,
                   }}
                   form={form}
                 />
                 <RenderFormElement
                   formElement={{
                     id: formElement.id,
-                    name: "name",
-                    label: "Name",
+                    name: "max",
+                    label: "Max value",
                     fieldType: "Input",
-                    defaultValue: formElement.name,
+                    type: "number",
+                    defaultValue: formElement.max,
                     required: true,
-                    className: "outline-secondary",
+                  }}
+                  form={form}
+                />
+                <RenderFormElement
+                  formElement={{
+                    id: formElement.id,
+                    name: "step",
+                    label: "Step value",
+                    fieldType: "Input",
+                    type: "number",
+                    defaultValue: formElement.step,
+                    required: true,
                   }}
                   form={form}
                 />
               </div>
-              {!withoutPlaceholder && (
-                <RenderFormElement
-                  formElement={{
-                    id: formElement.id,
-                    name: "placeholder",
-                    label: "Placeholder",
-                    fieldType: "Input",
-                    type: "text",
-                  }}
-                  form={form}
-                />
-              )}
+            )}
+            {fieldType === "ToggleGroup" && (
               <RenderFormElement
                 formElement={{
                   id: formElement.id,
-                  name: "description",
-                  label: "Description",
-                  fieldType: "Textarea",
-                  placeholder: "Add a description",
+                  name: "type",
+                  label: "Choose single or multiple choices",
+                  fieldType: "ToggleGroup",
+                  options: [
+                    { value: "single", label: "Single" },
+                    { value: "multiple", label: "Multiple" },
+                  ],
+                  defaultValue: formElement.type,
+                  required: true,
+                  type: "single",
                 }}
                 form={form}
               />
-              {fieldType === "Input" && (
+            )}
+            {isFieldWithOptions && (
+              <OptionsList
+                options={formElement.options || []}
+                onChange={(options) => form.setValue("options", options)}
+              />
+            )}
+            <div className="flex items-center w-full gap-4 justify-start">
+              <div>
                 <RenderFormElement
                   formElement={{
                     id: formElement.id,
-                    name: "type",
-                    label: "Type",
-                    fieldType: "ToggleGroup",
-                    type: "single",
-                    options: inputTypes,
-                    required: true,
-                    value: formElement.type,
-                  }}
-                  form={form}
-                />
-              )}
-              {fieldType === "Slider" && (
-                <div className="flex items-center justify-between gap-4">
-                  <RenderFormElement
-                    formElement={{
-                      id: formElement.id,
-                      name: "min",
-                      label: "Min value",
-                      fieldType: "Input",
-                      type: "number",
-                      defaultValue: formElement.min,
-                      required: true,
-                    }}
-                    form={form}
-                  />
-                  <RenderFormElement
-                    formElement={{
-                      id: formElement.id,
-                      name: "max",
-                      label: "Max value",
-                      fieldType: "Input",
-                      type: "number",
-                      defaultValue: formElement.max,
-                      required: true,
-                    }}
-                    form={form}
-                  />
-                  <RenderFormElement
-                    formElement={{
-                      id: formElement.id,
-                      name: "step",
-                      label: "Step value",
-                      fieldType: "Input",
-                      type: "number",
-                      defaultValue: formElement.step,
-                      required: true,
-                    }}
-                    form={form}
-                  />
-                </div>
-              )}
-              {fieldType === "ToggleGroup" && (
-                <RenderFormElement
-                  formElement={{
-                    id: formElement.id,
-                    name: "type",
-                    label: "Choose single or multiple choices",
-                    fieldType: "ToggleGroup",
-                    options: [
-                      { value: "single", label: "Single" },
-                      { value: "multiple", label: "Multiple" },
-                    ],
-                    defaultValue: formElement.type,
-                    required: true,
-                    type: "single",
-                  }}
-                  form={form}
-                />
-              )}
-              {isFieldWithOptions && (
-                <OptionsList
-                  options={formElement.options || []}
-                  onChange={(options) => form.setValue("options", options)}
-                />
-              )}
-              <div className="flex items-center w-full gap-4 justify-start">
-                <div>
-                  <RenderFormElement
-                    formElement={{
-                      id: formElement.id,
-                      name: "required",
-                      label: "Required",
-                      fieldType: "Checkbox",
-                    }}
-                    form={form}
-                  />
-                </div>
-                <RenderFormElement
-                  formElement={{
-                    id: formElement.id,
-                    name: "disabled",
-                    label: "Disabled",
+                    name: "required",
+                    label: "Required",
                     fieldType: "Checkbox",
                   }}
                   form={form}
                 />
               </div>
-              {fieldType === "Rating" && (
-                <div className="w-full border-t pt-2 border-dashed">
-                  <h2 className="flex items-center gap-1.5 text-forground mb-3 font-medium text-lg">
-                    <MdStar />
-                    Rating options
-                  </h2>
+              <RenderFormElement
+                formElement={{
+                  id: formElement.id,
+                  name: "disabled",
+                  label: "Disabled",
+                  fieldType: "Checkbox",
+                }}
+                form={form}
+              />
+            </div>
+            {fieldType === "Rating" && (
+              <div className="w-full border-t pt-2 border-dashed">
+                <h2 className="flex items-center gap-1.5 text-forground mb-3 font-medium text-lg">
+                  <MdStar />
+                  Rating options
+                </h2>
+                <RenderFormElement
+                  formElement={{
+                    id: formElement.id,
+                    name: "numberOfStars",
+                    label: "Number of stars",
+                    fieldType: "Input",
+                    type: "number",
+                    defaultValue: 5,
+                    required: false,
+                  }}
+                  form={form}
+                />
+              </div>
+            )}
+            {fieldType === "FileUpload" && (
+              <div className="w-full border-t pt-2 border-dashed">
+                <h2 className="flex items-center gap-1.5 text-forground mb-3 font-medium text-lg">
+                  <MdAttachFile />
+                  Set constraints for file upload
+                </h2>
+                <div className="space-y-2 w-full">
                   <RenderFormElement
                     formElement={{
                       id: formElement.id,
-                      name: "numberOfStars",
-                      label: "Number of stars",
+                      name: "maxSize",
+                      label: (
+                        <div className="flex items-center justify-between gap-1.5 w-full">
+                          Max size (in bytes)
+                          <span className="text-right">
+                            {(form.watch("maxSize") / 1048576).toFixed(2)}
+                            MB
+                          </span>
+                        </div>
+                      ) as unknown as string,
+                      placeholder: "E.g. ",
                       fieldType: "Input",
                       type: "number",
-                      defaultValue: 5,
-                      required: false,
+                      min: 1,
+                    }}
+                    form={form}
+                  />
+                  <RenderFormElement
+                    formElement={{
+                      id: formElement.id,
+                      name: "maxFiles",
+                      label: "Max files, minimum 1 file",
+                      placeholder: "Maximum number of files",
+                      fieldType: "Input",
+                      type: "number",
+                      min: 1,
+                    }}
+                    form={form}
+                  />
+                  <RenderFormElement
+                    formElement={{
+                      id: formElement.id,
+                      name: "accept",
+                      placeholder:
+                        "image/*, audio/*, video/*, .pdf, .doc, .docx",
+                      label: "Accept attribute",
+                      description:
+                        "Comma separated list of MIME types or file extensions",
+                      fieldType: "Input",
+                      type: "string",
                     }}
                     form={form}
                   />
                 </div>
-              )}
-              {fieldType === "FileUpload" && (
-                <div className="w-full border-t pt-2 border-dashed">
-                  <h2 className="flex items-center gap-1.5 text-forground mb-3 font-medium text-lg">
-                    <MdAttachFile />
-                    Set constraints for file upload
-                  </h2>
-                  <div className="space-y-2 w-full">
-                    <RenderFormElement
-                      formElement={{
-                        id: formElement.id,
-                        name: "maxSize",
-                        label: (
-                          <div className="flex items-center justify-between gap-1.5 w-full">
-                            Max size (in bytes)
-                            <span className="text-right">
-                              {(form.watch("maxSize") / 1048576).toFixed(2)}
-                              MB
-                            </span>
-                          </div>
-                        ) as unknown as string,
-                        placeholder: "E.g. ",
-                        fieldType: "Input",
-                        type: "number",
-                        min: 1,
-                      }}
-                      form={form}
-                    />
-                    <RenderFormElement
-                      formElement={{
-                        id: formElement.id,
-                        name: "maxFiles",
-                        label: "Max files, minimum 1 file",
-                        placeholder: "Maximum number of files",
-                        fieldType: "Input",
-                        type: "number",
-                        min: 1,
-                      }}
-                      form={form}
-                    />
-                    <RenderFormElement
-                      formElement={{
-                        id: formElement.id,
-                        name: "accept",
-                        placeholder:
-                          "image/*, audio/*, video/*, .pdf, .doc, .docx",
-                        label: "Accept attribute",
-                        description:
-                          "Comma separated list of MIME types or file extensions",
-                        fieldType: "Input",
-                        type: "string",
-                      }}
-                      form={form}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-        <div className="flex items-center justify-end gap-3 w-full">
-          <Button size="sm" variant="ghost" onClick={close} type="button">
-            Cancel
-          </Button>
-          <Button size="sm" type="submit" variant="secondary">
-            Save
-          </Button>
-        </div>
-      </form>
-    </Form>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+      <div className="flex items-center justify-end gap-3 w-full">
+        <Button size="sm" variant="ghost" onClick={close} type="button">
+          Cancel
+        </Button>
+        <Button size="sm" type="submit" variant="secondary">
+          Save
+        </Button>
+      </div>
+    </form>
   );
 }
 

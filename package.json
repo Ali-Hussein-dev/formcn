@@ -16,7 +16,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "turbo": "^2.5.4"
+    "turbo": "^2.5.8"
   },
   "packageManager": "bun@1.2.17"
 }

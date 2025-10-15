@@ -148,7 +148,7 @@ export function FormBuilderBase() {
         <div className="lg:col-span-4 w-full pb-6">
           <WebPreview>
             <div className="bg-background">
-              <div className="pb-2 bg-accent/40 border">
+              <div className="pb-2 border">
                 <ErrorBoundary FallbackComponent={ErrorFallback}>
                   <FormPreview
                     {...previewForm}

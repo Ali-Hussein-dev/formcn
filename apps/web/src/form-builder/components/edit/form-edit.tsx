@@ -31,6 +31,7 @@ const EditFormItem = (props: EditFormItemProps) => {
   const { element, fieldIndex } = props;
   const dropElement = useFormBuilderStore((s) => s.dropElement);
   const isNested = typeof props?.j === "number";
+  const shouldShowDropdown = isNested || element.fieldType === "Separator";
   let DisplayName =
     "static" in element && element.static
       ? element.content
@@ -48,14 +49,19 @@ const EditFormItem = (props: EditFormItemProps) => {
           <span className="truncate max-w-xs md:max-w-sm">{DisplayName}</span>
         </div>
         <div className="flex items-center justify-end opacity-0 group-hover:opacity-100 duration-100">
-          {element.fieldType !== "Separator" && (
-            <FieldCustomizationView
-              formElement={element as FormElement}
+          {!shouldShowDropdown && (
+            <FormElementsDropdown
               fieldIndex={fieldIndex}
-              j={props?.j}
               stepIndex={props?.stepIndex}
             />
           )}
+          <FieldCustomizationView
+            formElement={element as FormElement}
+            fieldIndex={fieldIndex}
+            j={props?.j}
+            stepIndex={props?.stepIndex}
+          />
+
           <Button
             size="icon"
             variant="ghost"
@@ -70,12 +76,6 @@ const EditFormItem = (props: EditFormItemProps) => {
           >
             <MdDelete />
           </Button>
-          {!isNested && (
-            <FormElementsDropdown
-              fieldIndex={fieldIndex}
-              stepIndex={props?.stepIndex}
-            />
-          )}
         </div>
       </div>
     </div>

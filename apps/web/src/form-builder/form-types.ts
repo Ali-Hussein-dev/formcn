@@ -202,6 +202,7 @@ type Divider = {
    * the name is used as a key to identify the field
    */
   name: string;
+  label?: string;
   static: true;
 } & SeparatorProps;
 

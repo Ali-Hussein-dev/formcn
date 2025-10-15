@@ -103,7 +103,7 @@ export function FormPreview({
           }}
           className="flex flex-col p-2 md:px-5 w-full"
         >
-          <FieldGroup className="gap-3">
+          <FieldGroup className="gap-4">
             {isMS ? (
               <MultiStepFormPreview
                 formElements={formElements as unknown as FormStep[]}

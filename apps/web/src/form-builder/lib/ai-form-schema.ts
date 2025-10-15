@@ -236,10 +236,13 @@ const seperatorSchema = z
   .object({
     id: z.string(),
     static: staticPropertySchema,
+    label: z.string().optional(),
     name: z.string(),
     fieldType: z.literal("Separator"),
   })
-  .describe("Separator element");
+  .describe(
+    "Separator element, use it to group related fields together, include label if you want to add a label in the middle"
+  );
 
 const fileUploadSchema = z.union([
   z.file(),

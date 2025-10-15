@@ -674,7 +674,11 @@ export const RenderFormElement = ({
         />
       );
     case "Separator":
-      return <FieldSeparator />;
+      return formElement.label ? (
+        <FieldSeparator className="my-4">{formElement.label}</FieldSeparator>
+      ) : (
+        <FieldSeparator className="my-4" />
+      );
     case "Text": {
       const variant = formElement.variant;
       if (variant === "H1") {

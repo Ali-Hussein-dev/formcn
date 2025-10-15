@@ -101,6 +101,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
            import { FileUpload } from '@/components/file-upload'`
         );
         break;
+      case "Separator":
       case "H1":
       case "H2":
       case "H3":

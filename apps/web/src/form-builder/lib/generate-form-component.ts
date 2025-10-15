@@ -550,9 +550,9 @@ export const getFormElementCode = (field: FormElement) => {
           )}
         />`;
     case "Separator":
-      return `<div className="py-1 w-full">
-                <Separator />
-              </div>`;
+      return field.label
+        ? `<FieldSeparator className="my-4">${field.label}</FieldSeparator>`
+        : `<FieldSeparator className="my-4" />`;
     case "Text":
       if (field.variant == "H1")
         return `<h1 className="mt-6 mb-1 font-extrabold text-3xl tracking-tight">${field.content}</h1>`;
