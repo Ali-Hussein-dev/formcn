@@ -11,7 +11,7 @@ export function ModeToggleBase() {
     <Button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       size="icon"
-      variant="outline"
+      variant="ghost"
       aria-label="Theme"
       type="button"
       className="size-8"
