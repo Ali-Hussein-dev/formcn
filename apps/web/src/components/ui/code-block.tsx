@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
 import React, { useEffect, useState } from "react";
 import { codeToHtml } from "shiki";
 
@@ -36,6 +37,7 @@ function CodeBlockCode({
   ...props
 }: CodeBlockCodeProps) {
   const [highlightedHtml, setHighlightedHtml] = useState<string | null>(null);
+  const { resolvedTheme: theme } = useTheme();
 
   useEffect(() => {
     async function highlight() {
@@ -46,15 +48,15 @@ function CodeBlockCode({
 
       const html = await codeToHtml(code, {
         lang: language,
-        theme: "nord",
+        theme: theme == "light" ? "github-light" : "vesper",
       });
       setHighlightedHtml(html);
     }
     highlight();
-  }, [code, language]);
+  }, [code, language, theme]);
 
   const classNames = cn(
-    "w-full text-[13px] [&>pre]:px-4 [&>pre]:py-4 dark:[&>pre]:bg-accent! [&>pre]:bg-accent/5! focus:outline-none focus-visible:outline-none",
+    "w-full text-[13px] [&>pre]:px-4 [&>pre]:py-4 dark:[&>pre]:bg-accent! focus:outline-none focus-visible:outline-none",
     className
   );
 
