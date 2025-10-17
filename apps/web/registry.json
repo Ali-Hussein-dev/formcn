@@ -12,7 +12,7 @@
       "registryDependencies": ["input", "label", "button"],
       "files": [
         {
-          "path": "registry/default/components/password.tsx",
+          "path": "src/components/password.tsx",
           "type": "registry:component"
         }
       ]
