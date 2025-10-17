@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "formcn",
-  description: "formcn",
+  description: "Build shadcn forms like a pro with a few clicks",
 };
 
 export default function RootLayout({

@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { CardDescription, CardTitle } from "@/components/ui/card";
 import { FiGitCommit, FiTerminal } from "react-icons/fi";
 import { BsStars } from "react-icons/bs";
+import { Badge } from "@/components/ui/badge";
 
 const logos = [
   {
@@ -111,26 +112,39 @@ const CardDecorator = ({ children }: { children: React.ReactNode }) => (
 );
 export default function Home() {
   return (
-    <div className=" flex flex-col w-full mx-auto px-2 sm:px-4 py-8 h-full">
-      <div className="border container border-dashed mb-2 mx-auto grow min-h-screen flex flex-col">
-        <div className="py-5 px-3 sm:py-6 md:py-8 md:px-6 w-full grow">
-          <div className="h-[80vh] grid place-items-center">
-            <div className="">
-              <h1 className="text-2xl md:text-4xl lg:text-5xl text-center text-pretty font-black mb-2">
-                Build production-ready forms <br /> with a few clicks
-              </h1>
-              <p className="text-muted-foreground text-center text-pretty max-w-xl mx-auto">
-                Client and server side validation, accessible with ARIA and
-                well-styled shadcn components
-              </p>
-              <div className="mx-auto pt-6 w-fit flex gap-4 ">
-                <a href={urls.github} target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline">
-                    <FaGithub />
-                    Star on Github
-                  </Button>
-                </a>
-                <CtaButton />
+    <div className=" flex flex-col w-full mx-auto px-2 sm:px-4 h-full">
+      <div className="border-x container border-dashed mx-auto grow min-h-screen flex flex-col relative">
+        <div className="relative">
+          <div className="rounded-tr-[9.4rem] border-dashed absolute size-24 border-r border-t right-0 top-0"></div>
+          <div className="rounded-tl-[9.4rem] border-dashed absolute size-24 border-l border-t left-0 top-0"></div>
+          {/* <div className="rounded-bl-[9.4rem] border-dashed absolute size-24 border-l border-b left-0 bottom-0"></div> */}
+          {/* <div className="rounded-br-[9.4rem] border-dashed absolute size-24 border-r border-b right-0 bottom-0"></div> */}
+          <div className="py-5 px-3 sm:py-6 md:py-8 md:px-6 w-full grow">
+            <div className="h-[80vh] grid place-items-center">
+              <div>
+                <Badge className="mb-8 mx-auto rounded-full block px-4 py-1.5 bg-accent/70 border-dashed border-border text-primary/90 text-sm">
+                  Updated with last shadcn components
+                </Badge>
+                <h1 className="mb-4 text-3xl sm:text-4xl font-black md:text-5xl lg:text-6xl tracking-tight text-center lg:leading-16 dark:bg-gradient-to-b dark:from-white dark:to-white/70 dark:bg-clip-text dark:text-transparent">
+                  Build production-ready forms <br /> with a few clicks
+                </h1>
+                <p className="text-muted-foreground text-center text-pretty max-w-xl mx-auto">
+                  Client and server side validation, accessible with ARIA and
+                  well-styled shadcn components
+                </p>
+                <div className="mx-auto pt-6 w-fit flex gap-4 ">
+                  <a
+                    href={urls.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button variant="outline">
+                      <FaGithub />
+                      Star on Github
+                    </Button>
+                  </a>
+                  <CtaButton />
+                </div>
               </div>
             </div>
           </div>
@@ -165,8 +179,8 @@ export default function Home() {
           </div>
         </div>
         <div className="border-t border-dashed w-full">
-          <h2 className="text-lg sm:text-2xl md:text-3xl text-center text-pretty font-bold text-primary/85 py-8 border-b border-dashed capitalize">
-            Build your forms with confidence
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-center text-pretty font-bold text-primary/85 py-12 border-b border-dashed">
+            Build your Forms with Confidence
           </h2>
           <div className="grid md:grid-cols-6 grid-cols-1">
             {features.map((o, i) => (
