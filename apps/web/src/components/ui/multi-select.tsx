@@ -7,8 +7,7 @@ import React, {
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { Primitive } from "@radix-ui/react-primitive";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { Check, X } from "lucide-react";
-import { FaCaretUp } from "react-icons/fa6";
+import { Check, XIcon, ChevronsUpDownIcon } from "lucide-react";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -220,7 +219,7 @@ const MultiSelectTrigger = React.forwardRef<
         onTouchStart={disabled ? PreventClick : props.onTouchStart}
       >
         {children}
-        <FaCaretUp className="size-4 opacity-50" />
+        <ChevronsUpDownIcon className="size-4 opacity-50" />
       </div>
     </PopoverPrimitive.Trigger>
   );
@@ -266,7 +265,7 @@ const MultiSelectValue = React.forwardRef<
       <TooltipProvider delayDuration={300}>
         <div
           className={cn(
-            "flex flex-1 overflow-x-hidden flex-wrap items-center gap-1.5",
+            "flex flex-1 overflow-x-hidden flex-wrap items-center gap-1.5 hover:cursor-pointer",
             className
           )}
           {...props}
@@ -288,7 +287,7 @@ const MultiSelectValue = React.forwardRef<
               <Badge
                 variant="outline"
                 key={value}
-                className="pr-1.5 group/multi-select-badge cursor-pointer rounded-full py-0.5"
+                className="pr-1.5 group/multi-select-badge cursor-pointer rounded-md py-0.5"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -296,7 +295,7 @@ const MultiSelectValue = React.forwardRef<
                 }}
               >
                 <span>{child}</span>
-                <X className="size-3 ml-1.5 text-muted-foreground group-hover/multi-select-badge:text-foreground" />
+                <XIcon className="size-3 ml-1.5 text-muted-foreground group-hover/multi-select-badge:text-foreground" />
               </Badge>
             );
 
@@ -494,7 +493,7 @@ const MultiSelectItem = React.forwardRef<
         <span className="mr-2 whitespace-nowrap overflow-hidden text-ellipsis">
           {children || label || value}
         </span>
-        {selected ? <Check className="h-4 w-4 ml-auto shrink-0" /> : null}
+        {selected ? <Check className="size-4 ml-auto shrink-0" /> : null}
       </CommandItem>
     );
   }

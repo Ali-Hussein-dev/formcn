@@ -25,7 +25,7 @@
       "registryDependencies": ["command", "input", "label", "badge", "tooltip"],
       "files": [
         {
-          "path": "registry/default/components/multi-select.tsx",
+          "path": "src/components/ui/multi-select.tsx",
           "type": "registry:component"
         }
       ]
