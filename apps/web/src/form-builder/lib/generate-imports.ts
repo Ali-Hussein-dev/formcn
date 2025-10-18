@@ -10,7 +10,7 @@ export const generateImports = (
     "import { formSchema } from '@/lib/form-schema'",
     "import { serverAction } from '@/actions/server-action'",
     'import { zodResolver } from "@hookform/resolvers/zod"',
-    'import { useForm } from "react-hook-form"',
+    'import { useForm, Controller } from "react-hook-form"',
     'import { useAction } from "next-safe-action/hooks"',
     'import { motion } from "motion/react"',
     'import { Check } from "lucide-react"',
@@ -106,6 +106,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
       case "H2":
       case "H3":
       case "P":
+      case "Text":
+      case "SocialLinks":
         break;
       default:
         importSet.add(
