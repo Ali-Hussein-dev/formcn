@@ -2,7 +2,7 @@ import type { FormElement } from "../form-types";
 
 const getFieldLabel = (name: string, label?: string, required?: boolean) => {
   return label
-    ? `<FieldLabel html="${name}">${label} ${required ? "*" : ""}</FieldLabel>`
+    ? `<FieldLabel htmlFor="${name}">${label} ${required ? "*" : ""}</FieldLabel>`
     : "";
 };
 const getDescription = (description?: string) => {
@@ -50,11 +50,7 @@ export const getFormElementCode = (field: FormElement) => {
                 ${getAttribute("id", field.name)}
                 type="${field.type === "number" ? "number" : "text"}"
                 onChange={(e) => {
-                  if (field.type === "number") {
-                    field.onChange(e.target.valueAsNumber);
-                  } else {
-                    field.onChange(e.target.value);
-                  }
+                ${field.type === "number" ? "field.onChange(e.target.valueAsNumber)" : "field.onChange(e.target.value)"}
                 }}
                 aria-invalid={fieldState.invalid}
                 ${getAttribute("placeholder", field.placeholder)}
@@ -144,7 +140,9 @@ export const getFormElementCode = (field: FormElement) => {
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid} className="gap-1">
+              <div className="flex items-center gap-2 mb-1">
                 <Checkbox
+                  ${getAttribute("id", field.name)}
                   checked={field.value}
                   onCheckedChange={field.onChange}
                   aria-invalid={fieldState.invalid}
@@ -152,7 +150,8 @@ export const getFormElementCode = (field: FormElement) => {
                 />
                 ${getFieldLabel(field.name, field.label, field.required)}
                 ${getDescription(field.description)}
-                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              </div>
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
         />`;
@@ -373,7 +372,7 @@ export const getFormElementCode = (field: FormElement) => {
           ${getAttribute("name", field.name)}
           control={form.control}
           render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid} className="gap-2">
+            <Field data-invalid={fieldState.invalid} className="gap-0 [&_p]:pb-1">
               ${getFieldLabel(field.name, field.label, field.required)}
               ${getDescription(field.description)}
               <MultiSelect

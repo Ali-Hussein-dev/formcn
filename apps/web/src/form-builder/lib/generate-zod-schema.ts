@@ -170,7 +170,7 @@ export const genFieldZodSchemaCode = (formElement: FormElement): string => {
       return schemaItem;
     case "Switch":
     case "Checkbox":
-      schemaItem = "z.litral(true, {error: 'This field is required'})";
+      schemaItem = "z.literal(true, {error: 'This field is required'})";
       if (!formElement.required) {
         schemaItem = "z.boolean().default(false)";
       }
