@@ -5,7 +5,8 @@
   "title": "server action",
   "description": "server action",
   "dependencies": [
-    "zod"
+    "zod",
+    "@hookform/resolvers"
   ],
   "registryDependencies": [
     "@formcn/safe-action"

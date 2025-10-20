@@ -18,14 +18,13 @@ export const generateImports = (
   ]);
   if (isMS) {
     importSet.add(`import {
-  MultiStepFormContent,
-  FormHeader,
-  StepFields,
-  FormFooter,
-  PreviousButton,
-  NextButton,
-  SubmitButton,
-} from "@/components/multi-step-viewer";
+    FormHeader,
+    FormFooter,
+    StepFields,
+    PreviousButton,
+    NextButton,
+    SubmitButton,
+    MultiStepFormContent } from "@/components/multi-step-viewer";
 import { MultiStepFormProvider } from "@/hooks/use-multi-step-viewer";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 `);
@@ -107,7 +106,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
       case "H3":
       case "P":
       case "Text":
-      case "SocialLinks":
+        // case "SocialLinks":
         break;
       default:
         importSet.add(

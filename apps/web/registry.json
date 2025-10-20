@@ -90,7 +90,7 @@
       "type": "registry:file",
       "title": "server action",
       "description": "server action",
-      "dependencies": ["zod"],
+      "dependencies": ["zod","@hookform/resolvers"],
       "registryDependencies": ["@formcn/safe-action"],
       "files": [
         {
