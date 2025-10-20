@@ -126,7 +126,13 @@ export const defaultFormElements: Record<
     static: true,
     content: "Separator",
   },
-  // deprecated
+  SocialLinks: {
+    label: "Social links",
+    name: "social-links",
+    links: ["google", "github"],
+    layout: "row",
+  },
+  // Deprecated field types - kept for backward compatibility
   H1: {
     label: "Form heading 1",
     content: "Form Heading 1",

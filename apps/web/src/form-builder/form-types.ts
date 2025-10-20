@@ -8,6 +8,7 @@ import type {
   ToggleGroupMultipleProps,
   ToggleGroupSingleProps,
 } from "@radix-ui/react-toggle-group";
+import type { socialLogsUrls } from "./constant/social-logos-urls";
 
 export type Option = { value: string; label: React.ReactNode };
 //------------------------------------------------------------
@@ -206,6 +207,15 @@ type Divider = {
   static: true;
 } & SeparatorProps;
 
+type SocialLinks = {
+  fieldType: "SocialLinks";
+  id: string;
+  name: string;
+  label: string;
+  links: (keyof typeof socialLogsUrls)[];
+  layout: "column" | "row";
+};
+
 /**
  * FormFieldType is a union type that represents all the possible form fields
  * that can be rendered in a form
@@ -226,6 +236,7 @@ type FormFieldElement =
   | Rating
   | Combobox
   | Text
+  | SocialLinks
   | DatePicker;
 
 /**
@@ -328,6 +339,7 @@ export const fieldTypes = [
   "P",
   "Text",
   "Separator",
+  "SocialLinks",
 ] as const;
 
 export type FormFieldType = (typeof fieldTypes)[number];

@@ -26,7 +26,7 @@ import {
 import { RenderFormElement } from "@/form-builder/components/edit/render-form-element";
 import { MdOutlineReplay } from "react-icons/md";
 
-const list = [];
+// const list = [];
 function RenderFormWhileStreaming({
   list,
   form,
@@ -40,7 +40,7 @@ function RenderFormWhileStreaming({
       {list.map((element, i) => {
         if (
           !fieldTypes.includes(element.fieldType as FormFieldType) ||
-          (!element?.name && !element?.content)
+          (!element?.name && !("content" in element))
         )
           return <span key={crypto.randomUUID()}>streaming...</span>;
         if (
@@ -48,9 +48,14 @@ function RenderFormWhileStreaming({
             element.fieldType as FormFieldTypeWithOptions
           ) &&
           // @ts-expect-error options exists
-          (!element.options || element.options.length < 1)
+          (!element.options || element.options?.length < 1)
         ) {
           return <span key={crypto.randomUUID()}>streaming...</span>;
+        }
+        if (element.fieldType == "SocialLinks") {
+          if (!element.links || element.links?.length < 1) {
+            return <span key={crypto.randomUUID()}>streaming...</span>;
+          }
         }
         return (
           <motion.div
@@ -250,12 +255,13 @@ export function AiFormGenerator() {
           </div>
         </div>
       </div>
-      {/* <pre >{JSON.stringify(fields, null, 2)}</pre> */}
+      {/* <pre>{JSON.stringify(fields, null, 2)}</pre> */}
       {fields && (
         <ErrorBoundary
           FallbackComponent={ErrorFallback}
           onError={(error, errorInfo) => {
             console.error("Form rendering error:", error, errorInfo);
+            console.log(fields);
           }}
         >
           <Form {...form}>

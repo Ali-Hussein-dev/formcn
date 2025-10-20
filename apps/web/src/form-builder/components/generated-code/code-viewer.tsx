@@ -307,7 +307,7 @@ const useGenerateCode = () => {
     ? flattenFormSteps(formElements as FormStep[])
     : formElements;
   const formElementTypes = (processedFormElements.flat() as FormElement[])
-    .filter((el) => !el.static)
+    .filter((el) => !("static" in el && el.static))
     .map((el) => el.fieldType)
     .map((str) => installableShadcnComponents[str])
     .filter((str) => str && str.length > 0);

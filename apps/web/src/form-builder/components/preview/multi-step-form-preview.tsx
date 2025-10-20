@@ -31,7 +31,7 @@ export function MultiStepFormPreview({
     onStepValidation: async (step) => {
       const stepFields = (step.stepFields as FormElement[])
         .flat()
-        .filter((o) => !o.static)
+        .filter((o) => !("static" in o))
         .map((o) => o.name);
       const isValid = await form.trigger(stepFields);
       return isValid;

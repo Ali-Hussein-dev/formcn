@@ -59,6 +59,7 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { format } from "date-fns";
+import { socialLogsUrls } from "@/form-builder/constant/social-logos-urls";
 
 export const RenderFormElement = ({
   formElement,
@@ -464,7 +465,10 @@ export const RenderFormElement = ({
           name={formElement.name}
           control={form.control}
           render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid} className="gap-2">
+            <Field
+              data-invalid={fieldState.invalid}
+              className="gap-0 [&_p]:pb-1"
+            >
               <FieldLabel htmlFor={field.name}>
                 {formElement.label} {required && " *"}
               </FieldLabel>
@@ -472,7 +476,6 @@ export const RenderFormElement = ({
               <MultiSelect
                 value={field.value ?? []}
                 onValueChange={(value) => field.onChange(value ?? [])}
-                disabled={formElement.disabled}
               >
                 <MultiSelectTrigger>
                   <MultiSelectValue placeholder={formElement.placeholder} />
@@ -679,6 +682,41 @@ export const RenderFormElement = ({
       ) : (
         <FieldSeparator className="my-4" />
       );
+    case "SocialLinks": {
+      const Img = ({ src }: { src: string }) => (
+        <div className="place-items-center grid rounded-full bg-white size-6 p-0.5">
+          <img src={src} width={16} height={16} />
+        </div>
+      );
+      return formElement.layout === "row" ? (
+        <div className="flex gap-2 justify-between w-full items-center flex-wrap pb-3">
+          {formElement.links.map((key) => (
+            <Button
+              key={key}
+              variant="outline"
+              className="text-sm gap-2 px-2 h-10 grow "
+            >
+              <Img src={socialLogsUrls[key].src} />
+              {socialLogsUrls[key].label}
+            </Button>
+          ))}
+        </div>
+      ) : (
+        <div className="w-full items-center flex-col gap-3 flex pb-3">
+          {formElement.links.map((key) => (
+            <Button
+              size="lg"
+              key={key}
+              variant="outline"
+              className="w-full h-11"
+            >
+              <Img src={socialLogsUrls[key].src} />
+              {socialLogsUrls[key].label}
+            </Button>
+          ))}
+        </div>
+      );
+    }
     case "Text": {
       const variant = formElement.variant;
       if (variant === "H1") {
@@ -747,6 +785,6 @@ export const RenderFormElement = ({
         </p>
       );
     default:
-      return <div>Invalid Form Element</div>;
+      return <div>Invalid Form Element </div>;
   }
 };

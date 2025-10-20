@@ -20,10 +20,13 @@ export const usePreviewForm = () => {
     ? flattenFormSteps(formElements as FormStep[]).flat()
     : (formElements.flat() as FormElement[]);
 
-  const filteredFormFields = flattenFormElements.filter((o) => !o.static);
+  const filteredFormFields = flattenFormElements.filter(
+    (o) => !("static" in o)
+  );
 
   const defaultValues: DefaultValues = filteredFormFields.reduce(
     (acc: DefaultValues, element) => {
+      // @ts-expect-error check later
       acc[element.name] = element?.defaultValue ?? "";
       return acc;
     },

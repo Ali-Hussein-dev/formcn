@@ -9,12 +9,12 @@ import {
 import { CgSelectO } from "react-icons/cg";
 import { GoShieldLock } from "react-icons/go";
 import { CiCalendarDate } from "react-icons/ci";
-import { LuHeading1, LuHeading2, LuHeading3 } from "react-icons/lu";
+import { LuHeading1, LuHeading2, LuHeading3, LuShare2 } from "react-icons/lu";
 import { CgFormatSeparator } from "react-icons/cg";
 import { RxSlider } from "react-icons/rx";
 import { PiSquaresFour } from "react-icons/pi";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { EyeOffIcon } from "lucide-react";
+import { ChevronsUpDownIcon, EyeOffIcon } from "lucide-react";
 import { FaAngleDown } from "react-icons/fa6";
 import { RiText } from "react-icons/ri";
 import { BiParagraph } from "react-icons/bi";
@@ -29,7 +29,7 @@ export const formFieldsIcons = {
   DatePicker: CiCalendarDate,
   Select: FaAngleDown,
   Combobox: CgSelectO,
-  MultiSelect: MdOutlineChecklist,
+  MultiSelect: ChevronsUpDownIcon,
   ToggleGroup: PiSquaresFour,
   Slider: RxSlider,
   Rating: MdStar,
@@ -41,6 +41,7 @@ export const formFieldsIcons = {
   H2: LuHeading2,
   H3: LuHeading3,
   P: BiParagraph,
+  SocialLinks: LuShare2,
 };
 /**
  * used in
@@ -210,7 +211,6 @@ export const formElementsList = [
     name: "File upload",
     fieldType: "FileUpload",
     icon: formFieldsIcons.FileUpload,
-    isNew: true,
     description: "Dropzone file upload",
   },
   {
@@ -223,42 +223,16 @@ export const formElementsList = [
     description: "Text element",
     isNew: true,
   },
-  // {
-  //   group: "display",
-  //   name: "Heading 1",
-  //   fieldType: "H1",
-  //   content: "Heading 1",
-  //   icon: formFieldsIcons.H1,
-  //   static: true,
-  //   description: "Heading 1",
-  // },
-  // {
-  //   group: "display",
-  //   name: "Heading 2",
-  //   fieldType: "H2",
-  //   content: "Heading 2",
-  //   icon: formFieldsIcons.H2,
-  //   static: true,
-  //   description: "Heading 2",
-  // },
-  // {
-  //   group: "display",
-  //   name: "Heading 3",
-  //   fieldType: "H3",
-  //   content: "Heading 3",
-  //   icon: LuHeading3,
-  //   static: true,
-  //   description: "Heading 3",
-  // },
-  // {
-  //   group: "display",
-  //   name: "paragraph",
-  //   fieldType: "P",
-  //   content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
-  //   icon: formFieldsIcons.P,
-  //   static: true,
-  //   description: "Paragraph",
-  // },
+  {
+    group: "display",
+    name: "Social links",
+    fieldType: "SocialLinks",
+    content: "Social links",
+    icon: formFieldsIcons.SocialLinks,
+    static: true,
+    description: "Social links buttons use for authentication",
+    isNew: true,
+  },
   {
     group: "display",
     name: "Separator",

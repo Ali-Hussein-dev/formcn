@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { socialKeys } from "@/form-builder/constant/social-logos-urls";
 
 const InputFieldSchema = z
   .object({
@@ -244,6 +245,26 @@ const seperatorSchema = z
     "Separator element, use it to group related fields together, include label if you want to add a label in the middle"
   );
 
+const sociaLinksSchema = z
+  .object({
+    id: z.string(),
+    static: staticPropertySchema,
+    // label: z.string().optional(),
+    name: z.string(),
+    links: z.array(z.enum(socialKeys)),
+    fieldType: z.literal("SocialLinks"),
+    required: z.boolean().optional(),
+    layout: z
+      .enum(["row", "column"])
+      .default("row")
+      .describe(
+        "use column for vertical layout and when links items are more than 3 or upon user request"
+      ),
+  })
+  .describe(
+    "This include a list of social links, use it to add social links to your form"
+  );
+
 const fileUploadSchema = z.union([
   z.file(),
   z.array(z.file()),
@@ -272,6 +293,7 @@ const fieldSchema = z.union([
   fileUploadSchema,
   ratingSchema,
   comboboxSchema,
+  sociaLinksSchema,
 ]);
 
 const singleFormFieldsSchema = z

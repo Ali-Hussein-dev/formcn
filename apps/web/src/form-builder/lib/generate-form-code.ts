@@ -6,6 +6,7 @@ import type {
 import { generateImports } from "@/form-builder/lib/generate-imports";
 import { flattenFormSteps } from "@/form-builder/lib/form-elements-helpers";
 import { getFormElementCode } from "@/form-builder/lib/generate-form-component";
+import { socialLogsUrls } from "@/form-builder/constant/social-logos-urls";
 
 const renderFields = (fields: FormElementOrList[]) => {
   return fields
@@ -63,12 +64,24 @@ export const generateFormCode = ({
           </p>
         </motion.div>
       </div>`;
+  const flattenElements = (
+    flattenedFormElements.flat() as FormElement[]
+  ).filter((el) => el.fieldType === "SocialLinks");
+  const socialLinks = flattenElements
+    .map((o) => o.links)
+    .flat()
+    .map((key) => ({
+      src: socialLogsUrls[key as keyof typeof socialLogsUrls].src,
+      label: socialLogsUrls[key as keyof typeof socialLogsUrls].label,
+    }));
 
   const singleStepFormCode = [
     {
       file: "single-step-form.tsx",
       code: `
 ${imports}
+
+${socialLinks.length > 0 ? `const socialLinks = ${JSON.stringify(socialLinks)}` : ""}
 
 type Schema = z.infer<typeof formSchema>;
 
@@ -115,7 +128,7 @@ return (
     const componentEntries = steps.map((step, index) => {
       const fields = step.stepFields
         .flat()
-        .filter((field) => !field.static)
+        .filter((field) => !("static" in field && field.static))
         .map((o) => o.name);
       const renderedFields = renderFields(step.stepFields);
       return `
@@ -139,6 +152,9 @@ return (
 
 //------------------------------
 type Schema = z.infer<typeof formSchema>;
+
+${socialLinks.length > 0 ? `const socialLinks = ${JSON.stringify(socialLinks)}` : ""}
+
 export function GeneratedForm() {
     
   const form = useForm<Schema>({

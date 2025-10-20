@@ -552,6 +552,33 @@ export const getFormElementCode = (field: FormElement) => {
       return field.label
         ? `<FieldSeparator className="my-4">${field.label}</FieldSeparator>`
         : `<FieldSeparator className="my-4" />`;
+    case "SocialLinks":
+      return field.layout === "row"
+        ? `<div className="flex gap-3 justify-center w-full items-center flex-wrap pb-3">
+          {socialLinks.map((o) => (
+            <Button key={o.label} variant="outline"
+              className="text-sm gap-2 px-2 h-10 grow ">
+              <div className="place-items-center grid rounded-full bg-white size-6 p-0.5">
+                <img src={o.src} width={16} height={16} />
+              </div>
+              {o.label}
+            </Button>
+          ))}
+        </div>`
+        : `<div className="w-full items-center flex-col gap-3 flex pb-3">
+              {socialLinks.map((o) => (
+                <Button 
+                  key={o.label} 
+                  variant="outline" 
+                  size="lg" 
+                  className="w-full h-11">
+                    <div className="place-items-center grid rounded-full bg-white size-6 p-0.5">
+                      <img src={o.src} width={16} height={16} />
+                    </div>
+                  {o.label}
+                </Button>
+              ))}
+            </div>`;
     case "Text":
       if (field.variant == "H1")
         return `<h1 className="mt-6 mb-1 font-extrabold text-3xl tracking-tight">${field.content}</h1>`;

@@ -18,7 +18,6 @@ import {
 import { FaEdit } from "react-icons/fa";
 import type { FormElement, Option } from "@/form-builder/form-types";
 import { useForm } from "react-hook-form";
-import { isStatic } from "@/form-builder/lib/utils";
 import { RenderFormElement } from "@/form-builder/components/edit/render-form-element";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
 import { MdAttachFile, MdOutlineTextFields, MdStar } from "react-icons/md";
@@ -40,6 +39,10 @@ import { LuHeading1, LuHeading2, LuHeading3 } from "react-icons/lu";
 import { BiParagraph } from "react-icons/bi";
 import { hasAttribute } from "@/form-builder/lib/has-attribute";
 import { formFieldsIcons } from "@/form-builder/constant/form-elements-list";
+import {
+  socialKeys,
+  socialLogsUrls,
+} from "@/form-builder/constant/social-logos-urls";
 
 const OptionLabel = ({
   label,
@@ -111,6 +114,24 @@ const textVariants = [
     value: "P",
   },
 ];
+const Logo = ({ src }: { src: string }) => (
+  <div className="grid place-items-center rounded-full dark:bg-white size-5">
+    <img src={src} width={14} height={14} />
+  </div>
+);
+
+const socialLinksVariants = Object.entries(socialLogsUrls).map(
+  ([key, value]) => ({
+    value: key,
+    label: (
+      <div className="flex gap-2 items-center py-1">
+        <Logo src={value.src} />
+        <span className="capitalize">{key}</span>
+      </div>
+    ),
+  })
+);
+
 function OptionsList({
   options = [],
   onChange,
@@ -345,7 +366,7 @@ function FormElementAttributes({
     >
       {/* {JSON.stringify(form.watch(), null, 2)} */}
       {/* {JSON.stringify(formElement, null, 2)} */}
-      <div className="space-y-3 pb-4 pt-1">
+      <div className="space-y-4 pb-4 pt-1">
         {/* //-----------------------CONTENT */}
         {hasAttribute({
           fieldType,
@@ -358,7 +379,7 @@ function FormElementAttributes({
                 name: "content",
                 label: `Add text content`,
                 fieldType: "Input",
-                defaultValue: formElement.content,
+                type: "text",
                 required: true,
               }}
               form={form}
@@ -640,6 +661,42 @@ function FormElementAttributes({
                 form={form}
               />
             </div>
+          </div>
+        )}
+        {/* //-----------------------SOCIALINKS */}
+        {fieldType === "SocialLinks" && (
+          <div className="space-y-5 mb-2">
+            <RenderFormElement
+              formElement={{
+                id: formElement.id,
+                name: "links",
+                label: "Social media icons",
+                description: `${socialKeys.length} options are available to select`,
+                fieldType: "MultiSelect",
+                // type: "multiple",
+                placeholder: "Tap to select",
+                options: socialLinksVariants,
+                value: formElement.links,
+                required: true,
+              }}
+              form={form}
+            />
+            <RenderFormElement
+              formElement={{
+                id: formElement.id,
+                name: "layout",
+                label: "Choose layout for social links",
+                fieldType: "ToggleGroup",
+                type: "single",
+                options: [
+                  { value: "row", label: "Row" },
+                  { value: "column", label: "Column" },
+                ],
+                required: true,
+                value: formElement.layout,
+              }}
+              form={form}
+            />
           </div>
         )}
       </div>

@@ -106,7 +106,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
       case "H3":
       case "P":
       case "Text":
-        // case "SocialLinks":
+      case "SocialLinks":
         break;
       default:
         importSet.add(
