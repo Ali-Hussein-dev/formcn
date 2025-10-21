@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "formcn",
+  title: "Formcn | Modern shadcn forms builder",
   description: "Build shadcn forms like a pro with a few clicks",
 };
 

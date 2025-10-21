@@ -12,11 +12,13 @@
     "dev:native": "turbo -F native dev",
     "dev:web": "turbo -F web dev",
     "dev:build": "turbo -F web build",
-    "dev:server": "turbo -F server dev"
+    "dev:server": "turbo -F server dev",
+    "clean": "git clean -xdf node_modules",
+    "clean:workspaces": "turbo clean"
   },
   "dependencies": {},
   "devDependencies": {
     "turbo": "^2.5.8"
   },
-  "packageManager": "bun@1.2.17"
+  "packageManager": "bun@1.3.0"
 }

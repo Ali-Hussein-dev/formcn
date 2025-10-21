@@ -30,7 +30,10 @@ export default function Header() {
           </Link>
         </div>
         <div className="flex items-center sm:gap-4 gap-2">
-          <nav className="flex gap-4">
+          <nav className="flex gap-2 items-center">
+            <Button variant="ghost" size="sm">
+              <Link href="/changelog">Changelog</Link>
+            </Button>
             {links.map(({ href, label, target, rel }) => {
               return (
                 <Button key={href} variant="ghost" size="sm">
