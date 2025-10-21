@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { urls } from "@/constants/urls";
 import { MdOutlineCalendarMonth } from "react-icons/md";
 function ChangelogHeader() {
   return (
@@ -24,14 +25,10 @@ function ChangelogFooter() {
       <div className="mx-auto max-w-2xl px-6 md:px-12 py-10">
         <div className="flex gap-3 items-center justify-center">
           <Button variant="secondary" size="sm">
-            <a href="https://github.com/formcn/formcn/issues/new/choose">
-              Featuer Request
-            </a>
+            <a href={`${urls.github}/discussions`}>Featuer Request</a>
           </Button>
           <Button variant="secondary" size="sm">
-            <a href="https://github.com/formcn/formcn/issues/new/choose">
-              Bug Report
-            </a>
+            <a href={`${urls.github}/issues/new`}>Bug Report</a>
           </Button>
         </div>
       </div>
