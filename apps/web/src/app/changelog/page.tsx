@@ -116,7 +116,7 @@ const changelogData: ChangelogEntry[] = [
   },
 ];
 
-export function ChangelogTimeline() {
+function ChangelogTimeline() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-12 md:py-16 border-x border-dashed">
       <div className="relative space-y-8">
