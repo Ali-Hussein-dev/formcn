@@ -252,7 +252,7 @@ const sociaLinksSchema = z
     // label: z.string().optional(),
     name: z.string(),
     links: z.array(z.enum(socialKeys)),
-    fieldType: z.literal("SocialLinks"),
+    fieldType: z.literal("SocialMediaButtons"),
     required: z.boolean().optional(),
     layout: z
       .enum(["row", "column"])

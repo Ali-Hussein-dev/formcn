@@ -52,7 +52,7 @@ function RenderFormWhileStreaming({
         ) {
           return <span key={crypto.randomUUID()}>streaming...</span>;
         }
-        if (element.fieldType == "SocialLinks") {
+        if (element.fieldType == "SocialMediaButtons") {
           if (!element.links || element.links?.length < 1) {
             return <span key={crypto.randomUUID()}>streaming...</span>;
           }

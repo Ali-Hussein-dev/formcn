@@ -682,7 +682,7 @@ export const RenderFormElement = ({
       ) : (
         <FieldSeparator className="my-4" />
       );
-    case "SocialLinks": {
+    case "SocialMediaButtons": {
       const Img = ({ src }: { src: string }) => (
         <div className="place-items-center grid rounded-full bg-white size-6 p-0.5">
           <img src={src} width={16} height={16} />

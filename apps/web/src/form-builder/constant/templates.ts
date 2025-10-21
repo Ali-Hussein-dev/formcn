@@ -65,6 +65,18 @@ export const templates: FormObject[] = [
         },
       ],
       {
+        id: "separator",
+        fieldType: "Separator",
+        label: "OR",
+      },
+      {
+        id: "signup-social-media-buttons",
+        name: "social-media-buttons",
+        fieldType: "SocialMediaButtons",
+        links: ["google", "github"],
+        layout: "row",
+      },
+      {
         id: "signup-agree",
         name: "agree",
         fieldType: "Checkbox",
@@ -110,6 +122,18 @@ export const templates: FormObject[] = [
         label: "Password",
         type: "password",
         required: true,
+      },
+      {
+        id: "separator",
+        fieldType: "Separator",
+        label: "OR",
+      },
+      {
+        id: "login-social-media-buttons",
+        name: "social-media-buttons",
+        fieldType: "SocialMediaButtons",
+        links: ["google", "discord"],
+        layout: "row",
       },
     ] as FormElementOrList[],
   } as FormObject,

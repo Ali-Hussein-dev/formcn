@@ -120,7 +120,7 @@ const Logo = ({ src }: { src: string }) => (
   </div>
 );
 
-const socialLinksVariants = Object.entries(socialLogsUrls).map(
+const socialMediaButtonsVariants = Object.entries(socialLogsUrls).map(
   ([key, value]) => ({
     value: key,
     label: (
@@ -664,7 +664,7 @@ function FormElementAttributes({
           </div>
         )}
         {/* //-----------------------SOCIALINKS */}
-        {fieldType === "SocialLinks" && (
+        {fieldType === "SocialMediaButtons" && (
           <div className="space-y-5 mb-2">
             <RenderFormElement
               formElement={{
@@ -675,7 +675,7 @@ function FormElementAttributes({
                 fieldType: "MultiSelect",
                 // type: "multiple",
                 placeholder: "Tap to select",
-                options: socialLinksVariants,
+                options: socialMediaButtonsVariants,
                 value: formElement.links,
                 required: true,
               }}

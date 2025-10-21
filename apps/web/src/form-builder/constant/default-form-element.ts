@@ -126,7 +126,7 @@ export const defaultFormElements: Record<
     static: true,
     content: "Separator",
   },
-  SocialLinks: {
+  SocialMediaButtons: {
     label: "Social links",
     name: "social-links",
     links: ["google", "github"],

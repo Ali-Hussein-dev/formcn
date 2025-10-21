@@ -66,8 +66,8 @@ export const generateFormCode = ({
       </div>`;
   const flattenElements = (
     flattenedFormElements.flat() as FormElement[]
-  ).filter((el) => el.fieldType === "SocialLinks");
-  const socialLinks = flattenElements
+  ).filter((el) => el.fieldType === "SocialMediaButtons");
+  const socialMediaButtons = flattenElements
     .map((o) => o.links)
     .flat()
     .map((key) => ({
@@ -81,7 +81,7 @@ export const generateFormCode = ({
       code: `
 ${imports}
 
-${socialLinks.length > 0 ? `const socialLinks = ${JSON.stringify(socialLinks)}` : ""}
+${socialMediaButtons.length > 0 ? `const socialMediaButtons = ${JSON.stringify(socialMediaButtons)}` : ""}
 
 type Schema = z.infer<typeof formSchema>;
 
@@ -153,7 +153,7 @@ return (
 //------------------------------
 type Schema = z.infer<typeof formSchema>;
 
-${socialLinks.length > 0 ? `const socialLinks = ${JSON.stringify(socialLinks)}` : ""}
+${socialMediaButtons.length > 0 ? `const socialMediaButtons = ${JSON.stringify(socialMediaButtons)}` : ""}
 
 export function GeneratedForm() {
     

@@ -41,7 +41,7 @@ export const formFieldsIcons = {
   H2: LuHeading2,
   H3: LuHeading3,
   P: BiParagraph,
-  SocialLinks: LuShare2,
+  SocialMediaButtons: LuShare2,
 };
 /**
  * used in
@@ -225,12 +225,12 @@ export const formElementsList = [
   },
   {
     group: "display",
-    name: "Social links",
-    fieldType: "SocialLinks",
-    content: "Social links",
-    icon: formFieldsIcons.SocialLinks,
+    name: "Social media buttons",
+    fieldType: "SocialMediaButtons",
+    content: "Social media buttons",
+    icon: formFieldsIcons.SocialMediaButtons,
     static: true,
-    description: "Social links buttons use for authentication",
+    description: "Social media buttons to authenticate users",
     isNew: true,
   },
   {

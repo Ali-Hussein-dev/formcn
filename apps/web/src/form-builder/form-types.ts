@@ -207,8 +207,8 @@ type Divider = {
   static: true;
 } & SeparatorProps;
 
-type SocialLinks = {
-  fieldType: "SocialLinks";
+type SocialMediaButtons = {
+  fieldType: "SocialMediaButtons";
   id: string;
   name: string;
   label: string;
@@ -236,7 +236,7 @@ type FormFieldElement =
   | Rating
   | Combobox
   | Text
-  | SocialLinks
+  | SocialMediaButtons
   | DatePicker;
 
 /**
@@ -339,7 +339,7 @@ export const fieldTypes = [
   "P",
   "Text",
   "Separator",
-  "SocialLinks",
+  "SocialMediaButtons",
 ] as const;
 
 export type FormFieldType = (typeof fieldTypes)[number];
