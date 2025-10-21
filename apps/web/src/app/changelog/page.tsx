@@ -55,7 +55,10 @@ const emojis = {
 const changelogData: ChangelogEntry[] = [
   {
     date: "Oct 21, 2025",
-    changes: ["feat: Introduce changelog page"],
+    changes: [
+      "feat: Introduce changelog page",
+      "refactor: Refactor MultiSelect component",
+    ],
   },
   {
     date: "Oct 20, 2025",
@@ -130,7 +133,7 @@ function ChangelogTimeline() {
                 {/* Header */}
                 <div className="space-y-3">
                   <div className="flex items-center gap-3 flex-wrap">
-                    <div className="text-xs text-muted-foreground flex gap-1 border p-1 rounded-lg border-dashed">
+                    <div className="text-xs text-muted-foreground flex gap-2 border py-1.5 px-2.5 rounded-lg border-dashed">
                       <MdOutlineCalendarMonth className="size-3.5" />
                       {entry.date}
                     </div>

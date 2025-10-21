@@ -376,15 +376,14 @@ export const getFormElementCode = (field: FormElement) => {
               ${getFieldLabel(field.name, field.label, field.required)}
               ${getDescription(field.description)}
               <MultiSelect
-                value={field.value ?? []}
-                onValueChange={(value) => field.onChange(value ?? [])}
+                values={field.value ?? []}
+                onValuesChange={(value) => field.onChange(value ?? [])}
                 ${getAttribute("disabled", field.disabled)}
               >
                 <MultiSelectTrigger>
                   <MultiSelectValue ${getAttribute("placeholder", field.placeholder)} />
                 </MultiSelectTrigger>
                 <MultiSelectContent>
-                  <MultiSelectList>
                     {options.map(({label, value}) => (
                         <MultiSelectItem
                           key={value}
@@ -393,7 +392,6 @@ export const getFormElementCode = (field: FormElement) => {
                           {label}
                         </MultiSelectItem>
                       ))}
-                  </MultiSelectList>
                 </MultiSelectContent>
               </MultiSelect>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

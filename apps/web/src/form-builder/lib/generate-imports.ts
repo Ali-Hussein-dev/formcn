@@ -69,7 +69,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
               MultiSelect,
               MultiSelectContent,
               MultiSelectItem,
-              MultiSelectList,
               MultiSelectTrigger,
               MultiSelectValue,
             } from '@/components/ui/multi-select'`

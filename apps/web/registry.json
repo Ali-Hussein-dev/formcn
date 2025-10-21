@@ -22,7 +22,7 @@
       "type": "registry:component",
       "title": "Multi-select",
       "description": "Multi-select dropdown",
-      "registryDependencies": ["command", "input", "label", "badge", "tooltip"],
+      "registryDependencies": ["popover", "command", "badge", "button"],
       "files": [
         {
           "path": "src/components/ui/multi-select.tsx",

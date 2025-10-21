@@ -132,7 +132,6 @@ export const formElementsList = [
       },
     ],
     description: "Combobox field",
-    isNew: true,
   },
   {
     group: "field",
@@ -221,16 +220,15 @@ export const formElementsList = [
     icon: formFieldsIcons.Text,
     static: true,
     description: "Text element",
-    isNew: true,
   },
   {
     group: "display",
-    name: "Social media buttons",
+    name: "Social media",
     fieldType: "SocialMediaButtons",
     content: "Social media buttons",
     icon: formFieldsIcons.SocialMediaButtons,
     static: true,
-    description: "Social media buttons to authenticate users",
+    description: "Social media buttons",
     isNew: true,
   },
   {

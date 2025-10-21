@@ -16,7 +16,6 @@ import {
   MultiSelect,
   MultiSelectContent,
   MultiSelectItem,
-  MultiSelectList,
   MultiSelectTrigger,
   MultiSelectValue,
 } from "@/components/ui/multi-select";
@@ -474,26 +473,24 @@ export const RenderFormElement = ({
               </FieldLabel>
               <FieldDescription>{formElement.description}</FieldDescription>
               <MultiSelect
-                value={field.value ?? []}
-                onValueChange={(value) => field.onChange(value ?? [])}
+                values={field.value ?? []}
+                onValuesChange={(value) => field.onChange(value ?? [])}
               >
                 <MultiSelectTrigger>
                   <MultiSelectValue placeholder={formElement.placeholder} />
                 </MultiSelectTrigger>
                 <MultiSelectContent>
-                  <MultiSelectList>
-                    {(formElement?.options || []).map((option) => {
-                      if (!option.label || !option.value) return null;
-                      return (
-                        <MultiSelectItem
-                          key={crypto.randomUUID()}
-                          value={option.value}
-                        >
-                          {option.label}
-                        </MultiSelectItem>
-                      );
-                    })}
-                  </MultiSelectList>
+                  {(formElement?.options || []).map((option) => {
+                    if (!option.label || !option.value) return null;
+                    return (
+                      <MultiSelectItem
+                        key={crypto.randomUUID()}
+                        value={option.value}
+                      >
+                        {option.label}
+                      </MultiSelectItem>
+                    );
+                  })}
                 </MultiSelectContent>
               </MultiSelect>
 
