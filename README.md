@@ -4,37 +4,21 @@
 
 ![screenshot](https://0ecd2qxhjqgqxftv.public.blob.vercel-storage.com/850_1x_shots_so.jpg)
 
-A modern form builder that allows you to build forms with shadcn components.
+A modern form builder that lets you build production-ready forms using shadcn/ui components.
+
+## Motivation
+
+Forms are tricky. They are one of the most common things you'll build in a web application, but also one of the most complex. While AI can help generate forms you need, the results are not predicatble and inconsistent and can use undesirable dependencies. Because form code is much a boilerplate code, we can automate it. 
+
 
 ## Features
 
-- Single/multi-step form
-- Instant form preview
-- Form code generation for client/server side
+- **Single/Multi-step forms** with smooth navigation
+- **Formcn AI** scaffold forms fields without having to start from scratch
+- **Type-safe validation** client and server side validation
+- **Beautiful UI** with Tailwind CSS and shadcn/ui
 
-## Generated Code Tech Stack
 
-- React 19
-- Tailwindcss 4
-- Shadcn
-- Zod 4
-- React Hook Form
-- TypeScript
+## License
 
-## Development
-
-```bash
-# Clone the repository
-git clone https://github.com/Ali-Hussein-dev/formcn.git
-
-# Install dependencies
-bun install
-
-# Start dev server
-bun dev:web
-
-```
-
-## Want to contribute?
-
-Just fork the repository and submit a pull request!
+This project is open-source. See `LICENSE` for details.
