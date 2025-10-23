@@ -156,7 +156,7 @@
     @apply max-w-[84rem] mx-auto w-full;
   }
   .reorderItem {
-    @apply rounded-xl border border-dashed py-1.5 w-full bg-background hover:cursor-grab active:cursor-grabbing;
+    @apply rounded-xl border py-1.5 w-full bg-accent hover:cursor-grab active:cursor-grabbing;
   }
 }
 

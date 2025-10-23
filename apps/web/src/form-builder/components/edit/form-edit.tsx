@@ -13,6 +13,7 @@ import { FormElementsDropdown } from "@/form-builder/components/edit/form-elemen
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
 import { StepItem } from "@/form-builder/components/edit/step-item";
 import { formFieldsIcons } from "@/form-builder/constant/form-elements-list";
+import { PiColumns } from "react-icons/pi";
 
 type EditFormItemProps = {
   element: FormElement;
@@ -144,19 +145,25 @@ const RowItems = ({
       layout
       dragControls={controls}
       dragListener={false}
-      className="flex items-center justify-start gap-2"
+      className="flex flex-col items-start justify-start gap-3 w-full bg-background p-3 border border-dashed rounded-sm group/row"
     >
-      <div
-        className="w-7 h-12 hover:cursor-grab active:grabbing grid place-items-center"
-        onPointerDown={(e) => {
-          e.stopPropagation();
-          controls.start(e);
-        }}
-      >
-        <LuGripVertical className="dark:text-muted-foreground text-muted-foreground" />
+      <div className="flex justify-between items-center w-full">
+        <div className="flex items-center gap-2 grow w-full text-sm">
+          <PiColumns className="text-muted-foreground" />
+          Row Fields
+        </div>
+        <div
+          className="hover:cursor-grab active:grabbing grid place-items-center opacity-0 group-hover/row:opacity-100 duration-100"
+          onPointerDown={(e) => {
+            e.stopPropagation();
+            controls.start(e);
+          }}
+        >
+          <LuGripVertical className="dark:text-muted-foreground text-muted-foreground" />
+        </div>
       </div>
       <div
-        className="flex-1"
+        className="grow w-full"
         onPointerDown={(e) => {
           e.stopPropagation();
         }}
@@ -178,7 +185,7 @@ const StepsWrapper = () => {
       onReorder={(newOrder) => {
         reorderSteps(newOrder);
       }}
-      className="flex flex-col gap-4"
+      className="flex flex-col gap-4 px-1 py-2"
       layout
       ref={containerRef}
     >
@@ -203,12 +210,11 @@ const StepsWrapper = () => {
                 return (
                   <RowItems key={element[0].id} element={element}>
                     <Reorder.Group
-                      axis="x"
                       values={element}
                       onReorder={(newOrder) => {
                         reorder({ newOrder, fieldIndex, stepIndex });
                       }}
-                      className="w-full flex items-center justify-start gap-2"
+                      className="w-full flex flex-col items-center justify-start gap-3"
                       tabIndex={-1}
                       layout
                     >
@@ -216,7 +222,7 @@ const StepsWrapper = () => {
                         <Reorder.Item
                           value={el}
                           key={el.id}
-                          className="reorderItem"
+                          className="reorderItem group"
                         >
                           <EditFormItem
                             fieldIndex={fieldIndex}
@@ -262,7 +268,7 @@ const SingleStepWrapper = () => {
         reorder({ newOrder, fieldIndex: null });
       }}
       values={formElements as FormElementOrList[]}
-      className="flex flex-col gap-3 rounded-lg px-3 md:px-4 lg:px-5 md:py-5 py-4 border-dashed border bg-muted"
+      className="flex flex-col gap-3 rounded-lg px-1 py-2 bg-background"
       tabIndex={-1}
       ref={containerRef}
       layout
@@ -272,12 +278,12 @@ const SingleStepWrapper = () => {
           return (
             <RowItems element={element} key={element[0].id}>
               <Reorder.Group
-                axis="x"
+                // axis="x"
                 values={element}
                 onReorder={(newOrder) => {
                   reorder({ newOrder, fieldIndex: i });
                 }}
-                className="flex items-center justify-start gap-2 w-full"
+                className="flex flex-col items-center justify-start gap-3 w-full"
                 tabIndex={-1}
                 layout
               >
