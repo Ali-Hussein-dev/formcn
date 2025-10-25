@@ -476,7 +476,7 @@ export const RenderFormElement = ({
                 values={field.value ?? []}
                 onValuesChange={(value) => field.onChange(value ?? [])}
               >
-                <MultiSelectTrigger>
+                <MultiSelectTrigger className="active:scale-100">
                   <MultiSelectValue placeholder={formElement.placeholder} />
                 </MultiSelectTrigger>
                 <MultiSelectContent>
@@ -690,6 +690,7 @@ export const RenderFormElement = ({
           {formElement.links.map((key) => (
             <Button
               key={key}
+              type="button"
               variant="outline"
               className="text-sm gap-2 px-2 h-10 grow "
             >
@@ -704,6 +705,7 @@ export const RenderFormElement = ({
             <Button
               size="lg"
               key={key}
+              type="button"
               variant="outline"
               className="w-full h-11"
             >

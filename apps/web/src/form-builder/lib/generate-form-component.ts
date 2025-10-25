@@ -554,7 +554,7 @@ export const getFormElementCode = (field: FormElement) => {
       return field.layout === "row"
         ? `<div className="flex gap-3 justify-center w-full items-center flex-wrap pb-3">
           {socialMediaButtons.map((o) => (
-            <Button key={o.label} variant="outline"
+            <Button key={o.label} variant="outline" type="button"
               className="text-sm gap-2 px-2 h-10 grow ">
               <div className="place-items-center grid rounded-full bg-white size-6 p-0.5">
                 <img src={o.src} width={16} height={16} />
@@ -569,6 +569,7 @@ export const getFormElementCode = (field: FormElement) => {
                   key={o.label} 
                   variant="outline" 
                   size="lg" 
+                  type="button"
                   className="w-full h-11">
                     <div className="place-items-center grid rounded-full bg-white size-6 p-0.5">
                       <img src={o.src} width={16} height={16} />
