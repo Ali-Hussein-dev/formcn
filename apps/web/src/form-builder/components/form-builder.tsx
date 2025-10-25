@@ -8,8 +8,8 @@ import { FormEdit } from "@/form-builder/components/edit/form-edit";
 import { FormPreview } from "@/form-builder/components/preview/form-preview";
 import {
   JsonViewer,
-  GeneratedFormCodeViewer,
-} from "@/form-builder/components/generated-code/code-viewer";
+  CodePanel,
+} from "@/form-builder/components/generated-code/code-panel";
 import * as React from "react";
 import { CommandProvider } from "@/form-builder/hooks/use-command-ctx";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
@@ -128,7 +128,7 @@ export function FormBuilderBase() {
             </TabsContent>
             <TabsContent value={tabsList[1].name} tabIndex={-1}>
               <ErrorBoundary FallbackComponent={ErrorFallback}>
-                <GeneratedFormCodeViewer />
+                <CodePanel />
               </ErrorBoundary>
             </TabsContent>
             {/* <TabsContent value={tabsList[2].name} tabIndex={-1}>

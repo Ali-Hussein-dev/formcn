@@ -19,7 +19,6 @@ import { generateFormCode } from "@/form-builder/lib/generate-form-code";
 import { generateServerActionCode } from "@/form-builder/lib/generate-server-action-code";
 import { CopyButton } from "@/components/copy-button";
 import { GeneratedCodeInfoCard } from "./tech-stack-info-card";
-import { IoTerminal } from "react-icons/io5";
 import { Placeholder } from "@/form-builder/components/placeholder";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -27,6 +26,7 @@ import { toast } from "sonner";
 import { convertToKababCase } from "@/lib/utils";
 import { motion } from "motion/react";
 import { FieldSeparator } from "@/components/ui/field";
+import { PackagesManagerTabs } from "@/components/shared/package-manager-tabs";
 
 const Wrapper = ({
   children,
@@ -99,46 +99,6 @@ const installableShadcnComponents: Partial<
   Rating: "@formcn/rating",
 };
 
-const PackagesInstallation = ({
-  list,
-}: {
-  list: { value: string; name: string }[];
-}) => {
-  const [activeTab, setActiveTab] = React.useState("pnpm");
-
-  return (
-    <Tabs
-      defaultValue="pnpm"
-      value={activeTab}
-      onValueChange={setActiveTab}
-      className="w-full mt-2 rounded-md bg-accent py-2 px-1"
-    >
-      <div className="flex justify-between border-b border-dashed pb-1 px-2">
-        <TabsList>
-          <IoTerminal className="mr-1.5" />
-          {list.map((item) => (
-            <TabsTrigger key={item.name} value={item.name}>
-              {item.name}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-        <CopyButton
-          text={list.find((item) => item.name === activeTab)?.value!}
-        />
-      </div>
-      {list.map((item) => (
-        <TabsContent key={item.name} value={item.name}>
-          <div>
-            <pre className="px-3 py-2 text-accent-foreground/80 text-wrap">
-              {item.value}
-            </pre>
-          </div>
-        </TabsContent>
-      ))}
-    </Tabs>
-  );
-};
-
 //======================================
 const Cli = ({
   registryDependencies,
@@ -193,12 +153,6 @@ const Cli = ({
     },
   });
   const { status, data } = res;
-  const getCommands = (id: string) => [
-    { name: "pnpm", value: `pnpm dlx shadcn@latest add ${id}` },
-    { name: "npm", value: `npmx shadcn@latest add ${id}` },
-    { name: "yarn", value: `yarn shadcn@latest add ${id}` },
-    { name: "bun", value: `bunx --bun shadcn@latest add ${id}` },
-  ];
   return (
     <div>
       <Button
@@ -226,7 +180,7 @@ const Cli = ({
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <PackagesInstallation list={getCommands(data.data.id)} />
+          <PackagesManagerTabs packages={data.data.id} />
         </motion.div>
       )}
     </div>
@@ -234,20 +188,22 @@ const Cli = ({
 };
 //======================================
 export function CodeBlockPackagesInstallation({
-  depenedenciesTabs,
-  registryDependeciesTabs,
+  depenedencies,
+  registryDependecies,
 }: {
-  depenedenciesTabs: { value: string; name: string }[];
-  registryDependeciesTabs: { value: string; name: string }[];
+  depenedencies: string;
+  registryDependecies: string;
 }) {
   return (
     <div className="w-full py-5 max-w-full">
-      <h2 className="font-sembold text-start">Install npm packages</h2>
-      <PackagesInstallation list={depenedenciesTabs} />
-      <h2 className="font-sembold text-start mt-4">
+      <h2 className="font-sembold text-start mb-2 text-foreground">
+        Install npm packages
+      </h2>
+      <PackagesManagerTabs packages={depenedencies} />
+      <h2 className="font-sembold text-start mt-4 mb-2 text-foreground">
         Install registry components
       </h2>
-      <PackagesInstallation list={registryDependeciesTabs} />
+      <PackagesManagerTabs packages={registryDependecies} />
     </div>
   );
 }
@@ -319,43 +275,6 @@ const useGenerateCode = () => {
   }
   const dependencies =
     "react-hook-form zod @hookform/resolvers motion next-safe-action";
-  const dependenciesTabs = [
-    {
-      name: "pnpm",
-      value: `pnpm add ${dependencies}`,
-    },
-    {
-      name: "bun",
-      value: `bun add ${dependencies}`,
-    },
-    {
-      name: "npm",
-      value: `npm i ${dependencies}`,
-    },
-    {
-      name: "yarn",
-      value: `yarn add ${dependencies}`,
-    },
-  ];
-  const registryDependenciesTabs = [
-    {
-      name: "pnpm",
-      value: `pnpm dlx shadcn@latest add ${registryDependencies}`,
-    },
-    {
-      name: "bun",
-      value: `bunx --bun shadcn@latest add ${registryDependencies}`,
-    },
-    {
-      name: "npm",
-      value: `npx shadcn@latest add ${registryDependencies}`,
-    },
-    {
-      name: "yarn",
-      value: `yarn shadcn@latest add ${registryDependencies}`,
-    },
-  ];
-
   return {
     tsx,
     zodSchema,
@@ -363,8 +282,6 @@ const useGenerateCode = () => {
     meta,
     registryDependencies,
     dependencies,
-    registryDependenciesTabs,
-    dependenciesTabs,
     isMS,
   };
 };
@@ -398,15 +315,14 @@ const CodeBlockServerAction = ({
 };
 
 //======================================
-export function GeneratedFormCodeViewer() {
+export function CodePanel() {
   const formElements = useFormBuilderStore((s) => s.formElements);
   const {
     serverAction,
     zodSchema,
     tsx,
-    dependenciesTabs,
-    registryDependenciesTabs,
     registryDependencies,
+    dependencies,
     meta,
     isMS,
   } = useGenerateCode();
@@ -447,8 +363,8 @@ export function GeneratedFormCodeViewer() {
           <CodeBlockTSX code={tsx} />
           <div className="border-t border-dashed w-full mt-6" />
           <CodeBlockPackagesInstallation
-            depenedenciesTabs={dependenciesTabs}
-            registryDependeciesTabs={registryDependenciesTabs}
+            depenedencies={dependencies}
+            registryDependecies={registryDependencies}
           />
         </TabsContent>
         <TabsContent value="schema" tabIndex={-1}>
