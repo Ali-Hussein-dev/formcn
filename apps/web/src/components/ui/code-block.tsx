@@ -56,7 +56,7 @@ function CodeBlockCode({
   }, [code, language, theme]);
 
   const classNames = cn(
-    "w-full text-[13px] [&>pre]:px-4 [&>pre]:py-4 dark:[&>pre]:bg-accent! focus:outline-none focus-visible:outline-none",
+    "w-full text-[13px] [&>pre]:px-4 [&>pre]:py-4 dark:[&>pre]:bg-accent! focus:outline-none focus-visible:outline-none [&>pre]:text-wrap",
     className
   );
 

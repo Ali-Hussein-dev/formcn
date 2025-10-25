@@ -11,7 +11,6 @@ import type {
   FormElementOrList,
   FormStep,
 } from "@/form-builder/form-types";
-import { formatCode } from "@/form-builder/lib/utils";
 import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
 import { flattenFormSteps } from "@/form-builder/lib/form-elements-helpers";
 import { genFormZodSchemaCode } from "@/form-builder/lib/generate-zod-schema";
@@ -27,6 +26,7 @@ import { convertToKababCase } from "@/lib/utils";
 import { motion } from "motion/react";
 import { FieldSeparator } from "@/components/ui/field";
 import { PackagesManagerTabs } from "@/components/shared/package-manager-tabs";
+import { CodeViewer } from "@/components/shared/code-viewer";
 
 const Wrapper = ({
   children,
@@ -207,45 +207,7 @@ export function CodeBlockPackagesInstallation({
     </div>
   );
 }
-const CodeBlockTSX = ({ code }: { code: { file: string; code: string }[] }) => {
-  const [formattedCode, setFormattedCode] = React.useState<
-    { file: string; code: string }[]
-  >([]);
-  React.useEffect(() => {
-    Promise.all(
-      code.map(async (item) => ({
-        ...item,
-        code: await formatCode(item.code),
-      }))
-    ).then(setFormattedCode);
-  }, []);
-  if (!formattedCode)
-    return <p className="text-center text-lg">code formatting...</p>;
-  return (
-    <div className="relative max-w-full flex flex-col gap-y-5">
-      {formattedCode.map((item, i) => (
-        <Wrapper key={i} title={item.file} language="tsx">
-          {item.code}
-        </Wrapper>
-      ))}
-    </div>
-  );
-};
-const CodeBlockZodSchema = ({ code }: { code: string }) => {
-  const [formattedCode, setFormattedCode] = React.useState("");
-  React.useEffect(() => {
-    formatCode(code).then(setFormattedCode);
-  }, [code]);
-  if (!formattedCode)
-    return <p className="text-center text-lg">code formatting...</p>;
-  return (
-    <div className="relative max-w-full">
-      <Wrapper title="schema.ts" language="typescript">
-        {formattedCode}
-      </Wrapper>
-    </div>
-  );
-};
+
 const useGenerateCode = () => {
   const formElements = useFormBuilderStore((s) => s.formElements);
   const meta = useFormBuilderStore((s) => s.meta);
@@ -284,34 +246,6 @@ const useGenerateCode = () => {
     dependencies,
     isMS,
   };
-};
-const CodeBlockServerAction = ({
-  code,
-}: {
-  code: { file: string; code: string }[];
-}) => {
-  const [formattedCode, setFormattedCode] = React.useState<
-    { file: string; code: string }[]
-  >([]);
-  React.useEffect(() => {
-    Promise.all(
-      code.map(async (item) => ({
-        ...item,
-        code: await formatCode(item.code),
-      }))
-    ).then(setFormattedCode);
-  }, []);
-  if (!formattedCode)
-    return <p className="text-center text-lg">code formatting...</p>;
-  return (
-    <div className="relative max-w-full flex flex-col gap-y-5">
-      {formattedCode.map((item) => (
-        <Wrapper key={item.file} title={item.file} language="typescript">
-          {item.code}
-        </Wrapper>
-      ))}
-    </div>
-  );
 };
 
 //======================================
@@ -360,7 +294,7 @@ export function CodePanel() {
           <TabsTrigger value="server-action">Server action</TabsTrigger>
         </TabsList>
         <TabsContent value="tsx" tabIndex={-1}>
-          <CodeBlockTSX code={tsx} />
+          <CodeViewer code={tsx} />
           <div className="border-t border-dashed w-full mt-6" />
           <CodeBlockPackagesInstallation
             depenedencies={dependencies}
@@ -368,10 +302,10 @@ export function CodePanel() {
           />
         </TabsContent>
         <TabsContent value="schema" tabIndex={-1}>
-          <CodeBlockZodSchema code={zodSchema} />
+          <CodeViewer code={[{ file: "schema.ts", code: zodSchema }]} />
         </TabsContent>
         <TabsContent value="server-action" tabIndex={-1}>
-          <CodeBlockServerAction code={serverAction} />
+          <CodeViewer code={serverAction} />
         </TabsContent>
       </Tabs>
     </div>
