@@ -54,6 +54,13 @@ const emojis = {
 
 const changelogData: ChangelogEntry[] = [
   {
+    date: "Oct 25, 2025",
+    changes: [
+      "feat: Add new form templates",
+      "style: refactor code and tweak the UI of code viewer",
+    ],
+  },
+  {
     date: "Oct 23, 2025",
     changes: ["style: Tweak the editor UI panel"],
   },

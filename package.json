@@ -11,7 +11,7 @@
     "check-types": "turbo check-types",
     "dev:native": "turbo -F native dev",
     "dev:web": "turbo -F web dev",
-    "dev:build": "turbo -F web build",
+    "build:web": "turbo -F web build",
     "dev:server": "turbo -F server dev",
     "clean": "git clean -xdf node_modules",
     "clean:workspaces": "turbo clean"
