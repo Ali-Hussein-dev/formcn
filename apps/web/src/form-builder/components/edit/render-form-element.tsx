@@ -135,10 +135,13 @@ export const RenderFormElement = ({
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid} className="gap-1">
-              <FieldLabel htmlFor={field.name}>
-                {formElement.label}
-                {required && " *"}
-              </FieldLabel>
+              <FieldContent className="gap-0.5">
+                <FieldLabel htmlFor={field.name}>
+                  {formElement.label}
+                  {required && " *"}
+                </FieldLabel>
+                <FieldDescription>{formElement.description}</FieldDescription>
+              </FieldContent>
               <Password
                 {...field}
                 id={field.name}
@@ -146,7 +149,6 @@ export const RenderFormElement = ({
                 placeholder={formElement.placeholder}
                 disabled={formElement.disabled}
               />
-              <FieldDescription>{formElement.description}</FieldDescription>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}

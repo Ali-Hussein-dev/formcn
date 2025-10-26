@@ -9,7 +9,7 @@
       "type": "registry:component",
       "title": "Password",
       "description": "Password input with show/hide toggle",
-      "registryDependencies": ["input", "label", "button"],
+      "registryDependencies": ["input-group"],
       "files": [
         {
           "path": "registry/default/components/password.tsx",

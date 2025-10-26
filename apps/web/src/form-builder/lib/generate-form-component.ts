@@ -88,7 +88,10 @@ export const getFormElementCode = (field: FormElement) => {
           control={form.control} 
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid} className="gap-1">
+            <FieldContent className="gap-0.5">
               ${getFieldLabel(field.name, field.label, field.required)}
+              ${getDescription(field.description)}
+            </FieldContent>
               <Password
                 {...field}
                 aria-invalid={fieldState.invalid}
@@ -96,7 +99,6 @@ export const getFormElementCode = (field: FormElement) => {
                 ${getAttribute("placeholder", field.placeholder)}
                 ${getAttribute("disabled", field.disabled)}
               />
-              ${getDescription(field.description)}
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
         )} />`;
