@@ -41,7 +41,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
         importSet.add('import { cn } from "@/lib/utils"');
         importSet.add('import { Calendar } from "@/components/ui/calendar"');
         importSet.add(
-          'import { Calendar as CalendarIcon } from "lucide-react"'
+          'import { Calendar as CalendarIcon, X } from "lucide-react"'
         );
         break;
       case "OTP":

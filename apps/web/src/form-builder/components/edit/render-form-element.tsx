@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react";
+import { CalendarIcon, Check, ChevronsUpDown, X } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import {
   InputOTP,
@@ -59,6 +59,7 @@ import {
 } from "@/components/ui/field";
 import { format } from "date-fns";
 import { socialLogsUrls } from "@/form-builder/constant/social-logos-urls";
+import type { DateRange } from "react-day-picker";
 
 export const RenderFormElement = ({
   formElement,
@@ -578,43 +579,82 @@ export const RenderFormElement = ({
           name={formElement.name}
           control={form.control}
           render={({ field, fieldState }) => {
-            const date = field.value;
+            const selectedDate = field?.value;
+            const mode = formElement.mode;
             return (
               <Field
                 data-invalid={fieldState.invalid}
                 className="gap-1 [&_p]:pb-2"
               >
                 <FieldLabel htmlFor={field.name}>
-                  {formElement.label} {required && " *"}
+                  {formElement.label} {required && " *"}{" "}
                 </FieldLabel>
                 <FieldDescription hidden={!formElement.description}>
                   {formElement.description}
                 </FieldDescription>
                 <Popover>
                   <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-full justify-start text-start font-normal active:scale-none",
-                        !date && "text-muted-foreground"
+                    <div className="relative">
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "w-full justify-start text-start font-normal active:scale-none",
+                          !selectedDate && "text-muted-foreground"
+                        )}
+                        type="button"
+                      >
+                        <CalendarIcon className="size-4" />
+                        {selectedDate && (
+                          <>
+                            {mode === "single" &&
+                              format(selectedDate, "dd MMM, yyyy")}
+                            {mode === "range" && (
+                              <div className="flex items-center gap-x-2">
+                                {selectedDate?.from &&
+                                  format(selectedDate.from, "dd MMM, yyyy")}
+                                {selectedDate?.from && " - "}
+                                {selectedDate?.to &&
+                                  format(selectedDate.to, "dd MMM, yyyy")}
+                              </div>
+                            )}
+                            {mode === "multiple" &&
+                              `${selectedDate?.length} dates selected`}
+                          </>
+                        )}
+                        {!fieldState.isDirty && (
+                          <span>{formElement.placeholder}</span>
+                        )}
+                      </Button>
+                      {fieldState.isDirty && (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="absolute top-1/2 -end-0 -translate-y-1/2 rounded-full"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            form.resetField(field.name);
+                          }}
+                        >
+                          <X />
+                        </Button>
                       )}
-                    >
-                      <CalendarIcon className="mr-2 size-4" />
-                      {date ? (
-                        format(date, "PPP")
-                      ) : (
-                        <span>{formElement.placeholder}</span>
-                      )}
-                    </Button>
+                    </div>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent
+                    className="w-auto p-0"
+                    // custom alignment for range mode for preview form
+                    align={mode === "range" ? "end" : "start"}
+                  >
+                    {/* @ts-expect-error required attribute is required to add */}
                     <Calendar
-                      mode="single"
-                      selected={field.value}
+                      autoFocus
+                      mode={mode}
                       disabled={formElement.disabled}
-                      onSelect={(newDate) => {
+                      numberOfMonths={mode === "range" ? 2 : 1}
+                      selected={selectedDate}
+                      onSelect={(newDate: Date | DateRange | Date[]) => {
                         form.setValue(field.name, newDate, {
-                          shouldValidate: true,
                           shouldDirty: true,
                         });
                       }}

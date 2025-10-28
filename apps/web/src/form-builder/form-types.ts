@@ -126,6 +126,7 @@ type MultiSelect = {
   SharedFormProps;
 type DatePicker = {
   fieldType: "DatePicker";
+  mode: "single" | "multiple" | "range";
 } & React.InputHTMLAttributes<HTMLInputElement> &
   SharedFormProps;
 

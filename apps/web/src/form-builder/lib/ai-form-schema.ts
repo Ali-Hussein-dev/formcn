@@ -176,6 +176,12 @@ const datePicker = z
     id: z.string(),
     label: z.string(),
     name: z.string(),
+    mode: z
+      .enum(["single", "range", "multiple"])
+      .default("single")
+      .describe(
+        "single mode is for single date selection, range mode is for date range selection, multiple mode is for multiple date selection"
+      ),
     fieldType: z.literal("DatePicker"),
     required: z.boolean().optional(),
     placeholder: z.string(),

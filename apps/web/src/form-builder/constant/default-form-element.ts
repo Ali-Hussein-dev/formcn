@@ -49,6 +49,7 @@ export const defaultFormElements: Record<
   DatePicker: {
     label: "Pick a date",
     placeholder: "Select a date",
+    mode: "single",
   },
   Select: {
     label: "Select option",

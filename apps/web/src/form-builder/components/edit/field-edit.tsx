@@ -663,6 +663,29 @@ function FormElementAttributes({
             </div>
           </div>
         )}
+
+        {/* //-----------------------DatePicker */}
+        {fieldType === "DatePicker" && (
+          <div className="space-y-5 mb-2">
+            <RenderFormElement
+              formElement={{
+                id: formElement.id,
+                name: "mode",
+                label: "Select date picker mode",
+                fieldType: "ToggleGroup",
+                type: "single",
+                options: [
+                  { value: "single", label: "Single date" },
+                  { value: "multiple", label: "Multiple dates" },
+                  { value: "range", label: "Date range" },
+                ],
+                required: true,
+                value: formElement.mode,
+              }}
+              form={form}
+            />
+          </div>
+        )}
         {/* //-----------------------SOCIALINKS */}
         {fieldType === "SocialMediaButtons" && (
           <div className="space-y-5 mb-2">

@@ -467,35 +467,69 @@ export const getFormElementCode = (field: FormElement) => {
           ${getAttribute("name", field.name)}
           control={form.control}
           render={({ field, fieldState }) => {
-            const date = field.value;
+            const selectedDate = field.value;
+            const mode =  "${field.mode}";
             return (
               <Field data-invalid={fieldState.invalid}>
                 ${getFieldLabel(field.name, field.label, field.required)}
                 ${getDescription(field.description)}
                 <Popover>
                   <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-full justify-start text-start font-normal active:scale-none",
-                        !date && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 size-4" />
-                      {date ? (
-                        format(date, "PPP")
-                      ) : (
-                        <span>${getAttribute("placeholder", field.placeholder)}</span>
-                      )}
-                    </Button>
+                    <div className="relative">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-start font-normal active:scale-none",
+                          !selectedDate && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="size-4" />
+                            {selectedDate ? (
+                              <>
+                                ${
+                                  field.mode === "range"
+                                    ? `(
+                                  <div className="flex items-center gap-x-2">
+                                    {selectedDate?.from &&
+                                      format(selectedDate.from, "dd MMM, yyyy")}
+                                    {selectedDate?.from && " - "}
+                                    {selectedDate?.to &&
+                                      format(selectedDate.to, "dd MMM, yyyy")}
+                                  </div>
+                                )`
+                                    : ""
+                                }
+                                ${field.mode === "single" ? `{format(selectedDate, "dd MMM, yyyy")}` : ""}
+                                
+                                ${field.mode === "multiple" ? `{selectedDate.length + "dates selected"}` : ""}
+                              </>
+                            ) : (
+                              <span>${field.placeholder ?? ""}</span>
+                            )}
+                              </Button>
+                            {fieldState.isDirty && (
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                className="absolute top-1/2 -end-0 -translate-y-1/2 rounded-full"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  form.resetField(${field.name});
+                                }}
+                              >
+                                <X />
+                              </Button>
+                            )}
+                    </div>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
-                      mode="single"
-                      selected={field.value}
+                      mode="${field.mode}"
+                      selected={selectedDate}
                       onSelect={(newDate) => {
                         form.setValue(field.name, newDate, {
-                          shouldValidate: true,
                           shouldDirty: true,
                           });
                         }}

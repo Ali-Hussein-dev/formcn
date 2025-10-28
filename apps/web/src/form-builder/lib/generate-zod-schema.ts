@@ -95,7 +95,18 @@ export const genFormZodSchema = (
           .min(1, "Please select at least one item");
         break;
       case "DatePicker":
-        elementSchema = z.date({ error: "This field is required" });
+        if (element.mode === "single") {
+          elementSchema = z.date({ error: "This field is required" });
+        }
+        if (element.mode === "range") {
+          elementSchema = z.object({
+            from: z.date({ error: "This field is required" }),
+            to: z.date({ error: "This field is required" }),
+          });
+        }
+        if (element.mode === "multiple") {
+          elementSchema = z.array(z.date({ error: "This field is required" }));
+        }
         break;
       case "FileUpload":
         const fileSchema = z
@@ -211,7 +222,16 @@ export const genFieldZodSchemaCode = (formElement: FormElement): string => {
       }
       return schemaItem;
     case "DatePicker":
-      schemaItem = "z.date({error: 'This field is required'})";
+      if (formElement.mode === "single") {
+        schemaItem = "z.date({error: 'This field is required'})";
+      }
+      if (formElement.mode === "range") {
+        schemaItem =
+          "z.object({from: z.date({error: 'This field is required'}), to: z.date({error: 'This field is required'})})";
+      }
+      if (formElement.mode === "multiple") {
+        schemaItem = "z.array(z.date({error: 'This field is required'}))";
+      }
       if (!formElement.required) {
         schemaItem += ".optional()";
       }
