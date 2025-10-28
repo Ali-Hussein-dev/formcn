@@ -54,6 +54,10 @@ const emojis = {
 
 const changelogData: ChangelogEntry[] = [
   {
+    date: "Oct 28, 2025",
+    changes: ["feat: support mode customization in date picker"],
+  },
+  {
     date: "Oct 26, 2025",
     changes: [
       "refactor: use input-group for password field",

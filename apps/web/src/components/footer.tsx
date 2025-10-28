@@ -8,14 +8,6 @@ const resources = [
     name: "Nextradar",
     href: "https://nextradar.dev?via=formcn",
   },
-  {
-    name: "Indie Starter",
-    href: "https://indie-starter.dev?via=formcn",
-  },
-  {
-    name: "MyPrompts",
-    href: "https://myprompt.cc?via=formcn",
-  },
 ];
 const supportLinks = [
   {
