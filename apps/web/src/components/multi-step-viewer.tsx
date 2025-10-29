@@ -93,6 +93,7 @@ const StepFields = (props: React.ComponentProps<"div"> & MotionProps) => {
   }
   return (
     <AnimatePresence mode="popLayout">
+      {/* @ts-expect-error caused when upgrading to Nextjs 16 */}
       <motion.div
         key={currentStepIndex}
         initial={{ opacity: 0, x: 15 }}

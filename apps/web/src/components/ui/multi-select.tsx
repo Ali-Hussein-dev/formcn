@@ -193,6 +193,7 @@ export function MultiSelectValue({
   }
 
   return (
+    // @ts-expect-error caused when upgrading to Nextjs 16
     <div
       {...props}
       ref={handleResize}
