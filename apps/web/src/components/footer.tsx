@@ -12,7 +12,7 @@ const resources = [
 const supportLinks = [
   {
     name: "Request feature",
-    href: `${urls.github}/discussions`,
+    href: "https://formcn.featurebase.app/",
   },
   {
     name: "Report bug",

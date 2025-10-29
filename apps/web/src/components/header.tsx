@@ -2,9 +2,17 @@
 import Link from "next/link";
 import { ModeToggle } from "./mode-toggle";
 import { FaGithub, FaXTwitter } from "react-icons/fa6";
+import { Menu } from "lucide-react";
 import { Logo } from "./shared/logo";
 import { urls } from "@/constants/urls";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const links = [
   {
@@ -35,7 +43,9 @@ export default function Header() {
             <Logo />
           </Link>
         </div>
-        <div className="flex items-center sm:gap-4 gap-2">
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center sm:gap-4 gap-2">
           <nav className="flex gap-2 items-center">
             <Button variant="ghost" size="sm">
               <Link href="/changelog">Changelog</Link>
@@ -66,7 +76,53 @@ export default function Header() {
           </div>
           <ModeToggle />
         </div>
+
+        {/* Mobile Dropdown Menu */}
+        <div className="md:hidden flex items-center gap-2">
+          <ModeToggle />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="p-2">
+                <Menu size={20} />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="sm:w-56 w-64 px-3 py-4">
+              <DropdownMenuItem asChild>
+                <Link href="/changelog" className="w-full">
+                  Changelog
+                </Link>
+              </DropdownMenuItem>
+              {links.map(({ href, label, target, rel }) => {
+                return (
+                  <DropdownMenuItem key={href} asChild>
+                    <a href={href} target={target} rel={rel} className="w-full">
+                      {label}
+                    </a>
+                  </DropdownMenuItem>
+                );
+              })}
+              <DropdownMenuSeparator />
+              <div className="flex items-center justify-center gap-4 p-2">
+                {socialLinks.map(({ href, Icon }) => {
+                  return (
+                    <a
+                      key={href}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-1 hover:bg-accent rounded-md transition-colors"
+                    >
+                      <Icon size={16} />
+                    </a>
+                  );
+                })}
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
+
       <hr />
     </div>
   );

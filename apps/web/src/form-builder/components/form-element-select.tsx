@@ -77,7 +77,7 @@ const FormElementSelect = () => {
             <h3 className="text-xs font-medium text-muted-foreground mb-1.5 pl-4">
               Display Elements
             </h3>
-            <div className="lg:grid flex flex-wrap gap-2">
+            <div className="grid grid-cols-3 lg:grid-cols-1 gap-2">
               {groupedElements.display.map(renderElementButton)}
             </div>
           </div>
@@ -88,7 +88,7 @@ const FormElementSelect = () => {
             <h3 className="text-xs font-medium text-muted-foreground mb-2 pl-4">
               Field Elements
             </h3>
-            <div className="lg:grid flex flex-wrap gap-2">
+            <div className="grid grid-cols-3 lg:grid-cols-1 gap-2">
               {groupedElements.field.map(renderElementButton)}
             </div>
           </div>

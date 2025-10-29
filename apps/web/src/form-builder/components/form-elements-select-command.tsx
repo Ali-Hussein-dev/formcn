@@ -22,7 +22,7 @@ export function FormElementsSelectCommand() {
   const { openCommand: open, setOpenCommand: setOpen } = useCommand();
   return (
     <div>
-      <p className="text-sm text-muted-foreground">
+      <p className="text-sm text-muted-foreground md:block hidden">
         Open fields command with{" "}
         <KbdGroup>
           <Kbd>Alt</Kbd>+<Kbd>f</Kbd>
