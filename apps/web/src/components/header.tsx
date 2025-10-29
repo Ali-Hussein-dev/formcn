@@ -8,6 +8,12 @@ import { Button } from "@/components/ui/button";
 
 const links = [
   {
+    label: "Roadmap",
+    href: "https://formcn.featurebase.app/",
+    target: "_blank",
+    rel: "noopener noreferrer",
+  },
+  {
     label: "Hire me",
     href: "https://ali-hussein.com",
     target: "_blank",

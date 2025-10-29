@@ -54,6 +54,10 @@ const emojis = {
 
 const changelogData: ChangelogEntry[] = [
   {
+    date: "Oct 29, 2025",
+    changes: ["feat: create public roadmap page"],
+  },
+  {
     date: "Oct 28, 2025",
     changes: ["feat: support mode customization in date picker"],
   },
