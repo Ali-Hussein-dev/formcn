@@ -373,7 +373,9 @@ export const getFormElementCode = (field: FormElement) => {
         <Controller
           ${getAttribute("name", field.name)}
           control={form.control}
-          render={({ field, fieldState }) => (
+          render={({ field, fieldState }) => {
+          const options = ${JSON.stringify(field.options)};
+          return (
             <Field data-invalid={fieldState.invalid} className="gap-0 [&_p]:pb-1">
               ${getFieldLabel(field.name, field.label, field.required)}
               ${getDescription(field.description)}
@@ -398,7 +400,7 @@ export const getFormElementCode = (field: FormElement) => {
               </MultiSelect>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
-          )}
+          )}}
         />`;
     case "Rating":
       return `
