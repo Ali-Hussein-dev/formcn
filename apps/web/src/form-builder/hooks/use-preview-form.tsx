@@ -27,7 +27,7 @@ export const usePreviewForm = () => {
   const defaultValues: DefaultValues = filteredFormFields.reduce(
     (acc: DefaultValues, element) => {
       // @ts-expect-error check later
-      acc[element.name] = element?.defaultValue ?? "";
+      acc[element.name] = element?.defaultValue ?? undefined
       return acc;
     },
     {}
