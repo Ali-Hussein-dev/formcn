@@ -43,6 +43,7 @@ import {
   socialKeys,
   socialLogsUrls,
 } from "@/form-builder/constant/social-logos-urls";
+import { LuCalendar1, LuCalendarDays, LuCalendarRange } from "react-icons/lu";
 
 const OptionLabel = ({
   label,
@@ -675,9 +676,33 @@ function FormElementAttributes({
                 fieldType: "ToggleGroup",
                 type: "single",
                 options: [
-                  { value: "single", label: "Single date" },
-                  { value: "multiple", label: "Multiple dates" },
-                  { value: "range", label: "Date range" },
+                  {
+                    value: "single",
+                    label: (
+                      <div className="flex items-center gap-2">
+                        <LuCalendar1 className="size-3.5 text-muted-foreground" />
+                        Single date
+                      </div>
+                    ),
+                  },
+                  {
+                    value: "multiple",
+                    label: (
+                      <div className="flex items-center gap-2">
+                        <LuCalendarDays className="size-3.5 text-muted-foreground" />
+                        Multiple dates
+                      </div>
+                    ),
+                  },
+                  {
+                    value: "range",
+                    label: (
+                      <div className="flex items-center gap-2">
+                        <LuCalendarRange className="size-3.5 text-muted-foreground" />
+                        Date range
+                      </div>
+                    ),
+                  },
                 ],
                 required: true,
                 value: formElement.mode,

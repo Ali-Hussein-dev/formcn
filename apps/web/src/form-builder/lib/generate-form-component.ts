@@ -489,6 +489,8 @@ export const getFormElementCode = (field: FormElement) => {
                         <CalendarIcon className="size-4" />
                             {selectedDate ? (
                               <>
+                                ${field.mode === "single" ? `{format(selectedDate, "dd MMM, yyyy")}` : ""}
+                                ${field.mode === "multiple" ? `{selectedDate.length + "dates selected"}` : ""}
                                 ${
                                   field.mode === "range"
                                     ? `(
@@ -502,9 +504,6 @@ export const getFormElementCode = (field: FormElement) => {
                                 )`
                                     : ""
                                 }
-                                ${field.mode === "single" ? `{format(selectedDate, "dd MMM, yyyy")}` : ""}
-                                
-                                ${field.mode === "multiple" ? `{selectedDate.length + "dates selected"}` : ""}
                               </>
                             ) : (
                               <span>${field.placeholder ?? ""}</span>
@@ -515,10 +514,10 @@ export const getFormElementCode = (field: FormElement) => {
                                 type="button"
                                 variant="ghost"
                                 size="sm"
-                                className="absolute top-1/2 -end-0 -translate-y-1/2 rounded-full"
+                                className="absolute top-1/2 end-0 -translate-y-1/2 rounded-full"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  form.resetField(${field.name});
+                                  form.resetField("${field.name}");
                                 }}
                               >
                                 <X />
