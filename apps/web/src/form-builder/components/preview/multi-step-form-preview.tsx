@@ -75,7 +75,8 @@ export function MultiStepFormPreview({
             return (
               <div
                 key={i}
-                className={cn("col-span-6", (field.width as string) || "")}
+                // @ts-expect-error just ignore
+                className={cn("col-span-full", field?.width ?? "")}
               >
                 <RenderFormElement formElement={field} form={form} />
               </div>
