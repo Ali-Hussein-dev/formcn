@@ -29,6 +29,8 @@ import { WebPreview } from "./web-preview";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from "@/components/shared/error-fallback";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
+import { flattenFormElementOrList } from "../lib/form-elements-helpers"
+import type { FormElementOrList } from "../form-types"
 
 const tabsList = [
   {
@@ -46,28 +48,38 @@ const tabsList = [
     name: "Submission",
     icon: <BsFillSendFill />,
   },
-];
+]
 
 //======================================
 export function FormBuilderBase() {
-  const previewForm = usePreviewForm();
-  const { submittedData, cleanEditingFields: resetForm } = previewForm;
-  const formElements = useFormBuilderStore((s) => s.formElements);
-  const isMS = useFormBuilderStore((s) => s.isMS);
-  const searchParams = useSearchParams();
-  // const getFormById = useLocalForms((s) => s.getFormById);
-  // const updateForm = useLocalForms((s) => s.updateForm);
-  const id = searchParams.get("id");
-  // const foundform = getFormById(id!);
-  const saveForm = useLocalForms((s) => s.updateForm);
+  const previewForm = usePreviewForm()
+  const { submittedData, cleanEditingFields: resetForm } = previewForm
+  const formElements = useFormBuilderStore((s) => s.formElements)
+  const setFormElements = useFormBuilderStore((s) => s.setFormElements)
+  const meta = useFormBuilderStore((s) => s.meta)
+  const isMS = useFormBuilderStore((s) => s.isMS)
+  const searchParams = useSearchParams()
+  const id = searchParams.get("id")
+  const saveForm = useLocalForms((s) => s.updateForm)
+ 
+  // migrate form elements to flat nested form elements
+  React.useEffect(() => {
+    // use to handle nested form elements
+    const flattenElements = flattenFormElementOrList(
+      formElements as FormElementOrList[]
+    )
+    if (flattenElements) {
+      setFormElements(flattenElements, { id: meta.id, name: meta.name, isMS })
+    }
+  }, [])
 
   function handleSaveForm() {
-    if (!id) return;
-    saveForm({ id, formElements });
-    toast.message("Form changes saved locally", { duration: 1000 });
+    if (!id) return
+    saveForm({ id, formElements })
+    toast.message("Form changes saved locally", { duration: 1000 })
   }
   if (!id) {
-    redirect("/my-forms");
+    redirect("/my-forms")
   }
 
   return (

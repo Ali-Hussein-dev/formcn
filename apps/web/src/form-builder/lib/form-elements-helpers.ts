@@ -1,4 +1,4 @@
-import type { FormElementList, FormElementOrList, FormStep } from '@/form-builder/form-types';
+import type { FormElement, FormElementList, FormElementOrList, FormStep } from '@/form-builder/form-types';
 
 /**
  * Removes an element from an array at the specified index.
@@ -54,3 +54,34 @@ export const flattenFormSteps = (array: FormStep[]): FormElementOrList[] => arra
 export const transformToStepFormList = (formElementList: FormElementList): FormStep[] => {
     return [{ id: "1", stepFields: formElementList }]
 }
+
+function hasNestedArray(value: unknown): boolean {
+    if (Array.isArray(value)) {
+        return value.some((item) => Array.isArray(item) || hasNestedArray(item));
+    }
+
+    if (value && typeof value === 'object') {
+        return Object.values(value).some((item) => hasNestedArray(item));
+    }
+
+    return false;
+}
+/**
+ * Flatten an array of FormElementOrList into a flat FormElement array.
+ * Nested elements get `width` forced to "col-span-full" to occupy the full row.
+ */
+export const flattenFormElementOrList = (
+    elements: FormElementOrList[],
+): FormElement[] | null => {
+    if (!hasNestedArray(elements)) return null
+
+    return elements.flatMap((element) => {
+        if (Array.isArray(element)) {
+            return element.map((nestedElement) => ({
+                ...nestedElement,
+                width: "col-span-full md:col-span-3",
+            }));
+        }
+        return element;
+    });
+};

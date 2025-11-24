@@ -1,35 +1,36 @@
-"use client";
-import { NewForm } from "./new-form";
-import { FormPreview } from "./preview/form-preview";
-import { usePreviewForm } from "@/form-builder/hooks/use-preview-form";
-import { Button } from "@/components/ui/button";
-import { useSearchParams } from "next/navigation";
-import useFormBuilderStore from "../hooks/use-form-builder-store";
-import { templates } from "@/form-builder/constant/templates";
-import type { FormElementOrList } from "../form-types";
-import { useRouter } from "next/navigation";
-import { useLocalForms } from "@/form-builder/hooks/use-local-forms";
-import { Input } from "@/components/ui/input";
-import * as React from "react";
-import { toast } from "sonner";
-import { Check, X } from "lucide-react";
-import { FormsListSidebar } from "./forms-list-sidebar";
-import { MyFormSkeleton } from "./form-skeleton";
-import dynamic from "next/dynamic";
-import { WebPreview } from "./web-preview";
-import * as motion from "motion/react-client";
-import Link from "next/link";
-import { BsStars } from "react-icons/bs";
+"use client"
+import { NewForm } from "./new-form"
+import { FormPreview } from "./preview/form-preview"
+import { usePreviewForm } from "@/form-builder/hooks/use-preview-form"
+import { Button } from "@/components/ui/button"
+import { useSearchParams } from "next/navigation"
+import useFormBuilderStore from "../hooks/use-form-builder-store"
+import { templates } from "@/form-builder/constant/templates"
+import type { FormElementOrList } from "../form-types"
+import { useRouter } from "next/navigation"
+import { useLocalForms } from "@/form-builder/hooks/use-local-forms"
+import { Input } from "@/components/ui/input"
+import * as React from "react"
+import { toast } from "sonner"
+import { Check, X } from "lucide-react"
+import { FormsListSidebar } from "./forms-list-sidebar"
+import { MyFormSkeleton } from "./form-skeleton"
+import dynamic from "next/dynamic"
+import { WebPreview } from "./web-preview"
+import * as motion from "motion/react-client"
+import Link from "next/link"
+import { BsStars } from "react-icons/bs"
+import { flattenFormElementOrList } from "../lib/form-elements-helpers"
 
 function DeleteButtonWithConfim({ cb }: { cb: () => void }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
   return open ? (
     <div className="flex gap-2 items-center">
       <Button
         variant="destructive"
         onClick={() => {
-          cb();
-          setOpen(false);
+          cb()
+          setOpen(false)
         }}
       >
         Confirm
@@ -42,45 +43,45 @@ function DeleteButtonWithConfim({ cb }: { cb: () => void }) {
     <Button variant="ghost" onClick={() => setOpen(true)}>
       Delete
     </Button>
-  );
+  )
 }
 
 // Show form name, edit and delete
 function SavedFormCard(props: { name: string; id: string }) {
-  const savedForms = useLocalForms((s) => s.forms);
-  const updateForm = useLocalForms((s) => s.updateForm);
-  const deleteForm = useLocalForms((s) => s.deleteForm);
-  const [editMode, setEditMode] = React.useState(false);
-  const [name, setName] = React.useState(props.name);
-  const router = useRouter();
+  const savedForms = useLocalForms((s) => s.forms)
+  const updateForm = useLocalForms((s) => s.updateForm)
+  const deleteForm = useLocalForms((s) => s.deleteForm)
+  const [editMode, setEditMode] = React.useState(false)
+  const [name, setName] = React.useState(props.name)
+  const router = useRouter()
 
   // Reset state when props change
   React.useEffect(() => {
-    setEditMode(false);
-    setName(props.name);
-  }, [props.id, props.name]);
+    setEditMode(false)
+    setName(props.name)
+  }, [props.id, props.name])
 
   // on esc press, close the edit mode
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setEditMode(false);
+        setEditMode(false)
       }
-    };
-    document.addEventListener("keydown", handleKeyDown);
+    }
+    document.addEventListener("keydown", handleKeyDown)
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
+      document.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [])
 
   function handleEdit() {
-    updateForm({ id: props.id, name });
-    setEditMode(false);
+    updateForm({ id: props.id, name })
+    setEditMode(false)
   }
   function handleDelete() {
-    deleteForm(props.id);
-    toast("Form deleted successfully");
-    router.push(`/my-forms?id=${templates[0].id}`);
+    deleteForm(props.id)
+    toast("Form deleted successfully")
+    router.push(`/my-forms?id=${templates[0].id}`)
   }
 
   return (
@@ -114,45 +115,74 @@ function SavedFormCard(props: { name: string; id: string }) {
       )}
       <DeleteButtonWithConfim cb={handleDelete} />
     </div>
-  );
+  )
+}
+// migrate local forms to flat nested form elements
+const useMigrateLocalForms = () => {
+  const forms = useLocalForms((s) => s.forms)
+  const updateForm = useLocalForms((s) => s.updateForm)
+  React.useEffect(() => {
+    forms.forEach((form) => {
+      // use to handle nested form elements
+      const flattenElements = flattenFormElementOrList(
+        form.formElements as FormElementOrList[]
+      )
+      if (flattenElements) {
+        updateForm({ id: form.id, formElements: flattenElements })
+      }
+    })
+  }, [])
+  return {}
 }
 
+const useSelectedForm = () => {
+  const searchParams = useSearchParams()
+  const PreviewFormId = searchParams.get("id")
+  const getFormById = useLocalForms((s) => s.getFormById)
+
+  const isSelectedFormTemplate =
+    !!PreviewFormId && PreviewFormId.startsWith("template-")
+
+  const selectedForm = isSelectedFormTemplate
+    ? templates.find((t) => t.id === PreviewFormId)
+    : getFormById(PreviewFormId!)
+  return { selectedForm, PreviewFormId, isSelectedFormTemplate }
+}
 //======================================
 export function MyFormsBase() {
-  const previewForm = usePreviewForm();
-  const setFormElements = useFormBuilderStore((s) => s.setFormElements);
-  const setForm = useLocalForms((s) => s.setForm);
-  const getFormById = useLocalForms((s) => s.getFormById);
-  const updateForm = useLocalForms((s) => s.updateForm);
+  useMigrateLocalForms()
+  const previewForm = usePreviewForm()
+  const setFormElements = useFormBuilderStore((s) => s.setFormElements)
+  const setForm = useLocalForms((s) => s.setForm)
+  const getFormById = useLocalForms((s) => s.getFormById)
+  const updateForm = useLocalForms((s) => s.updateForm)
 
-  const searchParams = useSearchParams();
-  const PreviewFormId = searchParams.get("id");
-
-  const meta = useFormBuilderStore((s) => s.meta);
-  const formElements = useFormBuilderStore((s) => s.formElements);
-  const router = useRouter();
-  const isTemplate = !!PreviewFormId && PreviewFormId.startsWith("template-");
-
+  const { selectedForm, PreviewFormId, isSelectedFormTemplate } =
+    useSelectedForm()
+  // reset form each time the form id changes
   React.useEffect(() => {
     if (PreviewFormId) {
-      previewForm.form.reset();
+      previewForm.form.reset()
     }
-  }, [PreviewFormId]);
+  }, [PreviewFormId])
+  const meta = useFormBuilderStore((s) => s.meta)
+  const formElements = useFormBuilderStore((s) => s.formElements)
+  const router = useRouter()
 
   function handleUseForm() {
-    toast.message("Saving your form & redirecting ...", { duration: 1000 });
+    toast.message("Redirecting...", { duration: 1000 })
     // save form from form builder into local forms
     if (meta.id) {
       updateForm({
         id: meta.id,
         formElements: formElements,
-      });
+      })
     }
-    if (isTemplate) {
-      const template = templates.find((t) => t.id === PreviewFormId);
+    if (isSelectedFormTemplate) {
+      const template = templates.find((t) => t.id === PreviewFormId)
       if (template) {
-        const id = crypto.randomUUID();
-        const date = new Date().toISOString();
+        const id = crypto.randomUUID()
+        const date = new Date().toISOString()
         const formObject = {
           id,
           name: template.title + " Template",
@@ -160,32 +190,29 @@ export function MyFormsBase() {
           formElements: template.formElements as FormElementOrList[],
           createdAt: date,
           updatedAt: date,
-        };
+        }
         // add form template to local Forms
         setFormElements(formObject.formElements, {
           isMS: formObject.isMS,
           id,
           name: formObject.name,
-        });
-        setForm(formObject);
-        router.push(`/form-builder?id=${id}`);
-        return;
+        })
+        setForm(formObject)
+        router.push(`/form-builder?id=${id}`)
+        return
       }
     } else {
-      const savedForm = getFormById(PreviewFormId!);
+      const savedForm = getFormById(PreviewFormId!)
       if (savedForm) {
         setFormElements(savedForm.formElements, {
           isMS: savedForm.isMS,
           id: savedForm.id,
           name: savedForm.name,
-        });
+        })
       }
-      router.push(`/form-builder?id=${PreviewFormId}`);
+      router.push(`/form-builder?id=${PreviewFormId}`)
     }
   }
-  const currentForm = isTemplate
-    ? templates.find((t) => t.id === PreviewFormId)
-    : getFormById(PreviewFormId!);
 
   return (
     <div>
@@ -216,14 +243,14 @@ export function MyFormsBase() {
                 >
                   <FormPreview
                     formElements={
-                      (currentForm?.formElements || []) as FormElementOrList[]
+                      (selectedForm?.formElements ?? []) as FormElementOrList[]
                     }
-                    isMS={currentForm?.isMS || false}
+                    isMS={selectedForm?.isMS || false}
                     {...previewForm}
                   />
                 </motion.div>
                 <div className="pt-4 flex justify-end">
-                  {!isTemplate && (
+                  {!isSelectedFormTemplate && (
                     <div className="grow pr-2">
                       <SavedFormCard
                         id={PreviewFormId}
@@ -231,8 +258,8 @@ export function MyFormsBase() {
                       />
                     </div>
                   )}
-                  <Button variant="default" onClick={handleUseForm}>
-                    Edit form
+                  <Button onClick={handleUseForm}>
+                    {isSelectedFormTemplate ? "Clone form" : "Edit form"}
                   </Button>
                 </div>
               </div>
@@ -250,4 +277,4 @@ export const MyForms = dynamic(
     ssr: false,
     loading: () => <MyFormSkeleton />,
   }
-);
+)
