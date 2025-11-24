@@ -49,9 +49,10 @@ function Button({
     const Comp = asChild ? Slot : "button"
 
     return (
-      // @ts-expect-error weird issue with nextjs 16
       <Comp
         data-slot="button"
+        // @ts-expect-error just ignore
+        popover="auto"
         className={cn(buttonVariants({ variant, size, className }))}
         {...props}
       />
