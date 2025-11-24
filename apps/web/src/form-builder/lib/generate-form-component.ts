@@ -43,7 +43,7 @@ export const getFormElementCode = (field: FormElement) => {
           ${getAttribute("name", field.name)}
           control={form.control}
           render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid} className="gap-1">
+            <Field data-invalid={fieldState.invalid} className="gap-1 ${field?.width ?? "col-span-full"}">
             ${getFieldLabel(field.name, field.label, field.required)}
               <Input
                 {...field}
@@ -67,7 +67,7 @@ export const getFormElementCode = (field: FormElement) => {
               ${getAttribute("name", field.name)}
               control={form.control}
               render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid} className="gap-1">
+                <Field data-invalid={fieldState.invalid} className="gap-1 ${field?.width ?? "col-span-full"}">
                 ${getFieldLabel(field.name, field.label, field.required)}
                   <Textarea
                     {...field}
@@ -87,7 +87,7 @@ export const getFormElementCode = (field: FormElement) => {
           ${getAttribute("name", field.name)} 
           control={form.control} 
           render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid} className="gap-1">
+            <Field data-invalid={fieldState.invalid} className="gap-1 ${field?.width ?? "col-span-full"}">
             <FieldContent className="gap-0.5">
               ${getFieldLabel(field.name, field.label, field.required)}
               ${getDescription(field.description)}
@@ -108,7 +108,7 @@ export const getFormElementCode = (field: FormElement) => {
             ${getAttribute("name", field.name)} 
             control={form.control}
             render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
+                <Field data-invalid={fieldState.invalid} className="gap-1 ${field?.width ?? "col-span-full"}">
                   <FieldContent className="gap-1">
                     ${getFieldLabel(field.name, field.label, field.required)}
                     ${getDescription(field.description)}
@@ -141,7 +141,7 @@ export const getFormElementCode = (field: FormElement) => {
           ${getAttribute("name", field.name)} 
           control={form.control}
           render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid} className="gap-1">
+            <Field data-invalid={fieldState.invalid} className="gap-1 ${field?.width ?? "col-span-full"}">
               <div className="flex items-center gap-2 mb-1">
                 <Checkbox
                   ${getAttribute("id", field.name)}
@@ -163,7 +163,7 @@ export const getFormElementCode = (field: FormElement) => {
           ${getAttribute("name", field.name)} 
           control={form.control}
           render={({ field, fieldState }) => (
-            <Field orientation="horizontal" data-invalid={fieldState.invalid}>
+            <Field orientation="horizontal" data-invalid={fieldState.invalid} className="${field?.width ?? "col-span-full"}">
               <FieldContent>  
                 ${getFieldLabel(field.name, field.label, field.required)}
                 ${getDescription(field.description)}
@@ -191,7 +191,7 @@ export const getFormElementCode = (field: FormElement) => {
               ? field.value
               : [field.value ?? max / 2];
             return (
-              <Field data-invalid={fieldState.invalid}>
+              <Field data-invalid={fieldState.invalid} className="${field?.width ?? "col-span-full"}">
                 <FieldContent className="mb-2 gap-1">
                   <FieldLabel
                     htmlFor={field.name}
@@ -231,7 +231,7 @@ export const getFormElementCode = (field: FormElement) => {
           render={({ field, fieldState }) => {
             const options = ${JSON.stringify(field.options)};
             return (
-              <Field data-invalid={fieldState.invalid} className="gap-1 [&_p]:pb-2">
+              <Field data-invalid={fieldState.invalid} className="gap-1 [&_p]:pb-2 ${field?.width ?? "col-span-full"}">
                 ${getFieldLabel(field.name, field.label, field.required)}
                 ${getDescription(field.description)}
                 <ToggleGroup
@@ -272,7 +272,7 @@ export const getFormElementCode = (field: FormElement) => {
           render={({ field, fieldState }) => {
           const options = ${JSON.stringify(field.options)};
           return (
-            <Field data-invalid={fieldState.invalid} className="gap-1">
+            <Field data-invalid={fieldState.invalid} className="gap-1 ${field?.width ?? "col-span-full"}">
               ${getFieldLabel(field.name, field.label, field.required)}
               ${getDescription(field.description)}
               <Select
@@ -306,7 +306,7 @@ export const getFormElementCode = (field: FormElement) => {
           render={({ field, fieldState }) => {
           const options = ${JSON.stringify(field.options)};
           return (
-            <Field data-invalid={fieldState.invalid} className="gap-2">
+            <Field data-invalid={fieldState.invalid} className="gap-2 ${field?.width ?? "col-span-full"}">
             ${getFieldLabel(field.name, field.label, field.required)}
             ${getDescription(field.description)}
               <Popover>
@@ -328,7 +328,7 @@ export const getFormElementCode = (field: FormElement) => {
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent
-                  className="p-0 min-w-[var(--radix-popper-anchor-width)] w-full"
+                  className="p-0 min-w-(--radix-popper-anchor-width) w-full"
                   align="start"
                 >
                   <Command>
@@ -376,7 +376,7 @@ export const getFormElementCode = (field: FormElement) => {
           render={({ field, fieldState }) => {
           const options = ${JSON.stringify(field.options)};
           return (
-            <Field data-invalid={fieldState.invalid} className="gap-0 [&_p]:pb-1">
+            <Field data-invalid={fieldState.invalid} className="gap-1 [&_p]:pb-1 ${field?.width ?? "col-span-full"}">
               ${getFieldLabel(field.name, field.label, field.required)}
               ${getDescription(field.description)}
               <MultiSelect
@@ -408,7 +408,7 @@ export const getFormElementCode = (field: FormElement) => {
           ${getAttribute("name", field.name)}
           control={form.control}
           render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid} className="gap-1 [&_p]:pb-2">
+            <Field data-invalid={fieldState.invalid} className="gap-1 [&_p]:pb-2 ${field?.width ?? "col-span-full"}">
               ${getFieldLabel(field.name, field.label, field.required)}
               ${getDescription(field.description)}
               <Rating
@@ -440,7 +440,7 @@ export const getFormElementCode = (field: FormElement) => {
           render={({ field, fieldState }) => {
           const options = ${JSON.stringify(field.options)};
             return(
-              <Field data-invalid={fieldState.invalid} className="gap-1 [&_p]:pb-2">
+              <Field data-invalid={fieldState.invalid} className="gap-1 [&_p]:pb-2 ${field?.width ?? "col-span-full"}">
                 ${getFieldLabel(field.name, field.label, field.required)}
                 ${getDescription(field.description)}
                 <RadioGroup
@@ -472,7 +472,7 @@ export const getFormElementCode = (field: FormElement) => {
             const selectedDate = field.value;
             const mode =  "${field.mode}";
             return (
-              <Field data-invalid={fieldState.invalid}>
+              <Field data-invalid={fieldState.invalid} className="${field?.width ?? "col-span-full"}">
                 ${getFieldLabel(field.name, field.label, field.required)}
                 ${getDescription(field.description)}
                 <Popover>
@@ -552,7 +552,7 @@ export const getFormElementCode = (field: FormElement) => {
           control={form.control}
           render={({ field, fieldState }) => (
             <div>
-              <Field data-invalid={fieldState.invalid} className="gap-1">
+              <Field data-invalid={fieldState.invalid} className="gap-1 ${field?.width ?? "col-span-full"}">
                 ${getFieldLabel(field.name, field.label, field.required)}
                 ${getDescription(field.description)}
                 <FileUpload
@@ -585,11 +585,11 @@ export const getFormElementCode = (field: FormElement) => {
         />`;
     case "Separator":
       return field.label
-        ? `<FieldSeparator className="my-4">${field.label}</FieldSeparator>`
+        ? `<FieldSeparator className="my-4 col-span-full">${field.label}</FieldSeparator>`
         : `<FieldSeparator className="my-4" />`;
     case "SocialMediaButtons":
       return field.layout === "row"
-        ? `<div className="flex gap-3 justify-center w-full items-center flex-wrap pb-3">
+        ? `<div className="flex gap-3 justify-center w-full items-center flex-wrap pb-3 col-span-full">
           {socialMediaButtons.map((o) => (
             <Button key={o.label} variant="outline" type="button"
               className="text-sm gap-2 px-2 h-10 grow ">
@@ -600,7 +600,7 @@ export const getFormElementCode = (field: FormElement) => {
             </Button>
           ))}
         </div>`
-        : `<div className="w-full items-center flex-col gap-3 flex pb-3">
+        : `<div className="w-full items-center flex-col gap-3 flex pb-3 col-span-full">
               {socialMediaButtons.map((o) => (
                 <Button 
                   key={o.label} 
@@ -617,13 +617,14 @@ export const getFormElementCode = (field: FormElement) => {
             </div>`;
     case "Text":
       if (field.variant == "H1")
-        return `<h1 className="mt-6 mb-1 font-extrabold text-3xl tracking-tight">${field.content}</h1>`;
+        return `<h1 className="mt-6 mb-1 font-extrabold text-3xl tracking-tight ${field?.width ?? "col-span-full"}">${field.content}</h1>`;
       if (field.variant == "H2")
-        return `<h2 className="mt-4 mb-1 font-bold text-2xl tracking-tight">${field.content}</h2>`;
+        return `<h2 className="mt-4 mb-1 font-bold text-2xl tracking-tight ${field?.width ?? "col-span-full"}">${field.content}</h2>`;
       if (field.variant == "H3")
-        return `<h3 className="mt-3 mb-1 font-semibold text-xl tracking-tight">${field.content}</h3>`;
+        return `<h3 className="mt-3 mb-1 font-semibold text-xl tracking-tight ${field?.width ?? "col-span-full"}">${field.content}</h3>`;
       if (field.variant == "P")
-        return `<p className="tracking-wide text-muted-foreground mb-5 text-wrap text-sm">${field.content}</p>`;
+        return `<p className="tracking-wide text-muted-foreground mb-5 text-wrap text-sm ${field?.width ?? "col-span-full"}">${field.content}</p>`;
+    // deprecated fields
     case "H1":
       return `<h1 className="mt-6 font-extrabold text-3xl tracking-tight">${field.content}</h1>`;
     case "H2":

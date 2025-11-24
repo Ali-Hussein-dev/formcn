@@ -1,56 +1,49 @@
-import * as React from "react";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogTitle,
-  DialogHeader,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import * as React from "react"
+import { Button } from "@/components/ui/button"
 import {
   Drawer,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer";
-import { FaEdit } from "react-icons/fa";
-import type { FormElement, Option } from "@/form-builder/form-types";
-import { useForm } from "react-hook-form";
-import { RenderFormElement } from "@/form-builder/components/edit/render-form-element";
-import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
-import { MdAttachFile, MdOutlineTextFields, MdStar } from "react-icons/md";
-import { FaLink, FaPhone, FaClock } from "react-icons/fa";
-import { MdEmail, MdOutlineNumbers, MdOutlinePassword } from "react-icons/md";
-import { TooltipProvider } from "@/components/ui/tooltip";
+} from "@/components/ui/drawer"
+import { FaEdit } from "react-icons/fa"
+import type { FormElement, Option } from "@/form-builder/form-types"
+import { useForm } from "react-hook-form"
+import { RenderFormElement } from "@/form-builder/components/edit/render-form-element"
+import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store"
+import { MdAttachFile, MdOutlineTextFields, MdStar } from "react-icons/md"
+import { FaLink, FaPhone, FaClock } from "react-icons/fa"
+import { MdEmail, MdOutlineNumbers, MdOutlinePassword } from "react-icons/md"
+import { TooltipProvider } from "@/components/ui/tooltip"
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { MdAdd, MdDelete, MdEdit, MdCheck, MdClose } from "react-icons/md";
-import { LuGripVertical } from "react-icons/lu";
-import { Reorder } from "motion/react";
-import { useListState } from "@mantine/hooks";
-import { LuHeading1, LuHeading2, LuHeading3 } from "react-icons/lu";
-import { BiParagraph } from "react-icons/bi";
-import { hasAttribute } from "@/form-builder/lib/has-attribute";
-import { formFieldsIcons } from "@/form-builder/constant/form-elements-list";
+} from "@/components/ui/tooltip"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { MdAdd, MdDelete, MdEdit, MdCheck, MdClose } from "react-icons/md"
+import { LuGripVertical } from "react-icons/lu"
+import { Reorder } from "motion/react"
+import { useListState } from "@mantine/hooks"
+import { LuHeading1, LuHeading2, LuHeading3 } from "react-icons/lu"
+import { BiParagraph } from "react-icons/bi"
+import { hasAttribute } from "@/form-builder/lib/has-attribute"
+import { formFieldsIcons } from "@/form-builder/constant/form-elements-list"
 import {
   socialKeys,
   socialLogsUrls,
-} from "@/form-builder/constant/social-logos-urls";
-import { LuCalendar1, LuCalendarDays, LuCalendarRange } from "react-icons/lu";
+} from "@/form-builder/constant/social-logos-urls"
+import { LuCalendar1, LuCalendarDays, LuCalendarRange } from "react-icons/lu"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 const OptionLabel = ({
   label,
   Icon,
 }: {
-  label: string;
-  Icon: React.ReactNode;
+  label: string
+  Icon: React.ReactNode
 }) => (
   <TooltipProvider>
     <Tooltip>
@@ -67,7 +60,7 @@ const OptionLabel = ({
       </TooltipContent>
     </Tooltip>
   </TooltipProvider>
-);
+)
 
 const inputTypes = [
   {
@@ -95,7 +88,7 @@ const inputTypes = [
     value: "time",
     label: <OptionLabel label="Time" Icon={<FaClock />} />,
   },
-];
+]
 
 const textVariants = [
   {
@@ -114,12 +107,12 @@ const textVariants = [
     label: <OptionLabel label="Paragraph" Icon={<BiParagraph />} />,
     value: "P",
   },
-];
+]
 const Logo = ({ src }: { src: string }) => (
   <div className="grid place-items-center rounded-full dark:bg-white size-5">
     <img src={src} width={14} height={14} />
   </div>
-);
+)
 
 const socialMediaButtonsVariants = Object.entries(socialLogsUrls).map(
   ([key, value]) => ({
@@ -131,62 +124,62 @@ const socialMediaButtonsVariants = Object.entries(socialLogsUrls).map(
       </div>
     ),
   })
-);
+)
 
 function OptionsList({
   options = [],
   onChange,
 }: {
-  options: Option[];
-  onChange: (options: Option[]) => void;
+  options: Option[]
+  onChange: (options: Option[]) => void
 }) {
-  const [localOptions, handlers] = useListState<Option>(options);
-  const [editingIndex, setEditingIndex] = React.useState<number | null>(null);
+  const [localOptions, handlers] = useListState<Option>(options)
+  const [editingIndex, setEditingIndex] = React.useState<number | null>(null)
 
   const [editingOption, setEditingOption] = React.useState<Option>({
     value: "",
     label: "",
-  });
+  })
 
   const addOption = () => {
     const newOption: Option = {
       value: `option_${Date.now()}`,
       label: `Option ${options.length + 1}`,
-    };
-    handlers.append(newOption);
-    onChange([...localOptions, newOption]);
-  };
+    }
+    handlers.append(newOption)
+    onChange([...localOptions, newOption])
+  }
 
   const deleteOption = (index: number) => {
-    handlers.remove(index);
-    const updatedOptions = localOptions.filter((_, i) => i !== index);
-    onChange(updatedOptions);
-  };
+    handlers.remove(index)
+    const updatedOptions = localOptions.filter((_, i) => i !== index)
+    onChange(updatedOptions)
+  }
 
   const startEdit = (index: number) => {
-    setEditingIndex(index);
-    setEditingOption({ ...localOptions[index] });
-  };
+    setEditingIndex(index)
+    setEditingOption({ ...localOptions[index] })
+  }
 
   const saveEdit = () => {
     if (editingIndex !== null) {
-      handlers.setItem(editingIndex, editingOption);
+      handlers.setItem(editingIndex, editingOption)
       const updatedOptions = localOptions.map((option, index) =>
         index === editingIndex ? editingOption : option
-      );
-      onChange(updatedOptions);
-      setEditingIndex(null);
+      )
+      onChange(updatedOptions)
+      setEditingIndex(null)
     }
-  };
+  }
 
   const cancelEdit = () => {
-    setEditingIndex(null);
-    setEditingOption({ value: "", label: "" });
-  };
+    setEditingIndex(null)
+    setEditingOption({ value: "", label: "" })
+  }
   const handleReorder = (newOrder: Option[]) => {
-    onChange(newOrder);
-    handlers.setState(newOrder);
-  };
+    onChange(newOrder)
+    handlers.setState(newOrder)
+  }
   return (
     <div className="space-y-3 w-full py-1">
       <div className="flex items-center justify-between">
@@ -220,7 +213,7 @@ function OptionsList({
               value={option}
               className="flex items-center gap-2 py-2 pr-2 pl-4 border rounded-md cursor-grab active:cursor-grabbing group bg-secondary"
             >
-              <LuGripVertical className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+              <LuGripVertical className="h-4 w-4 text-muted-foreground shrink-0" />
               {editingIndex === index ? (
                 <>
                   <div className="flex-1 space-y-2">
@@ -232,8 +225,8 @@ function OptionsList({
                         <Input
                           value={editingOption.label as string}
                           onChange={(e) => {
-                            const newLabel = e.target.value;
-                            const newValue = newLabel.toLowerCase();
+                            const newLabel = e.target.value
+                            const newValue = newLabel.toLowerCase()
                             // .replace(/[^a-z0-9]/g, "_")
                             // .replace(/_+/g, "_")
                             // .replace(/^_|_$/g, "");
@@ -241,7 +234,7 @@ function OptionsList({
                               ...editingOption,
                               label: newLabel,
                               value: newValue,
-                            });
+                            })
                           }}
                           placeholder="Option label"
                           className="h-8 text-sm"
@@ -329,7 +322,7 @@ function OptionsList({
         )}
       </div>
     </div>
-  );
+  )
 }
 
 function FormElementAttributes({
@@ -339,26 +332,26 @@ function FormElementAttributes({
   stepIndex,
   ...formElement
 }: FormElement & {
-  fieldIndex: number;
-  stepIndex?: number;
-  j?: number;
-  close: () => void;
+  fieldIndex: number
+  stepIndex?: number
+  j?: number
+  close: () => void
 }) {
   const form = useForm<FormElement>({
     defaultValues: formElement as FormElement,
-  });
-  const editElement = useFormBuilderStore((s) => s.editElement);
-  const { handleSubmit, getValues } = form;
+  })
+  const editElement = useFormBuilderStore((s) => s.editElement)
+  const { handleSubmit, getValues } = form
   const onSubmit = () => {
     editElement({
       fieldIndex: fieldIndex,
       modifiedFormElement: getValues(),
       j,
       stepIndex,
-    });
-    close();
-  };
-  const { fieldType } = formElement;
+    })
+    close()
+  }
+  const { fieldType } = formElement
 
   return (
     <form
@@ -667,7 +660,7 @@ function FormElementAttributes({
 
         {/* //-----------------------DatePicker */}
         {fieldType === "DatePicker" && (
-          <div className="space-y-5 mb-2">
+          <div className="space-y-5">
             <RenderFormElement
               formElement={{
                 id: formElement.id,
@@ -747,6 +740,32 @@ function FormElementAttributes({
             />
           </div>
         )}
+        {/* //-----------------------Width */}
+        {hasAttribute({
+          fieldType,
+          attribute: "width",
+        }) && (
+          <div>
+            <RenderFormElement
+              formElement={{
+                id: formElement.id,
+                name: "width",
+                label: "Field width options",
+                description: "width is responsive and mobile friendly",
+                fieldType: "ToggleGroup",
+                type: "single",
+                options: [
+                  { value: "col-span-full", label: "Full width" },
+                  { value: "md:col-span-3", label: "Half width" },
+                  { value: "md:col-span-2", label: "Third width" },
+                ],
+                required: false,
+                value: (formElement as any).width,
+              }}
+              form={form}
+            />
+          </div>
+        )}
       </div>
 
       <div className="flex items-center justify-end gap-3 w-full">
@@ -758,7 +777,7 @@ function FormElementAttributes({
         </Button>
       </div>
     </form>
-  );
+  )
 }
 
 export function FieldCustomizationView({
@@ -767,30 +786,30 @@ export function FieldCustomizationView({
   j,
   stepIndex,
 }: {
-  fieldIndex: number;
-  j?: number;
-  formElement: FormElement;
-  stepIndex?: number;
+  fieldIndex: number
+  j?: number
+  formElement: FormElement
+  stepIndex?: number
 }) {
-  const [open, setOpen] = React.useState(false);
-  const isMobile = useIsMobile();
-  const close = () => setOpen(false);
-  const title = "Customize field attributes";
-  const Icon = formFieldsIcons[formElement.fieldType];
-  if (isMobile) {
-    return (
-      <Drawer open={open} onOpenChange={setOpen}>
-        <DrawerTrigger asChild>
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            className="rounded-xl h-9"
-          >
-            <FaEdit />
-          </Button>
-        </DrawerTrigger>
-        <DrawerContent className="bg-glass px-4">
+  const [open, setOpen] = React.useState(false)
+  const close = () => setOpen(false)
+  const title = `Customize ${formElement.fieldType} attributes`
+  const Icon = formFieldsIcons[formElement.fieldType]
+
+  return (
+    <Drawer open={open} onOpenChange={setOpen} direction="right">
+      <DrawerTrigger asChild>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          className="rounded-xl h-9"
+        >
+          <FaEdit />
+        </Button>
+      </DrawerTrigger>
+      <DrawerContent className="bg-glass px-4 pb-4 data-[vaul-drawer-direction=right]:sm:max-w-lg">
+        <ScrollArea className="h-full pr-3">
           <DrawerHeader className="px-0 flex items-center gap-2 justify-start flex-row">
             <Icon className="size-5 text-muted-foreground" />
             <DrawerTitle className="text-start text-lg">{title}</DrawerTitle>
@@ -802,39 +821,8 @@ export function FieldCustomizationView({
             {...formElement}
             close={close}
           />
-        </DrawerContent>
-      </Drawer>
-    );
-  }
-
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className="rounded-xl h-9"
-        >
-          <FaEdit />
-        </Button>
-      </DialogTrigger>
-      <DialogContent
-        showCloseButton={false}
-        className="sm:max-w-[530px] bg-glass"
-      >
-        <DialogHeader className="flex items-center gap-2 justify-start flex-row">
-          <Icon className="size-5 text-muted-foreground" />
-          <DialogTitle>{title}</DialogTitle>
-        </DialogHeader>
-        <FormElementAttributes
-          fieldIndex={fieldIndex}
-          stepIndex={stepIndex}
-          j={j}
-          {...formElement}
-          close={close}
-        />
-      </DialogContent>
-    </Dialog>
-  );
+        </ScrollArea>
+      </DrawerContent>
+    </Drawer>
+  )
 }

@@ -20,6 +20,10 @@ type SharedFormProps = {
   static?: boolean;
   disabled?: boolean;
   id: string;
+  /**
+   * values: "col-span-full", "md:col-span-3", "md:col-span-2"
+   */
+  width?: string;
 };
 
 type Input = {
@@ -196,6 +200,7 @@ type Text = {
   variant: "H1" | "H2" | "H3" | "P";
   static: true;
   content: string;
+  width?: string;
 } & React.HTMLAttributes<HTMLParagraphElement>;
 
 type Divider = {
@@ -250,8 +255,14 @@ export type FormElement =
   | (FormFieldElement & { id: string })
   | (StaticFormElement & { id: string });
 
+/**
+ * @deprecated
+ */
 export type FormElementOrList = FormElement | FormElement[];
 
+/**
+ * @deprecated
+ */
 export type FormElementList = FormElement[] | FormElementOrList[];
 
 export type FormStep = {

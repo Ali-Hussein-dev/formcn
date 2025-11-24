@@ -101,11 +101,12 @@ const StepFields = (props: React.ComponentProps<"div"> & MotionProps) => {
         exit={{ opacity: 0, x: -15 }}
         transition={{ duration: 0.4, type: "spring" }}
         {...props}
+        className="grid grid-cols-6 gap-4"
       >
         {currentFormStep.component}
       </motion.div>
     </AnimatePresence>
-  );
+  )
 };
 
 function MultiStepFormContent(props: React.ComponentProps<"div">) {

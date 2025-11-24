@@ -4,40 +4,35 @@ import type {
   FormStep,
 } from "@/form-builder/form-types";
 import * as React from "react";
-import { Reorder, useDragControls } from "motion/react";
-import { MdDelete } from "react-icons/md";
-import { Button } from "@/components/ui/button";
-import { LuGripVertical } from "react-icons/lu";
-import { FieldCustomizationView } from "@/form-builder/components/edit/field-edit";
-import { FormElementsDropdown } from "@/form-builder/components/edit/form-elements-dropdown";
-import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
-import { StepItem } from "@/form-builder/components/edit/step-item";
-import { formFieldsIcons } from "@/form-builder/constant/form-elements-list";
-import { PiColumns } from "react-icons/pi";
+import { Reorder } from "motion/react"
+import { MdDelete } from "react-icons/md"
+import { Button } from "@/components/ui/button"
+import { FieldCustomizationView } from "@/form-builder/components/edit/field-edit"
+import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store"
+import { StepItem } from "@/form-builder/components/edit/step-item"
+import { formFieldsIcons } from "@/form-builder/constant/form-elements-list"
 
 type EditFormItemProps = {
-  element: FormElement;
+  element: FormElement
   /**
    * Index of the main array
    */
-  fieldIndex: number;
+  fieldIndex: number
   /**
    * Index of the nested array element
    */
-  j?: number;
-  stepIndex?: number;
-};
+  j?: number
+  stepIndex?: number
+}
 
 const EditFormItem = (props: EditFormItemProps) => {
-  const { element, fieldIndex } = props;
-  const dropElement = useFormBuilderStore((s) => s.dropElement);
-  const isNested = typeof props?.j === "number";
-  const shouldShowDropdown = isNested || element.fieldType === "Separator";
+  const { element, fieldIndex } = props
+  const dropElement = useFormBuilderStore((s) => s.dropElement)
   let DisplayName =
     "static" in element && element.static
       ? element.content
-      : element.label || element.name;
-  const Icon = formFieldsIcons[element.fieldType];
+      : element.label || element.name
+  const Icon = formFieldsIcons[element.fieldType]
   return (
     <div className="w-full group">
       <div className="flex items-center justify-between px-2">
@@ -50,12 +45,6 @@ const EditFormItem = (props: EditFormItemProps) => {
           <span className="truncate max-w-xs md:max-w-sm">{DisplayName}</span>
         </div>
         <div className="flex items-center justify-end opacity-0 group-hover:opacity-100 duration-100">
-          {!shouldShowDropdown && (
-            <FormElementsDropdown
-              fieldIndex={fieldIndex}
-              stepIndex={props?.stepIndex}
-            />
-          )}
           <FieldCustomizationView
             formElement={element as FormElement}
             fieldIndex={fieldIndex}
@@ -71,7 +60,7 @@ const EditFormItem = (props: EditFormItemProps) => {
                 fieldIndex,
                 j: props?.j,
                 stepIndex: props?.stepIndex,
-              });
+              })
             }}
             className="rounded-xl h-9"
           >
@@ -80,110 +69,66 @@ const EditFormItem = (props: EditFormItemProps) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export const animateVariants = {
   initial: { opacity: 0, y: -10 },
   animate: { opacity: 1, y: 0 },
   exit: { opacity: 0 },
   transition: { duration: 0.2, ease: "easeInOut" },
-};
+}
 const getTransitionProps = (isLayoutTransitioning: boolean) => ({
   // ...animateVariants,
   transition: isLayoutTransitioning
     ? { duration: 0 } // Disable animations during layout transitions
     : animateVariants.transition,
-});
+})
 
 const useLayoutTracker = () => {
-  const containerRef = React.useRef<HTMLDivElement>(null);
+  const containerRef = React.useRef<HTMLDivElement>(null)
   const [isLayoutTransitioning, setIsLayoutTransitioning] =
-    React.useState(false);
+    React.useState(false)
 
   React.useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    const container = containerRef.current
+    if (!container) return
 
-    let resizeTimeout: NodeJS.Timeout;
+    let resizeTimeout: NodeJS.Timeout
 
     const resizeObserver = new ResizeObserver(() => {
       // Set transitioning state when resize starts
-      setIsLayoutTransitioning(true);
+      setIsLayoutTransitioning(true)
 
       // Clear existing timeout
-      if (resizeTimeout) clearTimeout(resizeTimeout);
+      if (resizeTimeout) clearTimeout(resizeTimeout)
 
       // Reset transitioning state after transition completes
       resizeTimeout = setTimeout(() => {
-        setIsLayoutTransitioning(false);
-      }, 350); // Slightly longer than our CSS transition duration
-    });
+        setIsLayoutTransitioning(false)
+      }, 350) // Slightly longer than our CSS transition duration
+    })
 
-    resizeObserver.observe(container);
+    resizeObserver.observe(container)
 
     return () => {
-      resizeObserver.disconnect();
-      if (resizeTimeout) clearTimeout(resizeTimeout);
-    };
-  }, []);
-  return { isLayoutTransitioning, containerRef };
-};
-
-const RowItems = ({
-  element,
-  children,
-}: {
-  element: FormElement[];
-  children: React.ReactNode;
-}) => {
-  const controls = useDragControls();
-  return (
-    <Reorder.Item
-      key={element[0].id}
-      value={element}
-      layout
-      dragControls={controls}
-      dragListener={false}
-      className="flex flex-col items-start justify-start gap-3 w-full bg-background p-3 border border-dashed rounded-sm group/row"
-    >
-      <div className="flex justify-between items-center w-full">
-        <div className="flex items-center gap-2 grow w-full text-sm">
-          <PiColumns className="text-muted-foreground" />
-          Row Fields
-        </div>
-        <div
-          className="hover:cursor-grab active:grabbing grid place-items-center opacity-0 group-hover/row:opacity-100 duration-100"
-          onPointerDown={(e) => {
-            e.stopPropagation();
-            controls.start(e);
-          }}
-        >
-          <LuGripVertical className="dark:text-muted-foreground text-muted-foreground" />
-        </div>
-      </div>
-      <div
-        className="grow w-full"
-        onPointerDown={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        {children}
-      </div>
-    </Reorder.Item>
-  );
-};
+      resizeObserver.disconnect()
+      if (resizeTimeout) clearTimeout(resizeTimeout)
+    }
+  }, [])
+  return { isLayoutTransitioning, containerRef }
+}
 
 const StepsWrapper = () => {
-  const reorderSteps = useFormBuilderStore((s) => s.reorderSteps);
-  const formElements = useFormBuilderStore((s) => s.formElements);
-  const reorder = useFormBuilderStore((s) => s.reorder);
-  const { isLayoutTransitioning, containerRef } = useLayoutTracker();
+  const reorderSteps = useFormBuilderStore((s) => s.reorderSteps)
+  const formElements = useFormBuilderStore((s) => s.formElements)
+  const reorder = useFormBuilderStore((s) => s.reorder)
+  const { isLayoutTransitioning, containerRef } = useLayoutTracker()
   return (
     <Reorder.Group
       values={formElements as FormStep[]}
       onReorder={(newOrder) => {
-        reorderSteps(newOrder);
+        reorderSteps(newOrder)
       }}
       className="flex flex-col gap-4 px-1 py-2"
       layout
@@ -199,43 +144,13 @@ const StepsWrapper = () => {
           <Reorder.Group
             axis="y"
             onReorder={(newOrder) => {
-              reorder({ newOrder, stepIndex });
+              reorder({ newOrder, stepIndex })
             }}
             values={step.stepFields}
             className="flex flex-col gap-3"
             tabIndex={-1}
           >
-            {step.stepFields.map((element, fieldIndex) => {
-              if (Array.isArray(element)) {
-                return (
-                  <RowItems key={element[0].id} element={element}>
-                    <Reorder.Group
-                      values={element}
-                      onReorder={(newOrder) => {
-                        reorder({ newOrder, fieldIndex, stepIndex });
-                      }}
-                      className="w-full flex flex-col items-center justify-start gap-3"
-                      tabIndex={-1}
-                      layout
-                    >
-                      {element.map((el, j) => (
-                        <Reorder.Item
-                          value={el}
-                          key={el.id}
-                          className="reorderItem group"
-                        >
-                          <EditFormItem
-                            fieldIndex={fieldIndex}
-                            j={j}
-                            element={el}
-                            stepIndex={stepIndex}
-                          />
-                        </Reorder.Item>
-                      ))}
-                    </Reorder.Group>
-                  </RowItems>
-                );
-              }
+            {step.stepFields.flat().map((element, fieldIndex) => {
               return (
                 <Reorder.Item
                   key={element.id}
@@ -249,23 +164,23 @@ const StepsWrapper = () => {
                     stepIndex={stepIndex}
                   />
                 </Reorder.Item>
-              );
+              )
             })}
           </Reorder.Group>
         </StepItem>
       ))}
     </Reorder.Group>
-  );
-};
+  )
+}
 const SingleStepWrapper = () => {
-  const formElements = useFormBuilderStore((s) => s.formElements);
-  const reorder = useFormBuilderStore((s) => s.reorder);
-  const { isLayoutTransitioning, containerRef } = useLayoutTracker();
+  const formElements = useFormBuilderStore((s) => s.formElements)
+  const reorder = useFormBuilderStore((s) => s.reorder)
+  const { isLayoutTransitioning, containerRef } = useLayoutTracker()
   return (
     <Reorder.Group
       axis="y"
       onReorder={(newOrder) => {
-        reorder({ newOrder, fieldIndex: null });
+        reorder({ newOrder, fieldIndex: null })
       }}
       values={formElements as FormElementOrList[]}
       className="flex flex-col gap-3 rounded-lg px-1 py-2 bg-background"
@@ -273,54 +188,19 @@ const SingleStepWrapper = () => {
       ref={containerRef}
       layout
     >
-      {(formElements as FormElementOrList[]).map((element, i) => {
-        if (Array.isArray(element)) {
-          return (
-            <RowItems element={element} key={element[0].id}>
-              <Reorder.Group
-                // axis="x"
-                values={element}
-                onReorder={(newOrder) => {
-                  reorder({ newOrder, fieldIndex: i });
-                }}
-                className="flex flex-col items-center justify-start gap-3 w-full"
-                tabIndex={-1}
-                layout
-              >
-                {element.map((el, j) => (
-                  <Reorder.Item
-                    key={el.id}
-                    value={el}
-                    className="reorderItem"
-                    {...getTransitionProps(isLayoutTransitioning)}
-                    axis="x"
-                  >
-                    <EditFormItem
-                      key={el.id}
-                      fieldIndex={i}
-                      j={j}
-                      element={el}
-                    />
-                  </Reorder.Item>
-                ))}
-              </Reorder.Group>
-            </RowItems>
-          );
-        }
-        return (
-          <Reorder.Item
-            key={element.id}
-            value={element}
-            className="reorderItem"
-            {...getTransitionProps(isLayoutTransitioning)}
-          >
-            <EditFormItem key={element.id} fieldIndex={i} element={element} />
-          </Reorder.Item>
-        );
-      })}
+      {(formElements as FormElement[]).flat().map((element, i) => (
+        <Reorder.Item
+          key={element.id}
+          value={element}
+          className="reorderItem"
+          {...getTransitionProps(isLayoutTransitioning)}
+        >
+          <EditFormItem key={element.id} fieldIndex={i} element={element} />
+        </Reorder.Item>
+      ))}
     </Reorder.Group>
-  );
-};
+  )
+}
 //======================================
 export function FormEdit() {
   const isMS = useFormBuilderStore((s) => s.isMS);

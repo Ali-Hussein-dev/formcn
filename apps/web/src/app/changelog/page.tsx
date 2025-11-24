@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { urls } from "@/constants/urls";
-import { MdOutlineCalendarMonth } from "react-icons/md";
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { urls } from "@/constants/urls"
+import { MdOutlineCalendarMonth } from "react-icons/md"
 function ChangelogHeader() {
   return (
     <header className="border-b border-dashed">
@@ -17,7 +17,7 @@ function ChangelogHeader() {
         </div>
       </div>
     </header>
-  );
+  )
 }
 function ChangelogFooter() {
   return (
@@ -33,12 +33,12 @@ function ChangelogFooter() {
         </div>
       </div>
     </footer>
-  );
+  )
 }
 
 interface ChangelogEntry {
-  date: string;
-  changes: string[];
+  date: string
+  changes: string[]
 }
 const emojis = {
   feat: "🚀",
@@ -50,9 +50,16 @@ const emojis = {
   // docs: "📝",
   // test: "🧪",
   // chore: "👷",
-};
+}
 
 const changelogData: ChangelogEntry[] = [
+  {
+    date: "Nov 23, 2025",
+    changes: [
+      "feat: use css grid layout for multiple fields in a row",
+      "breaking: existing mutli-step forms need to be updated to use the new grid layout",
+    ],
+  },
   {
     date: "Oct 29, 2025",
     changes: ["feat: create public roadmap page"],
@@ -134,7 +141,7 @@ const changelogData: ChangelogEntry[] = [
     date: "Sep 25, 2025",
     changes: ["breaking: Drop browser validation for slider & rating"],
   },
-];
+]
 
 function ChangelogTimeline() {
   return (
@@ -162,7 +169,7 @@ function ChangelogTimeline() {
 
                 <ul className="space-y-2.5 pt-2">
                   {entry.changes.map((item, itemIndex) => {
-                    const [changeType, change] = item.split(":");
+                    const [changeType, change] = item.split(":")
                     return (
                       <li
                         key={itemIndex}
@@ -174,7 +181,7 @@ function ChangelogTimeline() {
                           {change}
                         </span>
                       </li>
-                    );
+                    )
                   })}
                 </ul>
               </div>
@@ -183,13 +190,13 @@ function ChangelogTimeline() {
         ))}
       </div>
     </div>
-  );
+  )
 }
 
 export const metadata = {
   title: "Changelog | Formcn",
   description: "Learn about the latest changes in Formcn",
-};
+}
 //======================================
 export default function ChangelogPage() {
   return (
@@ -198,5 +205,5 @@ export default function ChangelogPage() {
       <ChangelogTimeline />
       <ChangelogFooter />
     </main>
-  );
+  )
 }

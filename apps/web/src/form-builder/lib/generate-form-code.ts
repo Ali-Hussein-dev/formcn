@@ -108,15 +108,15 @@ const { isExecuting, hasSucceeded } = formAction;
     return (${successCard})
   }
 return (
-      <form onSubmit={handleSubmit} className="flex flex-col p-2 sm:p-5 md:p-8 w-full rounded-md gap-2 border">
-        <FieldGroup>
+      <form onSubmit={handleSubmit} className="p-2 sm:p-5 md:p-8 w-full rounded-md gap-2 border max-w-3xl mx-auto">
+        <FieldGroup className="grid md:grid-cols-6 gap-4 mb-6">
           ${renderFields(formElements as FormElementOrList[])}
-          <div className="flex justify-end items-center w-full pt-3">
-            <Button className="rounded-lg" size="sm">
+          </FieldGroup>
+          <div className="flex justify-end items-center w-full">
+            <Button>
               {isExecuting ? 'Submitting...' : 'Submit'}
             </Button>
           </div>
-        </FieldGroup>
       </form>
 )}`,
     },
@@ -134,9 +134,9 @@ return (
       return `
       { 
         fields: ${JSON.stringify(fields)},
-        component: <div className="space-y-4">
+        component: <>
                 ${renderedFields}
-                  </div>
+                  </>
       }
       `;
     });

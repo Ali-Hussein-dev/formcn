@@ -28,10 +28,12 @@ export const usePreviewForm = () => {
     (acc: DefaultValues, element) => {
       // @ts-expect-error check later
       acc[element.name] = element?.defaultValue ?? undefined
-      return acc;
+      return acc
     },
-    {}
-  );
+    {
+      width: "col-span-full",
+    }
+  )
 
   const zodSchema = genFormZodSchema(filteredFormFields);
 

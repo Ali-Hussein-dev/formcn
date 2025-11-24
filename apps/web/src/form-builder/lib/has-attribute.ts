@@ -25,9 +25,12 @@ const withLabel = [
   "FileUpload",
   "OTP",
 ];
-
 const withDescription = withLabel.filter((item) => item !== "Separator");
 
+const withWidth = [
+  ...withDescription,
+  "Text",
+]
 const withName = [
   "Input",
   "Password",
@@ -66,6 +69,7 @@ type attribute =
   | "options"
   | "deprecated"
   | "required"
+  | "width"
   | "content";
 
 const attributesMap = {
@@ -77,7 +81,9 @@ const attributesMap = {
   content: withContent,
   deprecated: isDeprecated,
   required: isRequired,
+  width: withWidth,
 };
+
 
 export function hasAttribute({
   fieldType,

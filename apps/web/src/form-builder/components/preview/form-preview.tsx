@@ -72,20 +72,20 @@ export function FormPreview({
           <Button
             variant="outline"
             onClick={() => {
-              form.reset({});
-              setRerender(!rerender);
+              form.reset({})
+              setRerender(!rerender)
             }}
           >
             Back to form
           </Button>
         </motion.div>
       </div>
-    );
+    )
   }
   return (
     <div
       className={cn(
-        "w-full animate-in rounded-md",
+        "w-full rounded-3xl squircle border py-3 bg-background @md/my-forms:px-4",
         // add padding to the top when no header
         !isMS && formElements[0].hasOwnProperty("static") === true
           ? ""
@@ -96,9 +96,9 @@ export function FormPreview({
         <form
           key={rerender ? "reset" : "normal"}
           onSubmit={async (e) => {
-            e.preventDefault();
+            e.preventDefault()
             if (!isMS) {
-              await form.handleSubmit(onSubmit)(e);
+              await form.handleSubmit(onSubmit)(e)
             }
           }}
           className="flex flex-col p-2 md:px-5 w-full"
@@ -110,29 +110,36 @@ export function FormPreview({
                 form={form}
               />
             ) : (
-              <>
+              <div className="grid grid-cols-6 gap-4">
                 {(formElements as FormElementOrList[]).map((element, i) => {
                   if (Array.isArray(element)) {
                     return (
-                      <div
-                        key={i}
-                        className="flex items-center justify-between flex-wrap sm:flex-nowrap w-full gap-2"
-                      >
+                      <>
                         {element.map((el, ii) => (
-                          <div key={el.name + ii} className="w-full">
+                          <div
+                            key={el.name + ii}
+                            className="md:col-span-3 col-span-full"
+                          >
                             <RenderFormElement formElement={el} form={form} />
                           </div>
                         ))}
-                      </div>
-                    );
+                      </>
+                    )
                   }
                   return (
-                    <div key={element.name + i} className="w-full">
+                    <div
+                      key={element.name + i}
+                      className={cn(
+                        "col-span-full",
+                        // @ts-expect-error just ignore
+                        (element?.width as string) ?? ""
+                      )}
+                    >
                       <RenderFormElement formElement={element} form={form} />
                     </div>
-                  );
+                  )
                 })}
-                <div className="flex items-center justify-end w-full pt-3 gap-3">
+                <div className="flex items-center justify-end w-full pt-3 gap-3 col-span-6">
                   {isDirty && (
                     <Button
                       variant="outline"
@@ -141,8 +148,8 @@ export function FormPreview({
                       disabled={isSubmitting}
                       className="rounded-lg"
                       onClick={() => {
-                        form.reset({});
-                        setRerender(!rerender);
+                        form.reset({})
+                        setRerender(!rerender)
                       }}
                     >
                       Reset
@@ -157,11 +164,11 @@ export function FormPreview({
                     {isSubmitting ? "Submitting..." : "Submit"}
                   </Button>
                 </div>
-              </>
+              </div>
             )}
           </FieldGroup>
         </form>
       </div>
     </div>
-  );
+  )
 }
