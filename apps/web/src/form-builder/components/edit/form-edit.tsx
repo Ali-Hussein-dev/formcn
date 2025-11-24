@@ -86,7 +86,7 @@ const getTransitionProps = (isLayoutTransitioning: boolean) => ({
 })
 
 const useLayoutTracker = () => {
-  const containerRef = React.useRef<HTMLDivElement>(null)
+  const containerRef = React.useRef<HTMLUListElement>(null)
   const [isLayoutTransitioning, setIsLayoutTransitioning] =
     React.useState(false)
 
