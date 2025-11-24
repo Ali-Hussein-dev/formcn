@@ -101,7 +101,7 @@ export function FormPreview({
               await form.handleSubmit(onSubmit)(e)
             }
           }}
-          className="flex flex-col p-2 md:px-5 w-full"
+          className="flex flex-col p-4 md:px-5 w-full"
         >
           <FieldGroup className="gap-4">
             {isMS ? (
@@ -113,18 +113,14 @@ export function FormPreview({
               <div className="grid grid-cols-6 gap-4">
                 {(formElements as FormElementOrList[]).map((element, i) => {
                   if (Array.isArray(element)) {
-                    return (
-                      <>
-                        {element.map((el, ii) => (
-                          <div
-                            key={el.name + ii}
-                            className="md:col-span-3 col-span-full"
-                          >
-                            <RenderFormElement formElement={el} form={form} />
-                          </div>
-                        ))}
-                      </>
-                    )
+                    return element.map((el, ii) => (
+                      <div
+                        key={el.name + ii}
+                        className="md:col-span-3 col-span-full"
+                      >
+                        <RenderFormElement formElement={el} form={form} />
+                      </div>
+                    ))
                   }
                   return (
                     <div

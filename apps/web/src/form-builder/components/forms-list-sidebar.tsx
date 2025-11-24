@@ -9,30 +9,24 @@ import React from "react";
 
 //======================================
 function FormsSelect() {
-  const allForms = useLocalForms((s) => s.forms);
-  const [formId, setQueryState] = useQueryState("id");
+  const allForms = useLocalForms((s) => s.forms)
+  const [formId, setQueryState] = useQueryState("id")
 
   React.useEffect(() => {
     if (!formId) {
-      setQueryState(templates[0].id);
+      setQueryState(templates[0].id)
     }
-  }, [formId, setQueryState]);
+  }, [formId, setQueryState])
 
   return (
     <>
-      <ScrollArea
-        className="overflow-auto"
-        style={{
-          height: "100%",
-          maxHeight: "80vh",
-        }}
-      >
+      <ScrollArea className="overflow-auto h-full">
         {allForms.length > 0 && (
           <div className="flex md:flex-col flex-wrap gap-1 flex-row py-2">
             <h3 className="text-xs font-medium text-muted-foreground pl-1">
               Saved Forms
             </h3>
-            <div className="flex flex-col max-w-[210px] gap-1 ">
+            <div className="flex flex-col xl:max-w-[250px] sm:max-w-[210px] gap-1">
               {allForms.map((savedForm) => (
                 <Button
                   key={savedForm.id}
@@ -73,29 +67,13 @@ function FormsSelect() {
         </div>
       </ScrollArea>
     </>
-  );
+  )
 }
 
 export function FormsListSidebar() {
   return (
     <div className="relative pb-2">
       <FormsSelect />
-      {/* <Tabs defaultValue="form-elements" className="mb-4">
-        <TabsList className="w-full">
-          <TabsTrigger value="saved" className="text-sm">
-            <RiInputField />
-          </TabsTrigger>
-          <TabsTrigger value="templates">
-            <RiBookmarkLine />
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="saved">
-        <SavedForms />
-        </TabsContent>
-        <TabsContent value="templates">
-        </TabsContent>
-      </Tabs> */}
-      <div className="h-8 from-white dark:from-background dark:via-background/70 to-transparent bg-linear-0 absolute bottom-0 right-0 w-full"></div>
     </div>
-  );
+  )
 }

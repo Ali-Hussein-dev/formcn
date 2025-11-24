@@ -14,12 +14,12 @@ export default function MyFormsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="py-8 container">
+    <div>
       <div className="md:hidden text-center py-6 bg-accent text-accent-foreground mb-2">
         <MdInfo className="inline mr-1 size-5" />
         The form builder works best on desktop
       </div>
       <React.Suspense fallback={<MyFormSkeleton />}>{children}</React.Suspense>
     </div>
-  );
+  )
 }

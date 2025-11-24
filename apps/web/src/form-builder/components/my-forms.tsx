@@ -12,7 +12,7 @@ import { useLocalForms } from "@/form-builder/hooks/use-local-forms"
 import { Input } from "@/components/ui/input"
 import * as React from "react"
 import { toast } from "sonner"
-import { Check, X } from "lucide-react"
+import { Check, Pencil, Trash, X } from "lucide-react"
 import { FormsListSidebar } from "./forms-list-sidebar"
 import { MyFormSkeleton } from "./form-skeleton"
 import dynamic from "next/dynamic"
@@ -40,8 +40,9 @@ function DeleteButtonWithConfim({ cb }: { cb: () => void }) {
       </Button>
     </div>
   ) : (
-    <Button variant="ghost" onClick={() => setOpen(true)}>
-      Delete
+    <Button variant="destructive" onClick={() => setOpen(true)}>
+      <Trash className="size-4" />
+      Delete form
     </Button>
   )
 }
@@ -113,7 +114,13 @@ function SavedFormCard(props: { name: string; id: string }) {
           {name}
         </h2>
       )}
-      <DeleteButtonWithConfim cb={handleDelete} />
+      <div className="flex gap-3 items-center">
+        <DeleteButtonWithConfim cb={handleDelete} />
+        <Button variant="outline" onClick={() => setEditMode(true)}>
+          <Pencil className="size-4" />
+          Rename
+        </Button>
+      </div>
     </div>
   )
 }
@@ -215,40 +222,50 @@ export function MyFormsBase() {
   }
 
   return (
-    <div>
-      <div className="flex justify-end px-4 lg:px-6 gap-3">
-        <div className="w-fit">
-          <NewForm />
-        </div>
-        <Button variant="default" asChild>
-          <Link href={"/ai-form-generator"}>
-            <BsStars />
-            Formcn AI
-          </Link>
-        </Button>
-      </div>
-      <div className="grid md:grid-cols-10 py-4 ">
-        <div className="lg:col-span-2 hidden md:block md:col-span-3 px-3 border rounded-sm border-dashed py-2">
+    <div className="">
+      <div className="grid md:grid-cols-10">
+        <div className="lg:col-span-2 hidden md:block md:col-span-3 px-3 border-r rounded-sm border-dashed py-2">
           <FormsListSidebar />
         </div>
-        <div className="lg:col-span-8 md:col-span-7 px-4 lg:px-6">
-          {PreviewFormId && (
-            <WebPreview>
-              <div className="p-2 lg:p-4 @container/my-forms">
-                <motion.div
-                  key={PreviewFormId}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ type: "keyframes", duration: 0.35 }}
-                >
-                  <FormPreview
-                    formElements={
-                      (selectedForm?.formElements ?? []) as FormElementOrList[]
-                    }
-                    isMS={selectedForm?.isMS || false}
-                    {...previewForm}
-                  />
-                </motion.div>
+        <div className="lg:col-span-8 md:col-span-7 ">
+          <div className="flex justify-between px-4 py-4 lg:px-6 gap-3">
+            <Button variant="default" asChild>
+              <Link href={"/ai-form-generator"}>
+                <BsStars />
+                Formcn AI
+              </Link>
+            </Button>
+            <div className="flex items-center gap-2">
+              <Button onClick={handleUseForm} variant="secondary">
+                {isSelectedFormTemplate ? "Clone template" : "Edit form"}
+              </Button>
+              <div className="w-fit">
+                <NewForm />
+              </div>
+            </div>
+          </div>
+          <div className="md:px-4 lg:px-6">
+            {PreviewFormId && (
+              <>
+                <WebPreview>
+                  <div className="p-2 lg:p-4 @container/my-forms">
+                    <motion.div
+                      key={PreviewFormId}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ type: "keyframes", duration: 0.35 }}
+                    >
+                      <FormPreview
+                        formElements={
+                          (selectedForm?.formElements ??
+                            []) as FormElementOrList[]
+                        }
+                        isMS={selectedForm?.isMS || false}
+                        {...previewForm}
+                      />
+                    </motion.div>
+                  </div>
+                </WebPreview>
                 <div className="pt-4 flex justify-end">
                   {!isSelectedFormTemplate && (
                     <div className="grow pr-2">
@@ -258,13 +275,10 @@ export function MyFormsBase() {
                       />
                     </div>
                   )}
-                  <Button onClick={handleUseForm}>
-                    {isSelectedFormTemplate ? "Clone form" : "Edit form"}
-                  </Button>
                 </div>
-              </div>
-            </WebPreview>
-          )}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

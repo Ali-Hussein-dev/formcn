@@ -149,15 +149,16 @@ export function FormBuilderSkeleton() {
 
 export function MyFormSkeleton() {
   return (
-    <div className="">
+    <div>
       {/* Header */}
-      <div className="flex items-center justify-end p-4">
-        <Skeleton className="h-8 w-24" />
+      <div className="flex items-center justify-end p-4 gap-3">
+        <Skeleton className="h-8 w-20" />
+        <Skeleton className="h-8 w-20" />
       </div>
 
       <div className="flex flex-col lg:flex-row gap-5">
         {/* Left Sidebar - Hidden on mobile, visible on large screens */}
-        <div className="hidden lg:block w-full lg:w-80 rounded-sm bg-card p-6 space-y-8">
+        <div className="hidden lg:block w-full lg:w-80 rounded-sm bg-card p-4 space-y-8">
           {/* Saved Forms Section */}
           <div className="space-y-4">
             <Skeleton className="h-5 w-32" />
@@ -243,5 +244,5 @@ export function MyFormSkeleton() {
         </div>
       </div>
     </div>
-  );
+  )
 }
