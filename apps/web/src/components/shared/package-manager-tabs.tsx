@@ -6,9 +6,9 @@ import * as React from "react";
 const prefixes = {
   pnpm: "pnpx shadcn@latest add",
   npm: "npx shadcn@latest add",
-  yarn: "yarn shadcn@latestadd",
-  bun: "bunx shadcn@latest add",
-};
+  yarn: "yarn shadcn@latest add",
+  bun: "bun x shadcn@latest add",
+}
 
 export const PackagesManagerTabs = ({
   packages: packages,

@@ -207,10 +207,9 @@ export function MyFormsBase() {
         <div className="lg:col-span-8 md:col-span-7 px-4 lg:px-6">
           {PreviewFormId && (
             <WebPreview>
-              <div className="p-2 lg:p-4 ">
+              <div className="p-2 lg:p-4 @container/my-forms">
                 <motion.div
                   key={PreviewFormId}
-                  className="border rounded-lg p-3 lg:p-4 bg-background"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ type: "keyframes", duration: 0.35 }}
@@ -242,7 +241,7 @@ export function MyFormsBase() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export const MyForms = dynamic(

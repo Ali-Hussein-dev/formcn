@@ -3,6 +3,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
+
 :root {
   --radius: 0.2rem;
   --background: oklch(1 0 0);
@@ -163,4 +164,8 @@
 @theme {
   --font-sans: "Inter", "Geist", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.squircle {
+  corner-shape: squircle;
 }

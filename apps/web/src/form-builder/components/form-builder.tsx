@@ -147,22 +147,18 @@ export function FormBuilderBase() {
         </div>
         <div className="lg:col-span-4 w-full pb-6">
           <WebPreview>
-            <div className="bg-background">
-              <div className="pb-2 border">
-                <ErrorBoundary FallbackComponent={ErrorFallback}>
-                  <FormPreview
-                    {...previewForm}
-                    formElements={formElements}
-                    isMS={isMS}
-                  />
-                </ErrorBoundary>
-              </div>
-            </div>
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <FormPreview
+                {...previewForm}
+                formElements={formElements}
+                isMS={isMS}
+              />
+            </ErrorBoundary>
           </WebPreview>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export const FormBuilder = dynamic(
