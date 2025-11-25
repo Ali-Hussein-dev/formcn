@@ -63,13 +63,7 @@ const FormElementSelect = () => {
   };
 
   return (
-    <ScrollArea
-      className="overflow-auto"
-      style={{
-        height: "100%",
-        maxHeight: "80vh",
-      }}
-    >
+    <ScrollArea className="overflow-auto h-full">
       <div className="py-2 space-y-3">
         {/* Display Elements Group */}
         {groupedElements.display && (
@@ -107,15 +101,15 @@ const FormElementSelect = () => {
         )} */}
       </div>
     </ScrollArea>
-  );
+  )
 };
 
 //======================================
 export function FormElementsSidebar() {
   return (
-    <div className="overflow-x-auto overflow-y-hidden w-full h-full relative px-3 lg:px-0">
+    <div className="overflow-x-auto overflow-y-hidden w-full h-full max-h-full relative px-3 lg:px-0">
       <FormElementSelect />
       {/* <div className="h-9 from-white dark:from-background dark:via-background/70 to-transparent bg-linear-0 absolute bottom-0 right-0 w-full"></div> */}
     </div>
-  );
+  )
 }

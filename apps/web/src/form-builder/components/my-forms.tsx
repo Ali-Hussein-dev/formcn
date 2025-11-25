@@ -222,63 +222,61 @@ export function MyFormsBase() {
   }
 
   return (
-    <div className="">
-      <div className="grid md:grid-cols-10">
-        <div className="lg:col-span-2 hidden md:block md:col-span-3 px-3 border-r rounded-sm border-dashed py-2">
-          <FormsListSidebar />
-        </div>
-        <div className="lg:col-span-8 md:col-span-7 ">
-          <div className="flex justify-between px-4 py-4 lg:px-6 gap-3">
-            <Button variant="default" asChild>
-              <Link href={"/ai-form-generator"}>
-                <BsStars />
-                Formcn AI
-              </Link>
+    <div className="grid md:grid-cols-10">
+      <div className="lg:col-span-2 hidden md:block md:col-span-3 pl-3 border-r rounded-sm border-dashed py-2">
+        <FormsListSidebar />
+      </div>
+      <div className="lg:col-span-8 md:col-span-7 ">
+        <div className="flex justify-between px-4 py-4 lg:px-6 gap-3">
+          <Button variant="default" asChild>
+            <Link href={"/ai-form-generator"}>
+              <BsStars />
+              Formcn AI
+            </Link>
+          </Button>
+          <div className="flex items-center gap-2">
+            <Button onClick={handleUseForm} variant="secondary">
+              {isSelectedFormTemplate ? "Clone template" : "Edit form"}
             </Button>
-            <div className="flex items-center gap-2">
-              <Button onClick={handleUseForm} variant="secondary">
-                {isSelectedFormTemplate ? "Clone template" : "Edit form"}
-              </Button>
-              <div className="w-fit">
-                <NewForm />
-              </div>
+            <div className="w-fit">
+              <NewForm />
             </div>
           </div>
-          <div className="md:px-4 lg:px-6">
-            {PreviewFormId && (
-              <>
-                <WebPreview>
-                  <div className="p-2 lg:p-4 @container/my-forms">
-                    <motion.div
-                      key={PreviewFormId}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ type: "keyframes", duration: 0.35 }}
-                    >
-                      <FormPreview
-                        formElements={
-                          (selectedForm?.formElements ??
-                            []) as FormElementOrList[]
-                        }
-                        isMS={selectedForm?.isMS || false}
-                        {...previewForm}
-                      />
-                    </motion.div>
-                  </div>
-                </WebPreview>
-                <div className="pt-4 flex justify-end">
-                  {!isSelectedFormTemplate && (
-                    <div className="grow pr-2">
-                      <SavedFormCard
-                        id={PreviewFormId}
-                        name={getFormById(PreviewFormId)?.name || "Form"}
-                      />
-                    </div>
-                  )}
+        </div>
+        <div className="md:px-4 lg:px-6">
+          {PreviewFormId && (
+            <>
+              <WebPreview>
+                <div className="p-2 lg:p-4 @container/my-forms">
+                  <motion.div
+                    key={PreviewFormId}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ type: "keyframes", duration: 0.35 }}
+                  >
+                    <FormPreview
+                      formElements={
+                        (selectedForm?.formElements ??
+                          []) as FormElementOrList[]
+                      }
+                      isMS={selectedForm?.isMS || false}
+                      {...previewForm}
+                    />
+                  </motion.div>
                 </div>
-              </>
-            )}
-          </div>
+              </WebPreview>
+              <div className="py-4 flex justify-end">
+                {!isSelectedFormTemplate && (
+                  <div className="grow pr-2">
+                    <SavedFormCard
+                      id={PreviewFormId}
+                      name={getFormById(PreviewFormId)?.name || "Form"}
+                    />
+                  </div>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

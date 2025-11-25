@@ -62,7 +62,7 @@ export function Footer() {
                       {resource.name}
                     </a>
                   </li>
-                );
+                )
               })}
             </ul>
           </div>
@@ -93,5 +93,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  );
+  )
 }

@@ -61,7 +61,7 @@ export function FormBuilderBase() {
   const searchParams = useSearchParams()
   const id = searchParams.get("id")
   const saveForm = useLocalForms((s) => s.updateForm)
- 
+
   // migrate form elements to flat nested form elements
   React.useEffect(() => {
     // use to handle nested form elements
@@ -97,7 +97,9 @@ export function FormBuilderBase() {
       </div>
       <div className="w-full grid lg:grid-cols-12 gap-3">
         <div className="lg:col-span-2 lg:pl-2">
-          <FormElementsSidebar />
+          <div className="sticky top-0 bg-background">
+            <FormElementsSidebar />
+          </div>
         </div>
         <div className="w-full lg:col-span-6 min-w-full grow">
           <Tabs defaultValue={tabsList[0].name}>
@@ -158,15 +160,17 @@ export function FormBuilderBase() {
           </Tabs>
         </div>
         <div className="lg:col-span-4 w-full pb-6">
-          <WebPreview>
-            <ErrorBoundary FallbackComponent={ErrorFallback}>
-              <FormPreview
-                {...previewForm}
-                formElements={formElements}
-                isMS={isMS}
-              />
-            </ErrorBoundary>
-          </WebPreview>
+          <div className="sticky top-2">
+            <WebPreview>
+              <ErrorBoundary FallbackComponent={ErrorFallback}>
+                <FormPreview
+                  {...previewForm}
+                  formElements={formElements}
+                  isMS={isMS}
+                />
+              </ErrorBoundary>
+            </WebPreview>
+          </div>
         </div>
       </div>
     </div>

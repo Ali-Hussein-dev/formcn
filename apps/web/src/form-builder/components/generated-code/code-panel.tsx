@@ -107,17 +107,17 @@ const Cli = ({
   meta,
   isMS,
 }: {
-  registryDependencies: string[];
-  tsx: { file: string; code: string }[];
-  zodSchema: string;
-  meta: { id: string; name: string };
-  isMS: boolean;
+  registryDependencies: string[]
+  tsx: { file: string; code: string }[]
+  zodSchema: string
+  meta: { id: string; name: string }
+  isMS: boolean
 }) => {
   const res = useMutation({
     mutationKey: ["registry", meta.id],
     mutationFn: async () => {
-      const name = convertToKababCase(meta.name);
-      const key = name + "-" + meta.id.split("-").slice(0, 2).join("-");
+      const name = convertToKababCase(meta.name)
+      const key = name + "-" + meta.id.split("-").slice(0, 2).join("-")
       const res = await fetch(`/r/${key}`, {
         method: "POST",
         body: JSON.stringify({
@@ -148,19 +148,19 @@ const Cli = ({
             },
           ],
         }),
-      });
-      return res.json();
+      })
+      return res.json()
     },
-  });
-  const { status, data } = res;
+  })
+  const { status, data } = res
   return (
     <div>
       <Button
         onClick={() => {
           if (meta.id && meta.name) {
-            res.mutate();
+            res.mutate()
           } else {
-            toast.error("Please fill in the form name and id");
+            toast.error("Please fill in the form name and id")
           }
         }}
         disabled={res.status === "pending"}
@@ -168,7 +168,7 @@ const Cli = ({
       >
         {status === "pending"
           ? "Generating command..."
-          : "Install with one command"}
+          : "Generate CLI command"}
       </Button>
       {status == "error" && (
         <div className="text-destructive text-center py-2">
@@ -184,15 +184,15 @@ const Cli = ({
         </motion.div>
       )}
     </div>
-  );
-};
+  )
+}
 //======================================
 export function CodeBlockPackagesInstallation({
   depenedencies,
   registryDependecies,
 }: {
-  depenedencies: string;
-  registryDependecies: string;
+  depenedencies: string
+  registryDependecies: string
 }) {
   return (
     <div className="w-full py-5 max-w-full">
@@ -205,38 +205,38 @@ export function CodeBlockPackagesInstallation({
       </h2>
       <PackagesManagerTabs packages={registryDependecies} />
     </div>
-  );
+  )
 }
 
 const useGenerateCode = () => {
-  const formElements = useFormBuilderStore((s) => s.formElements);
-  const meta = useFormBuilderStore((s) => s.meta);
-  const isMS = useFormBuilderStore((s) => s.isMS);
+  const formElements = useFormBuilderStore((s) => s.formElements)
+  const meta = useFormBuilderStore((s) => s.meta)
+  const isMS = useFormBuilderStore((s) => s.isMS)
   const tsx = generateFormCode({
     formElements: formElements as FormElementOrList[],
     isMS,
-  });
+  })
   const parsedFormElements = isMS
     ? flattenFormSteps(formElements as FormStep[]).flat()
-    : formElements.flat();
-  const zodSchema = genFormZodSchemaCode(parsedFormElements as FormElement[]);
-  const serverAction = generateServerActionCode();
+    : formElements.flat()
+  const zodSchema = genFormZodSchemaCode(parsedFormElements as FormElement[])
+  const serverAction = generateServerActionCode()
   const processedFormElements = isMS
     ? flattenFormSteps(formElements as FormStep[])
-    : formElements;
+    : formElements
   const formElementTypes = (processedFormElements.flat() as FormElement[])
     .filter((el) => !("static" in el && el.static))
     .map((el) => el.fieldType)
     .map((str) => installableShadcnComponents[str])
-    .filter((str) => str && str.length > 0);
+    .filter((str) => str && str.length > 0)
 
-  const packagesSet = new Set(formElementTypes);
-  let registryDependencies = ["field", ...Array.from(packagesSet)].join(" ");
+  const packagesSet = new Set(formElementTypes)
+  let registryDependencies = ["field", ...Array.from(packagesSet)].join(" ")
   if (isMS) {
-    registryDependencies += " @formcn/multi-step-viewer";
+    registryDependencies += " @formcn/multi-step-viewer"
   }
   const dependencies =
-    "react-hook-form zod @hookform/resolvers motion next-safe-action";
+    "react-hook-form zod @hookform/resolvers motion next-safe-action"
   return {
     tsx,
     zodSchema,
@@ -245,12 +245,12 @@ const useGenerateCode = () => {
     registryDependencies,
     dependencies,
     isMS,
-  };
-};
+  }
+}
 
 //======================================
 export function CodePanel() {
-  const formElements = useFormBuilderStore((s) => s.formElements);
+  const formElements = useFormBuilderStore((s) => s.formElements)
   const {
     serverAction,
     zodSchema,
@@ -259,19 +259,19 @@ export function CodePanel() {
     dependencies,
     meta,
     isMS,
-  } = useGenerateCode();
+  } = useGenerateCode()
   if (formElements.length < 1) {
     return (
       <Placeholder>
         No form fields, add fields first to see the code
       </Placeholder>
-    );
+    )
   }
   return (
     <div className="w-full min-w-full">
       <div className="flex justify-between items-center mb-4">
         <h2 className="font-semibold text-secondary-foreground">
-          Install with one command
+          Install with CLI
         </h2>
         <GeneratedCodeInfoCard />
       </div>
@@ -282,17 +282,17 @@ export function CodePanel() {
         meta={meta}
         isMS={isMS}
       />
-      <div className="py-7">
-        <FieldSeparator>
-          <span>Or manual installation</span>
-        </FieldSeparator>
-      </div>
-      <Tabs defaultValue="tsx" className="w-full min-w-full">
-        <TabsList>
-          <TabsTrigger value="tsx">TSX</TabsTrigger>
-          <TabsTrigger value="schema">Schema</TabsTrigger>
-          <TabsTrigger value="server-action">Server action</TabsTrigger>
-        </TabsList>
+      <Tabs defaultValue="tsx" className="w-full min-w-full pt-3">
+        <div className="flex justify-between items-center">
+          <h2 className="font-semibold text-secondary-foreground">
+            Manual installation
+          </h2>
+          <TabsList>
+            <TabsTrigger value="tsx">TSX</TabsTrigger>
+            <TabsTrigger value="schema">Schema</TabsTrigger>
+            <TabsTrigger value="server-action">Server action</TabsTrigger>
+          </TabsList>
+        </div>
         <TabsContent value="tsx" tabIndex={-1}>
           <CodeViewer code={tsx} />
           <div className="border-t border-dashed w-full mt-6" />
@@ -309,5 +309,5 @@ export function CodePanel() {
         </TabsContent>
       </Tabs>
     </div>
-  );
+  )
 }
