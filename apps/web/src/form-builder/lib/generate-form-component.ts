@@ -25,7 +25,10 @@ type attributes =
   | "step";
 const getAttribute = (attr: attributes, value?: boolean | string | number) => {
   if (typeof value === "string") {
-    return `${attr}="${value}"`;
+    // Use template literal syntax to avoid quote escaping issues
+    // Escape backticks and backslashes in the value
+    const escapedValue = value.replace(/\\/g, "\\\\").replace(/`/g, "\\`");
+    return `${attr}={\`${escapedValue}\`}`;
   }
   if (typeof value === "number") {
     return `${attr}={${value}}`;
