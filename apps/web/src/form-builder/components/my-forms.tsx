@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input"
 import * as React from "react"
 import { toast } from "sonner"
 import { Check, Pencil, Trash, X } from "lucide-react"
-import { FormsListSidebar } from "./forms-list-sidebar"
+import { LocalFormsSidebar } from "./local-forms-sidebar"
 import { MyFormSkeleton } from "./form-skeleton"
 import dynamic from "next/dynamic"
 import { WebPreview } from "./web-preview"
@@ -223,8 +223,8 @@ export function MyFormsBase() {
 
   return (
     <div className="grid md:grid-cols-10">
-      <div className="lg:col-span-2 hidden md:block md:col-span-3 pl-3 border-r rounded-sm border-dashed py-2">
-        <FormsListSidebar />
+      <div className="lg:col-span-2 hidden md:block md:col-span-3">
+        <LocalFormsSidebar />
       </div>
       <div className="lg:col-span-8 md:col-span-7 ">
         <div className="flex justify-between px-4 py-4 lg:px-6 gap-3">
