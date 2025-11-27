@@ -6,35 +6,37 @@ import { Textarea } from "@/components/ui/textarea";
 import { experimental_useObject as useObject } from "@ai-sdk/react";
 import { aiFormSchema } from "@/form-builder/lib/ai-form-schema";
 import { Form } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { ErrorBoundary } from "react-error-boundary";
-import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store";
-import React from "react";
-import { ArrowLeft, ArrowUp, Info, Pencil } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
-import useLocalForms from "@/form-builder/hooks/use-local-forms";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { ErrorFallback } from "@/components/shared/error-fallback";
+import { useForm, type UseFormReturn } from "react-hook-form"
+import { ErrorBoundary } from "react-error-boundary"
+import useFormBuilderStore from "@/form-builder/hooks/use-form-builder-store"
+import React from "react"
+import { ArrowLeft, ArrowUp, Info, Pencil } from "lucide-react"
+import { AnimatePresence, motion } from "motion/react"
+import useLocalForms from "@/form-builder/hooks/use-local-forms"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
+import { ErrorFallback } from "@/components/shared/error-fallback"
 import {
   fieldTypes,
   formFieldTypeWithOptions,
   type FormFieldTypeWithOptions,
   type FormElement,
   type FormFieldType,
-} from "@/form-builder/form-types";
-import { RenderFormElement } from "@/form-builder/components/edit/render-form-element";
-import { MdOutlineReplay } from "react-icons/md";
+  type FormStep,
+} from "@/form-builder/form-types"
+import { RenderFormElement } from "@/form-builder/components/edit/render-form-element"
+import { MdOutlineReplay } from "react-icons/md"
+import { MultiStepFormPreview } from "../preview/multi-step-form-preview"
 
 // const list = [];
 function RenderFormWhileStreaming({
   list,
   form,
 }: {
-  list: FormElement[] | undefined;
-  form: any;
+  list: FormElement[] | undefined
+  form: any
 }) {
-  if (!list) return null;
+  if (!list) return null
   return (
     <div className="space-y-3">
       {list.map((element, i) => {
@@ -42,7 +44,7 @@ function RenderFormWhileStreaming({
           !fieldTypes.includes(element.fieldType as FormFieldType) ||
           (!element?.name && !("content" in element))
         )
-          return <span key={crypto.randomUUID()}>streaming...</span>;
+          return <span key={crypto.randomUUID()}>streaming...</span>
         if (
           formFieldTypeWithOptions.includes(
             element.fieldType as FormFieldTypeWithOptions
@@ -50,11 +52,11 @@ function RenderFormWhileStreaming({
           // @ts-expect-error options exists
           (!element.options || element.options?.length < 1)
         ) {
-          return <span key={crypto.randomUUID()}>streaming...</span>;
+          return <span key={crypto.randomUUID()}>streaming...</span>
         }
         if (element.fieldType == "SocialMediaButtons") {
           if (!element.links || element.links?.length < 1) {
-            return <span key={crypto.randomUUID()}>streaming...</span>;
+            return <span key={crypto.randomUUID()}>streaming...</span>
           }
         }
         return (
@@ -68,10 +70,10 @@ function RenderFormWhileStreaming({
               <RenderFormElement formElement={element} form={form} />
             </ErrorBoundary>
           </motion.div>
-        );
+        )
       })}
     </div>
-  );
+  )
 }
 
 const promptExamples = [
@@ -88,17 +90,35 @@ const promptExamples = [
   {
     label: "Survey Form",
     prompt: `Create a survey form for React library that includes these sections:  
-First, multiple choice questions where users pick from several options. Next, include at least one open-ended question for written feedback. Finally, add a rating scale question so users can rate their experience numerically. Label each section clearly and make sure all three types are present.`,
+    First, multiple choice questions where users pick from several options. Next, include at least one open-ended question for written feedback. Finally, add a rating scale question so users can rate their experience numerically. Label each section clearly and make sure all three types are present.`,
   },
   {
     label: "Booking/Reservation Form",
     prompt:
       "create a hotel booking form to collect guest details including title, description, name, contact info, check-in and check-out dates, room type selection, and any additional requests",
   },
-];
+  {
+    label: "Multi-Step: Customer Onboarding",
+    prompt: `Generate a multi‑step customer onboarding form for a SaaS subscription product.
+Step 1: Account info (company name, company size dropdown, industry dropdown, work email, password + confirm password).
+Step 2: Billing details (billing contact name, email, country dropdown, tax/VAT ID optional, billing address fields).
+Step 3: Plan selection (radio buttons: Starter, Pro, Enterprise with short descriptions) and number of seats (number).
+Step 4: Usage preferences (checkboxes: email notifications, product updates, marketing emails; preferred support channel radio: email, chat, phone).
+Include validations for email, password strength, required fields, and show clear step titles for each page`,
+  },
+  {
+    label: "Multi-Step: Job Application",
+    prompt: `Generate a multi‑step job application form for a job posting.
+Step 1: Personal info (name, email, phone, address).
+Step 2: Education (school name, degree, graduation year).
+Step 3: Work experience (company name, job title, start and end dates).
+Step 4: Skills (checkboxes: HTML, CSS, JavaScript, React, Node.js, etc.).
+Include validations for required fields, and show clear step titles for each page`,
+  },
+]
 const useAiFormGenerator = () => {
-  const [prompt, setPrompt] = useState("");
-  const inputRef = React.useRef<HTMLTextAreaElement | null>(null);
+  const [prompt, setPrompt] = useState("")
+  const inputRef = React.useRef<HTMLTextAreaElement | null>(null)
 
   const { object, submit, isLoading, error, stop } = useObject({
     api: `/api/generate?prompt=${encodeURIComponent(prompt)}`,
@@ -110,43 +130,62 @@ const useAiFormGenerator = () => {
     //     fields: list,
     //   },
     // },
-  });
+  })
 
   const handleGenerate = async () => {
-    if (!prompt.trim()) return;
-    submit({ prompt });
-  };
+    if (!prompt.trim()) return
+    submit({ prompt })
+  }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
+      e.preventDefault()
       if (!isLoading && prompt.trim()) {
-        handleGenerate();
+        handleGenerate()
       }
     }
-  };
+  }
 
-  const form = useForm();
-  const setFormElements = useFormBuilderStore((s) => s.setFormElements);
-  const saveForm = useLocalForms((s) => s.setForm);
-  const router = useRouter();
+  const form = useForm()
+  const setFormElements = useFormBuilderStore((s) => s.setFormElements)
+  const saveForm = useLocalForms((s) => s.setForm)
+  const router = useRouter()
 
   const handleSave = () => {
-    toast.message("Saving form...");
-    const formElements = (object?.form?.fields as FormElement[])
-      ?.filter((o) => fieldTypes.includes(o.fieldType as FormFieldType))
-      .map((o: FormElement) => ({
-        ...o,
-        id: o?.id ? o.id : crypto.randomUUID(),
-      }));
-    const formId = crypto.randomUUID();
-    const date = new Date().toISOString();
-    const formName = object?.form?.title ?? "New Form " + date;
+    toast.message("Saving form...")
+    const isMS = object?.form?.isMS ?? false
+    const fields = object?.form?.fields
+
+    const formElements = isMS
+      ? // Multi‑step form: normalize each step and its fields
+        ((fields ?? []) as FormStep[]).map((step) => ({
+          id: step.id ?? crypto.randomUUID(),
+          stepFields:
+            step.stepFields
+              ?.filter((o: any) =>
+                fieldTypes.includes(o.fieldType as FormFieldType)
+              )
+              .map((o: any) => ({
+                ...o,
+                id: o?.id ? o.id : crypto.randomUUID(),
+              })) ?? [],
+        }))
+      : // Single‑step form: flat list of fields
+        ((fields as FormElement[] | undefined)
+          ?.filter((o) => fieldTypes.includes(o.fieldType as FormFieldType))
+          .map((o: FormElement) => ({
+            ...o,
+            id: o?.id ? o.id : crypto.randomUUID(),
+          })) ?? [])
+
+    const formId = crypto.randomUUID()
+    const date = new Date().toISOString()
+    const formName = object?.form?.title ?? "New Form " + date
     setFormElements(formElements, {
       id: formId,
       name: formName,
-      isMS: false,
-    });
+      isMS,
+    })
     // now save in locatForms
     saveForm({
       id: formId,
@@ -154,22 +193,23 @@ const useAiFormGenerator = () => {
       formElements,
       createdAt: date,
       updatedAt: date,
-      isMS: false,
-    });
-    router.push(`/form-builder?id=${formId}`);
-  };
+      isMS,
+    })
+    router.push(`/form-builder?id=${formId}`)
+  }
   const handleNew = () => {
-    setPrompt("");
+    setPrompt("")
     if (inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current.focus()
     }
-  };
+  }
 
   return {
     prompt,
     setPrompt,
     handleGenerate,
     fields: object?.form?.fields,
+    isMS: object?.form?.isMS,
     form,
     error,
     isLoading,
@@ -179,14 +219,15 @@ const useAiFormGenerator = () => {
     inputRef,
     response: object,
     handleKeyDown,
-  };
-};
+  }
+}
 export function AiFormGenerator() {
   const {
     prompt,
     setPrompt,
     handleGenerate,
     fields,
+    isMS,
     form,
     error,
     isLoading,
@@ -195,13 +236,13 @@ export function AiFormGenerator() {
     handleNew,
     inputRef,
     handleKeyDown,
-  } = useAiFormGenerator();
-  const router = useRouter();
+  } = useAiFormGenerator()
+  const router = useRouter()
 
   return (
-    <div>
-      <div className="w-full flex flex-col justify-end mb-4 md:mb-8">
-        <div className="w-full border  rounded-md p-2 focus-within:bg-secondary/30 transition-colors duration-200">
+    <div className="h-full">
+      <div className="w-full flex flex-col justify-end mb-5 md:mb-8">
+        <div className="w-full border border-dashed focus-within:border-solid rounded-3xl p-4 focus-within:bg-secondary/30 transition-colors duration-200 squircle">
           <Textarea
             id="prompt-area"
             value={prompt}
@@ -212,15 +253,15 @@ export function AiFormGenerator() {
             autoFocus
             ref={inputRef}
           />
-          <div className="flex justify-end pt-2">
+          <div className="flex justify-end pt-3">
             <AnimatePresence mode="wait">
               {isLoading && (
                 <motion.div
-                  key="stop-button"
-                  initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                  key="generate-button"
+                  initial={{ opacity: 0, y: -8, scale: 0.97 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 8, scale: 0.95 }}
-                  transition={{ duration: 0.3, delay: 0.01 }}
+                  exit={{ opacity: 0, y: -8, scale: 0.95 }}
+                  transition={{ duration: 0.3, delay: 0.1 }}
                 >
                   <Button
                     onClick={stop}
@@ -228,7 +269,7 @@ export function AiFormGenerator() {
                     size="sm"
                     variant="secondary"
                   >
-                    <span className="size-3 rounded bg-foreground" />
+                    <span className="size-4 rounded bg-foreground" />
                     Stop
                   </Button>
                 </motion.div>
@@ -255,28 +296,34 @@ export function AiFormGenerator() {
           </div>
         </div>
       </div>
-      {/* <pre>{JSON.stringify(fields, null, 2)}</pre> */}
       {fields && (
         <ErrorBoundary
           FallbackComponent={ErrorFallback}
           onError={(error, errorInfo) => {
-            console.error("Form rendering error:", error, errorInfo);
-            console.log(fields);
+            console.error("Form rendering error:", error, errorInfo)
+            console.log(fields)
           }}
         >
-          <Form {...form}>
-            <form
-              onSubmit={async (e) => {
-                e.preventDefault();
-              }}
-              className="flex flex-col w-full gap-6 p-4 lg:p-6 border rounded-lg bg-muted/50"
-            >
-              <RenderFormWhileStreaming
-                list={fields as FormElement[]}
-                form={form}
+          <div className="border rounded-4xl squircle md:p-6 p-4 mb-4 md:mb-8 bg-muted/30">
+            {isMS ? (
+              <MultiStepFormPreview
+                formElements={fields as unknown as FormStep[]}
+                form={form as unknown as UseFormReturn<any, any, undefined>}
               />
-            </form>
-          </Form>
+            ) : (
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault()
+                }}
+                className="flex flex-col w-full gap-8"
+              >
+                <RenderFormWhileStreaming
+                  list={fields as FormElement[]}
+                  form={form}
+                />
+              </form>
+            )}
+          </div>
         </ErrorBoundary>
       )}
       {error && (
@@ -285,12 +332,12 @@ export function AiFormGenerator() {
         </div>
       )}
       {fields && !isLoading && !error && (
-        <div className="flex justify-between gap-4 pt-4">
+        <div className="flex justify-between gap-4 pt-4 mt-3 border-t border-dashed ">
           <Button onClick={() => router.back()} type="button" variant="ghost">
             <ArrowLeft className="size-4" />
             Back
           </Button>
-          <div className="flex gap-2">
+          <div className="flex gap-4 ">
             <Button onClick={handleNew} type="button" variant="secondary">
               <MdOutlineReplay className="size-4" />
               Retry
@@ -315,11 +362,7 @@ export function AiFormGenerator() {
             </Button>
           ))}
         </div>
-        <p className="text-muted-foreground text-sm pt-5 flex items-center gap-1.5 justify-start">
-          <Info className="size-4" />
-          Generating multi-step form with AI is not supported yet!
-        </p>
       </div>
     </div>
-  );
+  )
 }

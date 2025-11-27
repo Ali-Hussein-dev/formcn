@@ -40,7 +40,7 @@ export default function RootLayout({
       >
         <NextTopLoader color="#f54a00" showSpinner={false} speed={300} />
         <Providers>
-          <div className="grid grid-rows-[auto_1fr] h-svh">
+          <div className="grid min-h-svh grid-rows-[auto_1fr_auto]">
             <Header />
             {children}
             <Footer />
@@ -48,5 +48,5 @@ export default function RootLayout({
         </Providers>
       </body>
     </html>
-  );
+  )
 }
