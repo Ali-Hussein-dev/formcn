@@ -8,7 +8,11 @@ const resources = [
     name: "Nextradar",
     href: "https://nextradar.dev?via=formcn",
   },
-];
+  {
+    name: "Cardcn",
+    href: "https://cardcn.dev",
+  },
+]
 const supportLinks = [
   {
     name: "Request feature",
