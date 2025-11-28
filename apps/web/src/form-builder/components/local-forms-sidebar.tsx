@@ -7,6 +7,7 @@ import useLocalForms from "@/form-builder/hooks/use-local-forms";
 import { useQueryState } from "nuqs";
 import React from "react";
 import { FieldSeparator } from "@/components/ui/field"
+import { NewForm } from "./new-form"
 
 export function LocalFormsSidebar() {
   const allForms = useLocalForms((s) => s.forms)
@@ -19,7 +20,11 @@ export function LocalFormsSidebar() {
   }, [formId, setQueryState])
 
   return (
-    <ScrollArea className="max-h-[calc(100vh-10rem)] px-3 py-2 overflow-y-scroll">
+    <ScrollArea className="max-h-screen px-3 py-2 overflow-y-scroll">
+      <div className="py-2">
+        <NewForm />
+      </div>
+
       {allForms.length > 0 && (
         <div className="flex md:flex-col flex-wrap gap-1 flex-row py-3">
           <FieldSeparator className="mb-2.5">Draft Forms</FieldSeparator>

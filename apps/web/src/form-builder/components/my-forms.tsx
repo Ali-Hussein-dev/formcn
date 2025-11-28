@@ -1,5 +1,4 @@
 "use client"
-import { NewForm } from "./new-form"
 import { FormPreview } from "./preview/form-preview"
 import { usePreviewForm } from "@/form-builder/hooks/use-preview-form"
 import { Button } from "@/components/ui/button"
@@ -238,9 +237,6 @@ export function MyFormsBase() {
             <Button onClick={handleUseForm} variant="secondary">
               {isSelectedFormTemplate ? "Clone template" : "Edit form"}
             </Button>
-            <div className="w-fit">
-              <NewForm />
-            </div>
           </div>
         </div>
         <div className="md:px-4 lg:px-6">

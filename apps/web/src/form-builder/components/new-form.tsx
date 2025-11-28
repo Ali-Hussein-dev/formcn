@@ -56,7 +56,7 @@ export const NewForm = () => {
       <DialogTrigger asChild>
         <Button variant="outline" className="w-full">
           <FaPlus />
-          Blank Form
+          New form
         </Button>
       </DialogTrigger>
       <DialogOverlay className="" />
@@ -103,5 +103,5 @@ export const NewForm = () => {
         </div>
       </DialogContent>
     </Dialog>
-  );
+  )
 };
