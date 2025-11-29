@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { urls } from "@/constants/urls";
 import Link from "next/link";
-import { FaGithub } from "react-icons/fa6";
+import { FaGithub, FaWandMagicSparkles } from "react-icons/fa6"
 import {
   SiShadcnui,
   SiTypescript,
@@ -10,18 +10,18 @@ import {
   SiZod,
   SiReacthookform,
   SiFramer,
-} from "react-icons/si";
+} from "react-icons/si"
 import {
   TooltipProvider,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
-import { CardDescription, CardTitle } from "@/components/ui/card";
-import { FiGitCommit, FiTerminal } from "react-icons/fi";
-import { BsStars } from "react-icons/bs";
-import { Badge } from "@/components/ui/badge";
+} from "@/components/ui/tooltip"
+import { cn } from "@/lib/utils"
+import { CardDescription, CardTitle } from "@/components/ui/card"
+import { FiGitCommit, FiTerminal } from "react-icons/fi"
+import { BsPatchCheck, BsStars } from "react-icons/bs"
+import { Badge } from "@/components/ui/badge"
 
 const logos = [
   {
@@ -52,30 +52,26 @@ const logos = [
     name: "Motion",
     Logo: SiFramer,
   },
-];
-export const metadata = {
-  title: "Modern Form Builder for Shadcn | formcn",
-  description:
-    "Build production-ready forms effortlessly using shadcn, react, typescript, tailwindcss, zod, react hook form, motion, and more.",
-};
+]
+
 const features = [
   {
-    icon: SiReact,
+    icon: BsPatchCheck,
     title: "Production-ready code",
     text: "No inconsistent AI generated code, always consistent battle-tested code and easily maintainable",
   },
   {
     icon: FiGitCommit,
-    title: "Single/Multi-step forms",
+    title: "Shadcn multi-step form",
     text: "Easily choose between one step and multi-step forms that suit your needs",
   },
   {
     icon: SiZod,
-    title: "Client/server side validation",
+    title: "Input validation with Zod",
     text: "Client/server side validation with Zod and next-safe-action",
   },
   {
-    icon: FiTerminal,
+    icon: FaWandMagicSparkles,
     title: "Easy to use",
     text: "You can bring generated code and dependencies to your project with one command, powered by shadcn registry CLI",
   },
@@ -84,7 +80,7 @@ const features = [
     title: "Formcn AI",
     text: "Scaffold your form components instantly without creating each form field manually",
   },
-];
+]
 
 // const testimonial = [
 //   {
@@ -97,7 +93,7 @@ const CtaButton = () => (
   <Link href="/my-forms?id=template-signup">
     <Button className="font-semibold">Get Started</Button>
   </Link>
-);
+)
 const CardDecorator = ({ children }: { children: React.ReactNode }) => (
   <div className="mask-radial-from-40% mask-radial-to-60% relative size-32 mx-auto duration-200 [--color-border:color-mix(in_oklab,var(--foreground)10%,transparent)] group-hover:[--color-border:color-mix(in_oklab,var(--foreground)20%,transparent)] dark:[--color-border:color-mix(in_oklab,var(--primary)15%,transparent)] dark:group-hover:[--color-border:color-mix(in_oklab,var(--primary)20%,transparent)]">
     <div
@@ -109,7 +105,7 @@ const CardDecorator = ({ children }: { children: React.ReactNode }) => (
       {children}
     </div>
   </div>
-);
+)
 export default function Home() {
   return (
     <div className=" flex flex-col w-full mx-auto px-2 sm:px-4 h-full">
@@ -126,10 +122,10 @@ export default function Home() {
                   Updated with last shadcn components
                 </Badge>
                 <h1 className="mb-4 text-3xl sm:text-4xl font-black md:text-5xl lg:text-6xl tracking-tight text-center lg:leading-16 dark:bg-gradient-to-b dark:from-white dark:to-white/70 dark:bg-clip-text dark:text-transparent">
-                  Build production-ready forms <br /> with a few clicks
+                  Build production-ready shadcn form <br /> with a few clicks
                 </h1>
                 <p className="text-muted-foreground text-center text-pretty max-w-xl mx-auto">
-                  Client and server side validation, accessible with ARIA and
+                  Shadcn multi-step form, validation, accessible with ARIA and
                   well-styled shadcn components
                 </p>
                 <div className="mx-auto pt-6 w-fit flex gap-4 ">
@@ -156,7 +152,7 @@ export default function Home() {
             </h2>
             <div className="flex gap-5 lg:gap-14 md:gap-8 py-5 mx-auto w-fit">
               {logos.map(({ name, Logo }) => {
-                const Icon = <Logo className="size-6" />;
+                const Icon = <Logo className="size-6" />
                 return (
                   <TooltipProvider key={name}>
                     <Tooltip>
@@ -173,7 +169,7 @@ export default function Home() {
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
-                );
+                )
               })}
             </div>
           </div>
@@ -239,5 +235,5 @@ export default function Home() {
         </div>
       </div>
     </div>
-  );
+  )
 }

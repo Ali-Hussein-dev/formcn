@@ -1,10 +1,10 @@
 import { FormBuilder } from "@/form-builder/components/form-builder";
 
 export const metadata = {
-  title: "Modern Form Builder for Shadcn | formcn",
+  title: "Modern Shadcn Form Builder | Formcn",
   description:
-    "Easily build single- and multi-step forms with auto-generated client- and server-side code.",
-};
+    "Build production-ready forms effortlessly using shadcn, react, typescript, tailwindcss, zod, react hook form, motion, and more.",
+}
 //======================================
 export default function FormBuilderPage() {
   return <FormBuilder />;

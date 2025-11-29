@@ -3,10 +3,10 @@ import * as React from "react";
 import { MdInfo } from "react-icons/md";
 
 export const metadata = {
-  title: "My Forms | formcn",
+  title: "Shadcn Form Templates | Formcn",
   description:
-    "Easily build single- and multi-step forms with auto-generated client- and server-side code.",
-};
+    "A collection of production-ready shadcn form templates to get you started",
+}
 //======================================
 export default function MyFormsLayout({
   children,
