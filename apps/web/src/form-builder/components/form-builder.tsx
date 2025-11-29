@@ -95,13 +95,13 @@ export function FormBuilderBase() {
           <FormElementsSelectCommand />
         </CommandProvider>
       </div>
-      <div className="w-full grid lg:grid-cols-12 gap-3">
+      <div className="w-full grid lg:grid-cols-12 gap-5">
         <div className="lg:col-span-2 lg:pl-2">
           <div className="sticky top-0 bg-background">
             <FormElementsSidebar />
           </div>
         </div>
-        <div className="w-full lg:col-span-6 min-w-full grow">
+        <div className="w-full lg:col-span-6 min-w-full grow lg:pr-5">
           <Tabs defaultValue={tabsList[0].name}>
             <TabsList className="w-full">
               {tabsList.map((tab) => (
@@ -161,15 +161,13 @@ export function FormBuilderBase() {
         </div>
         <div className="lg:col-span-4 w-full pb-6">
           <div className="sticky top-2">
-            <WebPreview>
-              <ErrorBoundary FallbackComponent={ErrorFallback}>
-                <FormPreview
-                  {...previewForm}
-                  formElements={formElements}
-                  isMS={isMS}
-                />
-              </ErrorBoundary>
-            </WebPreview>
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <FormPreview
+                {...previewForm}
+                formElements={formElements}
+                isMS={isMS}
+              />
+            </ErrorBoundary>
           </div>
         </div>
       </div>

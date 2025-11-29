@@ -23,11 +23,11 @@ const links = [
   },
   {
     label: "Hire me",
-    href: "https://ali-hussein.com",
+    href: urls.twitter,
     target: "_blank",
     rel: "noopener noreferrer",
   },
-];
+]
 
 const socialLinks = [
   { href: urls.github, Icon: FaGithub },

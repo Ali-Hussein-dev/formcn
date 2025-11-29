@@ -14,12 +14,12 @@ export default function FormBuilderLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="pt-4 pb-10 max-w-8xl pr-2 mx-auto w-full relative ">
+    <div className="pt-4 pb-10 max-w-8xl mx-auto w-full relative ">
       <div className="lg:hidden text-center py-6 bg-accent text-accent-foreground">
         <MdInfo className="inline mr-1 size-5" />
         The form builder works best on desktop
       </div>
-      <div className="px-2 md:px-0">
+      <div className="px-2 md:px-0 md:pr-3">
         <React.Suspense fallback={<FormBuilderSkeleton />}>
           {children}
         </React.Suspense>

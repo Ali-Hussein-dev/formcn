@@ -243,7 +243,7 @@ export function MyFormsBase() {
           {PreviewFormId && (
             <>
               <WebPreview>
-                <div className="p-2 lg:p-4 @container/my-forms">
+                <div className="p-2 lg:px-8 md:py-6 md:p-4 @container/my-forms">
                   <motion.div
                     key={PreviewFormId}
                     initial={{ opacity: 0, x: -20 }}
@@ -256,6 +256,7 @@ export function MyFormsBase() {
                           []) as FormElementOrList[]
                       }
                       isMS={selectedForm?.isMS || false}
+                      className="bg-background squircle rounded-3xl"
                       {...previewForm}
                     />
                   </motion.div>

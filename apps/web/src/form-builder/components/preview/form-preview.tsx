@@ -12,20 +12,22 @@ import { CheckCircle } from "lucide-react";
 
 type PreviewFormReturn = ReturnType<typeof usePreviewForm>;
 type FormPreviewProps = PreviewFormReturn & {
-  form: UseFormReturn<any, any, any>;
-  formElements: FormElementOrList[] | FormStep[];
-  isMS: boolean;
-};
+  form: UseFormReturn<any, any, any>
+  formElements: FormElementOrList[] | FormStep[]
+  isMS: boolean
+  className?: string
+}
 
 export function FormPreview({
   form,
   formElements,
   isMS,
+  className,
   onSubmit,
 }: FormPreviewProps) {
-  const [rerender, setRerender] = React.useState(false);
-  const { formState } = form;
-  const { isDirty, isSubmitSuccessful, isSubmitting } = formState;
+  const [rerender, setRerender] = React.useState(false)
+  const { formState } = form
+  const { isDirty, isSubmitSuccessful, isSubmitting } = formState
   if (formElements.length < 1)
     return (
       <div className="h-full py-10 px-3">
@@ -33,7 +35,7 @@ export function FormPreview({
           Nothing to preview. Add form elements to preview
         </p>
       </div>
-    );
+    )
   if (isSubmitSuccessful) {
     return (
       <div className="py-5">
@@ -85,11 +87,12 @@ export function FormPreview({
   return (
     <div
       className={cn(
-        "w-full rounded-3xl squircle border py-3 bg-background @md/my-forms:px-4",
+        "w-full rounded-2xl border-[3px] py-3 bg-secondary/20 @md/my-forms:px-5 px-4",
         // add padding to the top when no header
         !isMS && formElements[0].hasOwnProperty("static") === true
           ? ""
-          : "pt-4.5"
+          : "pt-4.5",
+        className
       )}
     >
       <div className="w-full">
