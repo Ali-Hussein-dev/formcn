@@ -108,6 +108,18 @@ export const genFormZodSchema = (
           elementSchema = z.array(z.date({ error: "This field is required" }));
         }
         break;
+      case "TagInput":
+        elementSchema = z.array(z.object({
+          id: z.string(),
+          text: z.string(),
+        }));
+        if (element.required) {
+          elementSchema = z.array(z.object({
+            id: z.string(),
+            text: z.string(),
+          }), { error: "Please enter at least one tag" }).min(1, "Please enter at least one tag");
+        }
+        break;
       case "FileUpload":
         const fileSchema = z
           .file()
@@ -232,6 +244,15 @@ export const genFieldZodSchemaCode = (formElement: FormElement): string => {
       if (formElement.mode === "multiple") {
         schemaItem = "z.array(z.date({error: 'This field is required'}))";
       }
+      if (!formElement.required) {
+        schemaItem += ".optional()";
+      }
+      return schemaItem;
+    case "TagInput":
+      schemaItem = `z.array(z.object({
+        id: z.string(),
+        text: z.string(),
+      }), { error: "Please enter at least one tag" }).min(1, "Please enter at least one tag")`;
       if (!formElement.required) {
         schemaItem += ".optional()";
       }

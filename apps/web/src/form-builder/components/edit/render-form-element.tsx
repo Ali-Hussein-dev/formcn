@@ -1,46 +1,46 @@
-import type * as React from "react";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
-import { Controller, type UseFormReturn } from "react-hook-form";
-import type { FormElement } from "@/form-builder/form-types";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Switch } from "@/components/ui/switch";
+import type * as React from "react"
+import { Textarea } from "@/components/ui/textarea"
+import { Input } from "@/components/ui/input"
+import { Controller, type UseFormReturn } from "react-hook-form"
+import type { FormElement } from "@/form-builder/form-types"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Switch } from "@/components/ui/switch"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/ui/select"
 import {
   MultiSelect,
   MultiSelectContent,
   MultiSelectItem,
   MultiSelectTrigger,
   MultiSelectValue,
-} from "@/components/ui/multi-select";
-import { Slider } from "@/components/ui/slider";
+} from "@/components/ui/multi-select"
+import { Slider } from "@/components/ui/slider"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { CalendarIcon, Check, ChevronsUpDown, X } from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
+} from "@/components/ui/popover"
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+import { CalendarIcon, Check, ChevronsUpDown, X } from "lucide-react"
+import { Calendar } from "@/components/ui/calendar"
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSeparator,
   InputOTPSlot,
-} from "@/components/ui/input-otp";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Password } from "@/components/password";
-import { FileUpload } from "@/components/form-fields/file-upload";
-import { Rating, RatingButton } from "@/components/ui/rating";
+} from "@/components/ui/input-otp"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Label } from "@/components/ui/label"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import { Password } from "@/components/password"
+import { FileUpload } from "@/components/form-fields/file-upload"
+import { Rating, RatingButton } from "@/components/ui/rating"
 import {
   Command,
   CommandEmpty,
@@ -48,7 +48,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
+} from "@/components/ui/command"
 import {
   Field,
   FieldContent,
@@ -56,20 +56,21 @@ import {
   FieldDescription,
   FieldError,
   FieldSeparator,
-} from "@/components/ui/field";
-import { format } from "date-fns";
-import { socialLogsUrls } from "@/form-builder/constant/social-logos-urls";
-import type { DateRange } from "react-day-picker";
+} from "@/components/ui/field"
+import { format } from "date-fns"
+import { socialLogsUrls } from "@/form-builder/constant/social-logos-urls"
+import type { DateRange } from "react-day-picker"
+import { TagInput } from "@/components/tag-input"
 
 export const RenderFormElement = ({
   formElement,
   form,
 }: {
-  formElement: FormElement;
-  form: UseFormReturn<any, any, any>;
+  formElement: FormElement
+  form: UseFormReturn<any, any, any>
 }): React.ReactElement => {
   // @ts-expect-error just ignore
-  const required = formElement?.required!;
+  const required = formElement?.required!
   switch (formElement.fieldType) {
     case "Input":
       return (
@@ -91,9 +92,9 @@ export const RenderFormElement = ({
                 type={formElement.type === "number" ? "number" : "text"}
                 onChange={(e) => {
                   if (formElement.type === "number") {
-                    field.onChange(e.target.valueAsNumber);
+                    field.onChange(e.target.valueAsNumber)
                   } else {
-                    field.onChange(e.target.value);
+                    field.onChange(e.target.value)
                   }
                 }}
                 autoComplete="off"
@@ -103,7 +104,7 @@ export const RenderFormElement = ({
             </Field>
           )}
         />
-      );
+      )
     case "Textarea":
       return (
         <Controller
@@ -128,7 +129,7 @@ export const RenderFormElement = ({
             </Field>
           )}
         />
-      );
+      )
     case "Password":
       return (
         <Controller
@@ -154,7 +155,7 @@ export const RenderFormElement = ({
             </Field>
           )}
         />
-      );
+      )
     case "OTP":
       return (
         <Controller
@@ -191,7 +192,7 @@ export const RenderFormElement = ({
             </Field>
           )}
         />
-      );
+      )
     case "Checkbox":
       return (
         <Controller
@@ -217,7 +218,7 @@ export const RenderFormElement = ({
             </Field>
           )}
         />
-      );
+      )
     case "Switch":
       return (
         <Controller
@@ -245,17 +246,17 @@ export const RenderFormElement = ({
             </Field>
           )}
         />
-      );
+      )
     case "Slider":
       return (
         <Controller
           name={formElement.name}
           control={form.control}
           render={({ field, fieldState }) => {
-            const { max = 100, min = 0, step } = formElement;
+            const { max = 100, min = 0, step } = formElement
             const value = Array.isArray(field.value)
               ? field.value
-              : [field.value ?? max / 2];
+              : [field.value ?? max / 2]
             return (
               <Field data-invalid={fieldState.invalid}>
                 <FieldContent className="mb-2 gap-1">
@@ -283,10 +284,10 @@ export const RenderFormElement = ({
                   <FieldError errors={[fieldState.error]} />
                 )}
               </Field>
-            );
+            )
           }}
         />
-      );
+      )
     case "ToggleGroup":
       return (
         <Controller
@@ -294,7 +295,7 @@ export const RenderFormElement = ({
           control={form.control}
           render={({ field, fieldState }) => {
             const options = (formElement?.options || []).map((option) => {
-              if (!option.label || !option.value) return null;
+              if (!option.label || !option.value) return null
               return (
                 <ToggleGroupItem
                   key={crypto.randomUUID()}
@@ -303,8 +304,8 @@ export const RenderFormElement = ({
                 >
                   {option.label}
                 </ToggleGroupItem>
-              );
-            });
+              )
+            })
             return (
               <Field
                 data-invalid={fieldState.invalid}
@@ -348,10 +349,10 @@ export const RenderFormElement = ({
                   <FieldError errors={[fieldState.error]} />
                 )}
               </Field>
-            );
+            )
           }}
         />
-      );
+      )
     case "Select":
       return (
         <Controller
@@ -373,7 +374,7 @@ export const RenderFormElement = ({
                 </SelectTrigger>
                 <SelectContent>
                   {(formElement?.options || []).map((option) => {
-                    if (!option.label || !option.value) return null;
+                    if (!option.label || !option.value) return null
                     return (
                       <SelectItem
                         key={crypto.randomUUID()}
@@ -381,7 +382,7 @@ export const RenderFormElement = ({
                       >
                         {option.label}
                       </SelectItem>
-                    );
+                    )
                   })}
                 </SelectContent>
               </Select>
@@ -390,7 +391,7 @@ export const RenderFormElement = ({
             </Field>
           )}
         />
-      );
+      )
     case "Combobox":
       return (
         <Controller
@@ -437,7 +438,7 @@ export const RenderFormElement = ({
                             value={option.value}
                             key={option.value}
                             onSelect={() => {
-                              form.setValue(formElement.name, option.value);
+                              form.setValue(formElement.name, option.value)
                             }}
                           >
                             {option.label}
@@ -460,7 +461,7 @@ export const RenderFormElement = ({
             </Field>
           )}
         />
-      );
+      )
     case "MultiSelect":
       return (
         <Controller
@@ -484,7 +485,7 @@ export const RenderFormElement = ({
                 </MultiSelectTrigger>
                 <MultiSelectContent>
                   {(formElement?.options || []).map((option) => {
-                    if (!option.label || !option.value) return null;
+                    if (!option.label || !option.value) return null
                     return (
                       <MultiSelectItem
                         key={crypto.randomUUID()}
@@ -492,7 +493,7 @@ export const RenderFormElement = ({
                       >
                         {option.label}
                       </MultiSelectItem>
-                    );
+                    )
                   })}
                 </MultiSelectContent>
               </MultiSelect>
@@ -501,7 +502,7 @@ export const RenderFormElement = ({
             </Field>
           )}
         />
-      );
+      )
     case "Rating":
       return (
         <Controller
@@ -537,7 +538,7 @@ export const RenderFormElement = ({
             </Field>
           )}
         />
-      );
+      )
     case "RadioGroup":
       return (
         <Controller
@@ -572,15 +573,15 @@ export const RenderFormElement = ({
             </Field>
           )}
         />
-      );
+      )
     case "DatePicker":
       return (
         <Controller
           name={formElement.name}
           control={form.control}
           render={({ field, fieldState }) => {
-            const selectedDate = field?.value;
-            const mode = formElement.mode;
+            const selectedDate = field?.value
+            const mode = formElement.mode
             return (
               <Field
                 data-invalid={fieldState.invalid}
@@ -632,8 +633,8 @@ export const RenderFormElement = ({
                           size="sm"
                           className="absolute top-1/2 -end-0 -translate-y-1/2 rounded-full"
                           onClick={(e) => {
-                            e.stopPropagation();
-                            form.resetField(field.name);
+                            e.stopPropagation()
+                            form.resetField(field.name)
                           }}
                         >
                           <X />
@@ -656,7 +657,7 @@ export const RenderFormElement = ({
                       onSelect={(newDate: Date | DateRange | Date[]) => {
                         form.setValue(field.name, newDate, {
                           shouldDirty: true,
-                        });
+                        })
                       }}
                     />
                   </PopoverContent>
@@ -665,10 +666,10 @@ export const RenderFormElement = ({
                   <FieldError errors={[fieldState.error]} />
                 )}
               </Field>
-            );
+            )
           }}
         />
-      );
+      )
     case "FileUpload":
       return (
         <Controller
@@ -714,19 +715,19 @@ export const RenderFormElement = ({
             </div>
           )}
         />
-      );
+      )
     case "Separator":
       return formElement.label ? (
         <FieldSeparator className="my-4">{formElement.label}</FieldSeparator>
       ) : (
         <FieldSeparator className="my-4" />
-      );
+      )
     case "SocialMediaButtons": {
       const Img = ({ src }: { src: string }) => (
         <div className="place-items-center grid rounded-full bg-white size-6 p-0.5">
           <img src={src} width={16} height={16} />
         </div>
-      );
+      )
       return formElement.layout === "row" ? (
         <div className="flex gap-2 justify-between w-full items-center flex-wrap pb-3">
           {formElement.links.map((key) => (
@@ -756,10 +757,40 @@ export const RenderFormElement = ({
             </Button>
           ))}
         </div>
-      );
+      )
     }
+    case "TagInput":
+      return (
+        <Controller
+          name={formElement.name}
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field
+              data-invalid={fieldState.invalid}
+              className="gap-1 [&_p]:pb-2"
+            >
+              <FieldLabel htmlFor={field.name}>
+                {formElement.label} {required && " *"}
+              </FieldLabel>
+              <TagInput
+                tags={field.value ?? formElement.tags ?? []}
+                setTags={(tags) => {
+                  const newTags =
+                    typeof tags === "function"
+                      ? tags(field.value ?? formElement.tags ?? [])
+                      : tags
+                  field.onChange(newTags)
+                }}
+                placeholder={formElement.placeholder}
+              />
+              <FieldDescription>{formElement.description}</FieldDescription>
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+      )
     case "Text": {
-      const variant = formElement.variant;
+      const variant = formElement.variant
       if (variant === "H1") {
         return (
           <h1
@@ -771,28 +802,28 @@ export const RenderFormElement = ({
           >
             {formElement.content}
           </h1>
-        );
+        )
       }
       if (variant === "H2") {
         return (
           <h2 className="mt-4 font-extrabold text-2xl tracking-tight mb-1">
             {formElement.content}
           </h2>
-        );
+        )
       }
       if (variant === "H3") {
         return (
           <h3 className="mt-3 font-bold text-xl tracking-tight mb-1">
             {formElement.content}
           </h3>
-        );
+        )
       }
       if (variant === "P") {
         return (
           <p className="tracking-wide text-muted-foreground mb-5 text-wrap text-sm">
             {formElement.content}
           </p>
-        );
+        )
       }
     }
     case "H1":
@@ -806,26 +837,26 @@ export const RenderFormElement = ({
         >
           {formElement.content}
         </h1>
-      );
+      )
     case "H2":
       return (
         <h2 className="mt-4 font-bold text-2xl tracking-tight">
           {formElement.content}
         </h2>
-      );
+      )
     case "H3":
       return (
         <h3 className="mt-3 font-semibold text-xl tracking-tight">
           {formElement.content}
         </h3>
-      );
+      )
     case "P":
       return (
         <p className="tracking-wide text-muted-foreground mb-6 text-wrap text-sm">
           {formElement.content}
         </p>
-      );
+      )
     default:
-      return <div>Invalid Form Element </div>;
+      return <div>Invalid Form Element </div>
   }
-};
+}

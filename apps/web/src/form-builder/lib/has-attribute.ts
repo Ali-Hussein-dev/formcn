@@ -24,6 +24,7 @@ const withLabel = [
   "Rating",
   "FileUpload",
   "OTP",
+  "TagInput",
 ];
 const withDescription = withLabel.filter((item) => item !== "Separator");
 
@@ -46,6 +47,7 @@ const withName = [
   "Switch",
   "Rating",
   "FileUpload",
+  "TagInput",
 ];
 const isRequired = withName;
 const withPlaceholder = [
@@ -57,6 +59,7 @@ const withPlaceholder = [
   "MultiSelect",
   "Combobox",
   "FileUpload",
+  "TagInput",
 ];
 const withContent = ["Text", "H1", "H2", "H3", "P"];
 
@@ -82,6 +85,7 @@ const attributesMap = {
   deprecated: isDeprecated,
   required: isRequired,
   width: withWidth,
+  tags: ["TagInput"],
 };
 
 
