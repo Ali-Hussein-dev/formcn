@@ -12,7 +12,7 @@ import { CiCalendarDate } from "react-icons/ci";
 import { LuHeading1, LuHeading2, LuHeading3, LuShare2 } from "react-icons/lu";
 import { CgFormatSeparator } from "react-icons/cg";
 import { RxSlider } from "react-icons/rx";
-import { PiSquaresFour } from "react-icons/pi";
+import { PiSquaresFour, PiTagSimple } from "react-icons/pi";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { ChevronsUpDownIcon, EyeOffIcon } from "lucide-react";
 import { FaAngleDown } from "react-icons/fa6";
@@ -42,6 +42,7 @@ export const formFieldsIcons = {
   H3: LuHeading3,
   P: BiParagraph,
   SocialMediaButtons: LuShare2,
+  TagInput: PiTagSimple
 };
 /**
  * used in
@@ -98,6 +99,14 @@ export const formElementsList = [
     fieldType: "DatePicker",
     icon: formFieldsIcons.DatePicker,
     description: "Date picker input",
+  },
+  {
+    group: "field",
+    name: "Tag Input",
+    fieldType: "TagInput",
+    icon: formFieldsIcons.TagInput,
+    description: "Tag input field",
+    isNew: true
   },
   {
     group: "field",

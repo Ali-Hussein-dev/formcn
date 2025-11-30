@@ -25,6 +25,12 @@ type attributes =
   | "step";
 const getAttribute = (attr: attributes, value?: boolean | string | number) => {
   if (typeof value === "string") {
+    // Check if string contains special characters that require escaping
+    const hasSpecialChars = /["'\\/]/.test(value);
+    if (!hasSpecialChars) {
+      // Simple case: no special characters, use regular quoted string
+      return `${attr}="${value}"`;
+    }
     // Use template literal syntax to avoid quote escaping issues
     // Escape backticks and backslashes in the value
     const escapedValue = value.replace(/\\/g, "\\\\").replace(/`/g, "\\`");
@@ -239,12 +245,11 @@ export const getFormElementCode = (field: FormElement) => {
                 ${getDescription(field.description)}
                 <ToggleGroup
                   variant="outline"
-                  value={${
-                    field.type === "single"
-                      ? "field.value"
-                      : `// wrap in array and flat because value can be a string or an array
+                  value={${field.type === "single"
+          ? "field.value"
+          : `// wrap in array and flat because value can be a string or an array
                         [field.value].flat().filter((val) => val !== undefined)`
-                  }}
+        }}
                   onValueChange={field.onChange}
                   ${getAttribute("type", field.type)}
                   ${getAttribute("disabled", field.disabled)}
@@ -494,9 +499,8 @@ export const getFormElementCode = (field: FormElement) => {
                               <>
                                 ${field.mode === "single" ? `{format(selectedDate, "dd MMM, yyyy")}` : ""}
                                 ${field.mode === "multiple" ? `{selectedDate.length + "dates selected"}` : ""}
-                                ${
-                                  field.mode === "range"
-                                    ? `(
+                                ${field.mode === "range"
+          ? `(
                                   <div className="flex items-center gap-x-2">
                                     {selectedDate?.from &&
                                       format(selectedDate.from, "dd MMM, yyyy")}
@@ -505,8 +509,8 @@ export const getFormElementCode = (field: FormElement) => {
                                       format(selectedDate.to, "dd MMM, yyyy")}
                                   </div>
                                 )`
-                                    : ""
-                                }
+        : ""
+        }
                               </>
                             ) : (
                               <span>${field.placeholder ?? ""}</span>
@@ -548,6 +552,31 @@ export const getFormElementCode = (field: FormElement) => {
             );
           }}
         />`;
+    case "TagInput":
+      return `
+      <Controller
+          ${getAttribute("name", field.name)}
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field
+              data-invalid={fieldState.invalid}
+              className="gap-1 [&_p]:pb-2"
+            >
+              ${getFieldLabel(field.name, field.label, field.required)}
+              <TagInput
+                tags={field.value ?? field.tags ?? []}
+                setTags={(tags) => field.onChange(tags)}
+                ${getAttribute("id", field.name)}
+                ${getAttribute("placeholder", field.placeholder)}
+                ${getAttribute("disabled", field.disabled)}
+              />
+              ${getDescription(field.description)}
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+      `
     case "FileUpload":
       return `
         <Controller

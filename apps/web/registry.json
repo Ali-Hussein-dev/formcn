@@ -5,6 +5,20 @@
   "author": "formcn (https://formcn.dev)",
   "items": [
     {
+      "name": "tag-input",
+      "type": "registry:component",
+      "title": "Tag Input",
+      "description": "Tag input component",
+      "dependencies": ["emblor"],
+      "files": [
+        {
+          "path": "src/components/tag-input.tsx",
+          "type": "registry:component",
+          "target": "components/tag-input.tsx"
+        }
+      ]
+    },
+    {
       "name": "password",
       "type": "registry:component",
       "title": "Password",
