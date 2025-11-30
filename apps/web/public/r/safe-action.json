@@ -12,7 +12,7 @@
       "path": "registry/default/actions/safe-action.ts",
       "content": "import { createSafeActionClient } from \"next-safe-action\";\r\n\r\n// Create the client with default options.\r\nexport const actionClient = createSafeActionClient();\r\n",
       "type": "registry:file",
-      "target": "actions/safe-action.ts"
+      "target": "actions/formcn/safe-action.ts"
     }
   ]
 }

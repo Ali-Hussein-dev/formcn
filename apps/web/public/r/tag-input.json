@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tag-input",
+  "type": "registry:component",
+  "title": "Tag Input",
+  "description": "Tag input component",
+  "dependencies": [
+    "emblor"
+  ],
+  "files": [
+    {
+      "path": "src/components/tag-input.tsx",
+      "content": "\"use client\"\n\nimport {\n  type Tag,\n  TagInput as EmblorTagInput,\n  type TagInputProps,\n} from \"emblor\"\nimport { useState, type Dispatch, type SetStateAction } from \"react\"\n\ntype TagInputWrapperProps = {\n  tags?: Tag[]\n  setTags: Dispatch<SetStateAction<Tag[]>>\n} & Omit<TagInputProps, \"activeTagIndex\" | \"setActiveTagIndex\" | \"tags\" | \"setTags\">\n\nexport function TagInput({\n  tags,\n  setTags,\n  ...rest\n}: TagInputWrapperProps) {\n  const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null)\n\n  return (\n    <EmblorTagInput\n      styleClasses={{\n        inlineTagsContainer:\n          \"border-input rounded-md dark:bg-input/30 shadow-xs transition-[color,box-shadow] focus-within:border-ring outline-none focus-within:ring-[3px] focus-within:ring-ring/50 p-1 gap-1.5\",\n        input: \"w-full min-w-[80px] shadow-none px-2 h-7\",\n        tag: {\n          body: \"h-7 relative bg-input/60 border border-input hover:bg-background rounded-md font-medium text-xs ps-2 pe-7\",\n          closeButton:\n            \"absolute -inset-y-px -end-px p-0 rounded-e-md flex size-7 transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] text-muted-foreground/80 hover:text-foreground\",\n        },\n      }}\n      tags={tags ?? []}\n      setTags={setTags}\n      {...rest}\n      activeTagIndex={activeTagIndex}\n      setActiveTagIndex={setActiveTagIndex}\n    />\n  )\n}\n",
+      "type": "registry:component",
+      "target": "components/formcn/tag-input.tsx"
+    }
+  ]
+}

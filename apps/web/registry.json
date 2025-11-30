@@ -5,6 +5,20 @@
   "author": "formcn (https://formcn.dev)",
   "items": [
     {
+      "name": "tag-input",
+      "type": "registry:component",
+      "title": "Tag Input",
+      "description": "Tag input component",
+      "dependencies": ["emblor"],
+      "files": [
+        {
+          "path": "src/components/tag-input.tsx",
+          "type": "registry:component",
+          "target": "components/formcn/tag-input.tsx"
+        }
+      ]
+    },
+    {
       "name": "password",
       "type": "registry:component",
       "title": "Password",
@@ -13,7 +27,8 @@
       "files": [
         {
           "path": "src/components/password.tsx",
-          "type": "registry:component"
+          "type": "registry:component",
+          "target": "components/formcn/password.tsx"
         }
       ]
     },
@@ -26,7 +41,8 @@
       "files": [
         {
           "path": "src/components/ui/multi-select.tsx",
-          "type": "registry:component"
+          "type": "registry:component",
+          "target": "components/formcn/multi-select.tsx"
         }
       ]
     },
@@ -39,7 +55,8 @@
       "files": [
         {
           "path": "src/components/ui/rating.tsx",
-          "type": "registry:component"
+          "type": "registry:component",
+          "target": "components/formcn/rating.tsx"
         }
       ]
     },
@@ -51,7 +68,8 @@
       "files": [
         {
           "path": "src/components/form-fields/file-upload.tsx",
-          "type": "registry:component"
+          "type": "registry:component",
+          "target": "components/formcn/file-upload.tsx"
         }
       ],
       "registryDependencies": [
@@ -67,7 +85,8 @@
       "files": [
         {
           "path": "src/form-builder/hooks/use-file-upload.tsx",
-          "type": "registry:hook"
+          "type": "registry:hook",
+          "target": "hooks/formcn/use-file-upload.tsx"
         }
       ]
     },
@@ -81,7 +100,7 @@
         {
           "path": "registry/default/actions/safe-action.ts",
           "type": "registry:file",
-          "target": "actions/safe-action.ts"
+          "target": "actions/formcn/safe-action.ts"
         }
       ]
     },
@@ -96,7 +115,7 @@
         {
           "path": "registry/default/actions/server-action.ts",
           "type": "registry:file",
-          "target": "actions/server-action.ts"
+          "target": "actions/formcn/server-action.ts"
         }
       ]
     },
@@ -109,7 +128,7 @@
         {
           "path": "src/hooks/use-multi-step-viewer.tsx",
           "type": "registry:hook",
-          "target": "hooks/use-multi-step-viewer.tsx"
+          "target": "hooks/formcn/use-multi-step-viewer.tsx"
         }
       ]
     },
@@ -124,7 +143,7 @@
         {
           "path": "src/components/multi-step-viewer.tsx",
           "type": "registry:component",
-          "target": "components/multi-step-viewer.tsx"
+          "target": "components/formcn/multi-step-viewer.tsx"
         }
       ]
     }
