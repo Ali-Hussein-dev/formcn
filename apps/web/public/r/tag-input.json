@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tag-input",
+  "type": "registry:component",
+  "title": "Tag Input",
+  "description": "Tag input component",
+  "dependencies": [
+    "emblor"
+  ],
+  "files": [
+    {
+      "path": "src/components/tag-input.tsx",
+      "content": "\"use client\"\r\n\r\nimport {\r\n  type Tag,\r\n  TagInput as EmblorTagInput,\r\n  type TagInputProps,\r\n} from \"emblor\"\r\nimport { useState, type Dispatch, type SetStateAction } from \"react\"\r\n\r\ntype TagInputWrapperProps = {\r\n  tags?: Tag[]\r\n  setTags: Dispatch<SetStateAction<Tag[]>>\r\n} & Omit<\r\n  TagInputProps,\r\n  \"activeTagIndex\" | \"setActiveTagIndex\" | \"tags\" | \"setTags\"\r\n>\r\n\r\nexport function TagInput({\r\n  tags,\r\n  setTags,\r\n  name,\r\n  ...rest\r\n}: TagInputWrapperProps) {\r\n  const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null)\r\n\r\n  return (\r\n    <EmblorTagInput\r\n      id={name}\r\n      styleClasses={{\r\n        inlineTagsContainer:\r\n          \"border-input rounded-md dark:bg-input/30 shadow-xs transition-[color,box-shadow] focus-within:border-ring outline-none focus-within:ring-[3px] focus-within:ring-ring/50 p-1 gap-1.5\",\r\n        input: \"w-full min-w-[80px] shadow-none px-2 h-7\",\r\n        tag: {\r\n          body: \"h-7 relative bg-input/60 border border-input hover:bg-secondary rounded-md font-medium text-xs ps-2 pe-7\",\r\n          closeButton:\r\n            \"absolute -inset-y-px -end-px p-0 rounded-e-md flex size-7 transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] text-muted-foreground/80 hover:text-foreground\",\r\n        },\r\n      }}\r\n      tags={tags ?? []}\r\n      setTags={setTags}\r\n      {...rest}\r\n      activeTagIndex={activeTagIndex}\r\n      setActiveTagIndex={setActiveTagIndex}\r\n      animation=\"fadeIn\"\r\n      truncate={15}\r\n    />\r\n  )\r\n}\r\n",
+      "type": "registry:component",
+      "target": "components/tag-input.tsx"
+    }
+  ]
+}

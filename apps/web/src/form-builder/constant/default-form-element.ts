@@ -127,6 +127,11 @@ export const defaultFormElements: Record<
     static: true,
     content: "Separator",
   },
+  TagInput: {
+    label: "Tags input field",
+    placeholder: "Enter your tags",
+    tags: [],
+  },
   SocialMediaButtons: {
     label: "Social links",
     name: "social-links",

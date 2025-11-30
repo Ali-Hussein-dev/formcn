@@ -9,6 +9,7 @@ import type {
   ToggleGroupSingleProps,
 } from "@radix-ui/react-toggle-group";
 import type { socialLogsUrls } from "./constant/social-logos-urls";
+import type { TagInputProps } from "emblor";
 
 export type Option = { value: string; label: React.ReactNode };
 //------------------------------------------------------------
@@ -139,6 +140,13 @@ type Rating = {
   numberOfStars?: number;
 } & React.InputHTMLAttributes<HTMLInputElement> &
   SharedFormProps;
+
+type TagInput = {
+  fieldType: "TagInput";
+  tags: { id: string; text: string }[];
+} & TagInputProps &
+  SharedFormProps;
+
 /**
  * @deprecated
  */
@@ -240,6 +248,7 @@ type FormFieldElement =
   | Slider
   | FileUpload
   | Rating
+  | TagInput
   | Combobox
   | Text
   | SocialMediaButtons
@@ -326,9 +335,9 @@ export type FormObject = {
   id: string;
   title: string;
 } & (
-  | { formElements: FormElementList[]; isMS: false }
-  | { formElements: FormStep[]; isMS: true }
-);
+    | { formElements: FormElementList[]; isMS: false }
+    | { formElements: FormStep[]; isMS: true }
+  );
 
 export const fieldTypes = [
   "Input",

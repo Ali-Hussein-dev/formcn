@@ -54,6 +54,10 @@ const emojis = {
 
 const changelogData: ChangelogEntry[] = [
   {
+    date: "Nov 30, 2025",
+    changes: ["feat: introudce new field type: tags-input"],
+  },
+  {
     date: "Nov 27, 2025",
     changes: ["feat: support generating multi-step Forms with AI"],
   },
