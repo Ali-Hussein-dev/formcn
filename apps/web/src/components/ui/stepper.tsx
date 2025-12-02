@@ -1,7 +1,7 @@
 "use client";
 
 import { CheckIcon, LoaderCircleIcon } from "lucide-react";
-import { Slot } from "radix-ui";
+import { Slot } from "@radix-ui/react-slot"
 import * as React from "react";
 import { createContext, useContext } from "react";
 
