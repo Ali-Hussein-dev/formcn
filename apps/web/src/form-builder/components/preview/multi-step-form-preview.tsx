@@ -4,6 +4,15 @@ import type { FormElement, FormStep } from "@/form-builder/form-types"
 import { useMultiStepForm } from "@/form-builder/hooks/use-multi-step-form"
 import { AnimatePresence, motion } from "motion/react"
 import { Progress } from "@/components/ui/progress"
+import {
+  Stepper,
+  StepperDescription,
+  StepperIndicator,
+  StepperItem,
+  StepperSeparator,
+  StepperTitle,
+  StepperTrigger,
+} from "@/components/ui/stepper"
 import { RenderFormElement } from "@/form-builder/components/edit/render-form-element"
 import type { UseFormReturn } from "react-hook-form"
 import { ChevronLeft, ChevronRight } from "lucide-react"
@@ -44,13 +53,26 @@ export function MultiStepFormPreview({
   const { isSubmitting } = formState
   const [rerender, setRerender] = React.useState(false)
   return (
-    <div className="flex flex-col gap-2 pt-3">
-      <div className="flex flex-col items-start justify-center gap-1 pb-4">
-        <span>
-          Step {currentStep} of {steps.length}
-        </span>
-        <Progress value={(currentStep / steps.length) * 100} />
-      </div>
+    <div className="flex flex-col gap-8 pt-3">
+      <Stepper value={currentStep} orientation="horizontal">
+        {steps.map((_, index) => {
+          const stepNumber = index + 1
+          const isLast = stepNumber === steps.length
+          return (
+            <StepperItem
+              key={stepNumber}
+              step={stepNumber}
+              className="not-last:flex-1"
+            >
+              <StepperTrigger>
+                <StepperIndicator />
+              </StepperTrigger>
+              {!isLast && <StepperSeparator />}
+            </StepperItem>
+          )
+        })}
+      </Stepper>
+
       <AnimatePresence mode="popLayout">
         <motion.div
           key={currentStep}

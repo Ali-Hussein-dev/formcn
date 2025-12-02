@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 import { CardDescription, CardTitle } from "@/components/ui/card"
-import { FiGitCommit, FiTerminal } from "react-icons/fi"
+import { FiArrowRight, FiGitCommit, FiTerminal } from "react-icons/fi"
 import { BsPatchCheck, BsStars } from "react-icons/bs"
 import { Badge } from "@/components/ui/badge"
 
@@ -118,9 +118,16 @@ export default function Home() {
           <div className="py-5 px-3 sm:py-6 md:py-8 md:px-6 w-full grow">
             <div className="h-[80vh] grid place-items-center">
               <div>
-                <Badge className="mb-8 mx-auto rounded-full block px-4 py-1.5 bg-accent/70 border-dashed border-border text-primary/90 text-sm">
-                  Updated with last shadcn components
-                </Badge>
+                <Button
+                  variant="outline"
+                  className="rounded-full mx-auto mb-10 w-fit flex"
+                  asChild
+                >
+                  <Link href="/changelog">
+                    New form components: stepper, tag input, and more...
+                    <FiArrowRight />
+                  </Link>
+                </Button>
                 <h1 className="mb-4 text-3xl sm:text-4xl font-black md:text-5xl lg:text-6xl tracking-tight text-center lg:leading-16 dark:bg-gradient-to-b dark:from-white dark:to-white/70 dark:bg-clip-text dark:text-transparent">
                   Build production-ready shadcn form <br /> with a few clicks
                 </h1>

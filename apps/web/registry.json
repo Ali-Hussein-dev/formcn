@@ -104,7 +104,7 @@
       "type": "registry:file",
       "title": "server action",
       "description": "server action",
-      "dependencies": ["zod","@hookform/resolvers"],
+      "dependencies": ["zod", "@hookform/resolvers"],
       "registryDependencies": ["@formcn/safe-action"],
       "files": [
         {
@@ -133,12 +133,29 @@
       "title": "Multi-step form",
       "description": "Multi-step form",
       "dependencies": ["motion"],
-      "registryDependencies": ["@formcn/use-multi-step-viewer","progress","button"],
+      "registryDependencies": [
+        "@formcn/use-multi-step-viewer",
+        "@formcn/stepper",
+        "button"
+      ],
       "files": [
         {
           "path": "src/components/multi-step-viewer.tsx",
           "type": "registry:component",
           "target": "components/multi-step-viewer.tsx"
+        }
+      ]
+    },
+    {
+      "name": "stepper",
+      "type": "registry:component",
+      "title": "Stepper",
+      "description": "Stepper component",
+      "files": [
+        {
+          "path": "src/components/ui/stepper.tsx",
+          "type": "registry:component",
+          "target": "components/ui/stepper.tsx"
         }
       ]
     }
