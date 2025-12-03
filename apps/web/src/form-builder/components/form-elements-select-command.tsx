@@ -12,22 +12,15 @@ import { formElementsList } from "@/form-builder/constant/form-elements-list";
 import { useCommand } from "@/form-builder/hooks/use-command-ctx";
 import type { FormElement } from "@/form-builder/form-types";
 import useFormBuilderStore from "../hooks/use-form-builder-store";
-import { HiArrowTurnDownLeft } from "react-icons/hi2";
-import { Kbd, KbdGroup } from "@/components/ui/kbd";
+import { HiArrowTurnDownLeft } from "react-icons/hi2"
 
 export function FormElementsSelectCommand() {
-  const appendElement = useFormBuilderStore((s) => s.appendElement);
-  const formElements = useFormBuilderStore((s) => s.formElements);
-  const isMS = useFormBuilderStore((s) => s.isMS);
-  const { openCommand: open, setOpenCommand: setOpen } = useCommand();
+  const appendElement = useFormBuilderStore((s) => s.appendElement)
+  const formElements = useFormBuilderStore((s) => s.formElements)
+  const isMS = useFormBuilderStore((s) => s.isMS)
+  const { openCommand: open, setOpenCommand: setOpen } = useCommand()
   return (
     <div>
-      <p className="text-sm text-muted-foreground md:block hidden">
-        Open fields command with{" "}
-        <KbdGroup>
-          <Kbd>Alt</Kbd>+<Kbd>f</Kbd>
-        </KbdGroup>
-      </p>
       <CommandDialog open={open} onOpenChange={setOpen} className="border-4">
         <CommandInput
           placeholder="Type form field name..."
@@ -37,7 +30,7 @@ export function FormElementsSelectCommand() {
           <CommandEmpty>No fields found.</CommandEmpty>
           <CommandGroup heading="Fields">
             {formElementsList.map((o) => {
-              const Icon = o.icon;
+              const Icon = o.icon
               return (
                 <CommandItem
                   key={o.name}
@@ -45,7 +38,7 @@ export function FormElementsSelectCommand() {
                     appendElement({
                       fieldType: o.fieldType as FormElement["fieldType"],
                       stepIndex: isMS ? formElements.length - 1 : undefined,
-                    });
+                    })
                   }}
                   className="gap-3"
                 >
@@ -61,7 +54,7 @@ export function FormElementsSelectCommand() {
                     </div>
                   </div>
                 </CommandItem>
-              );
+              )
             })}
           </CommandGroup>
         </CommandList>
@@ -83,5 +76,5 @@ export function FormElementsSelectCommand() {
         </div>
       </CommandDialog>
     </div>
-  );
+  )
 }

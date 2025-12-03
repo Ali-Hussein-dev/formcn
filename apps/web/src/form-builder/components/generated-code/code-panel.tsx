@@ -262,7 +262,7 @@ export function CodePanel() {
   } = useGenerateCode()
   if (formElements.length < 1) {
     return (
-      <Placeholder>
+      <Placeholder className="p-10 border rounded-lg max-w-full">
         No form fields, add fields first to see the code
       </Placeholder>
     )

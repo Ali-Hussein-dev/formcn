@@ -9,8 +9,9 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { CheckCircle } from "lucide-react";
+import { GiCardboardBox } from "react-icons/gi"
 
-type PreviewFormReturn = ReturnType<typeof usePreviewForm>;
+type PreviewFormReturn = ReturnType<typeof usePreviewForm>
 type FormPreviewProps = PreviewFormReturn & {
   form: UseFormReturn<any, any, any>
   formElements: FormElementOrList[] | FormStep[]
@@ -30,10 +31,16 @@ export function FormPreview({
   const { isDirty, isSubmitSuccessful, isSubmitting } = formState
   if (formElements.length < 1)
     return (
-      <div className="h-full py-10 px-3">
-        <p className="text-center text-lg text-balance font-medium">
-          Nothing to preview. Add form elements to preview
-        </p>
+      <div className="w-full border-dashed rounded-2xl border-[3px] py-24 bg-muted @md/my-forms:px-5 px-4">
+        <div className="flex flex-col items-center justify-center gap-4">
+          <GiCardboardBox className="size-10 md:size-20" />
+          <h2 className="text-center text-lg text-balance font-semibold">
+            Form Preview
+          </h2>
+          <p className="text-center text-balance text-muted-foreground">
+            Input fields will be added here
+          </p>
+        </div>
       </div>
     )
   if (isSubmitSuccessful) {
@@ -87,7 +94,7 @@ export function FormPreview({
   return (
     <div
       className={cn(
-        "w-full rounded-2xl border-[3px] py-3 bg-secondary/20 @md/my-forms:px-5 px-4",
+        "w-full rounded-2xl border-[3px] py-3 bg-background @md/my-forms:px-5 px-4",
         // add padding to the top when no header
         !isMS && formElements[0].hasOwnProperty("static") === true
           ? ""

@@ -54,7 +54,11 @@ const emojis = {
 
 const changelogData: ChangelogEntry[] = [
   {
-    date: "Nov 30, 2025",
+    date: "Dec 3, 2025",
+    changes: ["style: tweak the UI of form builder"],
+  },
+  {
+    date: "Dec 2, 2025",
     changes: ["feat: replace progress bar with stepper component"],
   },
   {

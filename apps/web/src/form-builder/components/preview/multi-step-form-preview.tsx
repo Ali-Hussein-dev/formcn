@@ -25,9 +25,11 @@ import { cn } from "@/lib/utils"
 export function MultiStepFormPreview({
   form,
   formElements,
+  direction = "horizontal",
 }: {
   form: UseFormReturn<any, any, undefined>
   formElements: FormStep[]
+  direction?: "horizontal" | "vertical"
 }) {
   const {
     currentStep,
@@ -52,60 +54,68 @@ export function MultiStepFormPreview({
   const { formState } = form
   const { isSubmitting } = formState
   const [rerender, setRerender] = React.useState(false)
+
   return (
     <div className="flex flex-col gap-8 pt-3">
-      <Stepper value={currentStep} orientation="horizontal">
-        {steps.map((_, index) => {
-          const stepNumber = index + 1
-          const isLast = stepNumber === steps.length
-          return (
-            <StepperItem
-              key={stepNumber}
-              step={stepNumber}
-              className="not-last:flex-1"
-            >
-              <StepperTrigger>
-                <StepperIndicator />
-              </StepperTrigger>
-              {!isLast && <StepperSeparator />}
-            </StepperItem>
-          )
-        })}
-      </Stepper>
-
-      <AnimatePresence mode="popLayout">
-        <motion.div
-          key={currentStep}
-          initial={{ opacity: 0, x: 15 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -15 }}
-          transition={{ duration: 0.4, type: "spring" }}
-          className="grid grid-cols-6 gap-3"
-        >
-          {current?.stepFields?.map((field, i) => {
-            if (Array.isArray(field)) {
-              return (
-                <React.Fragment key={i}>
-                  {field.map((el: FormElement, ii: number) => (
-                    <div key={el.name + ii} className="w-full col-span-6">
-                      <RenderFormElement formElement={el} form={form} />
-                    </div>
-                  ))}
-                </React.Fragment>
-              )
-            }
+      <div
+        className={cn(
+          "flex",
+          direction === "vertical" ? "gap-8" : "flex-col gap-8"
+        )}
+      >
+        <Stepper value={currentStep} orientation={direction}>
+          {steps.map((_, index) => {
+            const stepNumber = index + 1
+            const isLast = stepNumber === steps.length
             return (
-              <div
-                key={i}
-                // @ts-expect-error just ignore
-                className={cn("col-span-full", field?.width ?? "")}
+              <StepperItem
+                key={stepNumber}
+                step={stepNumber}
+                className="not-last:flex-1"
               >
-                <RenderFormElement formElement={field} form={form} />
-              </div>
+                <StepperTrigger>
+                  <StepperIndicator />
+                </StepperTrigger>
+                {!isLast && <StepperSeparator />}
+              </StepperItem>
             )
           })}
-        </motion.div>
-      </AnimatePresence>
+        </Stepper>
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            key={currentStep}
+            initial={{ opacity: 0, x: 15 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -15 }}
+            transition={{ duration: 0.4, type: "spring" }}
+            className="grid grid-cols-6 gap-3"
+          >
+            {current?.stepFields?.map((field, i) => {
+              if (Array.isArray(field)) {
+                return (
+                  <React.Fragment key={i}>
+                    {field.map((el: FormElement, ii: number) => (
+                      <div key={el.name + ii} className="w-full col-span-6">
+                        <RenderFormElement formElement={el} form={form} />
+                      </div>
+                    ))}
+                  </React.Fragment>
+                )
+              }
+              return (
+                <div
+                  key={i}
+                  // @ts-expect-error just ignore
+                  className={cn("col-span-full", field?.width ?? "")}
+                >
+                  <RenderFormElement formElement={field} form={form} />
+                </div>
+              )
+            })}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
       <div className="w-full pt-3 flex items-center justify-end gap-3">
         {formState.isDirty && (
           <div className="grow">

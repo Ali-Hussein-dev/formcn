@@ -15,8 +15,8 @@ export default function MyFormsLayout({
 }) {
   return (
     <div>
-      <div className="md:hidden text-center py-6 bg-accent text-accent-foreground mb-2">
-        <MdInfo className="inline mr-1 size-5" />
+      <div className="md:hidden text-center py-6 bg-accent text-destructive mb-2">
+        <MdInfo className="inline mr-2 size-5" />
         The form builder works best on desktop
       </div>
       <React.Suspense fallback={<MyFormSkeleton />}>{children}</React.Suspense>
