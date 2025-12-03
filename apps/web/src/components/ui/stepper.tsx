@@ -162,7 +162,7 @@ function StepperTrigger({
   const { step, isDisabled } = useStepItem();
 
   if (asChild) {
-    const Comp = asChild ? Slot.Root : "span";
+    const Comp = asChild ? Slot : "span"
     return (
       <Comp className={className} data-slot="stepper-trigger">
         {children}
