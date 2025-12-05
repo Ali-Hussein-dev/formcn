@@ -131,7 +131,11 @@ const Cli = ({
             "next-safe-action",
           ],
           registryDependencies: isMS
-            ? [...registryDependencies, "@formcn/server-action", "progress"]
+            ? [
+                ...registryDependencies,
+                "@formcn/server-action",
+                "@formcn/stepper",
+              ]
             : [...registryDependencies, "@formcn/server-action"],
           files: [
             {
@@ -233,7 +237,7 @@ const useGenerateCode = () => {
   const packagesSet = new Set(formElementTypes)
   let registryDependencies = ["field", ...Array.from(packagesSet)].join(" ")
   if (isMS) {
-    registryDependencies += " @formcn/multi-step-viewer"
+    registryDependencies += " @formcn/multi-step-viewer @formcn/stepper"
   }
   const dependencies =
     "react-hook-form zod @hookform/resolvers motion next-safe-action"
