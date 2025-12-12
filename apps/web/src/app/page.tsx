@@ -120,11 +120,11 @@ export default function Home() {
               <div>
                 <Button
                   variant="outline"
-                  className="rounded-full mx-auto mb-10 w-fit flex"
+                  className="rounded-full mx-auto mb-10 w-fit flex h-auto"
                   asChild
                 >
                   <Link href="/changelog">
-                    New form components: stepper, tag input, and more...
+                    New: stepper, tag input, and more...
                     <FiArrowRight />
                   </Link>
                 </Button>

@@ -19,6 +19,7 @@
     "hooks": "@/hooks"
   },
   "registries": {
-    "@formcn": "https://formcn.dev/r/{name}.json"
+    "@formcn": "https://formcn.dev/r/{name}.json",
+    "@ncdai": "https://chanhdai.com/r/{name}.json"
   }
 }
