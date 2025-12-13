@@ -30,7 +30,7 @@ import { ErrorFallback } from "@/components/shared/error-fallback"
 import { Kbd, KbdGroup } from "@/components/ui/kbd"
 import { flattenFormElementOrList } from "../lib/form-elements-helpers"
 import type { FormElementOrList } from "../form-types"
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { ScrollFadeEffect } from "@/components/scroll-fade-effect"
 
 const tabsList = [
   {
@@ -101,7 +101,7 @@ export function FormBuilderBase() {
     <div className="relative">
       <div className="w-full grid lg:grid-cols-12 z-50 isolate">
         <div className="lg:col-span-2 lg:border-r-2 lg:sticky top-0 lg:h-[calc(100vh-3rem)]">
-          <ScrollArea className="lg:px-2 py-3 lg:h-[calc(100vh-3rem)]">
+          <ScrollFadeEffect className="lg:h-[calc(100vh-3rem)] lg:px-2 py-3">
             <div className="h-full flex flex-col justify-between">
               <Button
                 variant="ghost"
@@ -118,7 +118,7 @@ export function FormBuilderBase() {
               </CommandProvider>
               <FormElementsSidebar />
             </div>
-          </ScrollArea>
+          </ScrollFadeEffect>
         </div>
         <div className="lg:col-span-10 grow relative md:px-6 lg:px-8">
           <PatternBG />
