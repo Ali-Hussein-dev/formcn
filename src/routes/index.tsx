@@ -85,7 +85,7 @@ const features = [
 	},
 ]
 const CtaButton = () => (
-	<Link to="/my-forms" params={{ id: "template-signup" }}>
+	<Link to="/my-forms" search={{ id: "template-signup" }}>
 		<Button className="font-semibold">Get Started</Button>
 	</Link>
 )
@@ -189,8 +189,8 @@ function App() {
 									className={cn(
 										"grow h-full",
 										i < 3 && "md:col-span-2",
-										i == 3 && "md:col-span-3",
-										i == 4 && "md:col-span-3",
+										i === 3 && "md:col-span-3",
+										i === 4 && "md:col-span-3",
 									)}
 								>
 									<div
