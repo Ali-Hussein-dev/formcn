@@ -15,15 +15,13 @@ export default function FormBuilderLayout({
 }) {
   return (
     <div className="max-w-8xl mx-auto w-full relative ">
-      <div className="lg:hidden text-center py-6 bg-accent text-destructive">
+      <div className="lg:hidden text-center py-2 bg-accent text-destructive">
         <MdInfo className="inline mr-2 size-5" />
         The form builder works best on desktop
       </div>
-      <div className="px-2 md:px-0 md:pr-3">
         <React.Suspense fallback={<FormBuilderSkeleton />}>
           {children}
         </React.Suspense>
-      </div>
     </div>
   )
 }

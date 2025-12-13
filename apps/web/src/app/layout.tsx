@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../index.css";
 import Providers from "@/components/providers";
-import Header from "@/components/header";
-import { Footer } from "@/components/footer";
 import NextTopLoader from "nextjs-toploader";
 
 const geistSans = Geist({
@@ -42,9 +40,7 @@ export default function RootLayout({
         <NextTopLoader color="#f54a00" showSpinner={false} speed={300} />
         <Providers>
           <div className="grid min-h-svh grid-rows-[auto_1fr_auto]">
-            <Header />
             {children}
-            <Footer />
           </div>
         </Providers>
       </body>

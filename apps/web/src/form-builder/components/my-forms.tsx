@@ -221,11 +221,11 @@ export function MyFormsBase() {
   }
 
   return (
-    <div className="grid md:grid-cols-10">
+    <div className="grid md:grid-cols-12 relative">
       <div className="lg:col-span-2 hidden md:block md:col-span-3">
         <LocalFormsSidebar />
       </div>
-      <div className="lg:col-span-8 md:col-span-7 ">
+      <div className="lg:col-span-10 md:col-span-9 lg:pt-8">
         <div className="flex justify-between px-4 py-4 lg:px-6 gap-3">
           <Button variant="default" asChild>
             <Link href={"/ai-form-generator"}>

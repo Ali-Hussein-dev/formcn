@@ -7,7 +7,7 @@ import { useQueryState } from "nuqs"
 import React from "react"
 import { FieldSeparator } from "@/components/ui/field"
 import { NewForm } from "./new-form"
-import { ScrollFadeEffect } from "@/components/scroll-fade-effect"
+import { SidebarWrapper } from "@/form-builder/components/sidebar-wrapper"
 
 export function LocalFormsSidebar() {
   const allForms = useLocalForms((s) => s.forms)
@@ -20,53 +20,53 @@ export function LocalFormsSidebar() {
   }, [formId, setQueryState])
 
   return (
-    <ScrollFadeEffect className="h-[calc(100vh-2rem)] px-3 py-2">
-      <div className="py-2">
+    <SidebarWrapper>
+      <div className="px-3 py-2 flex flex-col gap-3">
         <NewForm />
-      </div>
 
-      {allForms.length > 0 && (
-        <div className="flex md:flex-col flex-wrap gap-1 flex-row py-3">
-          <FieldSeparator className="mb-2.5">Draft Forms</FieldSeparator>
-          <div className="flex flex-col gap-2">
-            {allForms.map((savedForm) => (
-              <Button
-                key={savedForm.id}
-                onClick={() => setQueryState(savedForm.id)}
-                className="justify-start text-sm @container/form-button"
-                variant={formId === savedForm.id ? "secondary" : "ghost"}
-              >
-                <div className="flex gap-2 items-center @xs/form-button:max-w-[100px] max-w-[220px]">
-                  {savedForm.isMS ? (
-                    <GoGitCommit className="size-4 text-secondary-foreground/50" />
-                  ) : (
-                    <CgFileDocument className="size-4 text-secondary-foreground/50" />
-                  )}
-                  <span className="truncate">{savedForm.name}</span>
-                </div>
-              </Button>
-            ))}
+        {allForms.length > 0 && (
+          <div className="flex md:flex-col flex-wrap gap-1.5 flex-row py-2">
+            <FieldSeparator className="mb-1">Draft Forms</FieldSeparator>
+            <div className="flex flex-col gap-2">
+              {allForms.map((savedForm) => (
+                <Button
+                  key={savedForm.id}
+                  onClick={() => setQueryState(savedForm.id)}
+                  className="justify-start text-sm @container/form-button"
+                  variant={formId === savedForm.id ? "secondary" : "ghost"}
+                >
+                  <div className="flex gap-2 items-center @xs/form-button:max-w-[100px] max-w-[190px]">
+                    {savedForm.isMS ? (
+                      <GoGitCommit className="size-4 text-secondary-foreground/50" />
+                    ) : (
+                      <CgFileDocument className="size-4 text-secondary-foreground/50" />
+                    )}
+                    <span className="truncate">{savedForm.name}</span>
+                  </div>
+                </Button>
+              ))}
+            </div>
           </div>
+        )}
+        <div className="flex md:flex-col flex-wrap gap-1.5 flex-row py-2">
+          <FieldSeparator className="mb-1">Templates</FieldSeparator>
+          {templates.map(({ id, title, isMS }) => (
+            <Button
+              key={id}
+              onClick={() => setQueryState(id)}
+              className="justify-start text-sm"
+              variant={formId === id ? "secondary" : "ghost"}
+            >
+              {isMS ? (
+                <GoGitCommit className="size-4 text-secondary-foreground/50" />
+              ) : (
+                <CgFileDocument className="size-4 text-secondary-foreground/50" />
+              )}
+              {title}
+            </Button>
+          ))}
         </div>
-      )}
-      <FieldSeparator className="mt-2 mb-2.5">Templates</FieldSeparator>
-      <div className="flex md:flex-col flex-wrap gap-2 flex-row pb-2">
-        {templates.map(({ id, title, isMS }) => (
-          <Button
-            key={id}
-            onClick={() => setQueryState(id)}
-            className="justify-start text-sm"
-            variant={formId === id ? "secondary" : "ghost"}
-          >
-            {isMS ? (
-              <GoGitCommit className="size-4 text-secondary-foreground/50" />
-            ) : (
-              <CgFileDocument className="size-4 text-secondary-foreground/50" />
-            )}
-            {title}
-          </Button>
-        ))}
       </div>
-    </ScrollFadeEffect>
+    </SidebarWrapper>
   )
 }

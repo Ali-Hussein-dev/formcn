@@ -17,8 +17,6 @@ import { FormElementsSelectCommand } from "@/form-builder/components/form-elemen
 import { redirect, useSearchParams } from "next/navigation"
 import useLocalForms from "../hooks/use-local-forms"
 import { toast } from "sonner"
-import { FaArrowLeft } from "react-icons/fa6"
-import Link from "next/link"
 import { Placeholder } from "@/form-builder/components/placeholder"
 import dynamic from "next/dynamic"
 import { FormBuilderSkeleton } from "./form-skeleton"
@@ -30,7 +28,7 @@ import { ErrorFallback } from "@/components/shared/error-fallback"
 import { Kbd, KbdGroup } from "@/components/ui/kbd"
 import { flattenFormElementOrList } from "../lib/form-elements-helpers"
 import type { FormElementOrList } from "../form-types"
-import { ScrollFadeEffect } from "@/components/scroll-fade-effect"
+import { SidebarWrapper } from "@/form-builder/components/sidebar-wrapper"
 
 const tabsList = [
   {
@@ -100,30 +98,18 @@ export function FormBuilderBase() {
   return (
     <div className="relative">
       <div className="w-full grid lg:grid-cols-12 z-50 isolate">
-        <div className="lg:col-span-2 lg:border-r-2 lg:sticky top-0 lg:h-[calc(100vh-3rem)]">
-          <ScrollFadeEffect className="lg:h-[calc(100vh-3rem)] lg:px-2 py-3">
-            <div className="h-full flex flex-col justify-between">
-              <Button
-                variant="ghost"
-                className="flex justify-start gap-2"
-                asChild
-              >
-                <Link href={`/my-forms?id=${id}`}>
-                  <FaArrowLeft />
-                  Back
-                </Link>
-              </Button>
-              <CommandProvider>
-                <FormElementsSelectCommand />
-              </CommandProvider>
-              <FormElementsSidebar />
-            </div>
-          </ScrollFadeEffect>
+        <div className="lg:col-span-2 h-auto">
+          <SidebarWrapper className="lg:px-2 h-auto">
+            <CommandProvider>
+              <FormElementsSelectCommand />
+            </CommandProvider>
+            <FormElementsSidebar />
+          </SidebarWrapper>
         </div>
-        <div className="lg:col-span-10 grow relative md:px-6 lg:px-8">
+        <div className="lg:col-span-10 grow relative lg:px-4 lg:pt-4">
           <PatternBG />
-          <div className="grid lg:grid-cols-12 py-8 gap-y-5 lg:gap-y-0">
-            <div className="w-full lg:col-span-7 min-w-full lg:pr-8 ">
+          <div className="grid lg:grid-cols-12 py-8 gap-3 lg:gap-5">
+            <div className="w-full lg:col-span-7 min-w-full">
               <Tabs defaultValue={tabsList[0].name} className="bg-background">
                 <TabsList className="w-full p-0 border-none h-auto">
                   {tabsList.map((tab) => (
@@ -197,7 +183,7 @@ export function FormBuilderBase() {
                 </TabsContent>
               </Tabs>
             </div>
-            <div className="lg:col-span-5 w-full pb-6">
+            <div className="lg:col-span-5 w-full pb-6 px-2">
               <div className="lg:sticky top-2">
                 <ErrorBoundary FallbackComponent={ErrorFallback}>
                   <FormPreview

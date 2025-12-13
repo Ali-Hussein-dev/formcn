@@ -902,7 +902,7 @@ export const templates: FormObject[] = [
   } as FormObject,
   {
     id: "template-job-application-multistep",
-    title: "Job Application (Multi-Step)",
+    title: "Job Application",
     isMS: true,
     formElements: [
       {
