@@ -27,6 +27,12 @@ const links = [
     target: "_blank",
     rel: "noopener noreferrer",
   },
+  {
+    label: "Sponsor",
+    href: urls.sponsor,
+    target: "_blank",
+    rel: "noopener noreferrer",
+  },
 ]
 
 const socialLinks = [
