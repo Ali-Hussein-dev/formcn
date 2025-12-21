@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { urls } from "@/constants/urls"
 import { MdOutlineCalendarMonth } from "react-icons/md"
+import Header from "@/components/header"
+import { Footer } from "@/components/footer"
 function ChangelogHeader() {
   return (
     <header className="border-b border-dashed">
@@ -217,9 +219,11 @@ export const metadata = {
 export default function ChangelogPage() {
   return (
     <main className="">
+      <Header />
       <ChangelogHeader />
       <ChangelogTimeline />
       <ChangelogFooter />
+      <Footer />
     </main>
   )
 }
