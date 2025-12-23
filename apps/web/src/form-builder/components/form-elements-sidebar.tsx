@@ -22,7 +22,7 @@ const renderElementButton = (o: (typeof formElementsList)[0]) => {
       variant="ghost"
       onClick={() => {
         appendElement({
-          fieldType: o.fieldType as FormElement["fieldType"],
+          fieldType: o.fieldType as FormElement['fieldType'],
           stepIndex: isMS ? formElements.length - 1 : undefined,
         })
       }}
@@ -36,12 +36,9 @@ const renderElementButton = (o: (typeof formElementsList)[0]) => {
           <div className="text-xs">
             {o.name}
             {o?.isNew! && (
-              <Badge
-                className="text-[9px] font-medium rounded-2xl ml-1"
-                variant="destructive"
-              >
-                New
-              </Badge>
+              <span className="rounded-full ml-2 size-2 bg-destructive inline-block text-transparent">
+                n
+              </span>
             )}
           </div>
         </div>
