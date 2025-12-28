@@ -78,26 +78,27 @@ export const JsonViewer = ({
 };
 
 const installableShadcnComponents: Partial<
-  Record<FormElement["fieldType"], string>
+  Record<FormElement['fieldType'], string>
 > = {
-  Input: "input",
-  Textarea: "textarea",
-  Checkbox: "checkbox",
-  Select: "select",
-  Combobox: "popover command",
-  Slider: "slider",
-  Switch: "switch",
-  OTP: "input-otp",
-  RadioGroup: "radio-group",
-  ToggleGroup: "toggle-group",
-  DatePicker: "popover calendar",
-  Separator: "separator",
+  Input: 'input',
+  Textarea: 'textarea',
+  Checkbox: 'checkbox',
+  Select: 'select',
+  Combobox: 'popover command',
+  Slider: 'slider',
+  Switch: 'switch',
+  OTP: 'input-otp',
+  RadioGroup: 'radio-group',
+  ToggleGroup: 'toggle-group',
+  DatePicker: 'popover calendar',
+  Separator: 'separator',
   // none-shadcn components
-  MultiSelect: "@formcn/multi-select",
-  Password: "@formcn/password",
-  FileUpload: "@formcn/file-upload",
-  Rating: "@formcn/rating",
-};
+  MultiSelect: '@formcn/multi-select',
+  Password: '@formcn/password',
+  FileUpload: '@formcn/file-upload',
+  Rating: '@formcn/rating',
+  TagInput: '@formcn/tag-input',
+}
 
 //======================================
 const Cli = ({
