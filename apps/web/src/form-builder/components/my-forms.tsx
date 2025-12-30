@@ -1,25 +1,26 @@
-"use client"
-import { FormPreview } from "./preview/form-preview"
-import { usePreviewForm } from "@/form-builder/hooks/use-preview-form"
-import { Button } from "@/components/ui/button"
-import { useSearchParams } from "next/navigation"
-import useFormBuilderStore from "../hooks/use-form-builder-store"
-import { templates } from "@/form-builder/constant/templates"
-import type { FormElementOrList } from "../form-types"
-import { useRouter } from "next/navigation"
-import { useLocalForms } from "@/form-builder/hooks/use-local-forms"
-import { Input } from "@/components/ui/input"
-import * as React from "react"
-import { toast } from "sonner"
-import { Check, Pencil, Trash, X } from "lucide-react"
-import { LocalFormsSidebar } from "./local-forms-sidebar"
-import { MyFormSkeleton } from "./form-skeleton"
-import dynamic from "next/dynamic"
-import { WebPreview } from "./web-preview"
-import * as motion from "motion/react-client"
-import Link from "next/link"
-import { BsStars } from "react-icons/bs"
-import { flattenFormElementOrList } from "../lib/form-elements-helpers"
+'use client'
+import { FormPreview } from './preview/form-preview'
+import { usePreviewForm } from '@/form-builder/hooks/use-preview-form'
+import { Button } from '@/components/ui/button'
+import { useSearchParams } from 'next/navigation'
+import useFormBuilderStore from '../hooks/use-form-builder-store'
+import { templates } from '@/form-builder/constant/templates'
+import type { FormElementOrList } from '../form-types'
+import { useRouter } from 'next/navigation'
+import { useLocalForms } from '@/form-builder/hooks/use-local-forms'
+import { Input } from '@/components/ui/input'
+import * as React from 'react'
+import { toast } from 'sonner'
+import { Check, Pencil, Trash, X } from 'lucide-react'
+import { LocalFormsSidebar } from './local-forms-sidebar'
+import { MyFormSkeleton } from './form-skeleton'
+import dynamic from 'next/dynamic'
+import { WebPreview } from './web-preview'
+import * as motion from 'motion/react-client'
+import Link from 'next/link'
+import { BsStars } from 'react-icons/bs'
+import { flattenFormElementOrList } from '../lib/form-elements-helpers'
+import { SponsorBanner } from '@/components/sponsor-banner'
 
 function DeleteButtonWithConfim({ cb }: { cb: () => void }) {
   const [open, setOpen] = React.useState(false)
@@ -64,13 +65,13 @@ function SavedFormCard(props: { name: string; id: string }) {
   // on esc press, close the edit mode
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
+      if (e.key === 'Escape') {
         setEditMode(false)
       }
     }
-    document.addEventListener("keydown", handleKeyDown)
+    document.addEventListener('keydown', handleKeyDown)
     return () => {
-      document.removeEventListener("keydown", handleKeyDown)
+      document.removeEventListener('keydown', handleKeyDown)
     }
   }, [])
 
@@ -80,7 +81,7 @@ function SavedFormCard(props: { name: string; id: string }) {
   }
   function handleDelete() {
     deleteForm(props.id)
-    toast("Form deleted successfully")
+    toast('Form deleted successfully')
     router.push(`/my-forms?id=${templates[0].id}`)
   }
 
@@ -143,11 +144,11 @@ const useMigrateLocalForms = () => {
 
 const useSelectedForm = () => {
   const searchParams = useSearchParams()
-  const PreviewFormId = searchParams.get("id")
+  const PreviewFormId = searchParams.get('id')
   const getFormById = useLocalForms((s) => s.getFormById)
 
   const isSelectedFormTemplate =
-    !!PreviewFormId && PreviewFormId.startsWith("template-")
+    !!PreviewFormId && PreviewFormId.startsWith('template-')
 
   const selectedForm = isSelectedFormTemplate
     ? templates.find((t) => t.id === PreviewFormId)
@@ -165,18 +166,26 @@ export function MyFormsBase() {
 
   const { selectedForm, PreviewFormId, isSelectedFormTemplate } =
     useSelectedForm()
+  const meta = useFormBuilderStore((s) => s.meta)
+  const formElements = useFormBuilderStore((s) => s.formElements)
+  const router = useRouter()
+
+  // Redirect to first template if the requested template/form is not found
+  React.useEffect(() => {
+    if (PreviewFormId && !selectedForm) {
+      router.replace(`/my-forms?id=${templates[0].id}`)
+    }
+  }, [PreviewFormId, selectedForm, router])
+
   // reset form each time the form id changes
   React.useEffect(() => {
     if (PreviewFormId) {
       previewForm.form.reset()
     }
   }, [PreviewFormId])
-  const meta = useFormBuilderStore((s) => s.meta)
-  const formElements = useFormBuilderStore((s) => s.formElements)
-  const router = useRouter()
 
   function handleUseForm() {
-    toast.message("Redirecting...", { duration: 1000 })
+    toast.message('Redirecting...', { duration: 1000 })
     // save form from form builder into local forms
     if (meta.id) {
       updateForm({
@@ -191,7 +200,7 @@ export function MyFormsBase() {
         const date = new Date().toISOString()
         const formObject = {
           id,
-          name: template.title + " Template",
+          name: template.title + ' Template',
           isMS: template.isMS,
           formElements: template.formElements as FormElementOrList[],
           createdAt: date,
@@ -225,63 +234,65 @@ export function MyFormsBase() {
       <div className="lg:col-span-2 hidden md:block md:col-span-3">
         <LocalFormsSidebar />
       </div>
-      <div className="lg:col-span-10 md:col-span-9 lg:pt-8">
-        <div className="flex justify-between px-4 py-4 lg:px-6 gap-3">
-          <Button variant="default" asChild>
-            <Link href={"/ai-form-generator"}>
-              <BsStars />
-              Formcn AI
-            </Link>
-          </Button>
-          <div className="flex items-center gap-2">
-            <Button onClick={handleUseForm} variant="secondary">
-              {isSelectedFormTemplate ? "Clone template" : "Edit form"}
+      <div className="lg:col-span-10 md:col-span-9">
+        <SponsorBanner />
+        <div className="lg:pt-3">
+          <div className="flex justify-between px-4 py-4 lg:px-6 gap-3">
+            <Button variant="default" asChild>
+              <Link href={'/ai-form-generator'}>
+                <BsStars />
+                Formcn AI
+              </Link>
             </Button>
+            <div className="flex items-center gap-2">
+              <Button onClick={handleUseForm} variant="secondary">
+                {isSelectedFormTemplate ? 'Clone template' : 'Edit form'}
+              </Button>
+            </div>
           </div>
-        </div>
-        <div className="md:px-4 lg:px-6">
-          {PreviewFormId && (
-            <>
-              <WebPreview>
-                <div className="p-2 lg:px-8 md:py-6 md:p-4 @container/my-forms">
-                  <motion.div
-                    key={PreviewFormId}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ type: "keyframes", duration: 0.35 }}
-                  >
-                    <FormPreview
-                      formElements={
-                        (selectedForm?.formElements ??
-                          []) as FormElementOrList[]
-                      }
-                      isMS={selectedForm?.isMS || false}
-                      className="bg-background squircle rounded-3xl"
-                      {...previewForm}
-                    />
-                  </motion.div>
-                </div>
-              </WebPreview>
-              <div className="py-4 flex justify-end">
-                {!isSelectedFormTemplate && (
-                  <div className="grow pr-2">
-                    <SavedFormCard
-                      id={PreviewFormId}
-                      name={getFormById(PreviewFormId)?.name || "Form"}
-                    />
+          <div className="md:px-4 lg:px-6">
+            {PreviewFormId && (
+              <>
+                <WebPreview>
+                  <div className="p-2 lg:px-8 md:py-6 md:p-4 @container/my-forms">
+                    <motion.div
+                      key={PreviewFormId}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ type: 'keyframes', duration: 0.35 }}
+                    >
+                      <FormPreview
+                        formElements={
+                          (selectedForm?.formElements ??
+                            []) as FormElementOrList[]
+                        }
+                        isMS={selectedForm?.isMS || false}
+                        className="bg-background squircle rounded-3xl"
+                        {...previewForm}
+                      />
+                    </motion.div>
                   </div>
-                )}
-              </div>
-            </>
-          )}
+                </WebPreview>
+                <div className="py-4 flex justify-end">
+                  {!isSelectedFormTemplate && (
+                    <div className="grow pr-2">
+                      <SavedFormCard
+                        id={PreviewFormId}
+                        name={getFormById(PreviewFormId)?.name || 'Form'}
+                      />
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
   )
 }
-
 export const MyForms = dynamic(
-  () => import("./my-forms").then((mod) => mod.MyFormsBase),
+  () => import('./my-forms').then((mod) => mod.MyFormsBase),
   {
     ssr: false,
     loading: () => <MyFormSkeleton />,

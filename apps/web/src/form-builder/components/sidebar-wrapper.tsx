@@ -21,11 +21,11 @@ export function SidebarWrapper({ children, className }: SidebarWrapperProps) {
   return (
     <div
       className={
-        "flex flex-col sticky top-0 lg:h-screen bg-sidebar/30 lg:border-r-2"
+        'flex flex-col sticky top-0 lg:h-screen bg-sidebar/30 lg:border-r-2'
       }
     >
       {/* Logo at the top */}
-      <div className="shrink-0 px-3 h-[3rem] flex items-center justify-start w-full gap-2 border-b">
+      <div className="shrink-0 px-3 h-[4rem] flex items-center justify-start w-full gap-2 border-b">
         <Link href="/" className="cursor-pointer">
           <Logo />
         </Link>
@@ -34,7 +34,7 @@ export function SidebarWrapper({ children, className }: SidebarWrapperProps) {
       {/* Main content area - scrollable */}
       {!isMobile ? (
         <ScrollFadeEffect
-          className={cn("grow lg:h-[calc(100vh-6rem)]", className)}
+          className={cn('grow lg:h-[calc(100vh-6rem)]', className)}
         >
           {children}
         </ScrollFadeEffect>

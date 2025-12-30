@@ -29,21 +29,22 @@ import { Kbd, KbdGroup } from "@/components/ui/kbd"
 import { flattenFormElementOrList } from "../lib/form-elements-helpers"
 import type { FormElementOrList } from "../form-types"
 import { SidebarWrapper } from "@/form-builder/components/sidebar-wrapper"
+import { SponsorBanner } from '@/components/sponsor-banner'
 
 const tabsList = [
   {
-    name: "Edit",
+    name: 'Edit',
     icon: <MdOutlineEditOff />,
   },
   {
-    name: "Code",
+    name: 'Code',
     icon: <HiOutlineCodeBracket />,
   },
   // {
   //   name: "JSON",
   // },
   {
-    name: "Submission",
+    name: 'Submission',
     icon: <BsFillSendFill />,
   },
 ]
@@ -72,7 +73,7 @@ export function FormBuilderBase() {
   const meta = useFormBuilderStore((s) => s.meta)
   const isMS = useFormBuilderStore((s) => s.isMS)
   const searchParams = useSearchParams()
-  const id = searchParams.get("id")
+  const id = searchParams.get('id')
   const saveForm = useLocalForms((s) => s.updateForm)
 
   // migrate form elements to flat nested form elements
@@ -89,14 +90,17 @@ export function FormBuilderBase() {
   function handleSaveForm() {
     if (!id) return
     saveForm({ id, formElements })
-    toast.message("Form changes saved locally", { duration: 1000 })
+    toast.message('Form changes saved locally', { duration: 1000 })
   }
   if (!id) {
-    redirect("/my-forms")
+    redirect('/my-forms')
   }
 
   return (
     <div className="relative">
+      <div className="block lg:hidden">
+        <SponsorBanner />
+      </div>
       <div className="w-full grid lg:grid-cols-12 z-50 isolate">
         <div className="lg:col-span-2 h-auto">
           <SidebarWrapper className="lg:px-2 h-auto">
@@ -106,9 +110,12 @@ export function FormBuilderBase() {
             <FormElementsSidebar />
           </SidebarWrapper>
         </div>
-        <div className="lg:col-span-10 grow relative lg:px-4 lg:pt-4">
+        <div className="lg:col-span-10 grow relative">
+          <div className="lg:block hidden">
+            <SponsorBanner />
+          </div>
           <PatternBG />
-          <div className="grid lg:grid-cols-12 py-8 gap-3 lg:gap-5">
+          <div className="grid lg:grid-cols-12 py-8 gap-3 lg:gap-5 lg:px-4">
             <div className="w-full lg:col-span-7 min-w-full">
               <Tabs defaultValue={tabsList[0].name} className="bg-background">
                 <TabsList className="w-full p-0 border-none h-auto">
@@ -147,10 +154,10 @@ export function FormBuilderBase() {
                   ) : (
                     <div>
                       <Placeholder className="p-10 border rounded-lg max-w-full">
-                        Add fields first from the left sidebar or use{" "}
+                        Add fields first from the left sidebar or use{' '}
                         <KbdGroup>
                           <Kbd>Alt</Kbd>+<Kbd>f</Kbd>
-                        </KbdGroup>{" "}
+                        </KbdGroup>{' '}
                         to open the command palette
                       </Placeholder>
                     </div>

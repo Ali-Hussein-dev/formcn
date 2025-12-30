@@ -15,7 +15,7 @@ export default function MyFormsLayout({
 }) {
   return (
     <div>
-      <div className="md:hidden text-center py-2 bg-accent text-destructive mb-2">
+      <div className="md:hidden text-center py-2 bg-accent text-destructive">
         <MdInfo className="inline mr-2 size-5" />
         The form builder works best on desktop
       </div>
