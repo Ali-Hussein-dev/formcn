@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { urls } from "@/constants/urls";
-import Link from "next/link";
-import { FaGithub, FaWandMagicSparkles } from "react-icons/fa6"
+import { Button } from '@/components/ui/button'
+import { urls } from '@/constants/urls'
+import Link from 'next/link'
+import { FaGithub, FaWandMagicSparkles } from 'react-icons/fa6'
 import {
   SiShadcnui,
   SiTypescript,
@@ -10,48 +10,49 @@ import {
   SiZod,
   SiReacthookform,
   SiFramer,
-} from "react-icons/si"
+} from 'react-icons/si'
 import {
   TooltipProvider,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { cn } from "@/lib/utils"
-import { CardDescription, CardTitle } from "@/components/ui/card"
-import { FiArrowRight, FiGitCommit, FiTerminal } from "react-icons/fi"
-import { BsPatchCheck, BsStars } from "react-icons/bs"
-import { Badge } from "@/components/ui/badge"
-import { Footer } from "@/components/footer"
-import Header from "@/components/header"
+} from '@/components/ui/tooltip'
+import { cn } from '@/lib/utils'
+import { CardDescription, CardTitle } from '@/components/ui/card'
+import { FiArrowRight, FiGitCommit, FiTerminal } from 'react-icons/fi'
+import { BsPatchCheck, BsStars } from 'react-icons/bs'
+import { Badge } from '@/components/ui/badge'
+import { Footer } from '@/components/footer'
+import Header from '@/components/header'
+import { SponsorsSection } from '@/components/sponsors-section'
 
 const logos = [
   {
-    name: "React 19",
+    name: 'React 19',
     Logo: SiReact,
   },
   {
-    name: "TypeScript",
+    name: 'TypeScript',
     Logo: SiTypescript,
   },
   {
-    name: "Tailwind 4",
+    name: 'Tailwind 4',
     Logo: SiTailwindcss,
   },
   {
-    name: "Shadcn",
+    name: 'Shadcn',
     Logo: SiShadcnui,
   },
   {
-    name: "Zod 4",
+    name: 'Zod 4',
     Logo: SiZod,
   },
   {
-    name: "React Hook Form",
+    name: 'React Hook Form',
     Logo: SiReacthookform,
   },
   {
-    name: "Motion",
+    name: 'Motion',
     Logo: SiFramer,
   },
 ]
@@ -59,28 +60,28 @@ const logos = [
 const features = [
   {
     icon: BsPatchCheck,
-    title: "Production-ready code",
-    text: "No inconsistent AI generated code, always consistent battle-tested code and easily maintainable",
+    title: 'Production-ready code',
+    text: 'No inconsistent AI generated code, always consistent battle-tested code and easily maintainable',
   },
   {
     icon: FiGitCommit,
-    title: "Shadcn multi-step form",
-    text: "Easily choose between one step and multi-step forms that suit your needs",
+    title: 'Shadcn multi-step form',
+    text: 'Easily choose between one step and multi-step forms that suit your needs',
   },
   {
     icon: SiZod,
-    title: "Input validation with Zod",
-    text: "Client/server side validation with Zod and next-safe-action",
+    title: 'Input validation with Zod',
+    text: 'Client/server side validation with Zod and next-safe-action',
   },
   {
     icon: FaWandMagicSparkles,
-    title: "Easy to use",
-    text: "You can bring generated code and dependencies to your project with one command, powered by shadcn registry CLI",
+    title: 'Easy to use',
+    text: 'You can bring generated code and dependencies to your project with one command, powered by shadcn registry CLI',
   },
   {
     icon: BsStars,
-    title: "Formcn AI",
-    text: "Scaffold your form components instantly without creating each form field manually",
+    title: 'Formcn AI',
+    text: 'Scaffold your form components instantly without creating each form field manually',
   },
 ]
 
@@ -194,21 +195,21 @@ export default function Home() {
                 <div
                   key={o.title}
                   className={cn(
-                    "grow h-full",
-                    i < 3 && "md:col-span-2",
-                    i == 3 && "md:col-span-3",
-                    i == 4 && "md:col-span-3"
+                    'grow h-full',
+                    i < 3 && 'md:col-span-2',
+                    i == 3 && 'md:col-span-3',
+                    i == 4 && 'md:col-span-3'
                   )}
                 >
                   <div
                     className={cn(
-                      "h-full border-dashed",
-                      i < 4 && "border-b md:border-b-0",
-                      i < 3 && "md:border-b",
-                      i == 1 && "md:border-x",
-                      i == 2 && "md:border-r",
-                      i == 3 && "md:border-r md:col-span-3",
-                      i == 4 && "md:border-r md:col-span-3"
+                      'h-full border-dashed',
+                      i < 4 && 'border-b md:border-b-0',
+                      i < 3 && 'md:border-b',
+                      i == 1 && 'md:border-x',
+                      i == 2 && 'md:border-r',
+                      i == 3 && 'md:border-r md:col-span-3',
+                      i == 4 && 'md:border-r md:col-span-3'
                     )}
                   >
                     <div className="p-4 lg:p-6 rounded-xl">
@@ -227,6 +228,7 @@ export default function Home() {
               ))}
             </div>
           </div>
+          <SponsorsSection />
           <div className="w-full border-t border-dashed h-full overflow-hidden p-1">
             <div className="w-full relative py-8 flex justify-center">
               {/* Gradient Diagonal Lines Pattern */}

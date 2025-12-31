@@ -8,8 +8,7 @@ A modern form builder that lets you build production-ready forms using shadcn/ui
 
 ## Motivation
 
-Forms are tricky. They are one of the most common things you'll build in a web application, but also one of the most complex. While AI can help generate forms you need, the results are not predicatble and inconsistent and can use undesirable dependencies. Because form code is much a boilerplate code, we can automate it. 
-
+Forms are tricky. They are one of the most common things you'll build in a web application, but also one of the most complex. While AI can help generate forms you need, the results are not predicatble and inconsistent and can use undesirable dependencies. Because form code is much a boilerplate code, we can automate it.
 
 ## Features
 
@@ -18,6 +17,13 @@ Forms are tricky. They are one of the most common things you'll build in a web a
 - **Type-safe validation** client and server side validation
 - **Beautiful UI** with Tailwind CSS and shadcn/ui
 
+## Sponsors
+
+This project is sponsored by:
+
+**[Shadcn Studio](https://shadcnstudio.com/?utm_source=formcn&utm_medium=banner&utm_campaign=github)** - Shadcn blocks & templates
+
+[Become a sponsor](https://github.com/sponsors/Ali-Hussein-dev)
 
 ## License
 
