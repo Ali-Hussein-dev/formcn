@@ -96,6 +96,7 @@ const installableShadcnComponents: Partial<
 	Password: '@formcn/password',
 	FileUpload: '@formcn/file-upload',
 	Rating: '@formcn/rating',
+	TagInput: '@formcn/tag-input',
 }
 
 //======================================

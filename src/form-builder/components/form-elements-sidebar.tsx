@@ -1,8 +1,5 @@
-import { Button } from '@/components/ui/button'
-import { type FormElement } from '@/form-builder/form-types'
-import { formElementsList } from '@/form-builder/constant/form-elements-list'
-import useFormBuilderStore from '@/form-builder/hooks/use-form-builder-store'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
 	Drawer,
 	DrawerContent,
@@ -10,6 +7,9 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from '@/components/ui/drawer'
+import { formElementsList } from '@/form-builder/constant/form-elements-list'
+import { type FormElement } from '@/form-builder/form-types'
+import useFormBuilderStore from '@/form-builder/hooks/use-form-builder-store'
 
 const renderElementButton = (o: (typeof formElementsList)[0]) => {
 	const appendElement = useFormBuilderStore((s) => s.appendElement)
@@ -26,11 +26,11 @@ const renderElementButton = (o: (typeof formElementsList)[0]) => {
 					stepIndex: isMS ? formElements.length - 1 : undefined,
 				})
 			}}
-			className="gap-1 justify-start w-fit lg:w-full py-1.5"
+			className="gap-1 justify-start w-fit lg:w-full py-1.5 h-auto"
 		>
 			<div className="flex items-center justify-start gap-1.5 text-accent-foreground">
-				<span className="border rounded-xl size-8 border-dashed bg-accent/40 grid place-items-center">
-					<Icon className="size-4 text-muted-foreground" />
+				<span className="border rounded-xl size-7 border-dashed bg-accent/40 grid place-items-center">
+					<Icon className="size-3.5 text-muted-foreground" />
 				</span>
 				<div className="flex flex-col justify-start items-start">
 					<div className="text-xs">

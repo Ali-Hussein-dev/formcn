@@ -12,10 +12,10 @@ const prefixes = {
 
 export const PackagesManagerTabs = ({ packages }: { packages: string }) => {
 	const list = [
-		{ value: packages, command: 'pnpm', Icon: SiPnpm },
-		{ value: packages, command: 'bun', Icon: SiBun },
-		{ value: packages, command: 'npm', Icon: SiNpm },
-		{ value: packages, command: 'yarn', Icon: SiYarn },
+		{ value: packages, command: 'pnpm', Icon: <SiPnpm className="size-3" /> },
+		{ value: packages, command: 'bun', Icon: <SiBun className="size-3" /> },
+		{ value: packages, command: 'npm', Icon: <SiNpm className="size-3" /> },
+		{ value: packages, command: 'yarn', Icon: <SiYarn className="size-3" /> },
 	].map((o) => ({
 		...o,
 		value: prefixes[o.command as keyof typeof prefixes] + ' ' + o.value,
@@ -28,15 +28,18 @@ export const PackagesManagerTabs = ({ packages }: { packages: string }) => {
 			value={activeTab}
 			onValueChange={setActiveTab}
 		>
-			<TabsList className="w-full justify-between border-b rounded-none bg-accent h-10">
+			<TabsList
+				className="w-full justify-between border-b rounded-none bg-accent h-10"
+				variant="default"
+			>
 				<div className="flex gap-2 justify-start">
 					{list.map(({ command, Icon }) => (
 						<TabsTrigger
 							key={command}
 							value={command}
-							className="rounded-sm pb-1.5"
+							className="rounded-sm py-1"
 						>
-							<Icon />
+							<span className="">{Icon}</span>
 							{command}
 						</TabsTrigger>
 					))}
