@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { BsPatchCheck, BsStars } from "react-icons/bs"
 import { FaGithub, FaWandMagicSparkles } from "react-icons/fa6"
-import { FiArrowRight, FiGitCommit, FiTerminal } from "react-icons/fi"
+import { FiArrowRight, FiGitCommit } from 'react-icons/fi'
 import {
 	SiFramer,
 	SiReact,
@@ -13,6 +13,7 @@ import {
 } from "react-icons/si"
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
+import { SponsorsSection } from '@/components/sponsors-section'
 import { Button } from "@/components/ui/button"
 import { CardDescription, CardTitle } from "@/components/ui/card"
 import {
@@ -22,8 +23,7 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { urls } from "@/constants/urls"
-import { cn } from "@/lib/utils"
-
+import { cn } from '@/lib/utils'
 export const Route = createFileRoute("/")({ component: App })
 
 const logos = [
@@ -85,8 +85,8 @@ const features = [
 	},
 ]
 const CtaButton = () => (
-	<Link to="/my-forms" search={{ id: "template-signup" }}>
-		<Button className="font-semibold">Get Started</Button>
+	<Link to="/my-forms" search={{ id: 'template-signup' }}>
+		<Button className="font-semibold">Create Form</Button>
 	</Link>
 )
 const CardDecorator = ({ children }: { children: React.ReactNode }) => (
@@ -103,7 +103,7 @@ const CardDecorator = ({ children }: { children: React.ReactNode }) => (
 )
 function App() {
 	return (
-		<>
+		<div>
 			<Header />
 			<div className=" flex flex-col w-full mx-auto px-2 sm:px-4 h-full">
 				<div className="border-x container border-dashed mx-auto grow min-h-screen flex flex-col relative">
@@ -187,21 +187,21 @@ function App() {
 								<div
 									key={o.title}
 									className={cn(
-										"grow h-full",
-										i < 3 && "md:col-span-2",
-										i === 3 && "md:col-span-3",
-										i === 4 && "md:col-span-3",
+										'grow h-full',
+										i < 3 && 'md:col-span-2',
+										i === 3 && 'md:col-span-3',
+										i === 4 && 'md:col-span-3',
 									)}
 								>
 									<div
 										className={cn(
-											"h-full border-dashed",
-											i < 4 && "border-b md:border-b-0",
-											i < 3 && "md:border-b",
-											i === 1 && "md:border-x",
-											i === 2 && "md:border-r",
-											i === 3 && "md:border-r md:col-span-3",
-											i === 4 && "md:border-r md:col-span-3",
+											'h-full border-dashed',
+											i < 4 && 'border-b md:border-b-0',
+											i < 3 && 'md:border-b',
+											i === 1 && 'md:border-x',
+											i === 2 && 'md:border-r',
+											i === 3 && 'md:border-r md:col-span-3',
+											i === 4 && 'md:border-r md:col-span-3',
 										)}
 									>
 										<div className="p-4 lg:p-6 rounded-xl">
@@ -220,6 +220,7 @@ function App() {
 							))}
 						</div>
 					</div>
+					<SponsorsSection />
 					<div className="w-full border-t border-dashed h-full overflow-hidden p-1">
 						<div className="w-full relative py-8 flex justify-center">
 							{/* Gradient Diagonal Lines Pattern */}
@@ -240,6 +241,6 @@ function App() {
 				</div>
 			</div>
 			<Footer />
-		</>
+		</div>
 	)
 }

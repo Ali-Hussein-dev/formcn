@@ -1,66 +1,84 @@
+/** biome-ignore-all lint/security/noDangerouslySetInnerHtml: <explanation> */
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import type { QueryClient } from '@tanstack/react-query'
 import {
-  createRootRouteWithContext,
-  HeadContent,
-  Scripts,
+	createRootRouteWithContext,
+	HeadContent,
+	Scripts,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import Header from '../components/Header'
+import { Toaster } from '../components/ui/sonner'
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import appCss from '../styles.css?url'
 
 interface MyRouterContext {
-  queryClient: QueryClient
+	queryClient: QueryClient
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
-  head: () => ({
-    meta: [
-      {
-        charSet: 'utf-8',
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
-      },
-      {
-        title: 'TanStack Start Starter',
-      },
-    ],
-    links: [
-      {
-        rel: 'stylesheet',
-        href: appCss,
-      },
-    ],
-  }),
+	head: () => ({
+		meta: [
+			{
+				charSet: 'utf-8',
+			},
+			{
+				name: 'viewport',
+				content: 'width=device-width, initial-scale=1',
+			},
+			{
+				title: 'Modern shadcn form builder | Formcn',
+			},
+			{
+				description:
+					'Build production-ready shadcn form with a few clicks, including shadcn multi-step form.',
+			},
+		],
+		links: [
+			{
+				rel: 'stylesheet',
+				href: appCss,
+			},
+		],
+	}),
 
-  shellComponent: RootDocument,
+	shellComponent: RootDocument,
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <TanStackDevtools
-          config={{
-            position: 'bottom-right',
-          }}
-          plugins={[
-            {
-              name: 'Tanstack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-            TanStackQueryDevtools,
-          ]}
-        />
-        <Scripts />
-      </body>
-    </html>
-  )
+	return (
+		<html lang="en">
+			<head>
+				<HeadContent />
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `
+					(function() {
+						try {
+							const theme = localStorage.getItem('theme-mode') || 'dark';
+							document.documentElement.classList.toggle('dark', theme === 'dark');
+						} catch (e) {}
+					})();
+				`,
+					}}
+				/>
+			</head>
+			<body>
+				{children}
+				<Toaster />
+				<TanStackDevtools
+					config={{
+						position: 'bottom-right',
+					}}
+					plugins={[
+						{
+							name: 'Tanstack Router',
+							render: <TanStackRouterDevtoolsPanel />,
+						},
+						TanStackQueryDevtools,
+					]}
+				/>
+				<Scripts />
+			</body>
+		</html>
+	)
 }

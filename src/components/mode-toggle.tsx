@@ -1,33 +1,33 @@
-import { useEffect, useState } from "react"
-import { Button } from "@/components/ui/button"
+import { useEffect, useState } from 'react'
+import { Button } from '@/components/ui/button'
 
-type ThemeMode = "dark" | "light"
+type ThemeMode = 'dark' | 'light'
 
-function useThemeMode() {
-	const [mode, setMode] = useState<ThemeMode>("dark")
-
-	useEffect(() => {
-		if (typeof document === "undefined") {
-			return
+export function useThemeMode() {
+	// Use lazy initializer to read from localStorage synchronously before first render
+	const [mode, setMode] = useState<ThemeMode>(() => {
+		if (typeof window === 'undefined') {
+			return 'dark'
 		}
-
-		const stored = window.localStorage.getItem("theme-mode") as ThemeMode | null
-		const initial = stored ?? "dark"
-		setMode(initial)
-	}, [])
+		const stored = window.localStorage.getItem('theme-mode') as ThemeMode | null
+		const initial = stored ?? 'dark'
+		// Apply theme immediately before React renders to prevent flash
+		document.documentElement.classList.toggle('dark', initial === 'dark')
+		return initial
+	})
 
 	useEffect(() => {
-		if (typeof document === "undefined") {
+		if (typeof document === 'undefined') {
 			return
 		}
 
 		const root = document.documentElement
-		root.classList.toggle("dark", mode === "dark")
-		window.localStorage.setItem("theme-mode", mode)
+		root.classList.toggle('dark', mode === 'dark')
+		window.localStorage.setItem('theme-mode', mode)
 	}, [mode])
 
 	const toggleMode = () =>
-		setMode((current) => (current === "dark" ? "light" : "dark"))
+		setMode((current) => (current === 'dark' ? 'light' : 'dark'))
 
 	return {
 		mode,

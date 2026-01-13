@@ -1,0 +1,354 @@
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import type {
+  FormElement,
+  DropElement,
+  EditElement,
+  ReorderElements,
+  AppendElement,
+  FormElementOrList,
+  SetTemplate,
+  FormStep,
+  FormElementList,
+} from "@/form-builder/form-types";
+import { defaultFormElements } from "@/form-builder/constant/default-form-element";
+import { templates } from "@/form-builder/constant/templates";
+import {
+  dropAtIndex,
+  flattenFormSteps,
+  insertAtIndex,
+  transformToStepFormList,
+} from "@/form-builder/lib/form-elements-helpers";
+import { v4 as uuid } from "uuid";
+
+type MSForm = {
+  formElements: FormStep[];
+  isMS: true;
+};
+type SingleForm = {
+  formElements: FormElementList;
+  isMS: false;
+};
+type FormBuilderState = {
+  isMS: boolean;
+  meta: {
+    name: string;
+    id: string;
+  };
+  appendElement: AppendElement;
+  dropElement: DropElement;
+  editElement: EditElement;
+  reorder: ReorderElements;
+  setTemplate: SetTemplate;
+  resestFormElements: () => void;
+
+  setIsMS: (isMS: boolean) => void;
+
+  addFormStep: (position?: number) => void;
+  removeFormStep: (stepIndex: number) => void;
+  setFormElements: (
+    f: FormElementOrList[] | FormStep[],
+    options: { isMS: boolean; id: string; name: string }
+  ) => void;
+  reorderSteps: (newOrder: FormStep[]) => void;
+} & (MSForm | SingleForm);
+
+export const useFormBuilderStore = create<FormBuilderState>()(
+  persist(
+    (set) => ({
+      formElements: [],
+      isMS: false,
+      meta: {
+        name: "",
+        id: "",
+      },
+      appendElement: (options) => {
+        const { fieldIndex, fieldType } = options || { fieldIndex: null };
+        set((state) => {
+          const { isMS } = state;
+          switch (isMS) {
+            case true: {
+              const stepIndex = options?.stepIndex as number;
+              const clonedFormElements = [...state.formElements];
+
+              const stepFields = clonedFormElements[stepIndex].stepFields;
+              const id = uuid();
+              const newFormElement = {
+                id,
+                ...defaultFormElements[fieldType],
+                fieldType,
+                name: `${fieldType.toLowerCase()}-${id.slice(0, 3)}`,
+              } as FormElement;
+              if (typeof fieldIndex == "number") {
+                // Append to a nested array
+                stepFields[fieldIndex] = [
+                  stepFields[fieldIndex] as FormElement,
+                  newFormElement,
+                ];
+              } else {
+                stepFields.push(newFormElement);
+              }
+              state.formElements[stepIndex].stepFields = stepFields;
+              return { formElements: clonedFormElements };
+            }
+            default:
+              const id = uuid();
+              const newFormElement = {
+                id,
+                ...defaultFormElements[fieldType],
+                fieldType,
+                name: `${fieldType.toLowerCase()}-${id.slice(0, 3)}`,
+              } as FormElement;
+              const clonedFormElements = [...state.formElements];
+              if (typeof fieldIndex == "number") {
+                // update form element at fieldIndex, with a form element array
+                clonedFormElements[fieldIndex] = [
+                  clonedFormElements[fieldIndex] as FormElement,
+                  newFormElement,
+                ];
+              } else {
+                // Append to the main array
+                clonedFormElements.push(newFormElement);
+              }
+              return {
+                formElements: clonedFormElements,
+              };
+          }
+        });
+      },
+      dropElement: (options) => {
+        set((state) => {
+          const { j, fieldIndex } = options;
+          const { isMS } = state;
+          switch (isMS) {
+            case true: {
+              const stepIndex = options?.stepIndex as number;
+              const clonedFormElements = [...state.formElements];
+              const stepFields = clonedFormElements[stepIndex].stepFields;
+              if (typeof j === "number") {
+                // Remove from a nested array
+                stepFields[fieldIndex] = dropAtIndex(
+                  stepFields[fieldIndex] as FormElement[],
+                  j
+                )[0];
+                state.formElements[stepIndex].stepFields = stepFields;
+              } else {
+                // Remove from the main array;
+                state.formElements[stepIndex].stepFields = dropAtIndex(
+                  stepFields as FormElement[],
+                  fieldIndex
+                );
+              }
+              return {
+                formElements: clonedFormElements,
+              };
+            }
+            default:
+              const clonedFormElements = [...state.formElements];
+              if (
+                typeof j === "number" &&
+                Array.isArray(state.formElements[fieldIndex])
+              ) {
+                // Remove from a nested array
+                clonedFormElements[fieldIndex] = dropAtIndex(
+                  clonedFormElements[fieldIndex] as FormElement[],
+                  j
+                )[0];
+                return { formElements: clonedFormElements };
+              } else {
+                return {
+                  // Remove from the main array;
+                  formElements: dropAtIndex(
+                    state.formElements as FormElement[],
+                    fieldIndex
+                  ),
+                };
+              }
+          }
+        });
+      },
+      editElement: (options) => {
+        const { j, fieldIndex, modifiedFormElement } = options;
+        set((state) => {
+          const { isMS } = state;
+          switch (isMS) {
+            case true: {
+              const stepIndex = options.stepIndex as number;
+              const clonedFormElements = [...state.formElements];
+              const stepFields = clonedFormElements[stepIndex].stepFields;
+              const currentFormElement = stepFields[
+                fieldIndex
+              ] as FormElement[];
+              if (typeof j == "number") {
+                currentFormElement[j] = {
+                  ...currentFormElement[j],
+                  ...modifiedFormElement,
+                } as FormElement;
+                stepFields[fieldIndex] = currentFormElement;
+                state.formElements[stepIndex].stepFields = stepFields;
+              } else {
+                stepFields[fieldIndex] = {
+                  ...currentFormElement,
+                  ...modifiedFormElement,
+                } as FormElement;
+                state.formElements[stepIndex].stepFields = stepFields;
+              }
+              return { formElements: clonedFormElements };
+            }
+            default:
+              const clonedFormElements = [...state.formElements];
+              if (typeof j == "number") {
+                // Edit nested elements
+                const currentFormElement = [
+                  ...(clonedFormElements[fieldIndex] as FormElement[]),
+                ];
+                currentFormElement[j] = {
+                  ...currentFormElement[j],
+                  ...modifiedFormElement,
+                } as FormElement;
+                clonedFormElements[fieldIndex] = currentFormElement;
+                return { formElements: clonedFormElements };
+              }
+              clonedFormElements[fieldIndex] = {
+                ...clonedFormElements[fieldIndex],
+                ...modifiedFormElement,
+              } as FormElement;
+              return { formElements: clonedFormElements };
+          }
+        });
+      },
+      reorder: (options): void => {
+        const { newOrder, fieldIndex } = options;
+        set((state) => {
+          const { isMS } = state;
+
+          switch (isMS) {
+            case true: {
+              const clonedFormElements = [...state.formElements];
+              const stepIndex = options.stepIndex as number;
+              if (typeof fieldIndex === "number") {
+                // Reorder nested elements
+                clonedFormElements[stepIndex].stepFields[fieldIndex] =
+                  newOrder as FormElement[];
+              } else {
+                clonedFormElements[stepIndex].stepFields =
+                  newOrder as FormElementList;
+              }
+              return { formElements: clonedFormElements };
+            }
+            default:
+              if (typeof fieldIndex === "number") {
+                // Reorder nested elements
+                const clonedFormElements = [...state.formElements];
+                clonedFormElements[fieldIndex] = newOrder as FormElementOrList;
+                return { formElements: clonedFormElements };
+              } else {
+                // Reorder main elements
+                return { formElements: newOrder };
+              }
+          }
+        });
+      },
+      reorderSteps: (newOrder: FormStep[]): void => {
+        set(() => {
+          return { formElements: newOrder };
+        });
+      },
+      setTemplate: (templateId: string) => {
+        const template = templates.find((t) => t.id === templateId);
+        if (!template) return;
+        const { isMS, formElements } = template;
+        set((state) => {
+          return isMS
+            ? {
+                ...state,
+                formElements: formElements as FormStep[],
+                isMS: true,
+              }
+            : {
+                ...state,
+                formElements: formElements as FormElementOrList[],
+                isMS: false,
+              };
+        });
+      },
+      resestFormElements: () => {
+        set((state) => {
+          if (state.isMS)
+            return {
+              formElements: [{ id: uuid(), stepFields: [] }],
+            };
+          return { formElements: [] };
+        });
+      },
+      setIsMS: (isMS) => {
+        set((state) => {
+          let formElements = state.formElements;
+          if (isMS) {
+            formElements = transformToStepFormList(
+              formElements as FormElementOrList[]
+            );
+            return {
+              ...state,
+              isMS,
+              formElements,
+            } as MSForm;
+          } else {
+            formElements = flattenFormSteps(
+              formElements as FormStep[]
+            ) as FormElementOrList[];
+            return { ...state, isMS, formElements } as SingleForm;
+          }
+        });
+      },
+      addFormStep: (currentPosition) => {
+        set((state) => {
+          const defaultStep = {
+            id: uuid(),
+            stepFields: [],
+          };
+          if (typeof currentPosition === "number") {
+            const nextPosition = currentPosition + 1;
+            return {
+              formElements: insertAtIndex(
+                state.formElements as FormStep[],
+                defaultStep,
+                nextPosition
+              ),
+            };
+          }
+          return {
+            formElements: [...state.formElements, defaultStep] as FormStep[],
+          };
+        });
+      },
+      removeFormStep: (stepIndex) => {
+        set((state) => {
+          return {
+            formElements: dropAtIndex(
+              state.formElements as FormStep[],
+              stepIndex
+            ),
+          };
+        });
+      },
+      setFormElements: (formElements, options) => {
+        set((state) => {
+          return {
+            formElements,
+            isMS: options.isMS,
+            meta: {
+              id: options.id,
+              name: options.name,
+            },
+          } as FormBuilderState;
+        });
+      },
+    }),
+    {
+      name: "form-builder-store",
+    }
+  )
+);
+
+export default useFormBuilderStore;

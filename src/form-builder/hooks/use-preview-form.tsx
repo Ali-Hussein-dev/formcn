@@ -1,0 +1,74 @@
+'use client'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as React from 'react'
+import { useForm } from 'react-hook-form'
+import type { FormElement, FormStep } from '@/form-builder/form-types'
+import useFormBuilderStore from '@/form-builder/hooks/use-form-builder-store'
+import { flattenFormSteps } from '@/form-builder/lib/form-elements-helpers'
+import { genFormZodSchema } from '@/form-builder/lib/generate-zod-schema'
+
+//-------------------------------------------
+export const usePreviewForm = () => {
+	interface DefaultValues {
+		[key: string]: any
+	}
+	const isMS = useFormBuilderStore((s) => s.isMS)
+	const formElements = useFormBuilderStore((s) => s.formElements)
+	const resestFormElements = useFormBuilderStore((s) => s.resestFormElements)
+
+	const flattenFormElements = isMS
+		? flattenFormSteps(formElements as FormStep[]).flat()
+		: (formElements.flat() as FormElement[])
+
+	const filteredFormFields = flattenFormElements.filter((o) => !('static' in o))
+
+	const defaultValues: DefaultValues = filteredFormFields.reduce(
+		(acc: DefaultValues, element) => {
+			// @ts-expect-error check later
+			acc[element.name] = element?.defaultValue ?? undefined
+			return acc
+		},
+		{
+			width: 'col-span-full',
+		},
+	)
+
+	const zodSchema = genFormZodSchema(filteredFormFields)
+
+	const form = useForm({
+		defaultValues,
+		// TODO: fix later
+		resolver: zodResolver(zodSchema as any),
+	})
+
+	const { watch, reset } = form
+	const [submittedData, setSubmittedData] = React.useState({})
+
+	React.useEffect(() => {
+		const { unsubscribe } = watch((data) => {
+			setSubmittedData(data)
+		})
+
+		return unsubscribe
+	}, [watch])
+
+	const cleanEditingFields = () => {
+		// Remove all fields from the form
+		resestFormElements()
+		// reset to all default values
+		reset()
+		// reset submitted data
+		setSubmittedData({})
+	}
+	const onSubmit = async (data: any) => {
+		setSubmittedData(data)
+		return new Promise((resolve) => setTimeout(resolve, 1000))
+	}
+
+	return {
+		form,
+		submittedData,
+		onSubmit,
+		cleanEditingFields,
+	}
+}

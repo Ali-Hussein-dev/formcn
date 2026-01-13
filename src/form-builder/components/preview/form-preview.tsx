@@ -1,0 +1,180 @@
+import { FieldGroup } from '@/components/ui/field'
+import { RenderFormElement } from '@/form-builder/components/edit/render-form-element'
+import type { FormElementOrList, FormStep } from '@/form-builder/form-types'
+import { Button } from '@/components/ui/button'
+import { MultiStepFormPreview } from '@/form-builder/components/preview/multi-step-form-preview'
+import { usePreviewForm } from '@/form-builder/hooks/use-preview-form'
+import type { UseFormReturn } from 'react-hook-form'
+import * as React from 'react'
+import { cn } from '@/lib/utils'
+import { motion } from 'motion/react'
+import { CheckCircle } from 'lucide-react'
+import { GiCardboardBox } from 'react-icons/gi'
+
+type PreviewFormReturn = ReturnType<typeof usePreviewForm>
+type FormPreviewProps = PreviewFormReturn & {
+	form: UseFormReturn<any, any, any>
+	formElements: FormElementOrList[] | FormStep[]
+	isMS: boolean
+	className?: string
+}
+
+export function FormPreview({
+	form,
+	formElements,
+	isMS,
+	className,
+	onSubmit,
+}: FormPreviewProps) {
+	const [rerender, setRerender] = React.useState(false)
+	const { formState } = form
+	const { isDirty, isSubmitSuccessful, isSubmitting } = formState
+	if (formElements.length < 1)
+		return (
+			<div className="w-full border-dashed rounded-2xl border-[3px] py-24 bg-muted @md/my-forms:px-5 px-4">
+				<div className="flex flex-col items-center justify-center gap-4">
+					<GiCardboardBox className="size-10 md:size-20" />
+					<h2 className="text-center text-lg text-balance font-semibold">
+						Form Preview
+					</h2>
+					<p className="text-center text-balance text-muted-foreground">
+						Input fields will be added here
+					</p>
+				</div>
+			</div>
+		)
+	if (isSubmitSuccessful) {
+		return (
+			<div className="py-5">
+				<motion.div
+					initial={{ opacity: 0, y: -16 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.4, stiffness: 300, damping: 25 }}
+					className="h-full py-6 px-3"
+				>
+					<motion.div
+						initial={{ scale: 0.5 }}
+						animate={{ scale: 1 }}
+						transition={{
+							delay: 0.3,
+							type: 'spring',
+							stiffness: 500,
+							damping: 15,
+						}}
+						className="mb-4 flex justify-center"
+					>
+						<CheckCircle className="size-10" />
+					</motion.div>
+					<h2 className="text-center text-lg text-pretty font-semibold">
+						Form submitted successfully
+					</h2>
+					<p className="text-center text-lg text-pretty text-muted-foreground">
+						Thank you for your submission, we will get back to you soon
+					</p>
+				</motion.div>
+				<motion.div
+					initial={{ opacity: 0, y: 16 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.4, damping: 25 }}
+					className="flex items-center justify-center"
+				>
+					<Button
+						variant="outline"
+						onClick={() => {
+							form.reset({})
+							setRerender(!rerender)
+						}}
+					>
+						Back to form
+					</Button>
+				</motion.div>
+			</div>
+		)
+	}
+	return (
+		<div
+			className={cn(
+				'w-full rounded-2xl border-[3px] py-3 bg-background @md/my-forms:px-5 px-4',
+				// add padding to the top when no header
+				!isMS && formElements[0].hasOwnProperty('static') === true
+					? ''
+					: 'pt-4.5',
+				className,
+			)}
+		>
+			<div className="w-full">
+				<form
+					key={rerender ? 'reset' : 'normal'}
+					onSubmit={async (e) => {
+						e.preventDefault()
+						if (!isMS) {
+							await form.handleSubmit(onSubmit)(e)
+						}
+					}}
+					className="flex flex-col p-4 md:px-5 w-full"
+				>
+					<FieldGroup className="gap-4">
+						{isMS ? (
+							<MultiStepFormPreview
+								formElements={formElements as unknown as FormStep[]}
+								form={form}
+							/>
+						) : (
+							<div className="grid grid-cols-6 gap-4">
+								{(formElements as FormElementOrList[]).map((element, i) => {
+									if (Array.isArray(element)) {
+										return element.map((el, ii) => (
+											<div
+												key={el.name + ii}
+												className="md:col-span-3 col-span-full"
+											>
+												<RenderFormElement formElement={el} form={form} />
+											</div>
+										))
+									}
+									return (
+										<div
+											key={element.name + i}
+											className={cn(
+												'col-span-full',
+												// @ts-expect-error just ignore
+												(element?.width as string) ?? '',
+											)}
+										>
+											<RenderFormElement formElement={element} form={form} />
+										</div>
+									)
+								})}
+								<div className="flex items-center justify-end w-full pt-3 gap-3 col-span-6">
+									{isDirty && (
+										<Button
+											variant="outline"
+											type="button"
+											size="sm"
+											disabled={isSubmitting}
+											className="rounded-lg"
+											onClick={() => {
+												form.reset({})
+												setRerender(!rerender)
+											}}
+										>
+											Reset
+										</Button>
+									)}
+									<Button
+										type="submit"
+										className="rounded-lg"
+										size="sm"
+										disabled={isSubmitting}
+									>
+										{isSubmitting ? 'Submitting...' : 'Submit'}
+									</Button>
+								</div>
+							</div>
+						)}
+					</FieldGroup>
+				</form>
+			</div>
+		</div>
+	)
+}
