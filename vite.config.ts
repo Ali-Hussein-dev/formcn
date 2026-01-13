@@ -22,6 +22,10 @@ const config = defineConfig({
       },
     }),
   ],
+  build: {
+    // Increase chunk size warning limit since we're handling large bundles
+    chunkSizeWarningLimit: 1000,
+  },
 })
 
 export default config
