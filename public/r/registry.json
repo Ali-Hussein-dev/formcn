@@ -1,0 +1,163 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "formcn",
+  "homepage": "https://formcn.dev",
+  "author": "formcn (https://formcn.dev)",
+  "items": [
+    {
+      "name": "tag-input",
+      "type": "registry:component",
+      "title": "Tag Input",
+      "description": "Tag input component",
+      "dependencies": ["emblor"],
+      "files": [
+        {
+          "path": "src/components/tag-input.tsx",
+          "type": "registry:component",
+          "target": "components/tag-input.tsx"
+        }
+      ]
+    },
+    {
+      "name": "password",
+      "type": "registry:component",
+      "title": "Password",
+      "description": "Password input with show/hide toggle",
+      "registryDependencies": ["input-group"],
+      "files": [
+        {
+          "path": "src/components/password.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "multi-select",
+      "type": "registry:component",
+      "title": "Multi-select",
+      "description": "Multi-select dropdown",
+      "registryDependencies": ["popover", "command", "badge", "button"],
+      "files": [
+        {
+          "path": "src/components/ui/multi-select.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating",
+      "type": "registry:component",
+      "title": "Rating",
+      "description": "Rating component",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/rating.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "file-upload",
+      "type": "registry:component",
+      "title": "File Input",
+      "description": "File upload component",
+      "files": [
+        {
+          "path": "src/components/form-fields/file-upload.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": [
+        "https://formcn.dev/r/use-file-upload.json",
+        "button"
+      ]
+    },
+    {
+      "name": "use-file-upload",
+      "type": "registry:hook",
+      "title": "file upload hook",
+      "description": "state management hook for file upload component",
+      "files": [
+        {
+          "path": "src/form-builder/hooks/use-file-upload.tsx",
+          "type": "registry:hook"
+        }
+      ]
+    },
+    {
+      "name": "safe-action",
+      "type": "registry:file",
+      "title": "next safe action",
+      "description": "handles your Next.js app mutations type safety, input/output validation, server errors and even more!",
+      "dependencies": ["next-safe-action"],
+      "files": [
+        {
+          "path": "registry/default/actions/safe-action.ts",
+          "type": "registry:file",
+          "target": "actions/safe-action.ts"
+        }
+      ]
+    },
+    {
+      "name": "server-action",
+      "type": "registry:file",
+      "title": "server action",
+      "description": "server action",
+      "dependencies": ["zod", "@hookform/resolvers"],
+      "registryDependencies": ["@formcn/safe-action"],
+      "files": [
+        {
+          "path": "registry/default/actions/server-action.ts",
+          "type": "registry:file",
+          "target": "actions/server-action.ts"
+        }
+      ]
+    },
+    {
+      "name": "use-multi-step-viewer",
+      "type": "registry:hook",
+      "title": "Multi-step viewer hook",
+      "description": "Multi-step viewer hook",
+      "files": [
+        {
+          "path": "src/hooks/use-multi-step-viewer.tsx",
+          "type": "registry:hook",
+          "target": "hooks/use-multi-step-viewer.tsx"
+        }
+      ]
+    },
+    {
+      "name": "multi-step-viewer",
+      "type": "registry:component",
+      "title": "Multi-step form",
+      "description": "Multi-step form",
+      "dependencies": ["motion"],
+      "registryDependencies": [
+        "@formcn/use-multi-step-viewer",
+        "@formcn/stepper",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/components/multi-step-viewer.tsx",
+          "type": "registry:component",
+          "target": "components/multi-step-viewer.tsx"
+        }
+      ]
+    },
+    {
+      "name": "stepper",
+      "type": "registry:component",
+      "title": "Stepper",
+      "description": "Stepper component",
+      "files": [
+        {
+          "path": "src/components/ui/stepper.tsx",
+          "type": "registry:component",
+          "target": "components/ui/stepper.tsx"
+        }
+      ]
+    }
+  ]
+}

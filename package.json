@@ -10,7 +10,7 @@
     "format": "biome format src/form-builder/**/*.tsx",
     "lint": "biome lint",
     "check": "biome check",
-    "build:reg": "shadcn build",
+    "build:reg": "shadcn build ",
     "deploy": "wrangler deploy"
   },
   "dependencies": {
@@ -41,6 +41,7 @@
     "input-otp": "^1.4.2",
     "lucide-react": "^0.544.0",
     "motion": "^12.23.26",
+    "next-safe-action": "^8.0.11",
     "next-themes": "^0.4.6",
     "radix-ui": "^1.4.3",
     "react": "^19.2.0",
