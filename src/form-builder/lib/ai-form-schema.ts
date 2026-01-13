@@ -1,69 +1,69 @@
 import { z } from "zod";
 import { socialKeys } from "@/form-builder/constant/social-logos-urls";
 
-
-const widthSchema = z
-  .enum(["col-span-full", "md:col-span-3", "md:col-span-2"])
-  .optional()
-  .default("col-span-full")
-  .describe(
-    `Field width in the form row:
+// AI is not good at it yet!
+/* const widthSchema = z
+	.enum(['col-span-full', 'md:col-span-3', 'md:col-span-2'])
+	.optional()
+	.default('col-span-full')
+	.describe(
+		`Field width in the form row:
     - "col-span-full": Field takes the entire row (full width).
     - "md:col-span-3": Field takes 1/3 of the row on medium screens and above (allows 3 fields per row).
     - "md:col-span-2": Field takes half the row on medium screens and above (allows 2 fields per row).
-    Use to arrange multiple fields in a single row.`
-  )
+    Use to arrange multiple fields in a single row and with fields that have same height. avoid using it for fields that are not related to each other.`,
+	) */
 
 const InputFieldSchema = z
-  .object({
-    id: z.string(),
-    label: z.string(),
-    name: z.string(),
-    fieldType: z.literal("Input"),
-    type: z
-      .enum(["text", "number", "email", "password", "tel"])
-      .default("text"),
-    required: z.boolean().optional(),
-    placeholder: z.string().optional(),
-    width: widthSchema
-  })
-  .describe("Input element with type text, number, email, password, or tel");
+	.object({
+		id: z.string(),
+		label: z.string(),
+		name: z.string(),
+		fieldType: z.literal('Input'),
+		type: z
+			.enum(['text', 'number', 'email', 'password', 'tel'])
+			.default('text'),
+		required: z.boolean().optional(),
+		placeholder: z.string().optional(),
+		// width: widthSchema
+	})
+	.describe('Input element with type text, number, email, password, or tel')
 
 const passwordSchema = z
-  .object({
-    id: z.string(),
-    label: z.string(),
-    name: z.string(),
-    fieldType: z.literal("Password"),
-    required: z.boolean(),
-    placeholder: z.string(),
-    width: widthSchema
-  })
-  .describe("Password input")
+	.object({
+		id: z.string(),
+		label: z.string(),
+		name: z.string(),
+		fieldType: z.literal('Password'),
+		required: z.boolean(),
+		placeholder: z.string(),
+		// width: widthSchema
+	})
+	.describe('Password input')
 
 const otpSchema = z
-  .object({
-    id: z.string(),
-    label: z.string(),
-    name: z.string(),
-    fieldType: z.literal("OTP"),
-    required: z.boolean(),
-    placeholder: z.string(),
-    width: widthSchema
-  })
-  .describe("One time password input");
+	.object({
+		id: z.string(),
+		label: z.string(),
+		name: z.string(),
+		fieldType: z.literal('OTP'),
+		required: z.boolean(),
+		placeholder: z.string(),
+		// width: widthSchema
+	})
+	.describe('One time password input')
 
 const textareaSchema = z
-  .object({
-    id: z.string(),
-    label: z.string(),
-    name: z.string(),
-    fieldType: z.literal("Textarea"),
-    required: z.boolean().optional(),
-    placeholder: z.string().optional(),
-    width: widthSchema
-  })
-  .describe("Textarea element");
+	.object({
+		id: z.string(),
+		label: z.string(),
+		name: z.string(),
+		fieldType: z.literal('Textarea'),
+		required: z.boolean().optional(),
+		placeholder: z.string().optional(),
+		// width: widthSchema
+	})
+	.describe('Textarea element')
 
 const optionsSchema = z
   .array(
@@ -79,141 +79,141 @@ const optionsSchema = z
   ]);
 
 const selectSchema = z
-  .object({
-    id: z.string(),
-    label: z.string(),
-    name: z.string(),
-    fieldType: z.literal("Select"),
-    required: z.boolean().optional(),
-    placeholder: z.string().optional(),
-    options: optionsSchema,
-    width: widthSchema
-  })
-  .describe("Use it when you want to let users select one from a list.");
+	.object({
+		id: z.string(),
+		label: z.string(),
+		name: z.string(),
+		fieldType: z.literal('Select'),
+		required: z.boolean().optional(),
+		placeholder: z.string().optional(),
+		options: optionsSchema,
+		// width: widthSchema
+	})
+	.describe('Use it when you want to let users select one from a list.')
 
 const comboboxSchema = z
-  .object({
-    id: z.string(),
-    label: z.string(),
-    name: z.string(),
-    fieldType: z.literal("Combobox"),
-    required: z.boolean().optional(),
-    placeholder: z.string().optional(),
-    options: optionsSchema,
-    width: widthSchema
-  })
-  .describe("Use it for longer lists to select one from a list.");
+	.object({
+		id: z.string(),
+		label: z.string(),
+		name: z.string(),
+		fieldType: z.literal('Combobox'),
+		required: z.boolean().optional(),
+		placeholder: z.string().optional(),
+		options: optionsSchema,
+		// width: widthSchema
+	})
+	.describe('Use it for longer lists to select one from a list.')
 
 const MultiSelectSchema = z
-  .object({
-    id: z.string(),
-    label: z.string(),
-    name: z.string(),
-    fieldType: z.literal("MultiSelect"),
-    required: z.boolean().optional(),
-    placeholder: z.string(),
-    options: optionsSchema,
-    width: widthSchema
-  })
-  .describe(
-    "Use it when you want to let users select one or multiple options from a list."
-  );
+	.object({
+		id: z.string(),
+		label: z.string(),
+		name: z.string(),
+		fieldType: z.literal('MultiSelect'),
+		required: z.boolean().optional(),
+		placeholder: z.string(),
+		options: optionsSchema,
+		// width: widthSchema
+	})
+	.describe(
+		'Use it when you want to let users select one or multiple options from a list.',
+	)
 
 const sliderSchema = z
-  .object({
-    id: z.string(),
-    label: z.string(),
-    name: z.string(),
-    fieldType: z.literal("Slider"),
-    required: z.boolean().optional(),
-    min: z.number().optional(),
-    max: z.number().optional(),
-    step: z.number().optional().default(1),
-    width: widthSchema
-  })
-  .describe(
-    "Slider element with min, max, and step, default value should be the middle value"
-  );
+	.object({
+		id: z.string(),
+		label: z.string(),
+		name: z.string(),
+		fieldType: z.literal('Slider'),
+		required: z.boolean().optional(),
+		min: z.number().optional(),
+		max: z.number().optional(),
+		step: z.number().optional().default(1),
+		// width: widthSchema
+	})
+	.describe(
+		'Slider element with min, max, and step, default value should be the middle value',
+	)
 
 const checkboxSchema = z
-  .object({
-    id: z.string(),
-    label: z.string(),
-    name: z.string(),
-    fieldType: z.literal("ToggleGroup"),
-    required: z.boolean().optional(),
-    options: optionsSchema,
-    type: z.enum(["single", "multiple"]).optional().default("single"),
-    width: widthSchema
-  })
-  .describe(
-    "Toggle group element with options to toggle between one or multiple options"
-  );
+	.object({
+		id: z.string(),
+		label: z.string(),
+		name: z.string(),
+		fieldType: z.literal('ToggleGroup'),
+		required: z.boolean().optional(),
+		options: optionsSchema,
+		type: z.enum(['single', 'multiple']).optional().default('single'),
+		// width: widthSchema
+	})
+	.describe(
+		'Toggle group element with options to toggle between one or multiple options',
+	)
 
 const CheckboxSchema = z
-  .object({
-    id: z.string(),
-    label: z.string(),
-    name: z.string(),
-    fieldType: z.literal("Checkbox"),
-    required: z.boolean().optional(),
-    width: widthSchema
-  })
-  .describe("Checkbox element");
+	.object({
+		id: z.string(),
+		label: z.string(),
+		name: z.string(),
+		fieldType: z.literal('Checkbox'),
+		required: z.boolean().optional(),
+		// width: widthSchema
+	})
+	.describe('Checkbox element')
 
 const radioSchema = z
-  .object({
-    id: z.string(),
-    label: z.string(),
-    name: z.string(),
-    fieldType: z.literal("RadioGroup"),
-    required: z.boolean().optional(),
-    options: optionsSchema,
-    width: widthSchema
-  })
-  .describe("RadioGroup element with options");
+	.object({
+		id: z.string(),
+		label: z.string(),
+		name: z.string(),
+		fieldType: z.literal('RadioGroup'),
+		required: z.boolean().optional(),
+		options: optionsSchema,
+		// width: widthSchema
+	})
+	.describe('RadioGroup element with options')
 
 const switchSchema = z
-  .object({
-    id: z.string(),
-    label: z.string(),
-    name: z.string(),
-    fieldType: z.literal("Switch"),
-    required: z.boolean().optional(),
-    width: widthSchema
-  })
-  .describe("Switch element");
+	.object({
+		id: z.string(),
+		label: z.string(),
+		name: z.string(),
+		fieldType: z.literal('Switch'),
+		required: z.boolean().optional(),
+		// width: widthSchema
+	})
+	.describe('Switch element')
 
 const ratingSchema = z
-  .object({
-    id: z.string(),
-    name: z.string(),
-    label: z.string(),
-    description: z.string().optional(),
-    numberOfStars: z.number().optional().default(5),
-    fieldType: z.literal("Rating"),
-    required: z.boolean().optional(),
-    width: widthSchema
-  })
-  .describe("Rating element with number of stars");
+	.object({
+		id: z.string(),
+		name: z.string(),
+		label: z.string(),
+		description: z.string().optional(),
+		numberOfStars: z.number().optional().default(5),
+		fieldType: z.literal('Rating'),
+		required: z.boolean().optional(),
+		// width: widthSchema
+	})
+	.describe('Rating element with number of stars')
 
 const datePicker = z
-  .object({
-    id: z.string(),
-    label: z.string(),
-    name: z.string(),
-    mode: z
-      .enum(["single", "range", "multiple"])
-      .default("single")
-      .describe(
-        "single mode is for single date selection, range mode is for date range selection, multiple mode is for multiple date selection"
-      ),
-    fieldType: z.literal("DatePicker"),
-    required: z.boolean().optional(),
-    placeholder: z.string(),
-    width: widthSchema
-  })
-  .describe("DatePicker element");
+	.object({
+		id: z.string(),
+		label: z.string(),
+		name: z.string(),
+		mode: z
+			.enum(['single', 'range', 'multiple'])
+			.default('single')
+			.describe(
+				'single mode is for single date selection, range mode is for date range selection, multiple mode is for multiple date selection',
+			),
+		fieldType: z.literal('DatePicker'),
+		required: z.boolean().optional(),
+		placeholder: z.string(),
+		// width: widthSchema
+	})
+	.describe('DatePicker element')
 
 const staticPropertySchema = z
   .literal(true)
@@ -223,52 +223,52 @@ const staticPropertySchema = z
   .nonoptional();
 
 const h1Schema = z
-  .object({
-    id: z.string(),
-    static: staticPropertySchema,
-    name: z.string(),
-    fieldType: z.literal("Text"),
-    variant: z.literal("H1"),
-    content: z.string().min(2),
-    width: widthSchema
-  })
-  .describe("use it as a top title");
+	.object({
+		id: z.string(),
+		static: staticPropertySchema,
+		name: z.string(),
+		fieldType: z.literal('Text'),
+		variant: z.literal('H1'),
+		content: z.string().min(2),
+		// width: widthSchema
+	})
+	.describe('use it as a top title')
 
 const h2Schema = z
-  .object({
-    id: z.string(),
-    static: staticPropertySchema,
-    name: z.string().min(2),
-    fieldType: z.literal("Text"),
-    variant: z.literal("H2"),
-    content: z.string().min(2),
-    width: widthSchema
-  })
-  .describe("use it as a title form sections");
+	.object({
+		id: z.string(),
+		static: staticPropertySchema,
+		name: z.string().min(2),
+		fieldType: z.literal('Text'),
+		variant: z.literal('H2'),
+		content: z.string().min(2),
+		// width: widthSchema
+	})
+	.describe('use it as a title form sections')
 
 const h3Schema = z
-  .object({
-    id: z.string(),
-    static: staticPropertySchema,
-    name: z.string().min(2),
-    fieldType: z.literal("Text"),
-    variant: z.literal("H3"),
-    content: z.string().min(2),
-    width: widthSchema
-  })
-  .describe("use it as a title for nested form sections");
+	.object({
+		id: z.string(),
+		static: staticPropertySchema,
+		name: z.string().min(2),
+		fieldType: z.literal('Text'),
+		variant: z.literal('H3'),
+		content: z.string().min(2),
+		// width: widthSchema
+	})
+	.describe('use it as a title for nested form sections')
 
 const paragraphSchema = z
-  .object({
-    id: z.string(),
-    static: staticPropertySchema,
-    name: z.string().min(2),
-    fieldType: z.literal("Text"),
-    variant: z.literal("P"),
-    content: z.string().min(2),
-    width: widthSchema
-  })
-  .describe("Paragraph element use for description, subtitle, etc.");
+	.object({
+		id: z.string(),
+		static: staticPropertySchema,
+		name: z.string().min(2),
+		fieldType: z.literal('Text'),
+		variant: z.literal('P'),
+		content: z.string().min(2),
+		// width: widthSchema
+	})
+	.describe('Paragraph element use for description, subtitle, etc.')
 
 const seperatorSchema = z
   .object({

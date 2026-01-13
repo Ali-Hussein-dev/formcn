@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^2.0.23",
-    "@ai-sdk/react": "^2.0.30",
+    "@ai-sdk/react": "^3.0.33",
     "@cloudflare/vite-plugin": "^1.17.1",
     "@hookform/resolvers": "^5.2.2",
     "@mantine/hooks": "^8.2.4",
@@ -31,7 +31,7 @@
     "@upstash/ratelimit": "^2.0.6",
     "@upstash/redis": "^1.36.1",
     "@wandry/analytics-sdk": "^1.16.0",
-    "ai": "^5.0.47",
+    "ai": "^6.0.31",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",

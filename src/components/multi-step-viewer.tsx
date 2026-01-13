@@ -50,7 +50,7 @@ const SubmitButton = (
 			asChild?: boolean
 		},
 ) => {
-	const { isLastStep, goToNext } = useMultiStepForm()
+	const { isLastStep } = useMultiStepForm()
 	if (!isLastStep) return null
 	return <Button size="sm" type="button" {...props} />
 }

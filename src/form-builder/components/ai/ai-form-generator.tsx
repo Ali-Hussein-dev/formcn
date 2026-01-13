@@ -1,31 +1,27 @@
-'use client'
-
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
 import { experimental_useObject as useObject } from '@ai-sdk/react'
-import { aiFormSchema } from '@/form-builder/lib/ai-form-schema'
-import { Form } from '@/components/ui/form'
-import { useForm, type UseFormReturn } from 'react-hook-form'
-import { ErrorBoundary } from 'react-error-boundary'
-import useFormBuilderStore from '@/form-builder/hooks/use-form-builder-store'
-import React from 'react'
-import { ArrowLeft, ArrowUp, Info, Pencil } from 'lucide-react'
+import { useNavigate } from '@tanstack/react-router'
+import { ArrowLeft, ArrowUp, Pencil } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
-import useLocalForms from '@/form-builder/hooks/use-local-forms'
-import { useRouter } from 'next/navigation'
+import React, { useState } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
+import { type UseFormReturn, useForm } from 'react-hook-form'
+import { MdOutlineReplay } from 'react-icons/md'
 import { toast } from 'sonner'
 import { ErrorFallback } from '@/components/shared/error-fallback'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import { RenderFormElement } from '@/form-builder/components/edit/render-form-element'
 import {
-	fieldTypes,
-	formFieldTypeWithOptions,
-	type FormFieldTypeWithOptions,
 	type FormElement,
 	type FormFieldType,
+	type FormFieldTypeWithOptions,
 	type FormStep,
+	fieldTypes,
+	formFieldTypeWithOptions,
 } from '@/form-builder/form-types'
-import { RenderFormElement } from '@/form-builder/components/edit/render-form-element'
-import { MdOutlineReplay } from 'react-icons/md'
+import useFormBuilderStore from '@/form-builder/hooks/use-form-builder-store'
+import useLocalForms from '@/form-builder/hooks/use-local-forms'
+import { aiFormSchema } from '@/form-builder/lib/ai-form-schema'
 import { MultiStepFormPreview } from '../preview/multi-step-form-preview'
 
 // const list = [];
@@ -54,7 +50,7 @@ function RenderFormWhileStreaming({
 				) {
 					return <span key={crypto.randomUUID()}>streaming...</span>
 				}
-				if (element.fieldType == 'SocialMediaButtons') {
+				if (element.fieldType === 'SocialMediaButtons') {
 					if (!element.links || element.links?.length < 1) {
 						return <span key={crypto.randomUUID()}>streaming...</span>
 					}
@@ -122,7 +118,6 @@ const useAiFormGenerator = () => {
 
 	const { object, submit, isLoading, error, stop } = useObject({
 		api: `/api/generate?prompt=${encodeURIComponent(prompt)}`,
-		// @ts-ignore error message is verbose and messy
 		schema: aiFormSchema,
 		// initialValue: {
 		//   form: {
@@ -149,7 +144,7 @@ const useAiFormGenerator = () => {
 	const form = useForm()
 	const setFormElements = useFormBuilderStore((s) => s.setFormElements)
 	const saveForm = useLocalForms((s) => s.setForm)
-	const router = useRouter()
+	const navigate = useNavigate()
 
 	const handleSave = () => {
 		toast.message('Saving form...')
@@ -195,7 +190,7 @@ const useAiFormGenerator = () => {
 			updatedAt: date,
 			isMS,
 		})
-		router.push(`/form-builder?id=${formId}`)
+		navigate({ to: '/form-builder', search: { id: formId } })
 	}
 	const handleNew = () => {
 		setPrompt('')
@@ -237,7 +232,7 @@ export function AiFormGenerator() {
 		inputRef,
 		handleKeyDown,
 	} = useAiFormGenerator()
-	const router = useRouter()
+	const navigate = useNavigate()
 
 	return (
 		<div className="h-full">
@@ -333,7 +328,11 @@ export function AiFormGenerator() {
 			)}
 			{fields && !isLoading && !error && (
 				<div className="flex justify-between gap-4 pt-4 mt-3 border-t border-dashed ">
-					<Button onClick={() => router.back()} type="button" variant="ghost">
+					<Button
+						onClick={() => navigate({ to: '..' })}
+						type="button"
+						variant="ghost"
+					>
 						<ArrowLeft className="size-4" />
 						Back
 					</Button>
