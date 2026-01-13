@@ -1,7 +1,6 @@
 /** biome-ignore-all lint/security/noDangerouslySetInnerHtml: Required to prevent theme flash before React hydrates */
 import type React from 'react'
 import { useEffect, useState } from 'react'
-import { codeToHtml } from 'shiki'
 import { cn } from '@/lib/utils'
 
 export type CodeBlockProps = {
@@ -68,6 +67,8 @@ function CodeBlockCode({
 				return
 			}
 
+			// Dynamically import shiki only on client-side to avoid SSR bundling all language grammars
+			const { codeToHtml } = await import('shiki')
 			const html = await codeToHtml(code, {
 				lang: language,
 				theme: theme === 'light' ? 'github-light' : 'vesper',
