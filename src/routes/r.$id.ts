@@ -52,6 +52,9 @@ export const Route = createFileRoute('/r/$id' as any)({
 					const body = await request.json()
 					const { registryDependencies, dependencies, files, name } = body
 					const { id: key } = params
+					const isDev = process.env.NODE_ENV === 'development'
+					const baseUrl = isDev ? 'http://localhost:3000' : 'https://formcn.dev'
+					
 					const registry = {
 						$schema: 'https://ui.shadcn.com/schema/registry.json',
 						homepage: 'https://formcn.dev',
@@ -61,14 +64,15 @@ export const Route = createFileRoute('/r/$id' as any)({
 						registryDependencies,
 						type: 'registry:block',
 						files,
+						// Add registry base URL so CLI can resolve @formcn namespace dependencies
+						registry: `${baseUrl}/r/registry.json`,
 					}
 
 					// Use Redis for both dev and production since file system APIs aren't available
 					await redis.set(key, JSON.stringify(registry), {
-						ex: 60 * 60, // 1 hour
+						ex: 60 * 60 * 12, // 12 hours
 					})
 
-					const isDev = process.env.NODE_ENV === 'development'
 					const registryId = isDev
 						? `http://localhost:3000/r/${key}.json`
 						: `@formcn/${key}`
