@@ -62,6 +62,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 					`,
 					}}
 				/>
+				<script
+					src="https://analytics.ahrefs.com/analytics.js"
+					data-key="WoVl2u6H/vqWVNgGbnn6bQ"
+					async
+				/>
 			</head>
 			<body>
 				<PostHogProvider client={posthog}>
@@ -74,7 +79,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 						plugins={[
 							{
 								name: 'Tanstack Router',
-								render: <TanStackRouterDevtoolsPanel />, 
+								render: <TanStackRouterDevtoolsPanel />,
 							},
 							TanStackQueryDevtools,
 						]}
