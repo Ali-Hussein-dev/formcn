@@ -1,11 +1,11 @@
+import { FaInfo } from 'react-icons/fa6'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
 	HoverCard,
 	HoverCardContent,
 	HoverCardTrigger,
 } from '@/components/ui/hover-card'
-import { Button } from '@/components/ui/button'
-import { FaInfo } from 'react-icons/fa6'
-import { Badge } from '@/components/ui/badge'
 
 export function GeneratedCodeInfoCard() {
 	return (
@@ -32,7 +32,6 @@ export function GeneratedCodeInfoCard() {
 									'Zod 4',
 									'React Hook Form 7',
 									'Motion 12',
-									'Next safe actions 8',
 								].map((lib) => (
 									<Badge variant="secondary" key={lib}>
 										{lib}

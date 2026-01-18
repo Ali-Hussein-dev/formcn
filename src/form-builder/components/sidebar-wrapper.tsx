@@ -19,7 +19,7 @@ export function SidebarWrapper({ children, className }: SidebarWrapperProps) {
 	return (
 		<div
 			className={
-				'flex flex-col sticky top-0 lg:h-screen bg-sidebar/30 lg:border-r-2'
+				'flex flex-col sticky top-0 lg:h-screen bg-sidebar/30 lg:border-r'
 			}
 		>
 			{/* Logo at the top */}

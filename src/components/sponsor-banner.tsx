@@ -108,19 +108,21 @@ const Scrimba = () => (
 )
 export function SponsorBanner() {
   return (
-    <div className="w-full overflow-hidden rounded-sm">
-      <div className="grid grid-cols-12 
-      border-b border-dashed bg-background h-[3.7rem]">
-        <div className="col-span-2 hidden lg:block border-dashed border-r"></div>
-        <div className="col-span-full sm:col-span-6 lg:col-span-4 bg-background sm:border-r border-dashed py-0.5">
-          <ShadcnStudio />
-        </div>
+			<div className="w-full overflow-hidden rounded-sm">
+				<div
+					className="grid grid-cols-12 
+      border-b  bg-background h-[3.7rem]"
+				>
+					<div className="col-span-2 hidden lg:block  border-r"></div>
+					<div className="col-span-full sm:col-span-6 lg:col-span-4 bg-background sm:border-r  py-0.5">
+						<ShadcnStudio />
+					</div>
 
-        <div className="col-span-6 lg:col-span-4 bg-background py-0.5 hidden sm:block">
-          <Scrimba />
-        </div>
-        <div className="col-span-2 hidden lg:block border-l border-dashed"></div>
-      </div>
-    </div>
-  )
+					<div className="col-span-6 lg:col-span-4 bg-background py-0.5 hidden sm:block">
+						<Scrimba />
+					</div>
+					<div className="col-span-2 hidden lg:block border-l "></div>
+				</div>
+			</div>
+		)
 }
