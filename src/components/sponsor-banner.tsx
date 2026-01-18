@@ -69,8 +69,8 @@ const ShadcnStudio = () => (
           ></line>
         </svg>
         <div className="flex flex-col items-start">
-          <span className="leading-tight font-medium text-xs sm:text-base">
-            shadcnstudio.com
+          <span className="leading-tight font-medium text-xs sm:text-sm">
+            Shadcnstudio.com
           </span>
           <span className="text-muted-foreground text-sm">
             shadcn blocks &amp; templates
@@ -95,10 +95,10 @@ const Scrimba = () => (
           className="size-8 rounded-full"
         />
         <div className="flex flex-col items-start">
-          <span className="leading-tight font-medium text-xs sm:text-base ">
+          <span className="leading-tight font-medium text-xs sm:text-sm">
             React Interview Questions
           </span>
-          <span className="text-muted-foreground max-w- text-xs ">
+          <span className="text-muted-foreground text-xs ">
             With a Principal DX Engineer
           </span>
         </div>
@@ -108,18 +108,21 @@ const Scrimba = () => (
 )
 export function SponsorBanner() {
   return (
-    <div className="w-full overflow-hidden rounded-sm">
-      <div className="grid grid-cols-12 border-b border-dashed bg-background">
-        <div className="col-span-2 hidden lg:block border-dashed border-r"></div>
-        <div className="col-span-full sm:col-span-6 lg:col-span-4 bg-background sm:border-r border-dashed py-1">
-          <ShadcnStudio />
-        </div>
+			<div className="w-full overflow-hidden rounded-sm">
+				<div
+					className="grid grid-cols-12 
+      border-b  bg-background h-[3.7rem]"
+				>
+					<div className="col-span-2 hidden lg:block  border-r"></div>
+					<div className="col-span-full sm:col-span-6 lg:col-span-4 bg-background sm:border-r  py-0.5">
+						<ShadcnStudio />
+					</div>
 
-        <div className="col-span-6 lg:col-span-4 bg-background py-1 hidden sm:block">
-          <Scrimba />
-        </div>
-        <div className="col-span-2 hidden lg:block border-l border-dashed"></div>
-      </div>
-    </div>
-  )
+					<div className="col-span-6 lg:col-span-4 bg-background py-0.5 hidden sm:block">
+						<Scrimba />
+					</div>
+					<div className="col-span-2 hidden lg:block border-l "></div>
+				</div>
+			</div>
+		)
 }
