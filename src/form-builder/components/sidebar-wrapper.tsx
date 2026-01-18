@@ -23,7 +23,7 @@ export function SidebarWrapper({ children, className }: SidebarWrapperProps) {
 			}
 		>
 			{/* Logo at the top */}
-			<div className="shrink-0 px-3 h-[3rem] flex items-center justify-start w-full gap-2 border-b">
+			<div className="shrink-0 px-3 h-[3.7rem] flex items-center justify-start w-full gap-2 border-b">
 				<Link to="/" className="cursor-pointer">
 					<Logo />
 				</Link>
@@ -48,10 +48,8 @@ export function SidebarWrapper({ children, className }: SidebarWrapperProps) {
 					variant="outline"
 					className="flex justify-center gap-2 grow"
 				>
-					
-						<FaArrowLeft />
-						Back
-					
+					<FaArrowLeft />
+					Back
 				</Button>
 				<ModeToggle />
 			</div>
