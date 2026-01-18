@@ -60,28 +60,28 @@ const logos = [
 const features = [
 	{
 		icon: BsPatchCheck,
-		title: "Production-ready code",
-		text: "No inconsistent AI generated code, always consistent battle-tested code and easily maintainable",
+		title: 'Production-ready code',
+		text: 'No inconsistent AI generated code, always consistent battle-tested code and easily maintainable',
 	},
 	{
 		icon: FiGitCommit,
-		title: "Shadcn multi-step form",
-		text: "Easily choose between one step and multi-step forms that suit your needs",
+		title: 'Shadcn multi-step form',
+		text: 'Easily choose between one step and multi-step forms that suit your needs',
 	},
 	{
 		icon: SiZod,
-		title: "Input validation with Zod",
-		text: "Client/server side validation with Zod and next-safe-action",
+		title: 'Input validation with Zod',
+		text: 'Client/server side validation with Zod',
 	},
 	{
 		icon: FaWandMagicSparkles,
-		title: "Easy to use",
-		text: "You can bring generated code and dependencies to your project with one command, powered by shadcn registry CLI",
+		title: 'Easy to use',
+		text: 'You can bring generated code and dependencies to your project with one command, powered by shadcn registry CLI',
 	},
 	{
 		icon: BsStars,
-		title: "Formcn AI",
-		text: "Scaffold your form components instantly without creating each form field manually",
+		title: 'Formcn AI',
+		text: 'Scaffold your form components instantly without creating each form field manually',
 	},
 ]
 const CtaButton = () => (

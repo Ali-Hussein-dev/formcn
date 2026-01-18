@@ -86,35 +86,6 @@
       ]
     },
     {
-      "name": "safe-action",
-      "type": "registry:file",
-      "title": "next safe action",
-      "description": "handles your Next.js app mutations type safety, input/output validation, server errors and even more!",
-      "dependencies": ["next-safe-action"],
-      "files": [
-        {
-          "path": "registry/default/actions/safe-action.ts",
-          "type": "registry:file",
-          "target": "actions/safe-action.ts"
-        }
-      ]
-    },
-    {
-      "name": "server-action",
-      "type": "registry:file",
-      "title": "server action",
-      "description": "server action",
-      "dependencies": ["zod", "@hookform/resolvers"],
-      "registryDependencies": ["@formcn/safe-action"],
-      "files": [
-        {
-          "path": "registry/default/actions/server-action.ts",
-          "type": "registry:file",
-          "target": "actions/server-action.ts"
-        }
-      ]
-    },
-    {
       "name": "use-multi-step-viewer",
       "type": "registry:hook",
       "title": "Multi-step viewer hook",

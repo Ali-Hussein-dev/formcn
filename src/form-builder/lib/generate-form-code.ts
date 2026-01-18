@@ -68,44 +68,40 @@ export const generateFormCode = ({
     flattenedFormElements.flat() as FormElement[]
   ).filter((el) => el.fieldType === "SocialMediaButtons");
   const socialMediaButtons = flattenElements
-    .map((o) => o.links)
-    .flat()
-    .map((key) => ({
-      src: socialLogsUrls[key as keyof typeof socialLogsUrls].src,
-      label: socialLogsUrls[key as keyof typeof socialLogsUrls].label,
-    }));
+			.flatMap((o) => o.links)
+			.map((key) => ({
+				src: socialLogsUrls[key as keyof typeof socialLogsUrls].src,
+				label: socialLogsUrls[key as keyof typeof socialLogsUrls].label,
+			}))
 
   const singleStepFormCode = [
-    {
-      file: "single-step-form.tsx",
-      code: `
+			{
+				file: 'single-step-form.tsx',
+				code: `
 ${imports}
 
-${socialMediaButtons.length > 0 ? `const socialMediaButtons = ${JSON.stringify(socialMediaButtons)}` : ""}
+${socialMediaButtons.length > 0 ? `const socialMediaButtons = ${JSON.stringify(socialMediaButtons)}` : ''}
 
 type Schema = z.infer<typeof formSchema>;
 
 export function DraftForm() {
 
 const form = useForm<Schema>({
-  // biome-ignore lint/style/noNonNullAssertion: <explanation>
   resolver: zodResolver(formSchema as any),
 })
-const formAction = useAction(serverAction, {
-  onSuccess: () => {
-    // TODO: show success message
-    form.reset();
-  },
-  onError: () => {
-  // TODO: show error message
-  },
-});
-const handleSubmit = form.handleSubmit(async (data: Schema) => {
-    formAction.execute(data);
-  });
+const { formState: { isSubmitting, isSubmitSuccessful } } = form;
 
-const { isExecuting, hasSucceeded } = formAction;
-  if (hasSucceeded) {
+const handleSubmit = form.handleSubmit(async (data: Schema) => {
+  try {
+    // TODO: implement form submission
+    console.log(data);
+    form.reset();
+  } catch (error) {
+    // TODO: handle error
+  }
+});
+
+  if (isSubmitSuccessful) {
     return (${successCard})
   }
 return (
@@ -114,14 +110,14 @@ return (
           ${renderFields(formElements as FormElementOrList[])}
           </FieldGroup>
           <div className="flex justify-end items-center w-full">
-            <Button>
-              {isExecuting ? 'Submitting...' : 'Submit'}
+            <Button disabled={isSubmitting}>
+              {isSubmitting ? 'Submitting...' : 'Submit'}
             </Button>
           </div>
       </form>
 )}`,
-    },
-  ];
+			},
+		]
   if (!isMS) return singleStepFormCode;
 
   // Handle multi-step form
@@ -154,29 +150,27 @@ return (
 //------------------------------
 type Schema = z.infer<typeof formSchema>;
 
-${socialMediaButtons.length > 0 ? `const socialMediaButtons = ${JSON.stringify(socialMediaButtons)}` : ""}
+${socialMediaButtons.length > 0 ? `const socialMediaButtons = ${JSON.stringify(socialMediaButtons)}` : ''}
 
 export function GeneratedForm() {
     
   const form = useForm<Schema>({
     resolver: zodResolver(formSchema as any),
   });
-  const formAction = useAction(serverAction, {
-      onSuccess: () => {
-        // TODO: show success message
-        form.reset();
-      },
-      onError: () => {
-        // TODO: show error message
-      },
-  });
+  const { formState: { isSubmitting, isSubmitSuccessful } } = form;
+
   const handleSubmit = form.handleSubmit(async (data: Schema) => {
-    formAction.execute(data);
+    try {
+      // TODO: implement form submission
+      console.log(data);
+      form.reset();
+    } catch (error) {
+      // TODO: handle error
+    }
   });
-  const { isExecuting, hasSucceeded } = formAction;
   const stepsFields = [${stringifiedStepComponents}];
 
-  if (hasSucceeded) {
+  if (isSubmitSuccessful) {
     return (
       ${successCard}
     );
@@ -203,9 +197,9 @@ export function GeneratedForm() {
                 </NextButton>
                 <SubmitButton 
                   type="submit"
-                  disabled={isExecuting} 
+                  disabled={isSubmitting} 
                 >
-                  {isExecuting ? "Submitting..." : "Submit"}
+                  {isSubmitting ? "Submitting..." : "Submit"}
                 </SubmitButton>
               </FormFooter>
             </MultiStepFormContent>
@@ -214,7 +208,7 @@ export function GeneratedForm() {
     </div>
   )
 }
-`;
+`
 
   const multiStepFormCode = [
     {

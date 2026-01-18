@@ -474,13 +474,12 @@ export const getFormElementCode = (field: FormElement) => {
     case "DatePicker":
       return `
         <Controller
-          ${getAttribute("name", field.name)}
+          ${getAttribute('name', field.name)}
           control={form.control}
           render={({ field, fieldState }) => {
             const selectedDate = field.value;
-            const mode =  "${field.mode}";
             return (
-              <Field data-invalid={fieldState.invalid} className="${field?.width ?? "col-span-full"}">
+              <Field data-invalid={fieldState.invalid} className="${field?.width ?? 'col-span-full'}">
                 ${getFieldLabel(field.name, field.label, field.required)}
                 ${getDescription(field.description)}
                 <Popover>
@@ -496,11 +495,12 @@ export const getFormElementCode = (field: FormElement) => {
                       >
                         <CalendarIcon className="size-4" />
                             {selectedDate ? (
-                              <>
-                                ${field.mode === "single" ? `{format(selectedDate, "dd MMM, yyyy")}` : ""}
-                                ${field.mode === "multiple" ? `{selectedDate.length + "dates selected"}` : ""}
-                                ${field.mode === "range"
-          ? `(
+                              <span>
+                                ${field.mode === 'single' ? `{format(selectedDate, "dd MMM, yyyy")}` : ''}
+                                ${field.mode === 'multiple' ? `{selectedDate.length + "dates selected"}` : ''}
+                                ${
+																	field.mode === 'range'
+																		? `(
                                   <div className="flex items-center gap-x-2">
                                     {selectedDate?.from &&
                                       format(selectedDate.from, "dd MMM, yyyy")}
@@ -509,11 +509,11 @@ export const getFormElementCode = (field: FormElement) => {
                                       format(selectedDate.to, "dd MMM, yyyy")}
                                   </div>
                                 )`
-        : ""
-        }
-                              </>
+																		: ''
+																}
+                              </span>
                             ) : (
-                              <span>${field.placeholder ?? ""}</span>
+                              <span>${field.placeholder ?? ''}</span>
                             )}
                               </Button>
                             {fieldState.isDirty && (
@@ -541,7 +541,7 @@ export const getFormElementCode = (field: FormElement) => {
                           shouldDirty: true,
                           });
                         }}
-                      ${getAttribute("disabled", field.disabled)}
+                      ${getAttribute('disabled', field.disabled)}
                     />
                   </PopoverContent>
                 </Popover>
@@ -551,7 +551,7 @@ export const getFormElementCode = (field: FormElement) => {
               </Field>
             );
           }}
-        />`;
+        />`
     case "TagInput":
       return `
       <Controller
@@ -648,14 +648,18 @@ export const getFormElementCode = (field: FormElement) => {
               ))}
             </div>`;
     case "Text":
-      if (field.variant == "H1")
-        return `<h1 className="mt-6 mb-1 font-extrabold text-3xl tracking-tight ${field?.width ?? "col-span-full"}">${field.content}</h1>`;
-      if (field.variant == "H2")
-        return `<h2 className="mt-4 mb-1 font-bold text-2xl tracking-tight ${field?.width ?? "col-span-full"}">${field.content}</h2>`;
-      if (field.variant == "H3")
-        return `<h3 className="mt-3 mb-1 font-semibold text-xl tracking-tight ${field?.width ?? "col-span-full"}">${field.content}</h3>`;
-      if (field.variant == "P")
-        return `<p className="tracking-wide text-muted-foreground mb-5 text-wrap text-sm ${field?.width ?? "col-span-full"}">${field.content}</p>`;
+      switch (field.variant) {
+        case 'H1':
+          return `<h1 className="mt-6 mb-1 font-extrabold text-3xl tracking-tight ${field?.width ?? 'col-span-full'}">${field.content}</h1>`;
+        case 'H2':
+          return `<h2 className="mt-4 mb-1 font-bold text-2xl tracking-tight ${field?.width ?? 'col-span-full'}">${field.content}</h2>`;
+        case 'H3':
+          return `<h3 className="mt-3 mb-1 font-semibold text-xl tracking-tight ${field?.width ?? 'col-span-full'}">${field.content}</h3>`;
+        case 'P':
+          return `<p className="tracking-wide text-muted-foreground mb-5 text-wrap text-sm ${field?.width ?? 'col-span-full'}">${field.content}</p>`;
+        default:
+          return null;
+      }
     // deprecated fields
     case "H1":
       return `<h1 className="mt-6 font-extrabold text-3xl tracking-tight">${field.content}</h1>`;

@@ -22,7 +22,6 @@ import type {
 import useFormBuilderStore from '@/form-builder/hooks/use-form-builder-store'
 import { flattenFormSteps } from '@/form-builder/lib/form-elements-helpers'
 import { generateFormCode } from '@/form-builder/lib/generate-form-code'
-import { generateServerActionCode } from '@/form-builder/lib/generate-server-action-code'
 import { genFormZodSchemaCode } from '@/form-builder/lib/generate-zod-schema'
 import { convertToKababCase } from '@/lib/utils'
 import { GeneratedCodeInfoCard } from './tech-stack-info-card'
@@ -131,15 +130,10 @@ const Cli = ({
 						'zod',
 						'@hookform/resolvers',
 						'motion',
-						'next-safe-action',
 					],
 					registryDependencies: isMS
-						? [
-								...registryDependencies,
-								'@formcn/server-action',
-								'@formcn/stepper',
-							]
-						: [...registryDependencies, '@formcn/server-action'],
+						? [...registryDependencies, '@formcn/stepper']
+						: registryDependencies,
 					files: [
 						{
 							path: `components/${name}.tsx`,
@@ -227,7 +221,6 @@ const useGenerateCode = () => {
 		? flattenFormSteps(formElements as FormStep[]).flat()
 		: formElements.flat()
 	const zodSchema = genFormZodSchemaCode(parsedFormElements as FormElement[])
-	const serverAction = generateServerActionCode()
 	const processedFormElements = isMS
 		? flattenFormSteps(formElements as FormStep[])
 		: formElements
@@ -242,12 +235,10 @@ const useGenerateCode = () => {
 	if (isMS) {
 		registryDependencies += ' @formcn/multi-step-viewer @formcn/stepper'
 	}
-	const dependencies =
-		'react-hook-form zod @hookform/resolvers motion next-safe-action'
+	const dependencies = 'react-hook-form zod @hookform/resolvers motion'
 	return {
 		tsx,
 		zodSchema,
-		serverAction,
 		meta,
 		registryDependencies,
 		dependencies,
@@ -258,15 +249,8 @@ const useGenerateCode = () => {
 //======================================
 export function CodePanel() {
 	const formElements = useFormBuilderStore((s) => s.formElements)
-	const {
-		serverAction,
-		zodSchema,
-		tsx,
-		registryDependencies,
-		dependencies,
-		meta,
-		isMS,
-	} = useGenerateCode()
+	const { zodSchema, tsx, registryDependencies, dependencies, meta, isMS } =
+		useGenerateCode()
 	if (formElements.length < 1) {
 		return (
 			<Placeholder className="p-10 border rounded-lg max-w-full">
@@ -297,7 +281,6 @@ export function CodePanel() {
 					<TabsList>
 						<TabsTrigger value="tsx">TSX</TabsTrigger>
 						<TabsTrigger value="schema">Schema</TabsTrigger>
-						<TabsTrigger value="server-action">Server action</TabsTrigger>
 					</TabsList>
 				</div>
 				<TabsContent value="tsx" tabIndex={-1}>
@@ -310,9 +293,6 @@ export function CodePanel() {
 				</TabsContent>
 				<TabsContent value="schema" tabIndex={-1}>
 					<CodeViewer code={[{ file: 'schema.ts', code: zodSchema }]} />
-				</TabsContent>
-				<TabsContent value="server-action" tabIndex={-1}>
-					<CodeViewer code={serverAction} />
 				</TabsContent>
 			</Tabs>
 		</div>
