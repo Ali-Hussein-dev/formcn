@@ -28,9 +28,7 @@ export const usePreviewForm = () => {
 			acc[element.name] = element?.defaultValue ?? undefined
 			return acc
 		},
-		{
-			width: 'col-span-full',
-		},
+		{},
 	)
 
 	const zodSchema = genFormZodSchema(filteredFormFields)

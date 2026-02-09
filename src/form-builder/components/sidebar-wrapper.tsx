@@ -19,7 +19,7 @@ export function SidebarWrapper({ children, className }: SidebarWrapperProps) {
 	return (
 		<div
 			className={
-				'flex flex-col sticky top-0 lg:h-screen bg-sidebar/30 lg:border-r'
+				'flex flex-col sticky top-0 md:h-screen bg-sidebar/30 md:border-r'
 			}
 		>
 			{/* Logo at the top */}
@@ -41,7 +41,7 @@ export function SidebarWrapper({ children, className }: SidebarWrapperProps) {
 			)}
 
 			{/* Mode toggle at the bottom */}
-			<div className="shrink-0 px-3 h-[3rem] items-center justify-between border-t hidden lg:flex">
+			<div className="shrink-0 px-3 h-[3rem] items-center justify-between border-t hidden md:flex">
 				<Button
 					size="sm"
 					onClick={() => window.history.back()}
