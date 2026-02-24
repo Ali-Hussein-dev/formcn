@@ -46,7 +46,6 @@ export function ModeToggle() {
 				fill="currentcolor"
 				className="block"
 			>
-				<title>Theme</title>
 				<circle
 					cx="16"
 					cy="16"

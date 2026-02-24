@@ -28,7 +28,8 @@
 			"a11y": {
 				"useKeyWithClickEvents": "off",
 				"useSemanticElements": "off",
-				"useFocusableInteractive": "off"
+				"useFocusableInteractive": "off",
+				"noSvgWithoutTitle": "off"
 			},
 			"suspicious": {
 				"noArrayIndexKey": "off",

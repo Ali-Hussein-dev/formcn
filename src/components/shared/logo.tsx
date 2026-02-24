@@ -9,7 +9,6 @@ export function Logo() {
 			xmlns="http://www.w3.org/2000/svg"
 			aria-label="Formcn Logo"
 		>
-			<title>Formcn Logo</title>
 			<rect
 				x="3.5"
 				y="3.5"
