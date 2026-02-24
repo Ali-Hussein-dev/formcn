@@ -100,7 +100,7 @@ export const Route = createFileRoute('/api/generate')({
 
           const res = streamObject({
 											// @ts-expect-error - error message is verbose and messy, type mismatch between AI SDK versions
-											model: openai('gpt-5-mini-2025-08-07'),
+											model: openai('gpt-4o-mini'),
 											schema: aiFormSchema,
 											prompt: prompt,
 											system:
