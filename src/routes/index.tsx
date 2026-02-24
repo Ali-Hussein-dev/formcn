@@ -85,7 +85,7 @@ const features = [
 	},
 ]
 const CtaButton = () => (
-	<Link to="/my-forms" search={{ id: 'template-signup' }}>
+	<Link to="/form-templates/template-signup">
 		<Button className="font-semibold">Create Form</Button>
 	</Link>
 )

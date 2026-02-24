@@ -1,4 +1,4 @@
-import { useNavigate, useSearch } from '@tanstack/react-router'
+import { useNavigate } from '@tanstack/react-router'
 import React from 'react'
 import { CgFileDocument } from 'react-icons/cg'
 import { GoGitCommit } from 'react-icons/go'
@@ -6,32 +6,33 @@ import { Button } from '@/components/ui/button'
 import { FieldSeparator } from '@/components/ui/field'
 import { SidebarWrapper } from '@/form-builder/components/sidebar-wrapper'
 import { templates } from '@/form-builder/constant/templates'
+import { useFormIdFromRoute } from '@/form-builder/hooks/use-form-id-from-route'
 import useLocalForms from '@/form-builder/hooks/use-local-forms'
 import { NewForm } from './new-form'
 
 export function LocalFormsSidebar() {
 	const allForms = useLocalForms((s) => s.forms)
-	const { id: formId } = useSearch({ from: '/my-forms' })
+	const { formId, navigateToForm } = useFormIdFromRoute()
 	const navigate = useNavigate()
 
 	React.useEffect(() => {
 		if (!formId) {
-			navigate({ to: '/my-forms', search: { id: templates[0].id } })
+			navigate({ to: '/form-templates/$formTemplate', params: { formTemplate: templates[0].id } })
 		}
 	}, [formId, navigate])
 
 	function setQueryState(id: string) {
-		navigate({ to: '/my-forms', search: { id } })
+		navigateToForm(id)
 	}
 
 	return (
 		<SidebarWrapper>
-			<div className="px-3 py-2 flex flex-col gap-3">
+			<div className="px-3 py-2 flex flex-col gap-2">
 				<NewForm />
 
 				{allForms.length > 0 && (
-					<div className="flex md:flex-col flex-wrap gap-1.5 flex-row py-2">
-						<FieldSeparator className="mb-1">Draft Forms</FieldSeparator>
+					<div className="flex md:flex-col flex-wrap gap-1.5 flex-row pt-2">
+						<p className="text-xs uppercase">Drafts</p>
 						<div className="flex flex-col gap-2">
 							{allForms.map((savedForm) => (
 								<Button
@@ -53,8 +54,8 @@ export function LocalFormsSidebar() {
 						</div>
 					</div>
 				)}
-				<div className="flex md:flex-col flex-wrap gap-1.5 flex-row py-2">
-					<FieldSeparator className="mb-1">Templates</FieldSeparator>
+				<div className="flex md:flex-col flex-wrap gap-1.5 flex-row pb-2">
+					<p className="text-xs uppercase">Template</p>
 					{templates.map(({ id, title, isMS }) => (
 						<Button
 							key={id}

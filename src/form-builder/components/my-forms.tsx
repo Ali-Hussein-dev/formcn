@@ -1,4 +1,4 @@
-import { Link, useNavigate, useSearch } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { Check, Pencil, Trash, X } from 'lucide-react'
 import { motion } from 'motion/react'
 import * as React from 'react'
@@ -8,6 +8,7 @@ import { SponsorBanner } from '@/components/sponsor-banner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { templates } from '@/form-builder/constant/templates'
+import { useFormIdFromRoute } from '@/form-builder/hooks/use-form-id-from-route'
 import { useLocalForms } from '@/form-builder/hooks/use-local-forms'
 import { usePreviewForm } from '@/form-builder/hooks/use-preview-form'
 import type { FormElementOrList } from '../form-types'
@@ -77,7 +78,7 @@ function SavedFormCard(props: { name: string; id: string }) {
 	function handleDelete() {
 		deleteForm(props.id)
 		toast('Form deleted successfully')
-		navigate({ to: '/my-forms', search: { id: templates[0].id } })
+		navigate({ to: '/form-templates/$formTemplate', params: { formTemplate: templates[0].id } })
 	}
 
 	return (
@@ -138,8 +139,7 @@ const useMigrateLocalForms = () => {
 }
 
 const useSelectedForm = () => {
-	const searchParams = useSearch({ from: '/my-forms' })
-	const PreviewFormId = searchParams.id
+	const { formId: PreviewFormId } = useFormIdFromRoute()
 	const getFormById = useLocalForms((s) => s.getFormById)
 
 	const isSelectedFormTemplate =
@@ -169,8 +169,8 @@ export function MyForms() {
 	React.useEffect(() => {
 		if (PreviewFormId && !selectedForm) {
 			navigate({
-				to: '/my-forms',
-				search: { id: templates[0].id },
+				to: '/form-templates/$formTemplate',
+				params: { formTemplate: templates[0].id },
 				replace: true,
 			})
 		}

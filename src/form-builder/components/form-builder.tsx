@@ -93,7 +93,10 @@ export function FormBuilder() {
 	// Redirect if no id is provided
 	React.useEffect(() => {
 		if (!id) {
-			navigate({ to: '/my-forms', search: { id: templates[0].id } })
+			navigate({
+				to: '/form-templates/$formTemplate',
+				params: { formTemplate: templates[0].id },
+			})
 		}
 	}, [id, navigate])
 
