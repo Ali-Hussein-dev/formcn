@@ -82,7 +82,7 @@ const ShadcnStudio = () => (
 )
 const Scrimba = () => (
   <a
-    href="https://scrimba.com/react-interview-questions-c01t?via=nextradardotdev"
+    href="https://scrimba.com/learn-ai-agents-c034?via=nextradardotdev"
     target="_blank"
     rel="noopener noreferrer"
     className="group/right flex flex-1 items-center justify-center py-1.5 group-hover:border-primary/30 group-hover:bg-background/90 "
@@ -96,10 +96,10 @@ const Scrimba = () => (
         />
         <div className="flex flex-col items-start">
           <span className="leading-tight font-medium text-xs sm:text-sm">
-            React Interview Questions
+            Learn AI Agents
           </span>
           <span className="text-muted-foreground text-xs ">
-            With a Principal DX Engineer
+            build LLM-powered agents
           </span>
         </div>
       </div>

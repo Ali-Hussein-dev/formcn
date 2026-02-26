@@ -1,6 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router"
-import { BsPatchCheck, BsStars } from "react-icons/bs"
-import { FaGithub, FaWandMagicSparkles } from "react-icons/fa6"
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { BsPatchCheck, BsStars } from 'react-icons/bs'
+import { FaGithub, FaWandMagicSparkles } from 'react-icons/fa6'
 import { FiArrowRight, FiGitCommit } from 'react-icons/fi'
 import {
 	SiFramer,
@@ -10,49 +10,49 @@ import {
 	SiTailwindcss,
 	SiTypescript,
 	SiZod,
-} from "react-icons/si"
-import { Footer } from "@/components/footer"
-import { Header } from "@/components/header"
+} from 'react-icons/si'
+import { Footer } from '@/components/footer'
+import { Header } from '@/components/header'
 import { SponsorsSection } from '@/components/sponsors-section'
-import { Button } from "@/components/ui/button"
-import { CardDescription, CardTitle } from "@/components/ui/card"
+import { Button } from '@/components/ui/button'
+import { CardDescription, CardTitle } from '@/components/ui/card'
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { urls } from "@/constants/urls"
+} from '@/components/ui/tooltip'
+import { urls } from '@/constants/urls'
 import { cn } from '@/lib/utils'
-export const Route = createFileRoute("/")({ component: App })
+export const Route = createFileRoute('/')({ component: App })
 
 const logos = [
 	{
-		name: "React 19",
+		name: 'React 19',
 		Logo: SiReact,
 	},
 	{
-		name: "TypeScript",
+		name: 'TypeScript',
 		Logo: SiTypescript,
 	},
 	{
-		name: "Tailwind 4",
+		name: 'Tailwind 4',
 		Logo: SiTailwindcss,
 	},
 	{
-		name: "Shadcn",
+		name: 'Shadcn',
 		Logo: SiShadcnui,
 	},
 	{
-		name: "Zod 4",
+		name: 'Zod 4',
 		Logo: SiZod,
 	},
 	{
-		name: "React Hook Form",
+		name: 'React Hook Form',
 		Logo: SiReacthookform,
 	},
 	{
-		name: "Motion",
+		name: 'Motion',
 		Logo: SiFramer,
 	},
 ]
@@ -85,7 +85,10 @@ const features = [
 	},
 ]
 const CtaButton = () => (
-	<Link to="/form-templates/template-signup">
+	<Link
+		to="/form-templates/$formTemplate"
+		params={{ formTemplate: 'template-signup' }}
+	>
 		<Button className="font-semibold">Create Form</Button>
 	</Link>
 )
@@ -108,8 +111,6 @@ function App() {
 			<div className=" flex flex-col w-full mx-auto px-2 sm:px-4 h-full">
 				<div className="border-x container border-dashed mx-auto grow min-h-screen flex flex-col relative">
 					<div className="relative">
-						<div className="rounded-tr-[9.4rem] border-dashed absolute size-24 border-r border-t right-0 top-0"></div>
-						<div className="rounded-tl-[9.4rem] border-dashed absolute size-24 border-l border-t left-0 top-0"></div>
 						{/* <div className="rounded-bl-[9.4rem] border-dashed absolute size-24 border-l border-b left-0 bottom-0"></div> */}
 						{/* <div className="rounded-br-[9.4rem] border-dashed absolute size-24 border-r border-b right-0 bottom-0"></div> */}
 						<div className="py-5 px-3 sm:py-6 md:py-8 md:px-6 w-full grow">
@@ -126,7 +127,7 @@ function App() {
 										</Link>
 									</Button>
 									<h1 className="mb-4 text-3xl sm:text-4xl font-black md:text-5xl lg:text-6xl tracking-tight text-center lg:leading-16 dark:bg-linear-to-b dark:from-white dark:to-white/70 dark:bg-clip-text dark:text-transparent">
-										Build production-ready shadcn form <br /> with a few clicks
+										Build production-ready <br /> shadcn form with a few clicks
 									</h1>
 									<p className="text-muted-foreground text-center text-pretty max-w-xl mx-auto">
 										Shadcn multi-step form, validation, accessible with ARIA and
