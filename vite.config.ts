@@ -20,8 +20,9 @@ const config = defineConfig({
         enabled: true,
         crawlLinks: true, // Discovers all linkable pages
       },
+      // Use a dynamic sitemap route instead of the built-in generator
       sitemap: {
-        enabled: true,
+        enabled: false,
         host: 'https://formcn.dev',
       },
     }),
