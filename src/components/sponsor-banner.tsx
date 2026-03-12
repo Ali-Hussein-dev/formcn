@@ -81,30 +81,30 @@ const ShadcnStudio = () => (
   </a>
 )
 const Scrimba = () => (
-  <a
-    href="https://scrimba.com/learn-ai-agents-c034?via=nextradardotdev"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="group/right flex flex-1 items-center justify-center py-1.5 group-hover:border-primary/30 group-hover:bg-background/90 "
-  >
-    <div className="flex flex-col items-center gap-2.5">
-      <div className="flex items-center gap-2 text-foreground/90 group-hover/right:text-primary">
-        <img
-          src="https://scrimba.com/static/brand/favicon-256x256.png"
-          alt="Scrimba"
-          className="size-8 rounded-full"
-        />
-        <div className="flex flex-col items-start">
-          <span className="leading-tight font-medium text-xs sm:text-sm">
-            Learn AI Agents
-          </span>
-          <span className="text-muted-foreground text-xs ">
-            build LLM-powered agents
-          </span>
-        </div>
-      </div>
-    </div>
-  </a>
+	<a
+		href="https://scrimba.com/t0ai?via=nextradardotdev"
+		target="_blank"
+		rel="noopener noreferrer"
+		className="group/right flex flex-1 items-center justify-center py-1.5 group-hover:border-primary/30 group-hover:bg-background/90 "
+	>
+		<div className="flex flex-col items-center gap-2.5">
+			<div className="flex items-center gap-2 text-foreground/90 group-hover/right:text-primary">
+				<img
+					src="https://scrimba.com/static/brand/favicon-256x256.png"
+					alt="Scrimba"
+					className="size-8 rounded-full"
+				/>
+				<div className="flex flex-col items-start">
+					<span className="leading-tight font-medium text-xs sm:text-sm">
+						Interactive AI tutorials
+					</span>
+					<span className="text-muted-foreground text-xs ">
+						Free and premium AI tutorials
+					</span>
+				</div>
+			</div>
+		</div>
+	</a>
 )
 export function SponsorBanner() {
   return (
