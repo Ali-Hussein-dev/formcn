@@ -1,22 +1,31 @@
 'use client'
 
+import type React from 'react'
+
 import { Button } from '@/components/ui/button'
 import { urls } from '@/constants/urls'
+import { FormInitLogo, ShadcnStudio } from '@/form-builder/components/logos'
 
 type Sponsor = {
-  name: string
-  logo: string
-  url: string
-  tier?: 'platinum' | 'gold' | 'silver'
+	name: string
+	logo: React.ReactNode
+	url: string
+	tier?: 'platinum' | 'gold' | 'silver'
 }
 
 const goldSponsors: Sponsor[] = [
-  {
-    name: 'Shadcn Studio',
-    logo: 'https://cdn.shadcnstudio.com/ss-assets/favicon/apple-touch-icon.png',
-    url: urls.sponsors.shadcnStudio,
-    tier: 'gold',
-  },
+	{
+		name: 'Shadcn Studio',
+		logo: <ShadcnStudio />,
+		url: urls.sponsors.shadcnStudio,
+		tier: 'gold',
+	},
+	{
+		name: 'Forminit',
+		logo: <FormInitLogo />,
+		url: urls.sponsors.forminit,
+		tier: 'gold',
+	},
 ]
 
 const currentSponsors: Sponsor[] = [
@@ -54,20 +63,12 @@ export function SponsorsSection() {
 										className="group flex flex-col items-center gap-3 p-4 rounded-lg border-r border-dashed hover:bg-muted/50 transition-colors"
 									>
 										<div className="relative size-16 flex items-center justify-center">
-											<img
-												src={sponsor.logo}
-												alt={sponsor.name}
-												className="size-12 object-contain"
-												onError={(e) => {
-													const target = e.target as HTMLImageElement
-													target.style.display = 'none'
-												}}
-											/>
+											<div>{sponsor.logo}</div>
 										</div>
 										<div className="text-center">
-											<p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
+											<div className="text-sm font-medium text-foreground transition-colors">
 												{sponsor.name}
-											</p>
+											</div>
 										</div>
 									</a>
 								))}
@@ -103,15 +104,9 @@ export function SponsorsSection() {
 										className="group flex flex-col items-center gap-3 p-4 rounded-lg border border-dashed hover:border-primary/30 hover:bg-muted/50 transition-colors"
 									>
 										<div className="relative size-16 flex items-center justify-center">
-											<img
-												src={sponsor.logo}
-												alt={sponsor.name}
-												className="size-12 object-contain"
-												onError={(e) => {
-													const target = e.target as HTMLImageElement
-													target.style.display = 'none'
-												}}
-											/>
+											<div className="size-12 object-contain">
+												{sponsor.logo}
+											</div>
 										</div>
 										<p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors text-center">
 											{sponsor.name}

@@ -17,6 +17,11 @@ Forms are tricky. They are one of the most common things you'll build in a web a
 - **Type-safe validation** client and server side validation
 - **Beautiful UI** with Tailwind CSS and shadcn/ui
 
+## Sponsors
+
+- [ShadcnStudio](https://shadcnstudio.com/?utm_source=formcn&utm_medium=banner&utm_campaign=github): Shadcn blocks & templates
+- [Forminit](https://forminit.com?utm_source=formcn&utm_campaign=github): headless form backend API
+
 ## License
 
 This project is open-source. See `LICENSE` for details.
