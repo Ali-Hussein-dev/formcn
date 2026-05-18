@@ -216,7 +216,7 @@ function AcceptAttributeMultiSelect({
 		<Field className="gap-0 [&_p]:pb-1">
 			<FieldLabel htmlFor="accept">Accept attribute</FieldLabel>
 			<FieldDescription>
-				Comma separated list of MIME types or file extensions
+				Select MIME types or file extensions to accept
 			</FieldDescription>
 			<MultiSelect values={selectedValues} onValuesChange={onChange}>
 				<MultiSelectTrigger id="accept" className="active:scale-100">
