@@ -35,8 +35,16 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from '@/components/ui/drawer'
+import { Field, FieldDescription, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import {
+	MultiSelect,
+	MultiSelectContent,
+	MultiSelectItem,
+	MultiSelectTrigger,
+	MultiSelectValue,
+} from '@/components/ui/multi-select'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import {
 	Tooltip,
@@ -159,6 +167,72 @@ const socialMediaButtonsVariants = Object.entries(socialLogsUrls).map(
 		),
 	}),
 )
+
+const acceptAttributeOptions = [
+	'image/*',
+	'image/png',
+	'image/jpeg',
+	'image/gif',
+	'.pdf',
+	'application/pdf',
+	'.doc',
+	'.docx',
+	'.xls',
+	'.xlsx',
+	'text/csv',
+	'audio/*',
+	'video/*',
+	'.zip',
+].map((value) => ({ value, label: value }))
+
+function getAcceptValues(accept: unknown) {
+	return typeof accept === 'string'
+		? accept
+				.split(',')
+				.map((value) => value.trim())
+				.filter(Boolean)
+		: []
+}
+
+function AcceptAttributeMultiSelect({
+	value,
+	onChange,
+}: {
+	value: unknown
+	onChange: (values: string[]) => void
+}) {
+	const selectedValues = getAcceptValues(value)
+	const options = [
+		...acceptAttributeOptions,
+		...selectedValues
+			.filter(
+				(value) =>
+					!acceptAttributeOptions.some((option) => option.value === value),
+			)
+			.map((value) => ({ value, label: value })),
+	]
+
+	return (
+		<Field className="gap-0 [&_p]:pb-1">
+			<FieldLabel htmlFor="accept">Accept attribute</FieldLabel>
+			<FieldDescription>
+				Comma separated list of MIME types or file extensions
+			</FieldDescription>
+			<MultiSelect values={selectedValues} onValuesChange={onChange}>
+				<MultiSelectTrigger id="accept" className="active:scale-100">
+					<MultiSelectValue placeholder="image/*, audio/*, video/*, .pdf, .doc, .docx" />
+				</MultiSelectTrigger>
+				<MultiSelectContent>
+					{options.map((option) => (
+						<MultiSelectItem key={option.value} value={option.value}>
+							{option.label}
+						</MultiSelectItem>
+					))}
+				</MultiSelectContent>
+			</MultiSelect>
+		</Field>
+	)
+}
 
 function OptionsList({
 	options = [],
@@ -679,18 +753,13 @@ function FormElementAttributes({
 								}}
 								form={form}
 							/>
-							<RenderFormElement
-								formElement={{
-									id: formElement.id,
-									name: 'accept',
-									placeholder: 'image/*, audio/*, video/*, .pdf, .doc, .docx',
-									label: 'Accept attribute',
-									description:
-										'Comma separated list of MIME types or file extensions',
-									fieldType: 'Input',
-									type: 'string',
+							<AcceptAttributeMultiSelect
+								value={form.watch('accept')}
+								onChange={(selectedValues) => {
+									form.setValue('accept', selectedValues.join(', '), {
+										shouldDirty: true,
+									})
 								}}
-								form={form}
 							/>
 						</div>
 					</div>
