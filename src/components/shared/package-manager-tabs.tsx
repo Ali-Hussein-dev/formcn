@@ -1,7 +1,9 @@
-import * as React from 'react'
+import { useLocalStorage } from '@mantine/hooks'
 import { SiBun, SiNpm, SiPnpm, SiYarn } from 'react-icons/si'
 import { CopyButton } from '@/components/copy-button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+
+const STORAGE_KEY = 'formcn-package-manager'
 
 const prefixes = {
 	pnpm: 'pnpx shadcn@latest add',
@@ -20,7 +22,10 @@ export const PackagesManagerTabs = ({ packages }: { packages: string }) => {
 		...o,
 		value: prefixes[o.command as keyof typeof prefixes] + ' ' + o.value,
 	}))
-	const [activeTab, setActiveTab] = React.useState('pnpm')
+	const [activeTab, setActiveTab] = useLocalStorage({
+		key: STORAGE_KEY,
+		defaultValue: 'pnpm',
+	})
 	return (
 		<Tabs
 			defaultValue="pnpm"
